@@ -13,6 +13,7 @@ lazy val microservice = Project("individuals-employments-income-api", file("."))
   )
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(CodeCoverageSettings.settings: _*)
+  .settings(PlayKeys.playDefaultPort := 7765)
 
 lazy val it = project
   .enablePlugins(PlayScala)
