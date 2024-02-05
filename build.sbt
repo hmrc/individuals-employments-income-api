@@ -23,6 +23,7 @@ lazy val microservice = Project("individuals-employments-income-api", file("."))
     ItTest / unmanagedSourceDirectories := List((ItTest / baseDirectory).value / "it"),
     ItTest / unmanagedClasspath += baseDirectory.value / "resources",
     Runtime / unmanagedClasspath += baseDirectory.value / "resources",
+    ItTest / javaOptions += "-Dlogger.resource=logback-test.xml",
     ItTest / parallelExecution := false,
     addTestReportOption(ItTest, "int-test-reports")
   )
