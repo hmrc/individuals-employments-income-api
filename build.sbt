@@ -1,28 +1,37 @@
-import uk.gov.hmrc.DefaultBuildSettings
-import uk.gov.hmrc.DefaultBuildSettings.addTestReportOption
+import sbt._
+import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, defaultSettings}
+import uk.gov.hmrc.SbtAutoBuildPlugin
 
-ThisBuild / majorVersion := 0
-ThisBuild / scalaVersion := "2.13.12"
+val appName = "individuals-employments-income-api"
 
 lazy val ItTest = config("it") extend Test
 
-lazy val microservice = Project("individuals-employments-income-api", file("."))
-  .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
+lazy val microservice = Project(appName, file("."))
+  .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin)
+  .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
-    libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
-    // https://www.scala-lang.org/2021/01/12/configuring-and-suppressing-warnings.html
-    // suppress warnings in generated routes files
-    scalacOptions += "-Wconf:src=routes/.*:s",
+    libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test(),
+    retrieveManaged                 := true,
+    update / evictionWarningOptions := EvictionWarningOptions.default.withWarnScalaVersionEviction(warnScalaVersionEviction = false),
+    scalaVersion                    := "2.13.8",
+    scalacOptions ++= List(
+      "-language:higherKinds",
+      "-Xlint:-byname-implicit",
+      "-Xfatal-warnings",
+      "-Wconf:src=routes/.*:silent",
+      "-feature"
+    )
   )
   .settings(
     Compile / unmanagedResourceDirectories += baseDirectory.value / "resources"
   )
-  .settings(resolvers += Resolver.jcenterRepo)
+  .settings(majorVersion := 0)
   .settings(CodeCoverageSettings.settings: _*)
+  .settings(defaultSettings(): _*)
   .configs(ItTest)
   .settings(inConfig(ItTest)(Defaults.itSettings): _*)
   .settings(
-    ItTest / fork := true,
+    ItTest / fork                       := true,
     ItTest / unmanagedSourceDirectories := List((ItTest / baseDirectory).value / "it"),
     ItTest / unmanagedClasspath += baseDirectory.value / "resources",
     Runtime / unmanagedClasspath += baseDirectory.value / "resources",
@@ -35,8 +44,11 @@ lazy val microservice = Project("individuals-employments-income-api", file("."))
   )
   .settings(PlayKeys.playDefaultPort := 7765)
 
-lazy val it = project
-  .enablePlugins(PlayScala)
-  .dependsOn(microservice % "test->test")
-  .settings(DefaultBuildSettings.itSettings())
-  .settings(libraryDependencies ++= AppDependencies.it)
+dependencyUpdatesFilter -= moduleFilter(organization = "com.typesafe.play")
+dependencyUpdatesFilter -= moduleFilter(name = "simple-reactivemongo")
+dependencyUpdatesFilter -= moduleFilter(name = "reactivemongo-test")
+dependencyUpdatesFilter -= moduleFilter(name = "scala-library")
+dependencyUpdatesFilter -= moduleFilter(name = "flexmark-all")
+dependencyUpdatesFilter -= moduleFilter(name = "scalatestplus-play")
+dependencyUpdatesFilter -= moduleFilter(name = "scalatestplus-scalacheck")
+dependencyUpdatesFailBuild := true
