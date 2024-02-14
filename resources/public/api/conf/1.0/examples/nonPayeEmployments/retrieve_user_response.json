@@ -7,17 +7,17 @@
   },
   "links": [
     {
-      "href":"/individuals/income-received/employments/non-paye/{nino}/{taxYear}",
+      "href":"/individuals/employments-income/non-paye/{nino}/{taxYear}",
       "method":"PUT",
       "rel":"create-and-amend-non-paye-employment-income"
     },
     {
-      "href":"/individuals/income-received/employments/non-paye/{nino}/{taxYear}",
+      "href":"/individuals/employments-income/non-paye/{nino}/{taxYear}",
       "method":"GET",
       "rel":"self"
     },
     {
-      "href":"/individuals/income-received/employments/non-paye/{nino}/{taxYear}",
+      "href":"/individuals/employments-income/non-paye/{nino}/{taxYear}",
       "method":"DELETE",
       "rel":"delete-non-paye-employment-income"
     }

@@ -85,7 +85,7 @@ class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
         """.stripMargin
     )
 
-    def uri: String = s"/employments-income/$nino/$taxYear"
+    def uri: String = s"/$nino/$taxYear"
 
     def ifsUri: String = s"/income-tax/income/employments/$nino/$taxYear/custom"
 

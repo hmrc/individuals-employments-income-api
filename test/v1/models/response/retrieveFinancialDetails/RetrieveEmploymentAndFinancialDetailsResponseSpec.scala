@@ -52,7 +52,7 @@ class RetrieveEmploymentAndFinancialDetailsResponseSpec extends UnitSpec {
       val nino           = "someNino"
       val taxYear        = "2017-18"
       val employmentId   = "anId"
-      MockedAppConfig.apiGatewayContext.returns("individuals/income-received").anyNumberOfTimes()
+      MockedAppConfig.apiGatewayContext.returns("individuals/employments-income").anyNumberOfTimes()
     }
 
     "wrapping a RetrieveFinancialDetailsResponse object" should {
@@ -61,13 +61,13 @@ class RetrieveEmploymentAndFinancialDetailsResponseSpec extends UnitSpec {
           HateoasWrapper(
             model,
             Seq(
-              Link(s"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details", GET, "self"),
+              Link(s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details", GET, "self"),
               Link(
-                s"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+                s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
                 PUT,
                 "create-and-amend-employment-financial-details"),
               Link(
-                s"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+                s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
                 DELETE,
                 "delete-employment-financial-details")
             )

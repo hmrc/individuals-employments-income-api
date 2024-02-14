@@ -60,21 +60,21 @@ class ListEmploymentsControllerSpec
 
   val retrieveEmploymentLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
       method = GET,
       rel = SELF
     )
 
   val addCustomEmploymentLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear",
+      href = s"/individuals/employments-income/$nino/$taxYear",
       method = POST,
       rel = ADD_CUSTOM_EMPLOYMENT
     )
 
   val listEmploymentsLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear",
+      href = s"/individuals/employments-income/$nino/$taxYear",
       method = GET,
       rel = SELF
     )

@@ -62,17 +62,17 @@ class RetrieveNonPayeEmploymentControllerSpec
 
   private val hateoasLinks = Seq(
     Link(
-      href = s"/individuals/income-received/employments/non-paye/$nino/$taxYear",
+      href = s"/individuals/employments-income/non-paye/$nino/$taxYear",
       method = PUT,
       rel = AMEND_NON_PAYE_EMPLOYMENT_INCOME
     ),
     Link(
-      href = s"/individuals/income-received/employments/non-paye/$nino/$taxYear",
+      href = s"/individuals/employments-income/non-paye/$nino/$taxYear",
       method = GET,
       rel = SELF
     ),
     Link(
-      href = s"/individuals/income-received/employments/non-paye/$nino/$taxYear",
+      href = s"/individuals/employments-income/non-paye/$nino/$taxYear",
       method = DELETE,
       rel = DELETE_NON_PAYE_EMPLOYMENT_INCOME
     )

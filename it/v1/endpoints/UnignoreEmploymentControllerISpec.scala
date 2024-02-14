@@ -35,7 +35,7 @@ class UnignoreEmploymentControllerISpec extends IntegrationBaseSpec {
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
     val taxYear: String      = "2023-24"
 
-    def mtdUri: String = s"/employments-income/$nino/$taxYear/$employmentId/unignore"
+    def mtdUri: String = s"/$nino/$taxYear/$employmentId/unignore"
 
     def downstreamUri: String = s"/income-tax/${TaxYear.fromMtd(taxYear).asTysDownstream}/employments/$nino/ignore/$employmentId"
 

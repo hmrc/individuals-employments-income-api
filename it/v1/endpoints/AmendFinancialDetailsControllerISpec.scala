@@ -758,12 +758,12 @@ class AmendFinancialDetailsControllerISpec extends IntegrationBaseSpec {
       setupStubs()
       buildRequest(uri)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.2.0+json"),
+          (ACCEPT, "application/vnd.hmrc.1.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
 
-    def uri: String = s"/employments-income/$nino/$taxYear/$employmentId/financial-details"
+    def uri: String = s"/$nino/$taxYear/$employmentId/financial-details"
 
     def setupStubs(): StubMapping = StubMapping.NOT_CONFIGURED
 

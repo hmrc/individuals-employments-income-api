@@ -43,7 +43,7 @@ class RetrieveEmploymentControllerISpec extends IntegrationBaseSpec {
     val mtdHmrcEnteredResponseWithDateIgnored: JsValue    = mtdHmrcEnteredResponseWithHateoasAndDateIgnored(nino, taxYear, employmentId)
     val mtdCustomEnteredResponse: JsValue                 = mtdCustomEnteredResponseWithHateoas(nino, taxYear, employmentId)
 
-    def uri: String = s"/employments-income/$nino/$taxYear/$employmentId"
+    def uri: String = s"/$nino/$taxYear/$employmentId"
 
     def ifsUri: String = s"/income-tax/income/employments/$nino/$taxYear"
 

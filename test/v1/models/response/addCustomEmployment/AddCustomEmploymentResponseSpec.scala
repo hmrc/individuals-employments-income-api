@@ -57,7 +57,7 @@ class AddCustomEmploymentResponseSpec extends UnitSpec {
       val nino           = "someNino"
       val taxYear        = "2017-18"
       val employmentId   = "anId"
-      MockedAppConfig.apiGatewayContext.returns("individuals/income-received").anyNumberOfTimes()
+      MockedAppConfig.apiGatewayContext.returns("individuals/employments-income").anyNumberOfTimes()
     }
 
     "wrapping a AddCustomEmploymentResponse object" should {
@@ -66,10 +66,10 @@ class AddCustomEmploymentResponseSpec extends UnitSpec {
           HateoasWrapper(
             model,
             Seq(
-              Link(s"/individuals/income-received/employments/$nino/$taxYear", GET, "list-employments"),
-              Link(s"/individuals/income-received/employments/$nino/$taxYear/$employmentId", GET, "self"),
-              Link(s"/individuals/income-received/employments/$nino/$taxYear/$employmentId", PUT, "amend-custom-employment"),
-              Link(s"/individuals/income-received/employments/$nino/$taxYear/$employmentId", DELETE, "delete-custom-employment")
+              Link(s"/individuals/employments-income/$nino/$taxYear", GET, "list-employments"),
+              Link(s"/individuals/employments-income/$nino/$taxYear/$employmentId", GET, "self"),
+              Link(s"/individuals/employments-income/$nino/$taxYear/$employmentId", PUT, "amend-custom-employment"),
+              Link(s"/individuals/employments-income/$nino/$taxYear/$employmentId", DELETE, "delete-custom-employment")
             )
           )
       }

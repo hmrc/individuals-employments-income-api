@@ -47,7 +47,7 @@ class AmendCustomEmploymentControllerISpec extends IntegrationBaseSpec {
     """.stripMargin
     )
 
-    def uri: String = s"/employments-income/$nino/$taxYear/$employmentId"
+    def uri: String = s"/$nino/$taxYear/$employmentId"
 
     def ifsUri: String = s"/income-tax/income/employments/$nino/$taxYear/custom/$employmentId"
 

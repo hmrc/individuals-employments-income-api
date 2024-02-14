@@ -63,21 +63,21 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
 
   val amendLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
       method = PUT,
       rel = AMEND_EMPLOYMENT_FINANCIAL_DETAILS
     )
 
   val retrieveLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
       method = GET,
       rel = SELF
     )
 
   val deleteLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
       method = DELETE,
       rel = DELETE_EMPLOYMENT_FINANCIAL_DETAILS
     )

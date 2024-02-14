@@ -326,17 +326,17 @@ object RetrieveFinancialDetailsControllerFixture {
        |{
        |   "links":[
        |      {
-       |         "href":"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
        |         "method":"GET",
        |         "rel":"self"
        |      },
        |      {
-       |         "href":"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
        |         "method":"PUT",
        |         "rel":"create-and-amend-employment-financial-details"
        |      },
        |      {
-       |         "href":"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
        |         "method":"DELETE",
        |         "rel":"delete-employment-financial-details"
        |      }
@@ -352,17 +352,17 @@ object RetrieveFinancialDetailsControllerFixture {
          |{
          |   "links":[
          |      {
-         |         "href":"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
          |         "method":"GET",
          |         "rel":"self"
          |      },
          |      {
-         |         "href":"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
          |         "method":"PUT",
          |         "rel":"create-and-amend-employment-financial-details"
          |      },
          |      {
-         |         "href":"/individuals/income-received/employments/$nino/$taxYear/$employmentId/financial-details",
+         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
          |         "method":"DELETE",
          |         "rel":"delete-employment-financial-details"
          |      }

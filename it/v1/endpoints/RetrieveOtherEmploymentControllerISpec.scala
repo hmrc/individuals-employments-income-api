@@ -41,7 +41,7 @@ class RetrieveOtherEmploymentControllerISpec extends IntegrationBaseSpec {
 
     def request: WSRequest = {
       setupStubs()
-      buildRequest(s"/employments-income/other/$nino/$taxYear")
+      buildRequest(s"/other/$nino/$taxYear")
         .withHttpHeaders(
           (ACCEPT, "application/vnd.hmrc.1.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token

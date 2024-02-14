@@ -149,7 +149,7 @@ class RetrieveNonPayeEmploymentControllerISpec extends IntegrationBaseSpec {
     def taxYear: String
     def downstreamUri: String
 
-    def uri: String                 = s"/employments-income/non-paye/$nino/$taxYear"
+    def uri: String                 = s"/non-paye/$nino/$taxYear"
     val downstreamResponse: JsValue = RetrieveNonPayeEmploymentControllerFixture.downstreamResponse
     val mtdResponse: JsValue        = RetrieveNonPayeEmploymentControllerFixture.mtdResponseWithHateoas(nino, taxYear)
 

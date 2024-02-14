@@ -149,7 +149,7 @@ class DeleteEmploymentFinancialDetailsControllerISpec extends IntegrationBaseSpe
     def taxYear: String
     def downstreamUri: String
 
-    def uri: String = s"/employments-income/$nino/$taxYear/$employmentId/financial-details"
+    def uri: String = s"/$nino/$taxYear/$employmentId/financial-details"
 
     def setupStubs(): StubMapping
 

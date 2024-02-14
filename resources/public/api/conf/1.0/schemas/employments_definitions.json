@@ -63,7 +63,7 @@
           "href": {
             "description": "The relative URL of the endpoint.",
             "type": "string",
-            "example": "/individuals/income-received/employments/AA123456A/2021-22"
+            "example": "/individuals/employments-income/AA123456A/2021-22"
           },
           "rel": {
             "description": "A label for the endpoint, which describes how it is related to the current resource. The ‘rel’ will be ‘self’ where the action is retrieval of the same resource.",
@@ -96,7 +96,7 @@
           "href": {
             "description": "The relative URL of the endpoint.",
             "type": "string",
-            "example": "/individuals/income-received/employments/non-paye/AA123456A/2021-22"
+            "example": "/individuals/employments-income/non-paye/AA123456A/2021-22"
           },
           "rel": {
             "description": "A label for the endpoint, which describes how it is related to the current resource. The ‘rel’ will be ‘self’ where the action is retrieval of the same resource.",
@@ -129,7 +129,7 @@
           "href": {
             "description": "The relative URL of the endpoint.",
             "type": "string",
-            "example": "/individuals/income-received/employments/AA123456A/2021-22"
+            "example": "/individuals/employments-income/AA123456A/2021-22"
           },
           "rel": {
             "description": "A label for the endpoint, which describes how it is related to the current resource. The ‘rel’ will be ‘self’ where the action is retrieval of the same resource.",
@@ -162,7 +162,7 @@
           "href": {
             "description": "The relative URL of the endpoint.",
             "type": "string",
-            "example": "/individuals/income-received/employments/AA123456A/2021-22"
+            "example": "/individuals/employments-income/AA123456A/2021-22"
           },
           "rel": {
             "description": "A label for the endpoint, which describes how it is related to the current resource. The ‘rel’ will be ‘self’ where the action is retrieval of the same resource.",
@@ -195,7 +195,7 @@
           "href": {
             "description": "The relative URL of the endpoint.",
             "type": "string",
-            "example": "/individuals/income-received/employments/AA123456A/2021-22\n/4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+            "example": "/individuals/employments-income/AA123456A/2021-22\n/4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
           },
           "rel": {
             "description": "A label for the endpoint, which describes how it is related to the current resource. The ‘rel’ will be ‘self’ where the action is retrieval of the same resource.",
@@ -228,7 +228,7 @@
           "href": {
             "description": "The relative URL of the endpoint.",
             "type": "string",
-            "example": "/individuals/income-received/employments/AA123456A/2021-22"
+            "example": "/individuals/employments-income/AA123456A/2021-22"
           },
           "rel": {
             "description": "A label for the endpoint, which describes how it is related to the current resource. The ‘rel’ will be ‘self’ where the action is retrieval of the same resource.",

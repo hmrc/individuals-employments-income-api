@@ -206,7 +206,7 @@ class AmendOtherEmploymentControllerISpec extends IntegrationBaseSpec {
     def taxYear: String
     def downstreamTaxYear: String
 
-    def mtdUri: String = s"/employments-income/other/$nino/$taxYear"
+    def mtdUri: String = s"/other/$nino/$taxYear"
     def downstreamUri: String
 
     def setupStubs(): StubMapping

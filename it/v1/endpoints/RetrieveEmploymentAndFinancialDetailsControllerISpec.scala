@@ -37,7 +37,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends IntegrationBa
 
     def taxYear: String
 
-    def mtdUri: String = s"/employments-income/$nino/$taxYear/$employmentId/financial-details"
+    def mtdUri: String = s"/$nino/$taxYear/$employmentId/financial-details"
 
     def mtdQueryParams: Seq[(String, String)] =
       Seq("source" -> source)

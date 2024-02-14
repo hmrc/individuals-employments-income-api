@@ -60,42 +60,42 @@ class RetrieveEmploymentControllerSpec
 
   private val listEmploymentLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear",
+      href = s"/individuals/employments-income/$nino/$taxYear",
       method = GET,
       rel = LIST_EMPLOYMENTS
     )
 
   private val retrieveEmploymentLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
       method = GET,
       rel = SELF
     )
 
   private val amendCustomEmploymentLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
       method = PUT,
       rel = AMEND_CUSTOM_EMPLOYMENT
     )
 
   private val deleteCustomEmploymentLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
       method = DELETE,
       rel = DELETE_CUSTOM_EMPLOYMENT
     )
 
   private val ignoreEmploymentLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId/ignore",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/ignore",
       method = POST,
       rel = IGNORE_EMPLOYMENT
     )
 
   private val unignoreEmploymentLink: Link =
     Link(
-      href = s"/individuals/income-received/employments/$nino/$taxYear/$employmentId/unignore",
+      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/unignore",
       method = POST,
       rel = UNIGNORE_EMPLOYMENT
     )

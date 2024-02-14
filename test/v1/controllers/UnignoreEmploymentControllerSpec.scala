@@ -67,7 +67,7 @@ class UnignoreEmploymentControllerSpec
     MockedAppConfig.featureSwitches.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
     MockedMtdIdLookupService.lookup(nino).returns(Future.successful(Right("test-mtd-id")))
     MockedEnrolmentsAuthService.authoriseUser()
-    MockedAppConfig.apiGatewayContext.returns("individuals/income-received").anyNumberOfTimes()
+    MockedAppConfig.apiGatewayContext.returns("individuals/employments-income").anyNumberOfTimes()
     MockIdGenerator.generateCorrelationId.returns(correlationId)
   }
 
@@ -88,12 +88,12 @@ class UnignoreEmploymentControllerSpec
        |{
        |   "links": [
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear",
+       |         "href": "/individuals/employments-income/$nino/$taxYear",
        |         "rel": "list-employments",
        |         "method": "GET"
        |      },
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |         "rel": "self",
        |         "method": "GET"
        |      }

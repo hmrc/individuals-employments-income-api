@@ -32,7 +32,7 @@ class DeleteOtherEmploymentControllerISpec extends IntegrationBaseSpec {
     def taxYear: String
     def setupStubs(): StubMapping
     def nino: String = "AA123456A"
-    def uri: String  = s"/employments-income/other/$nino/$taxYear"
+    def uri: String  = s"/other/$nino/$taxYear"
 
     def request(): WSRequest = {
       setupStubs()

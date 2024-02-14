@@ -57,19 +57,19 @@ class RetrieveOtherEmploymentControllerSpec
   )
 
   private val amendLink: Link = Link(
-    href = s"/individuals/income-received/employments/other/$nino/$taxYear",
+    href = s"/individuals/employments-income/other/$nino/$taxYear",
     method = PUT,
     rel = AMEND_OTHER_EMPLOYMENT_INCOME
   )
 
   private val deleteLink: Link = Link(
-    href = s"/individuals/income-received/employments/other/$nino/$taxYear",
+    href = s"/individuals/employments-income/other/$nino/$taxYear",
     method = DELETE,
     rel = DELETE_OTHER_EMPLOYMENT_INCOME
   )
 
   private val retrieveLink: Link = Link(
-    href = s"/individuals/income-received/employments/other/$nino/$taxYear",
+    href = s"/individuals/employments-income/other/$nino/$taxYear",
     method = GET,
     rel = SELF
   )

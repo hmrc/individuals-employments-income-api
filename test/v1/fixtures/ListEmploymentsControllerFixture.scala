@@ -29,7 +29,7 @@ object ListEmploymentsControllerFixture {
        |         "employerName": "Vera Lynn",
        |         "dateIgnored": "2020-06-17T10:53:38.000Z",
        |         "links": [{
-       |               "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |               "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |               "method": "GET",
        |               "rel": "self"
        |         }]
@@ -39,7 +39,7 @@ object ListEmploymentsControllerFixture {
        |         "employerName": "Vera Lynn",
        |         "dateIgnored": "2020-06-17T10:53:38.000Z",
        |         "links": [{
-       |               "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |               "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |               "method": "GET",
        |               "rel": "self"
        |         }]
@@ -48,7 +48,7 @@ object ListEmploymentsControllerFixture {
        |         "employmentId": "$employmentId",
        |         "employerName": "Vera Lynn",
        |         "links": [{
-       |               "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |               "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |               "method": "GET",
        |               "rel": "self"
        |         }]
@@ -57,19 +57,19 @@ object ListEmploymentsControllerFixture {
        |         "employmentId": "$employmentId",
        |         "employerName": "Vera Lynn",
        |         "links": [{
-       |               "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |               "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |               "method": "GET",
        |               "rel": "self"
        |         }]
        |   }],
        |   "links": [
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear",
+       |         "href": "/individuals/employments-income/$nino/$taxYear",
        |         "method": "POST",
        |         "rel": "add-custom-employment"
        |      },
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear",
+       |         "href": "/individuals/employments-income/$nino/$taxYear",
        |         "method": "GET",
        |         "rel": "self"
        |      }

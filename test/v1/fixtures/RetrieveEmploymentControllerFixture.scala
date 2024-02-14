@@ -82,17 +82,17 @@ object RetrieveEmploymentControllerFixture {
       |   "occupationalPension": false,
       |   "links":[
       |      {
-      |         "href": "/individuals/income-received/employments/$nino/$taxYear",
+      |         "href": "/individuals/employments-income/$nino/$taxYear",
       |         "method": "GET",
       |         "rel": "list-employments"
       |      },
       |      {
-      |         "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+      |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
       |         "method": "GET",
       |         "rel": "self"
       |      },
       |      {
-      |         "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId/ignore",
+      |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId/ignore",
       |         "method": "POST",
       |         "rel": "ignore-employment"
       |      }
@@ -115,17 +115,17 @@ object RetrieveEmploymentControllerFixture {
        |   "dateIgnored": "2020-06-17T10:53:38.000Z",
        |   "links":[
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear",
+       |         "href": "/individuals/employments-income/$nino/$taxYear",
        |         "method": "GET",
        |         "rel": "list-employments"
        |      },
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |         "method": "GET",
        |         "rel": "self"
        |      },
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId/unignore",
+       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId/unignore",
        |         "method": "POST",
        |         "rel": "unignore-employment"
        |      }
@@ -148,22 +148,22 @@ object RetrieveEmploymentControllerFixture {
        |   "submittedOn": "2020-06-17T10:53:38.000Z",
        |   "links":[
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear",
+       |         "href": "/individuals/employments-income/$nino/$taxYear",
        |         "method": "GET",
        |         "rel": "list-employments"
        |      },
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |         "method": "GET",
        |         "rel": "self"
        |      },
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |         "method": "PUT",
        |         "rel": "amend-custom-employment"
        |      },
        |      {
-       |         "href": "/individuals/income-received/employments/$nino/$taxYear/$employmentId",
+       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
        |         "method": "DELETE",
        |         "rel": "delete-custom-employment"
        |      }

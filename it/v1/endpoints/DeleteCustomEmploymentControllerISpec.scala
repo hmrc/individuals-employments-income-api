@@ -34,7 +34,7 @@ class DeleteCustomEmploymentControllerISpec extends IntegrationBaseSpec {
     val taxYear: String      = "2019-20"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-    def uri: String = s"/employments-income/$nino/$taxYear/$employmentId"
+    def uri: String = s"/$nino/$taxYear/$employmentId"
 
     def downstreamUri: String = s"/income-tax/income/employments/$nino/$taxYear/custom/$employmentId"
 
