@@ -36,7 +36,6 @@
           "employerName"
         ]
       }
-    },
-    "links": {"$ref": "employments_definitions.json#/definitions/linksForEntireList"}
+    }
   }
 }

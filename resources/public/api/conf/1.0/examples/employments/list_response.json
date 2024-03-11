@@ -25,17 +25,5 @@
         }
       ]
     }
-  ],
-  "links": [
-    {
-      "href": "/individuals/employments-income/TC663795B/2021-22",
-      "rel": "add-custom-employment",
-      "method": "POST"
-    },
-    {
-      "href": "/individuals/employments-income/TC663795B/2021-22",
-      "rel": "self",
-      "method": "GET"
-    }
   ]
 }

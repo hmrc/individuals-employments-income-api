@@ -9,8 +9,7 @@
     "sharesAwardedOrReceived": {"$ref": "otherEmployment_definitions.json#/definitions/sharesAwardedOrReceived"},
     "disability": {"$ref": "otherEmployment_definitions.json#/definitions/disability"},
     "foreignService": {"$ref": "otherEmployment_definitions.json#/definitions/foreignService"},
-    "lumpSums": {"$ref": "otherEmployment_definitions.json#/definitions/lumpSums"},
-    "links": {"$ref": "otherEmployment_definitions.json#/definitions/links"}
+    "lumpSums": {"$ref": "otherEmployment_definitions.json#/definitions/lumpSums"}
   },
   "required": ["submittedOn"]
 }

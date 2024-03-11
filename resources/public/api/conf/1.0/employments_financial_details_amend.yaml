@@ -47,15 +47,6 @@ responses:
     headers:
       X-CorrelationId:
         $ref: './common/headers.yaml#/components/parameters/correlationId'
-    content:
-      application/json:
-        schema:
-          $ref: './schemas/employments_financial_amend_response.json'
-        examples:
-          example-response:
-            description: Example Response
-            value:
-              $ref: './examples/employments/financialDetails/amend_response.json'
 
   "400":
     description: Bad request
