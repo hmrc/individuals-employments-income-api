@@ -19,9 +19,6 @@ package v1.controllers
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.models.domain.{Nino, Timestamp}
 import api.models.errors._
-import api.models.hateoas.Link
-import api.models.hateoas.Method.{GET, POST}
-import api.models.hateoas.RelType.{ADD_CUSTOM_EMPLOYMENT, SELF}
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.mvc.Result
@@ -53,27 +50,6 @@ class ListEmploymentsControllerSpec
     nino = Nino(nino),
     taxYear = taxYear
   )
-
-  val retrieveEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
-      method = GET,
-      rel = SELF
-    )
-
-  val addCustomEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear",
-      method = POST,
-      rel = ADD_CUSTOM_EMPLOYMENT
-    )
-
-  val listEmploymentsLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear",
-      method = GET,
-      rel = SELF
-    )
 
   private val hmrcEmploymentModel = Employment(
     employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",

@@ -392,7 +392,7 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with ValueFormatErrorM
   "AmendFinancialDetailsValidator" when {
     "running a validation" should {
       "return no errors for a valid request" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, validRawBody)) shouldBe Nil
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, validRawBody, opwEnabled = false)) shouldBe Nil
       }
 
       "return no errors for a valid request with opw feature switch enabled" in new Test {
@@ -407,79 +407,79 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with ValueFormatErrorM
 
       // parameter format error scenarios
       "return NinoFormatError error when the supplied NINO is invalid" in new Test {
-        validator.validate(AmendFinancialDetailsRawData("A12344A", validTaxYear, validEmploymentId, validRawBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData("A12344A", validTaxYear, validEmploymentId, validRawBody, opwEnabled = false)) shouldBe
           List(NinoFormatError)
       }
 
       "return TaxYearFormatError error for an invalid tax year format" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, "20178", validEmploymentId, validRawBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, "20178", validEmploymentId, validRawBody, opwEnabled = false)) shouldBe
           List(TaxYearFormatError)
       }
 
       "return RuleTaxYearRangeInvalidError error for an invalid tax year range" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, "2018-20", validEmploymentId, validRawBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, "2018-20", validEmploymentId, validRawBody, opwEnabled = false)) shouldBe
           List(RuleTaxYearRangeInvalidError)
       }
 
       "return EmploymentIdFormatError error for an invalid employment id" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, "notValid", validRawBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, "notValid", validRawBody, opwEnabled = false)) shouldBe
           List(EmploymentIdFormatError)
       }
 
       "return multiple errors for multiple invalid request parameters" in new Test {
-        validator.validate(AmendFinancialDetailsRawData("notValid", "2018-20", "invalid", validRawBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData("notValid", "2018-20", "invalid", validRawBody, opwEnabled = false)) shouldBe
           List(NinoFormatError, RuleTaxYearRangeInvalidError, EmploymentIdFormatError)
       }
 
       // parameter rule error scenarios
       "return RuleTaxYearNotSupportedError error for an unsupported tax year" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, "2019-20", validEmploymentId, validRawBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, "2019-20", validEmploymentId, validRawBody, opwEnabled = false)) shouldBe
           List(RuleTaxYearNotSupportedError)
       }
 
       // body format error scenarios
       "return RuleIncorrectOrEmptyBodyError error for an empty request body" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, emptyRawBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, emptyRawBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError)
       }
 
       "return RuleIncorrectOrEmptyBodyError error for a non-empty JSON body with no expected fields provided (No mandatory employment object)" in new Test {
         validator.validate(
-          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryEmploymentRawRequestBody)) shouldBe
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryEmploymentRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error for a non-empty JSON body with no mandatory pay object provided" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryPayRawRequestBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryPayRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment/pay"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when mandatory fields are not provided" in new Test {
         val paths: Seq[String] = Seq("/employment/pay/taxablePayToDate", "/employment/pay/totalTaxToDate")
 
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryFieldsRawRequestBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryFieldsRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(paths)))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when studentLoans object is provided with no fields" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingStudentLoansRawRequestBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingStudentLoansRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment/deductions/studentLoans"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when deductions object is provided with no fields" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingDeductionsRawRequestBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingDeductionsRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment/deductions"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when benefitsInKind object is provided with no fields" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingBenefitsInKindRawRequestBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingBenefitsInKindRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment/benefitsInKind"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when multiple object bodies are not provided" in new Test {
         val paths: Seq[String] = Seq("/employment/benefitsInKind", "/employment/deductions/studentLoans")
 
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMultipleObjectBodiesRequestBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMultipleObjectBodiesRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(paths)))
       }
 
@@ -490,7 +490,7 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with ValueFormatErrorM
           "/employment/pay/taxablePayToDate"
         )
 
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, incorrectFormatRawBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, incorrectFormatRawBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(paths)))
       }
 
@@ -500,23 +500,23 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with ValueFormatErrorM
       }
 
       "return RuleNotAllowedOffPayrollWorker error when offPayrollWorker is provided & opw is enabled for a taxYear before 23-24" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, rawBodyWithOpw(true))) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, rawBodyWithOpw(true), opwEnabled = true)) shouldBe
           List(RuleNotAllowedOffPayrollWorker)
       }
 
       "return RuleNotAllowedOffPayrollWorker error when offPayrollWorker is provided & opw is not enabled for a taxYear before 23-24" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, rawBodyWithOpw(false))) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, rawBodyWithOpw(false), opwEnabled = false)) shouldBe
           List(RuleNotAllowedOffPayrollWorker)
       }
 
       "return only RuleIncorrectOrEmptyBody error when validating an empty body" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, AnyContentAsJson(Json.parse("{}")))) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, AnyContentAsJson(Json.parse("{}")), opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError)
       }
 
       // body value error scenarios
       "return ValueFormatError error for incorrect field formats" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, allInvalidValueRawRequestBody)) shouldBe
+        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, allInvalidValueRawRequestBody, opwEnabled = false)) shouldBe
           List(
             ValueFormatError.copy(
               message = ZERO_MINIMUM_INCLUSIVE,

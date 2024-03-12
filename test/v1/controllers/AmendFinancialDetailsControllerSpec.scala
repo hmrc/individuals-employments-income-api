@@ -149,7 +149,8 @@ class AmendFinancialDetailsControllerSpec
     nino = nino,
     taxYear = taxYear,
     employmentId = employmentId,
-    body = AnyContentAsJson(requestBodyJson)
+    body = AnyContentAsJson(requestBodyJson),
+    opwEnabled = false
   )
 
   val rawDataOwpEnabled: AmendFinancialDetailsRawData = AmendFinancialDetailsRawData(

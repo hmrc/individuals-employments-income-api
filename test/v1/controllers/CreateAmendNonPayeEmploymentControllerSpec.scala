@@ -17,7 +17,6 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.mocks.hateoas.MockHateoasFactory
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
@@ -40,8 +39,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
     with MockAppConfig
     with MockCreateAmendNonPayeEmploymentService
     with MockAuditService
-    with MockCreateAmendNonPayeEmploymentRequestParser
-    with MockHateoasFactory {
+    with MockCreateAmendNonPayeEmploymentRequestParser {
 
   val taxYear: String = "2019-20"
 
