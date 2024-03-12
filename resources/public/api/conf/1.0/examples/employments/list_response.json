@@ -16,14 +16,7 @@
   "customEmployments": [
     {
       "employmentId": "2557ecb5-fd32-48cc-81f5-e6acd1099f2c",
-      "employerName": "Employer Name Ltd.",
-      "links": [
-        {
-          "href": "/individuals/employments-income/TC663795B/2021-22/2557ecb5-fd32-48cc-81f5-e6acd1099f2c",
-          "rel": "self",
-          "method": "GET"
-        }
-      ]
+      "employerName": "Employer Name Ltd."
     }
   ]
 }
