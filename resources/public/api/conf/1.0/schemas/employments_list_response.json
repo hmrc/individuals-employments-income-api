@@ -28,8 +28,7 @@
         "description": "Array containing details of employments provided by the user.",
         "properties": {
           "employmentId": {"$ref": "employments_definitions.json#/definitions/employmentId"},
-          "employerName": {"$ref": "employments_definitions.json#/definitions/employerName"},
-          "links": {"$ref": "employments_definitions.json#/definitions/linksForEmploymentOnList"}
+          "employerName": {"$ref": "employments_definitions.json#/definitions/employerName"}
         },
         "required": [
           "employmentId",
