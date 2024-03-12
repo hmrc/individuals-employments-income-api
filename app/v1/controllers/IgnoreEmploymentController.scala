@@ -25,7 +25,6 @@ import cats.implicits._
 import config.AppConfig
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import play.mvc.Http.MimeTypes
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.{IdGenerator, Logging}
@@ -88,7 +87,6 @@ class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthServi
           )
 
           Ok.withApiHeaders(serviceResponse.correlationId)
-            .as(MimeTypes.JSON)
         }
 
       result.leftMap { errorWrapper =>

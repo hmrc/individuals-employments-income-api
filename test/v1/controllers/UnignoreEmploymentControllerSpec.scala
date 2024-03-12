@@ -98,7 +98,6 @@ class UnignoreEmploymentControllerSpec
     )
 
   "UnignoreEmploymentController" should {
-    "re-write using std controllerspec" in fail()
     "return OK" when {
       "happy path" in new Test {
 

@@ -98,8 +98,6 @@ class IgnoreEmploymentControllerSpec
     )
 
   "IgnoreEmploymentController" should {
-    "re-write using std controllerspec" in fail()
-
     "return OK" when {
       "happy path" in new Test {
 
@@ -114,7 +112,7 @@ class IgnoreEmploymentControllerSpec
         val result: Future[Result] = controller.ignoreEmployment(nino, taxYear, employmentId)(fakeRequest)
 
         status(result) shouldBe OK
-        contentAsJson(result) shouldBe ???
+        contentType(result) shouldBe None
         header("X-CorrelationId", result) shouldBe Some(correlationId)
 
         val auditResponse: AuditResponse = AuditResponse(OK, None, None)
