@@ -66,8 +66,7 @@ class AmendCustomEmploymentController @Inject()(val authService: EnrolmentsAuthS
           auditType = "AmendACustomEmployment",
           transactionName = "amend-a-custom-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          requestBody = Some(request.body),
-          includeResponse = true
+          requestBody = Some(request.body)
         ))
         .withNoContentResult(successStatus = OK)
 

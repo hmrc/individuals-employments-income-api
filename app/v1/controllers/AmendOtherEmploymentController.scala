@@ -62,8 +62,7 @@ class AmendOtherEmploymentController @Inject()(val authService: EnrolmentsAuthSe
           auditType = "CreateAmendOtherEmployment",
           transactionName = "create-amend-other-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
-          requestBody = Some(request.body),
-          includeResponse = true
+          requestBody = Some(request.body)
         ))
         .withNoContentResult(successStatus = OK)
 

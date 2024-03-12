@@ -65,8 +65,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
           auditType = "CreateAmendNonPayeEmployment",
           transactionName = "create-amend-non-paye-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
-          requestBody = Some(request.body),
-          includeResponse = true
+          requestBody = Some(request.body)
         ))
         .withNoContentResult(successStatus = OK)
 

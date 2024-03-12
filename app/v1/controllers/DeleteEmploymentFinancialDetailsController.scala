@@ -60,8 +60,7 @@ class DeleteEmploymentFinancialDetailsController @Inject() (val authService: Enr
           auditService = auditService,
           auditType = "DeleteEmploymentFinancialDetails",
           transactionName = "delete-employment-financial-details",
-          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          requestBody = None
+          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
         ))
 
       requestHandler.handleRequest(rawData)

@@ -66,8 +66,7 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
           auditType = "AmendEmploymentFinancialDetails",
           transactionName = "amend-employment-financial-details",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          requestBody = Some(request.body),
-          includeResponse = true
+          requestBody = Some(request.body)
         ))
         .withNoContentResult(successStatus = OK)
 

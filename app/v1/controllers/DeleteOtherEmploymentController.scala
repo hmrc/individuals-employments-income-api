@@ -59,8 +59,7 @@ class DeleteOtherEmploymentController @Inject() (val authService: EnrolmentsAuth
           auditService = auditService,
           auditType = "DeleteOtherEmployment",
           transactionName = "delete-other-employment",
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
-          requestBody = None
+          params = Map("nino" -> nino, "taxYear" -> taxYear)
         ))
 
       requestHandler.handleRequest(rawData)
