@@ -42,8 +42,7 @@ class AmendOtherEmploymentControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request().put(requestBodyJson))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse(taxYear)
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
 
       "any valid request with a Tax Year Specific (TYS) tax year is made" in new TysIfsTest with Test {
@@ -57,8 +56,7 @@ class AmendOtherEmploymentControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request().put(requestBodyJson))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse(taxYear)
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
     }
 
@@ -353,30 +351,6 @@ object AmendOtherEmploymentControllerISpec {
       |      }
       |   ]
       |}
-    """.stripMargin
-  )
-
-  def hateoasResponse(taxYear: String): JsValue = Json.parse(
-    s"""
-       |{
-       |    "links":[
-       |        {
-       |            "href":"/individuals/employments-income/other/AA123456A/$taxYear",
-       |            "method":"PUT",
-       |            "rel":"create-and-amend-employments-other-income"
-       |        },
-       |        {
-       |            "href":"/individuals/employments-income/other/AA123456A/$taxYear",
-       |            "method":"GET",
-       |            "rel":"self"
-       |        },
-       |        {
-       |            "href":"/individuals/employments-income/other/AA123456A/$taxYear",
-       |            "method":"DELETE",
-       |            "rel":"delete-employments-other-income"
-       |        }
-       |    ]
-       |}
     """.stripMargin
   )
 

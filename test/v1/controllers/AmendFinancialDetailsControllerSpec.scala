@@ -17,14 +17,10 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.mocks.hateoas.MockHateoasFactory
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
-import api.models.hateoas
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
@@ -35,7 +31,6 @@ import v1.mocks.services.MockAmendFinancialDetailsService
 import v1.models.request.amendFinancialDetails.emploment.studentLoans.AmendStudentLoans
 import v1.models.request.amendFinancialDetails.emploment.{AmendBenefitsInKind, AmendDeductions, AmendEmployment, AmendPay}
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRawData, AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
-import v1.models.response.amendFinancialDetails.AmendFinancialDetailsHateoasData
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -46,7 +41,6 @@ class AmendFinancialDetailsControllerSpec
     with MockAppConfig
     with MockAmendFinancialDetailsRequestParser
     with MockAmendFinancialDetailsService
-    with MockHateoasFactory
     with MockAuditService {
 
   val taxYear: String      = "2019-20"
@@ -232,44 +226,6 @@ class AmendFinancialDetailsControllerSpec
   val requestDataWithOpw: AmendFinancialDetailsRequest =
     requestData.copy(body = amendFinancialDetailsRequestBody.copy(employment = employment.copy(offPayrollWorker = Some(true))))
 
-  val testHateoasLinks: Seq[Link] = Seq(
-    hateoas.Link(href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details", method = GET, rel = "self"),
-    hateoas.Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-      method = PUT,
-      rel = "create-and-amend-employment-financial-details"
-    ),
-    hateoas.Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-      method = DELETE,
-      rel = "delete-employment-financial-details"
-    )
-  )
-
-  val hateoasResponse: JsValue = Json.parse(
-    s"""
-       |{
-       |   "links":[
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-       |         "rel":"self",
-       |         "method":"GET"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-       |         "rel":"create-and-amend-employment-financial-details",
-       |         "method":"PUT"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-       |         "rel":"delete-employment-financial-details",
-       |         "method":"DELETE"
-       |      }
-       |   ]
-       |}
-    """.stripMargin
-  )
-
   "AmendFinancialDetailsController with Opw disabled" should {
     "return OK" when {
       "happy path in non opw test" in new PreOpwTest {
@@ -281,15 +237,9 @@ class AmendFinancialDetailsControllerSpec
           .amendFinancialDetails(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
-        MockHateoasFactory
-          .wrap((), AmendFinancialDetailsHateoasData(nino, taxYear, employmentId))
-          .returns(HateoasWrapper((), testHateoasLinks))
-
         runOkTestWithAudit(
           expectedStatus = OK,
-          maybeAuditRequestBody = Some(requestBodyJson),
-          maybeExpectedResponseBody = Some(hateoasResponse),
-          maybeAuditResponseBody = Some(hateoasResponse)
+          maybeAuditRequestBody = Some(requestBodyJson)
         )
       }
 
@@ -302,15 +252,9 @@ class AmendFinancialDetailsControllerSpec
           .amendFinancialDetails(requestDataWithOpw)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
-        MockHateoasFactory
-          .wrap((), AmendFinancialDetailsHateoasData(nino, taxYear, employmentId))
-          .returns(HateoasWrapper((), testHateoasLinks))
-
         runOkTestWithAudit(
           expectedStatus = OK,
-          maybeAuditRequestBody = Some(requestBodyJsonWithOpw),
-          maybeExpectedResponseBody = Some(hateoasResponse),
-          maybeAuditResponseBody = Some(hateoasResponse)
+          maybeAuditRequestBody = Some(requestBodyJsonWithOpw)
         )
       }
     }
@@ -392,7 +336,6 @@ class AmendFinancialDetailsControllerSpec
       appConfig = mockAppConfig,
       parser = mockAmendFinancialDetailsRequestParser,
       service = mockAmendFinancialDetailsService,
-      hateoasFactory = mockHateoasFactory,
       auditService = mockAuditService,
       cc = cc,
       idGenerator = mockIdGenerator

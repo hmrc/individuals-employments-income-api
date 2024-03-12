@@ -58,29 +58,7 @@ class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
     val wrappedResponseJson: JsValue = Json.parse(
       s"""
          |{
-         |   "employmentId": "$employmentId",
-         |   "links":[
-         |      {
-         |         "href": "/individuals/employments-income/$nino/$taxYear",
-         |         "rel": "list-employments",
-         |         "method": "GET"
-         |      },
-         |      {
-         |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-         |         "rel": "self",
-         |         "method": "GET"
-         |      },
-         |      {
-         |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-         |         "rel": "amend-custom-employment",
-         |         "method": "PUT"
-         |      },
-         |      {
-         |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-         |         "rel": "delete-custom-employment",
-         |         "method": "DELETE"
-         |      }
-         |   ]
+         |   "employmentId": "$employmentId"
          |}
         """.stripMargin
     )

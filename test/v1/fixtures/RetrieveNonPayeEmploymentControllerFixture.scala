@@ -17,7 +17,7 @@
 package v1.fixtures
 
 import api.models.domain.{MtdSourceEnum, Timestamp}
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{JsValue, Json}
 import v1.models.response.retrieveNonPayeEmploymentIncome.{NonPayeIncome, RetrieveNonPayeEmploymentIncomeResponse}
 
 object RetrieveNonPayeEmploymentControllerFixture {
@@ -54,31 +54,5 @@ object RetrieveNonPayeEmploymentControllerFixture {
     totalNonPayeIncome = Some(23122.22),
     nonPayeIncome = Some(NonPayeIncome(tips = Some(2132.22)))
   )
-
-  def mtdResponseWithHateoas(nino: String, taxYear: String): JsObject = mtdResponse.as[JsObject] ++ Json
-    .parse(
-      s"""
-       |{
-       |   "links":[
-       |      {
-       |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-       |         "method":"PUT",
-       |         "rel":"create-and-amend-non-paye-employment-income"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-       |         "method":"GET",
-       |         "rel":"self"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-       |         "method":"DELETE",
-       |         "rel":"delete-non-paye-employment-income"
-       |      }
-       |   ]
-       |}
-    """.stripMargin
-    )
-    .as[JsObject]
 
 }

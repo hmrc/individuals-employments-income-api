@@ -18,19 +18,14 @@ package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.hateoas.HateoasLinks
-import api.mocks.hateoas.MockHateoasFactory
 import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
 import api.models.errors._
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.RelType.{AMEND_NON_PAYE_EMPLOYMENT_INCOME, DELETE_NON_PAYE_EMPLOYMENT_INCOME, SELF}
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import play.api.mvc.Result
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.mocks.requestParsers.MockRetrieveNonPayeEmploymentRequestParser
 import v1.mocks.services.MockRetrieveNonPayeEmploymentService
 import v1.models.request.retrieveNonPayeEmploymentIncome.{RetrieveNonPayeEmploymentIncomeRawData, RetrieveNonPayeEmploymentIncomeRequest}
-import v1.models.response.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeHateoasData
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,7 +34,6 @@ class RetrieveNonPayeEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveNonPayeEmploymentService
-    with MockHateoasFactory
     with MockRetrieveNonPayeEmploymentRequestParser
     with HateoasLinks {
 
@@ -60,24 +54,6 @@ class RetrieveNonPayeEmploymentControllerSpec
       source = source
     )
 
-  private val hateoasLinks = Seq(
-    Link(
-      href = s"/individuals/employments-income/non-paye/$nino/$taxYear",
-      method = PUT,
-      rel = AMEND_NON_PAYE_EMPLOYMENT_INCOME
-    ),
-    Link(
-      href = s"/individuals/employments-income/non-paye/$nino/$taxYear",
-      method = GET,
-      rel = SELF
-    ),
-    Link(
-      href = s"/individuals/employments-income/non-paye/$nino/$taxYear",
-      method = DELETE,
-      rel = DELETE_NON_PAYE_EMPLOYMENT_INCOME
-    )
-  )
-
   "RetrieveNonPayeEmploymentIncomeController" should {
     "return OK" when {
       "the request is valid" in new Test {
@@ -89,11 +65,7 @@ class RetrieveNonPayeEmploymentControllerSpec
           .retrieveNonPayeEmployment(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, responseModel))))
 
-        MockHateoasFactory
-          .wrap(responseModel, RetrieveNonPayeEmploymentIncomeHateoasData(nino, taxYear))
-          .returns(HateoasWrapper(responseModel, hateoasLinks))
-
-        runOkTest(expectedStatus = OK, maybeExpectedResponseBody = Some(mtdResponseWithHateoas(nino, taxYear)))
+        runOkTest(expectedStatus = OK, maybeExpectedResponseBody = Some(mtdResponse))
       }
     }
 
@@ -127,7 +99,6 @@ class RetrieveNonPayeEmploymentControllerSpec
       lookupService = mockMtdIdLookupService,
       parser = mockRetrieveNonPayeEmploymentRequestParser,
       service = mockRetrieveNonPayeEmploymentService,
-      hateoasFactory = mockHateoasFactory,
       cc = cc,
       idGenerator = mockIdGenerator
     )

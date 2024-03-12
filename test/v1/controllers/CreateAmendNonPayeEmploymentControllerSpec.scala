@@ -22,8 +22,6 @@ import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
@@ -32,7 +30,6 @@ import play.api.mvc.{AnyContentAsJson, Result}
 import v1.mocks.requestParsers.MockCreateAmendNonPayeEmploymentRequestParser
 import v1.mocks.services.MockCreateAmendNonPayeEmploymentService
 import v1.models.request.createAmendNonPayeEmployment._
-import v1.models.response.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentHateoasData
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -72,39 +69,6 @@ class CreateAmendNonPayeEmploymentControllerSpec
     body = requestModel
   )
 
-  val testHateoasLinks: Seq[Link] = Seq(
-    Link(
-      href = s"/individuals/employments-income/non-paye/$nino/$taxYear",
-      method = PUT,
-      rel = "create-and-amend-non-paye-employment-income"),
-    Link(href = s"/individuals/employments-income/non-paye/$nino/$taxYear", method = GET, rel = "self"),
-    Link(href = s"/individuals/employments-income/non-paye/$nino/$taxYear", method = DELETE, rel = "delete-non-paye-employment-income")
-  )
-
-  val mtdResponse: JsValue = Json.parse(
-    s"""
-       |{
-       |   "links":[
-       |      {
-       |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-       |         "method":"PUT",
-       |         "rel":"create-and-amend-non-paye-employment-income"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-       |         "method":"GET",
-       |         "rel":"self"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-       |         "method":"DELETE",
-       |         "rel":"delete-non-paye-employment-income"
-       |      }
-       |   ]
-       |}
-    """.stripMargin
-  )
-
   "CreateAmendNonPayeEmploymentController" should {
     "return a successful response with status 200 (OK)" when {
       "the request received is valid" in new Test {
@@ -116,15 +80,9 @@ class CreateAmendNonPayeEmploymentControllerSpec
           .createAndAmend(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
-        MockHateoasFactory
-          .wrap((), CreateAmendNonPayeEmploymentHateoasData(nino, taxYear))
-          .returns(HateoasWrapper((), testHateoasLinks))
-
         runOkTestWithAudit(
           expectedStatus = OK,
-          maybeAuditRequestBody = Some(validRequestJson),
-          maybeExpectedResponseBody = Some(mtdResponse),
-          maybeAuditResponseBody = Some(mtdResponse)
+          maybeAuditRequestBody = Some(validRequestJson)
         )
       }
     }
@@ -161,7 +119,6 @@ class CreateAmendNonPayeEmploymentControllerSpec
       parser = mockRequestParser,
       service = mockService,
       auditService = mockAuditService,
-      hateoasFactory = mockHateoasFactory,
       cc = cc,
       idGenerator = mockIdGenerator
     )

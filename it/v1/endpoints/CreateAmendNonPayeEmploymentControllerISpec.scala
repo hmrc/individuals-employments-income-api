@@ -73,30 +73,6 @@ class CreateAmendNonPayeEmploymentControllerISpec extends IntegrationBaseSpec {
     val nino: String = validNino
     def taxYear: String
 
-    val hateoasResponse: JsValue = Json.parse(
-      s"""
-         |{
-         |   "links":[
-         |      {
-         |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-         |         "method":"PUT",
-         |         "rel":"create-and-amend-non-paye-employment-income"
-         |      },
-         |      {
-         |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-         |         "method":"GET",
-         |         "rel":"self"
-         |      },
-         |      {
-         |         "href":"/individuals/employments-income/non-paye/$nino/$taxYear",
-         |         "method":"DELETE",
-         |         "rel":"delete-non-paye-employment-income"
-         |      }
-         |   ]
-         |}
-    """.stripMargin
-    )
-
     def downstreamUri: String
 
     def setupStubs(): Unit = ()
@@ -140,8 +116,7 @@ class CreateAmendNonPayeEmploymentControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
 
       "any valid request is made for a TYS tax year" in new Test with TysIfsTest {
@@ -151,8 +126,7 @@ class CreateAmendNonPayeEmploymentControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
     }
 

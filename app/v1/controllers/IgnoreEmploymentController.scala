@@ -17,7 +17,6 @@
 package v1.controllers
 
 import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
-import api.hateoas.IgnoreHateoasBody
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.errors._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
@@ -48,8 +47,7 @@ class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthServi
                                             val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
     extends AuthorisedController(cc)
     with BaseController
-    with Logging
-    with IgnoreHateoasBody {
+    with Logging {
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
@@ -85,12 +83,11 @@ class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthServi
               Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
               None,
               serviceResponse.correlationId,
-              AuditResponse(httpStatus = OK, response = Right(Some(ignoreEmploymentHateoasBody(appConfig, nino, taxYear, employmentId))))
+              AuditResponse(httpStatus = OK, response = Right(None))
             )
           )
 
-          Ok(ignoreEmploymentHateoasBody(appConfig, nino, taxYear, employmentId))
-            .withApiHeaders(serviceResponse.correlationId)
+          Ok.withApiHeaders(serviceResponse.correlationId)
             .as(MimeTypes.JSON)
         }
 

@@ -17,7 +17,7 @@
 package v1.fixtures
 
 import api.models.domain.{MtdSourceEnum, Timestamp}
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{JsValue, Json}
 import v1.models.response.retrieveFinancialDetails._
 
 object RetrieveFinancialDetailsControllerFixture {
@@ -319,57 +319,5 @@ object RetrieveFinancialDetailsControllerFixture {
     dateIgnored = Some(Timestamp("2020-03-05T05:01:01.000Z")),
     employment = employmentModel
   )
-
-  def mtdResponseWithHateoas(nino: String, taxYear: String, employmentId: String): JsObject = mtdJson.as[JsObject] ++ Json
-    .parse(
-      s"""
-       |{
-       |   "links":[
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-       |         "method":"GET",
-       |         "rel":"self"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-       |         "method":"PUT",
-       |         "rel":"create-and-amend-employment-financial-details"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-       |         "method":"DELETE",
-       |         "rel":"delete-employment-financial-details"
-       |      }
-       |   ]
-       |}
-    """.stripMargin
-    )
-    .as[JsObject]
-
-  def mtdResponseWithoutOPWWithHateoas(nino: String, taxYear: String, employmentId: String): JsObject = mtdJsonWithoutOPW.as[JsObject] ++ Json
-    .parse(
-      s"""
-         |{
-         |   "links":[
-         |      {
-         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-         |         "method":"GET",
-         |         "rel":"self"
-         |      },
-         |      {
-         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-         |         "method":"PUT",
-         |         "rel":"create-and-amend-employment-financial-details"
-         |      },
-         |      {
-         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-         |         "method":"DELETE",
-         |         "rel":"delete-employment-financial-details"
-         |      }
-         |   ]
-         |}
-    """.stripMargin
-    )
-    .as[JsObject]
 
 }

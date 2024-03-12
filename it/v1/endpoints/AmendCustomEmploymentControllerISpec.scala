@@ -75,39 +75,9 @@ class AmendCustomEmploymentControllerISpec extends IntegrationBaseSpec {
           DownstreamStub.onSuccess(DownstreamStub.PUT, ifsUri, NO_CONTENT)
         }
 
-        val hateoasResponse: JsValue = Json.parse(
-          s"""
-             |{
-             |   "links":[
-             |      {
-             |         "href":"/individuals/employments-income/$nino/$taxYear",
-             |         "rel":"list-employments",
-             |         "method":"GET"
-             |      },
-             |      {
-             |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId",
-             |         "rel":"self",
-             |         "method":"GET"
-             |      },
-             |      {
-             |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId",
-             |         "rel":"amend-custom-employment",
-             |         "method":"PUT"
-             |      },
-             |      {
-             |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId",
-             |         "rel":"delete-custom-employment",
-             |         "method":"DELETE"
-             |      }
-             |   ]
-             |}
-    """.stripMargin
-        )
-
         val response: WSResponse = await(request().put(requestBodyJson))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
     }
 

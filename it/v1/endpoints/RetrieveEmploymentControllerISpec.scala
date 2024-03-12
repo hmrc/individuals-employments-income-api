@@ -39,9 +39,6 @@ class RetrieveEmploymentControllerISpec extends IntegrationBaseSpec {
     val ifsHmrcEnteredResponseWithoutDateIgnored: JsValue = hmrcEnteredResponseWithoutDateIgnored
     val ifsHmrcEnteredResponseWithDateIgnored: JsValue    = hmrcEnteredResponseWithDateIgnored
     val ifsCustomEnteredResponse: JsValue                 = customEnteredResponse
-    val mtdHmrcEnteredResponseWithoutDateIgnored: JsValue = mtdHmrcEnteredResponseWithHateoasAndNoDateIgnored(nino, taxYear, employmentId)
-    val mtdHmrcEnteredResponseWithDateIgnored: JsValue    = mtdHmrcEnteredResponseWithHateoasAndDateIgnored(nino, taxYear, employmentId)
-    val mtdCustomEnteredResponse: JsValue                 = mtdCustomEnteredResponseWithHateoas(nino, taxYear, employmentId)
 
     def uri: String = s"/$nino/$taxYear/$employmentId"
 
@@ -75,7 +72,7 @@ class RetrieveEmploymentControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request.get())
         response.status shouldBe OK
-        response.json shouldBe mtdHmrcEnteredResponseWithoutDateIgnored
+        response.json shouldBe mtdHmrcEnteredResponseWithNoDateIgnored
         response.header("Content-Type") shouldBe Some("application/json")
       }
     }

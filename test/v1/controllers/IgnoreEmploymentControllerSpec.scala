@@ -25,7 +25,7 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.Json
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.requestParsers.MockIgnoreEmploymentRequestParser
@@ -83,25 +83,6 @@ class IgnoreEmploymentControllerSpec
     employmentId = employmentId
   )
 
-  val hateoasResponse: JsValue = Json.parse(
-    s"""
-       |{
-       |   "links": [
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear",
-       |         "rel": "list-employments",
-       |         "method": "GET"
-       |      },
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |         "rel": "self",
-       |         "method": "GET"
-       |      }
-       |   ]
-       |}
-    """.stripMargin
-  )
-
   def event(auditResponse: AuditResponse): AuditEvent[GenericAuditDetail] =
     AuditEvent(
       auditType = "IgnoreEmployment",
@@ -117,6 +98,8 @@ class IgnoreEmploymentControllerSpec
     )
 
   "IgnoreEmploymentController" should {
+    "re-write using std controllerspec" in fail()
+
     "return OK" when {
       "happy path" in new Test {
 
@@ -131,10 +114,10 @@ class IgnoreEmploymentControllerSpec
         val result: Future[Result] = controller.ignoreEmployment(nino, taxYear, employmentId)(fakeRequest)
 
         status(result) shouldBe OK
-        contentAsJson(result) shouldBe hateoasResponse
+        contentAsJson(result) shouldBe ???
         header("X-CorrelationId", result) shouldBe Some(correlationId)
 
-        val auditResponse: AuditResponse = AuditResponse(OK, None, Some(hateoasResponse))
+        val auditResponse: AuditResponse = AuditResponse(OK, None, None)
         MockedAuditService.verifyAuditEvent(event(auditResponse)).once()
       }
     }

@@ -18,19 +18,14 @@ package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.hateoas.HateoasLinks
-import api.mocks.hateoas.MockHateoasFactory
 import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
 import api.models.errors._
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.RelType.{AMEND_EMPLOYMENT_FINANCIAL_DETAILS, DELETE_EMPLOYMENT_FINANCIAL_DETAILS, SELF}
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import play.api.mvc.Result
 import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
 import v1.mocks.requestParsers.MockRetrieveEmploymentAndFinancialDetailsRequestParser
 import v1.mocks.services.MockRetrieveEmploymentAndFinancialDetailsService
 import v1.models.request.retrieveFinancialDetails.{RetrieveEmploymentAndFinancialDetailsRequest, RetrieveFinancialDetailsRawData}
-import v1.models.response.retrieveFinancialDetails._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,7 +34,6 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
-    with MockHateoasFactory
     with MockRetrieveEmploymentAndFinancialDetailsRequestParser
     with HateoasLinks {
 
@@ -61,29 +55,6 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     source = MtdSourceEnum.latest
   )
 
-  val amendLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-      method = PUT,
-      rel = AMEND_EMPLOYMENT_FINANCIAL_DETAILS
-    )
-
-  val retrieveLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-      method = GET,
-      rel = SELF
-    )
-
-  val deleteLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-      method = DELETE,
-      rel = DELETE_EMPLOYMENT_FINANCIAL_DETAILS
-    )
-
-  private val mtdResponse = mtdResponseWithHateoas(nino, taxYear, employmentId)
-
   "RetrieveFinancialDetailsController" should {
     "return OK" when {
       "happy path" in new Test {
@@ -95,20 +66,9 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
           .retrieve(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, model))))
 
-        MockHateoasFactory
-          .wrap(model, RetrieveFinancialDetailsHateoasData(nino, taxYear, employmentId))
-          .returns(
-            HateoasWrapper(
-              model,
-              Seq(
-                retrieveLink,
-                amendLink,
-                deleteLink
-              )))
-
         runOkTest(
           expectedStatus = OK,
-          maybeExpectedResponseBody = Some(mtdResponse)
+          maybeExpectedResponseBody = Some(mtdJson)
         )
       }
     }
@@ -143,7 +103,6 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
       lookupService = mockMtdIdLookupService,
       parser = mockRetrieveFinancialDetailsRequestParser,
       service = mockRetrieveEmploymentAndFinancialDetailsService,
-      hateoasFactory = mockHateoasFactory,
       cc = cc,
       idGenerator = mockIdGenerator
     )

@@ -18,19 +18,15 @@ package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.hateoas.HateoasLinks
-import api.mocks.hateoas.MockHateoasFactory
 import api.models.domain.{Nino, Timestamp}
 import api.models.errors._
-import api.models.hateoas.Method.{DELETE, GET, POST, PUT}
-import api.models.hateoas.RelType._
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import play.api.mvc.Result
 import v1.fixtures.RetrieveEmploymentControllerFixture._
 import v1.mocks.requestParsers.MockRetrieveEmploymentRequestParser
 import v1.mocks.services.MockRetrieveEmploymentService
 import v1.models.request.retrieveEmployment.{RetrieveEmploymentRawData, RetrieveEmploymentRequest}
-import v1.models.response.retrieveEmployment.{RetrieveEmploymentHateoasData, RetrieveEmploymentResponse}
+import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,7 +35,6 @@ class RetrieveEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentService
-    with MockHateoasFactory
     with MockRetrieveEmploymentRequestParser
     with HateoasLinks {
 
@@ -57,48 +52,6 @@ class RetrieveEmploymentControllerSpec
     taxYear = taxYear,
     employmentId = employmentId
   )
-
-  private val listEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear",
-      method = GET,
-      rel = LIST_EMPLOYMENTS
-    )
-
-  private val retrieveEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
-      method = GET,
-      rel = SELF
-    )
-
-  private val amendCustomEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
-      method = PUT,
-      rel = AMEND_CUSTOM_EMPLOYMENT
-    )
-
-  private val deleteCustomEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
-      method = DELETE,
-      rel = DELETE_CUSTOM_EMPLOYMENT
-    )
-
-  private val ignoreEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/ignore",
-      method = POST,
-      rel = IGNORE_EMPLOYMENT
-    )
-
-  private val unignoreEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId/unignore",
-      method = POST,
-      rel = UNIGNORE_EMPLOYMENT
-    )
 
   private val hmrcEnteredEmploymentWithoutDateIgnoredResponseModel = RetrieveEmploymentResponse(
     employerRef = Some("123/AB56797"),
@@ -133,12 +86,6 @@ class RetrieveEmploymentControllerSpec
     submittedOn = Some(Timestamp("2020-06-17T10:53:38.000Z"))
   )
 
-  private val mtdHmrcEnteredResponseWithoutDateIgnored = mtdHmrcEnteredResponseWithHateoasAndNoDateIgnored(nino, taxYear, employmentId)
-
-  private val mtdHmrcEnteredResponseWithDateIgnored = mtdHmrcEnteredResponseWithHateoasAndDateIgnored(nino, taxYear, employmentId)
-
-  private val mtdCustomEnteredResponse = mtdCustomEnteredResponseWithHateoas(nino, taxYear, employmentId)
-
   "RetrieveEmploymentController" should {
     "return OK" when {
       "happy path for retrieving hmrc entered employment with no date ignored present" in new Test {
@@ -150,21 +97,7 @@ class RetrieveEmploymentControllerSpec
           .retrieve(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, hmrcEnteredEmploymentWithoutDateIgnoredResponseModel))))
 
-        MockHateoasFactory
-          .wrap(
-            hmrcEnteredEmploymentWithoutDateIgnoredResponseModel,
-            RetrieveEmploymentHateoasData(nino, taxYear, employmentId, hmrcEnteredEmploymentWithoutDateIgnoredResponseModel)
-          )
-          .returns(
-            HateoasWrapper(
-              hmrcEnteredEmploymentWithoutDateIgnoredResponseModel,
-              Seq(
-                listEmploymentLink,
-                retrieveEmploymentLink,
-                ignoreEmploymentLink
-              )))
-
-        runOkTest(expectedStatus = OK, maybeExpectedResponseBody = Some(mtdHmrcEnteredResponseWithoutDateIgnored))
+        runOkTest(expectedStatus = OK, maybeExpectedResponseBody = Some(mtdHmrcEnteredResponseWithNoDateIgnored))
       }
 
       "happy path for retrieving hmrc entered employment with date ignored present" in new Test {
@@ -175,20 +108,6 @@ class RetrieveEmploymentControllerSpec
         MockRetrieveEmploymentService
           .retrieve(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, hmrcEnteredEmploymentWithDateIgnoredResponseModel))))
-
-        MockHateoasFactory
-          .wrap(
-            hmrcEnteredEmploymentWithDateIgnoredResponseModel,
-            RetrieveEmploymentHateoasData(nino, taxYear, employmentId, hmrcEnteredEmploymentWithDateIgnoredResponseModel)
-          )
-          .returns(
-            HateoasWrapper(
-              hmrcEnteredEmploymentWithDateIgnoredResponseModel,
-              Seq(
-                listEmploymentLink,
-                retrieveEmploymentLink,
-                unignoreEmploymentLink
-              )))
 
         runOkTest(expectedStatus = OK, maybeExpectedResponseBody = Some(mtdHmrcEnteredResponseWithDateIgnored))
       }
@@ -201,20 +120,6 @@ class RetrieveEmploymentControllerSpec
         MockRetrieveEmploymentService
           .retrieve(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, customEnteredEmploymentResponseModel))))
-
-        MockHateoasFactory
-          .wrap(
-            customEnteredEmploymentResponseModel,
-            RetrieveEmploymentHateoasData(nino, taxYear, employmentId, customEnteredEmploymentResponseModel))
-          .returns(
-            HateoasWrapper(
-              customEnteredEmploymentResponseModel,
-              Seq(
-                listEmploymentLink,
-                retrieveEmploymentLink,
-                amendCustomEmploymentLink,
-                deleteCustomEmploymentLink
-              )))
 
         runOkTest(expectedStatus = OK, maybeExpectedResponseBody = Some(mtdCustomEnteredResponse))
       }
@@ -250,7 +155,6 @@ class RetrieveEmploymentControllerSpec
       lookupService = mockMtdIdLookupService,
       parser = mockRetrieveCustomEmploymentRequestParser,
       service = mockRetrieveEmploymentService,
-      hateoasFactory = mockHateoasFactory,
       cc = cc,
       idGenerator = mockIdGenerator
     )

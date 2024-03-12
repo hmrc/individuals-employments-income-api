@@ -18,20 +18,15 @@ package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.hateoas.HateoasLinks
-import api.mocks.hateoas.MockHateoasFactory
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.RelType.{AMEND_OTHER_EMPLOYMENT_INCOME, DELETE_OTHER_EMPLOYMENT_INCOME, SELF}
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import play.api.mvc.Result
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
-import v1.fixtures.RetrieveOtherEmploymentControllerFixture._
+import v1.fixtures.RetrieveOtherEmploymentControllerFixture.mtdResponse
 import v1.mocks.requestParsers.MockOtherEmploymentIncomeRequestParser
 import v1.mocks.services.MockRetrieveOtherEmploymentIncomeService
 import v1.models.request.otherEmploymentIncome.{OtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
-import v1.models.response.retrieveOtherEmployment._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -40,7 +35,6 @@ class RetrieveOtherEmploymentControllerSpec
   extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveOtherEmploymentIncomeService
-    with MockHateoasFactory
     with MockOtherEmploymentIncomeRequestParser
     with HateoasLinks {
 
@@ -56,24 +50,6 @@ class RetrieveOtherEmploymentControllerSpec
     taxYear = TaxYear.fromMtd(taxYear)
   )
 
-  private val amendLink: Link = Link(
-    href = s"/individuals/employments-income/other/$nino/$taxYear",
-    method = PUT,
-    rel = AMEND_OTHER_EMPLOYMENT_INCOME
-  )
-
-  private val deleteLink: Link = Link(
-    href = s"/individuals/employments-income/other/$nino/$taxYear",
-    method = DELETE,
-    rel = DELETE_OTHER_EMPLOYMENT_INCOME
-  )
-
-  private val retrieveLink: Link = Link(
-    href = s"/individuals/employments-income/other/$nino/$taxYear",
-    method = GET,
-    rel = SELF
-  )
-
   "RetrieveOtherEmploymentIncomeController" should {
     "return OK" when {
       "the request is valid" in new Test {
@@ -85,18 +61,7 @@ class RetrieveOtherEmploymentControllerSpec
           .retrieve(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, retrieveOtherResponseModel))))
 
-        MockHateoasFactory
-          .wrap(retrieveOtherResponseModel, RetrieveOtherEmploymentHateoasData(nino, taxYear))
-          .returns(
-            HateoasWrapper(
-              retrieveOtherResponseModel,
-              Seq(
-                amendLink,
-                retrieveLink,
-                deleteLink
-              )))
-
-        runOkTest(expectedStatus = OK, maybeExpectedResponseBody = Some(mtdResponseWithHateoas(nino, taxYear)))
+        runOkTest(expectedStatus = OK, maybeExpectedResponseBody = Some(mtdResponse))
       }
     }
 
@@ -130,7 +95,6 @@ class RetrieveOtherEmploymentControllerSpec
       lookupService = mockMtdIdLookupService,
       parser = mockOtherEmploymentIncomeRequestParser,
       service = mockRetrieveOtherEmploymentIncomeService,
-      hateoasFactory = mockHateoasFactory,
       cc = cc,
       idGenerator = mockIdGenerator
     )

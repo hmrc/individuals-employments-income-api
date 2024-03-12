@@ -17,20 +17,16 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.mocks.hateoas.MockHateoasFactory
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AnyContentAsJson, Result}
 import v1.mocks.requestParsers.MockAmendOtherEmploymentRequestParser
 import v1.mocks.services.MockAmendOtherEmploymentService
 import v1.models.request.amendOtherEmployment._
-import v1.models.response.amendOtherEmployment.AmendOtherEmploymentHateoasData
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -40,8 +36,7 @@ class AmendOtherEmploymentControllerSpec
     with ControllerTestRunner
     with MockAmendOtherEmploymentRequestParser
     with MockAuditService
-    with MockAmendOtherEmploymentService
-    with MockHateoasFactory {
+    with MockAmendOtherEmploymentService {
 
   val taxYear: String = "2019-20"
 
@@ -270,36 +265,6 @@ class AmendOtherEmploymentControllerSpec
     body = amendOtherEmploymentRequestBody
   )
 
-  val testHateoasLinks: Seq[Link] = Seq(
-    Link(href = s"/individuals/employments-income/other/$nino/$taxYear", rel = "create-and-amend-other-employment-income", method = PUT),
-    Link(href = s"/individuals/employments-income/other/$nino/$taxYear", rel = "self", method = GET),
-    Link(href = s"/individuals/employments-income/other/$nino/$taxYear", rel = "delete-other-employment-income", method = DELETE)
-  )
-
-  val hateoasResponse: JsValue = Json.parse(
-    s"""
-       |{
-       |   "links":[
-       |      {
-       |         "href":"/individuals/employments-income/other/$nino/$taxYear",
-       |         "rel":"create-and-amend-other-employment-income",
-       |         "method":"PUT"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/other/$nino/$taxYear",
-       |         "rel":"self",
-       |         "method":"GET"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/other/$nino/$taxYear",
-       |         "rel":"delete-other-employment-income",
-       |         "method":"DELETE"
-       |      }
-       |   ]
-       |}
-    """.stripMargin
-  )
-
   "AmendOtherEmploymentController" should {
     "return a successful response with status 200 (OK)" when {
       "the request received is valid" in new Test {
@@ -311,15 +276,9 @@ class AmendOtherEmploymentControllerSpec
           .amend(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
-        MockHateoasFactory
-          .wrap((), AmendOtherEmploymentHateoasData(nino, taxYear))
-          .returns(HateoasWrapper((), testHateoasLinks))
-
         runOkTestWithAudit(
           expectedStatus = OK,
-          maybeAuditRequestBody = Some(requestBodyJson),
-          maybeExpectedResponseBody = Some(hateoasResponse),
-          maybeAuditResponseBody = Some(hateoasResponse)
+          maybeAuditRequestBody = Some(requestBodyJson)
         )
       }
     }
@@ -355,7 +314,6 @@ class AmendOtherEmploymentControllerSpec
       parser = mockAmendOtherEmploymentRequestParser,
       service = mockAmendOtherEmploymentService,
       auditService = mockAuditService,
-      hateoasFactory = mockHateoasFactory,
       cc = cc,
       idGenerator = mockIdGenerator
     )

@@ -16,7 +16,7 @@
 
 package v1.fixtures
 
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{JsValue, Json}
 
 object RetrieveOtherEmploymentControllerFixture {
 
@@ -101,31 +101,5 @@ object RetrieveOtherEmploymentControllerFixture {
       |}
       |""".stripMargin
   )
-
-  def mtdResponseWithHateoas(nino: String, taxYear: String): JsObject = mtdResponse.as[JsObject] ++ Json
-    .parse(
-      s"""
-       |{
-       |   "links":[
-       |      {
-       |         "href":"/individuals/employments-income/other/$nino/$taxYear",
-       |         "method":"PUT",
-       |         "rel":"create-and-amend-employments-other-income"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/other/$nino/$taxYear",
-       |         "method":"GET",
-       |         "rel":"self"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/other/$nino/$taxYear",
-       |         "method":"DELETE",
-       |         "rel":"delete-employments-other-income"
-       |      }
-       |   ]
-       |}
-    """.stripMargin
-    )
-    .as[JsObject]
 
 }
