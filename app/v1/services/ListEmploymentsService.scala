@@ -22,7 +22,7 @@ import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
 import v1.connectors.ListEmploymentsConnector
 import v1.models.request.listEmployments.ListEmploymentsRequest
-import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
+import v1.models.response.listEmployment.ListEmploymentResponse
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,7 +32,7 @@ class ListEmploymentsService @Inject() (connector: ListEmploymentsConnector) ext
 
   def listEmployments(request: ListEmploymentsRequest)(implicit
       ctx: RequestContext,
-      ec: ExecutionContext): Future[ServiceOutcome[ListEmploymentResponse[Employment]]] =
+      ec: ExecutionContext): Future[ServiceOutcome[ListEmploymentResponse]] =
     connector.listEmployments(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
   private val downstreamErrorMap: Map[String, MtdError] = Map(

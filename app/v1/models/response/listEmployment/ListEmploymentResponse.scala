@@ -20,15 +20,15 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import utils.JsonUtils
 
-case class ListEmploymentResponse[E](employments: Option[Seq[E]], customEmployments: Option[Seq[E]])
+case class ListEmploymentResponse(employments: Option[Seq[Employment]], customEmployments: Option[Seq[Employment]])
 
 object ListEmploymentResponse extends JsonUtils {
 
-  implicit def writes[E: Writes]: OWrites[ListEmploymentResponse[E]] = Json.writes[ListEmploymentResponse[E]]
+  implicit val writes: OWrites[ListEmploymentResponse] = Json.writes
 
-  implicit def reads[E: Reads]: Reads[ListEmploymentResponse[E]] = (
-    (JsPath \ "employments").readNullable[Seq[E]].mapEmptySeqToNone and
-      (JsPath \ "customerDeclaredEmployments").readNullable[Seq[E]].mapEmptySeqToNone
+  implicit val reads: Reads[ListEmploymentResponse] = (
+    (JsPath \ "employments").readNullable[Seq[Employment]].mapEmptySeqToNone and
+      (JsPath \ "customerDeclaredEmployments").readNullable[Seq[Employment]].mapEmptySeqToNone
   )((employments, customerEmployments) => ListEmploymentResponse(employments, customerEmployments))
 
 }

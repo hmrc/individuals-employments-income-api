@@ -21,7 +21,7 @@ import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.listEmployments.ListEmploymentsRequest
-import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
+import v1.models.response.listEmployment.ListEmploymentResponse
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,7 +32,7 @@ class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: A
   def listEmployments(request: ListEmploymentsRequest)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext,
-      correlationId: String): Future[DownstreamOutcome[ListEmploymentResponse[Employment]]] = {
+      correlationId: String): Future[DownstreamOutcome[ListEmploymentResponse]] = {
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
@@ -40,7 +40,7 @@ class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: A
     val taxYear = request.taxYear
 
     get(
-      Release6Uri[ListEmploymentResponse[Employment]](s"income-tax/income/employments/$nino/$taxYear")
+      Release6Uri[ListEmploymentResponse](s"income-tax/income/employments/$nino/$taxYear")
     )
   }
 
