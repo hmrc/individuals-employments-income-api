@@ -16,10 +16,6 @@
 
 package v1.models.response.retrieveFinancialDetails
 
-import api.hateoas.HateoasFactory
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.{HateoasWrapper, Link}
-import mocks.MockAppConfig
 import play.api.libs.json.{JsError, JsObject, Json}
 import support.UnitSpec
 import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
@@ -42,36 +38,6 @@ class RetrieveEmploymentAndFinancialDetailsResponseSpec extends UnitSpec {
     "written to JSON" should {
       "produce the expected JsObject" in {
         Json.toJson(model) shouldBe mtdJson
-      }
-    }
-  }
-
-  "LinksFactory" when {
-    class Test extends MockAppConfig {
-      val hateoasFactory = new HateoasFactory(mockAppConfig)
-      val nino           = "someNino"
-      val taxYear        = "2017-18"
-      val employmentId   = "anId"
-      MockedAppConfig.apiGatewayContext.returns("individuals/employments-income").anyNumberOfTimes()
-    }
-
-    "wrapping a RetrieveFinancialDetailsResponse object" should {
-      "expose the correct hateoas links" in new Test {
-        hateoasFactory.wrap(model, RetrieveFinancialDetailsHateoasData(nino, taxYear, employmentId)) shouldBe
-          HateoasWrapper(
-            model,
-            Seq(
-              Link(s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details", GET, "self"),
-              Link(
-                s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-                PUT,
-                "create-and-amend-employment-financial-details"),
-              Link(
-                s"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-                DELETE,
-                "delete-employment-financial-details")
-            )
-          )
       }
     }
   }

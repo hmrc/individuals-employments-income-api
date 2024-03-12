@@ -16,10 +16,6 @@
 
 package v1.models.response.addCustomEmployment
 
-import api.hateoas.HateoasFactory
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.{HateoasWrapper, Link}
-import mocks.MockAppConfig
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
 
@@ -47,31 +43,6 @@ class AddCustomEmploymentResponseSpec extends UnitSpec {
     "written to JSON" should {
       "produce the expected JsObject" in {
         Json.toJson(model) shouldBe json
-      }
-    }
-  }
-
-  "LinksFactory" when {
-    class Test extends MockAppConfig {
-      val hateoasFactory = new HateoasFactory(mockAppConfig)
-      val nino           = "someNino"
-      val taxYear        = "2017-18"
-      val employmentId   = "anId"
-      MockedAppConfig.apiGatewayContext.returns("individuals/employments-income").anyNumberOfTimes()
-    }
-
-    "wrapping a AddCustomEmploymentResponse object" should {
-      "expose the correct hateoas links" in new Test {
-        hateoasFactory.wrap(model, AddCustomEmploymentHateoasData(nino, taxYear, employmentId)) shouldBe
-          HateoasWrapper(
-            model,
-            Seq(
-              Link(s"/individuals/employments-income/$nino/$taxYear", GET, "list-employments"),
-              Link(s"/individuals/employments-income/$nino/$taxYear/$employmentId", GET, "self"),
-              Link(s"/individuals/employments-income/$nino/$taxYear/$employmentId", PUT, "amend-custom-employment"),
-              Link(s"/individuals/employments-income/$nino/$taxYear/$employmentId", DELETE, "delete-custom-employment")
-            )
-          )
       }
     }
   }

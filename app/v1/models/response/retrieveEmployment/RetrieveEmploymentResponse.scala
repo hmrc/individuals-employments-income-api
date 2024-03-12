@@ -16,10 +16,7 @@
 
 package v1.models.response.retrieveEmployment
 
-import api.hateoas.{HateoasLinks, HateoasLinksFactory}
 import api.models.domain.Timestamp
-import api.models.hateoas.{HateoasData, Link}
-import config.AppConfig
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
@@ -32,7 +29,7 @@ case class RetrieveEmploymentResponse(employerRef: Option[String],
                                       dateIgnored: Option[Timestamp],
                                       submittedOn: Option[Timestamp])
 
-object RetrieveEmploymentResponse extends HateoasLinks {
+object RetrieveEmploymentResponse {
 
   implicit val writes: OWrites[RetrieveEmploymentResponse] = Json.writes[RetrieveEmploymentResponse]
 
@@ -47,35 +44,4 @@ object RetrieveEmploymentResponse extends HateoasLinks {
       (JsPath \\ "submittedOn").readNullable[Timestamp]
   )(RetrieveEmploymentResponse.apply _)
 
-  implicit object RetrieveCustomEmploymentLinksFactory extends HateoasLinksFactory[RetrieveEmploymentResponse, RetrieveEmploymentHateoasData] {
-
-    override def links(appConfig: AppConfig, data: RetrieveEmploymentHateoasData): Seq[Link] = {
-      import data._
-
-      val baseLinks = Seq(
-        listEmployment(appConfig, nino, taxYear, isSelf = false),
-        retrieveEmployment(appConfig, nino, taxYear, employmentId)
-      )
-
-      val customLinks = Seq(
-        amendCustomEmployment(appConfig, nino, taxYear, employmentId),
-        deleteCustomEmployment(appConfig, nino, taxYear, employmentId)
-      )
-
-      val hmrcLinks = data.response.dateIgnored match {
-        case Some(_) => baseLinks ++ Seq(unignoreEmployment(appConfig, nino, taxYear, employmentId))
-        case None    => baseLinks ++ Seq(ignoreEmployment(appConfig, nino, taxYear, employmentId))
-      }
-
-      data.response.submittedOn match {
-        case Some(_) => baseLinks ++ customLinks
-        case None    => hmrcLinks
-      }
-    }
-
-  }
-
 }
-
-case class RetrieveEmploymentHateoasData(nino: String, taxYear: String, employmentId: String, response: RetrieveEmploymentResponse)
-    extends HateoasData

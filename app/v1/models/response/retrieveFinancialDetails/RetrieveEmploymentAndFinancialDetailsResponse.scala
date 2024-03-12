@@ -16,10 +16,7 @@
 
 package v1.models.response.retrieveFinancialDetails
 
-import api.hateoas.{HateoasLinks, HateoasLinksFactory}
 import api.models.domain.{MtdSourceEnum, Timestamp}
-import api.models.hateoas.{HateoasData, Link}
-import config.AppConfig
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
@@ -29,7 +26,7 @@ case class RetrieveEmploymentAndFinancialDetailsResponse(submittedOn: Timestamp,
                                                          dateIgnored: Option[Timestamp],
                                                          employment: Employment)
 
-object RetrieveEmploymentAndFinancialDetailsResponse extends HateoasLinks {
+object RetrieveEmploymentAndFinancialDetailsResponse {
   implicit val writes: OWrites[RetrieveEmploymentAndFinancialDetailsResponse] = Json.writes[RetrieveEmploymentAndFinancialDetailsResponse]
 
   implicit val reads: Reads[RetrieveEmploymentAndFinancialDetailsResponse] = (
@@ -40,20 +37,4 @@ object RetrieveEmploymentAndFinancialDetailsResponse extends HateoasLinks {
       (JsPath \ "employment").read[Employment]
   )(RetrieveEmploymentAndFinancialDetailsResponse.apply _)
 
-  implicit object RetrieveFinancialDetailsLinksFactory
-      extends HateoasLinksFactory[RetrieveEmploymentAndFinancialDetailsResponse, RetrieveFinancialDetailsHateoasData] {
-
-    override def links(appConfig: AppConfig, data: RetrieveFinancialDetailsHateoasData): Seq[Link] = {
-      import data._
-      Seq(
-        retrieveFinancialDetails(appConfig, nino, taxYear, employmentId),
-        amendFinancialDetails(appConfig, nino, taxYear, employmentId),
-        deleteFinancialDetails(appConfig, nino, taxYear, employmentId)
-      )
-    }
-
-  }
-
 }
-
-case class RetrieveFinancialDetailsHateoasData(nino: String, taxYear: String, employmentId: String) extends HateoasData

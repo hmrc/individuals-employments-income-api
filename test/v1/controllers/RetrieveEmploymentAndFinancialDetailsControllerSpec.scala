@@ -17,7 +17,6 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.hateoas.HateoasLinks
 import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
@@ -34,8 +33,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
-    with MockRetrieveEmploymentAndFinancialDetailsRequestParser
-    with HateoasLinks {
+    with MockRetrieveEmploymentAndFinancialDetailsRequestParser {
 
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"

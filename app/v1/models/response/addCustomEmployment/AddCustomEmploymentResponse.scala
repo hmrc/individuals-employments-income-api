@@ -16,30 +16,10 @@
 
 package v1.models.response.addCustomEmployment
 
-import api.hateoas.{HateoasLinks, HateoasLinksFactory}
-import api.models.hateoas.{HateoasData, Link}
-import config.AppConfig
 import play.api.libs.json.{Json, OFormat}
 
 case class AddCustomEmploymentResponse(employmentId: String)
 
-object AddCustomEmploymentResponse extends HateoasLinks {
+object AddCustomEmploymentResponse {
   implicit val format: OFormat[AddCustomEmploymentResponse] = Json.format[AddCustomEmploymentResponse]
-
-  implicit object AddCustomEmploymentLinksFactory extends HateoasLinksFactory[AddCustomEmploymentResponse, AddCustomEmploymentHateoasData] {
-
-    override def links(appConfig: AppConfig, data: AddCustomEmploymentHateoasData): Seq[Link] = {
-      import data._
-      Seq(
-        listEmployment(appConfig, nino, taxYear, isSelf = false),
-        retrieveEmployment(appConfig, nino, taxYear, employmentId),
-        amendCustomEmployment(appConfig, nino, taxYear, employmentId),
-        deleteCustomEmployment(appConfig, nino, taxYear, employmentId)
-      )
-    }
-
-  }
-
 }
-
-case class AddCustomEmploymentHateoasData(nino: String, taxYear: String, employmentId: String) extends HateoasData
