@@ -4,8 +4,7 @@
   "description":"Add Custom Employment Response",
   "type": "object",
   "properties": {
-    "employmentId" : {"$ref": "employments_definitions.json#/definitions/employmentId"},
-    "links": {"$ref": "employments_definitions.json#/definitions/linksForAddAmend"}
+    "employmentId" : {"$ref": "employments_definitions.json#/definitions/employmentId"}
   },
   "required": ["employmentId"]
 }
