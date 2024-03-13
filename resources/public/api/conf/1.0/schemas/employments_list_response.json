@@ -12,8 +12,7 @@
         "properties": {
           "employmentId": {"$ref": "employments_definitions.json#/definitions/employmentId"},
           "employerName": {"$ref": "employments_definitions.json#/definitions/employerName"},
-          "dateIgnored": {"$ref": "employments_definitions.json#/definitions/dateIgnored"},
-          "links": {"$ref": "employments_definitions.json#/definitions/linksForEmploymentOnList"}
+          "dateIgnored": {"$ref": "employments_definitions.json#/definitions/dateIgnored"}
         },
         "required": [
           "employmentId",
