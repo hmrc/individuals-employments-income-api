@@ -16,10 +16,7 @@
 
 package v1.models.response.retrieveOtherEmployment
 
-import api.hateoas.{HateoasLinks, HateoasLinksFactory}
 import api.models.domain.Timestamp
-import api.models.hateoas.{HateoasData, Link}
-import config.AppConfig
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
@@ -31,7 +28,7 @@ case class RetrieveOtherEmploymentResponse(submittedOn: Timestamp,
                                            foreignService: Option[CommonOtherEmployment],
                                            lumpSums: Option[Seq[LumpSums]])
 
-object RetrieveOtherEmploymentResponse extends HateoasLinks with JsonUtils {
+object RetrieveOtherEmploymentResponse extends JsonUtils {
 
   implicit val reads: Reads[RetrieveOtherEmploymentResponse] = (
     (JsPath \ "submittedOn").read[Timestamp] and
@@ -44,20 +41,4 @@ object RetrieveOtherEmploymentResponse extends HateoasLinks with JsonUtils {
 
   implicit val writes: OWrites[RetrieveOtherEmploymentResponse] = Json.writes[RetrieveOtherEmploymentResponse]
 
-  implicit object RetrieveOtherEmploymentLinksFactory
-      extends HateoasLinksFactory[RetrieveOtherEmploymentResponse, RetrieveOtherEmploymentHateoasData] {
-
-    override def links(appConfig: AppConfig, data: RetrieveOtherEmploymentHateoasData): Seq[Link] = {
-      import data._
-      Seq(
-        amendOtherEmployment(appConfig, nino, taxYear),
-        retrieveOtherEmployment(appConfig, nino, taxYear),
-        deleteOtherEmployment(appConfig, nino, taxYear)
-      )
-    }
-
-  }
-
 }
-
-case class RetrieveOtherEmploymentHateoasData(nino: String, taxYear: String) extends HateoasData

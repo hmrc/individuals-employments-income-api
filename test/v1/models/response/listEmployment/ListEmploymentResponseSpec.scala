@@ -119,7 +119,7 @@ class ListEmploymentResponseSpec extends UnitSpec {
   "ListEmploymentResponse" should {
     "the expected ListEmploymentResponse object" when {
       "a valid full json is supplied" in {
-        desJson.as[ListEmploymentResponse[Employment]] shouldBe listEmploymentResponseModel
+        desJson.as[ListEmploymentResponse] shouldBe listEmploymentResponseModel
       }
 
       "a valid only HMRC employments json is supplied" in {
@@ -148,7 +148,7 @@ class ListEmploymentResponseSpec extends UnitSpec {
             |}
             """.stripMargin
         )
-        desHmrcJson.as[ListEmploymentResponse[Employment]] shouldBe listEmploymentResponseModel.copy(customEmployments = None)
+        desHmrcJson.as[ListEmploymentResponse] shouldBe listEmploymentResponseModel.copy(customEmployments = None)
       }
 
       "a valid only custom employments json is supplied" in {
@@ -177,7 +177,7 @@ class ListEmploymentResponseSpec extends UnitSpec {
             |}
             """.stripMargin
         )
-        desCustomJson.as[ListEmploymentResponse[Employment]] shouldBe listEmploymentResponseModel.copy(employments = None)
+        desCustomJson.as[ListEmploymentResponse] shouldBe listEmploymentResponseModel.copy(employments = None)
       }
     }
   }
@@ -186,7 +186,7 @@ class ListEmploymentResponseSpec extends UnitSpec {
     "produce an empty ListEmploymentResponse object" in {
       val emptyJson = JsObject.empty
 
-      emptyJson.as[ListEmploymentResponse[Employment]] shouldBe ListEmploymentResponse(None, None)
+      emptyJson.as[ListEmploymentResponse] shouldBe ListEmploymentResponse(None, None)
     }
   }
 

@@ -17,14 +17,10 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.mocks.hateoas.MockHateoasFactory
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.Nino
 import api.models.errors._
-import api.models.hateoas
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
@@ -33,7 +29,6 @@ import play.api.mvc.{AnyContentAsJson, Result}
 import v1.mocks.requestParsers.MockAmendCustomEmploymentRequestParser
 import v1.mocks.services.MockAmendCustomEmploymentService
 import v1.models.request.amendCustomEmployment._
-import v1.models.response.amendCustomEmployment.AmendCustomEmploymentHateoasData
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -44,8 +39,7 @@ class AmendCustomEmploymentControllerSpec
     with MockAppConfig
     with MockAuditService
     with MockAmendCustomEmploymentRequestParser
-    with MockAmendCustomEmploymentService
-    with MockHateoasFactory {
+    with MockAmendCustomEmploymentService {
 
   val taxYear: String = "2019-20"
   val employmentId    = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -85,42 +79,6 @@ class AmendCustomEmploymentControllerSpec
     body = amendCustomEmploymentRequestBody
   )
 
-  val testHateoasLinks: Seq[Link] = Seq(
-    hateoas.Link(href = s"/individuals/employments-income/$nino/$taxYear", method = GET, rel = "list-employments"),
-    hateoas.Link(href = s"/individuals/employments-income/$nino/$taxYear/$employmentId", method = GET, rel = "self"),
-    hateoas.Link(href = s"/individuals/employments-income/$nino/$taxYear/$employmentId", method = PUT, rel = "amend-custom-employment"),
-    hateoas.Link(href = s"/individuals/employments-income/$nino/$taxYear/$employmentId", method = DELETE, rel = "delete-custom-employment")
-  )
-
-  val hateoasResponse: JsValue = Json.parse(
-    s"""
-       |{
-       |   "links":[
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear",
-       |         "rel":"list-employments",
-       |         "method":"GET"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |         "rel":"self",
-       |         "method":"GET"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |         "rel":"amend-custom-employment",
-       |         "method":"PUT"
-       |      },
-       |      {
-       |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |         "rel":"delete-custom-employment",
-       |         "method":"DELETE"
-       |      }
-       |   ]
-       |}
-    """.stripMargin
-  )
-
   "AmendCustomEmploymentController" should {
     "return a successful response with status 200 (OK)" when {
       "the request received is valid" in new Test {
@@ -132,15 +90,9 @@ class AmendCustomEmploymentControllerSpec
           .amend(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
-        MockHateoasFactory
-          .wrap((), AmendCustomEmploymentHateoasData(nino, taxYear, employmentId))
-          .returns(HateoasWrapper((), testHateoasLinks))
-
         runOkTestWithAudit(
           expectedStatus = OK,
-          maybeAuditRequestBody = Some(requestBodyJson),
-          maybeExpectedResponseBody = Some(hateoasResponse),
-          maybeAuditResponseBody = Some(hateoasResponse)
+          maybeAuditRequestBody = Some(requestBodyJson)
         )
       }
     }
@@ -176,7 +128,6 @@ class AmendCustomEmploymentControllerSpec
       appConfig = mockAppConfig,
       parser = mockAmendCustomEmploymentRequestParser,
       service = mockAmendCustomEmploymentService,
-      hateoasFactory = mockHateoasFactory,
       auditService = mockAuditService,
       cc = cc,
       idGenerator = mockIdGenerator

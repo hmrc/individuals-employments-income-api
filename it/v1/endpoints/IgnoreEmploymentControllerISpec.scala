@@ -20,7 +20,7 @@ import api.models.errors._
 import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import support.IntegrationBaseSpec
@@ -33,25 +33,6 @@ class IgnoreEmploymentControllerISpec extends IntegrationBaseSpec {
 
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
     def taxYear: String      = "2019-20"
-
-    val hateoasResponse: JsValue = Json.parse(
-      s"""
-         |{
-         |   "links": [
-         |      {
-         |         "href": "/individuals/employments-income/$nino/$taxYear",
-         |         "rel": "list-employments",
-         |         "method": "GET"
-         |      },
-         |      {
-         |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-         |         "rel": "self",
-         |         "method": "GET"
-         |      }
-         |   ]
-         |}
-       """.stripMargin
-    )
 
     def downstreamUri: String = s"/income-tax/19-20/income/employments/$nino/$employmentId/ignore"
 
@@ -80,8 +61,7 @@ class IgnoreEmploymentControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request.post(JsObject.empty))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
     }
 

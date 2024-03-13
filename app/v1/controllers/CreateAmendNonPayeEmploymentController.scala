@@ -17,7 +17,6 @@
 package v1.controllers
 
 import api.controllers._
-import api.hateoas.HateoasFactory
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.{AppConfig, FeatureSwitches}
 import play.api.libs.json.JsValue
@@ -25,8 +24,6 @@ import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
 import utils.IdGenerator
 import v1.controllers.requestParsers.CreateAmendNonPayeEmploymentRequestParser
 import v1.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRawData
-import v1.models.response.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentHateoasData
-import v1.models.response.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentResponse.CreateAmendNonPayeEmploymentLinksFactory
 import v1.services.CreateAmendNonPayeEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -39,7 +36,6 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
                                                         parser: CreateAmendNonPayeEmploymentRequestParser,
                                                         service: CreateAmendNonPayeEmploymentService,
                                                         auditService: AuditService,
-                                                        hateoasFactory: HateoasFactory,
                                                         cc: ControllerComponents,
                                                         val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
     extends AuthorisedController(cc) {
@@ -69,10 +65,9 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
           auditType = "CreateAmendNonPayeEmployment",
           transactionName = "create-amend-non-paye-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
-          requestBody = Some(request.body),
-          includeResponse = true
+          requestBody = Some(request.body)
         ))
-        .withHateoasResult(hateoasFactory)(CreateAmendNonPayeEmploymentHateoasData(nino, taxYear))
+        .withNoContentResult(successStatus = OK)
 
       requestHandler.handleRequest(rawData)
     }

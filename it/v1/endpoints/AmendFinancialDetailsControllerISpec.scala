@@ -39,8 +39,7 @@ class AmendFinancialDetailsControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request().put(requestBodyJson))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
 
       "any valid request is made for a Tax Year Specific (TYS) tax year" in new TysIfsTest {
@@ -51,8 +50,7 @@ class AmendFinancialDetailsControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request().put(offPayrollRequestBodyJson(true)))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
     }
 
@@ -672,30 +670,6 @@ class AmendFinancialDetailsControllerISpec extends IntegrationBaseSpec {
          |    }
          |}
       """.stripMargin
-    )
-
-    val hateoasResponse: JsValue = Json.parse(
-      s"""
-         |{
-         |   "links":[
-         |      {
-         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-         |         "rel":"self",
-         |         "method":"GET"
-         |      },
-         |      {
-         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-         |         "rel":"create-and-amend-employment-financial-details",
-         |         "method":"PUT"
-         |      },
-         |      {
-         |         "href":"/individuals/employments-income/$nino/$taxYear/$employmentId/financial-details",
-         |         "rel":"delete-employment-financial-details",
-         |         "method":"DELETE"
-         |      }
-         |   ]
-         |}
-       """.stripMargin
     )
 
     val downstreamUri: String

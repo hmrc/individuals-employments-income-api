@@ -16,12 +16,10 @@
 
 package v1.services
 
-import api.controllers.EndpointLogContext
+import api.controllers.RequestContext
 import api.models.errors._
-import api.services.ServiceOutcome
-import api.support.DownstreamResponseMappingSupport
+import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
-import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
 import v1.connectors.UnignoreEmploymentConnector
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
@@ -30,13 +28,9 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class UnignoreEmploymentService @Inject() (connector: UnignoreEmploymentConnector) extends DownstreamResponseMappingSupport with Logging {
+class UnignoreEmploymentService @Inject() (connector: UnignoreEmploymentConnector) extends BaseService with Logging {
 
-  def unignoreEmployment(request: IgnoreEmploymentRequest)(implicit
-      hc: HeaderCarrier,
-      ec: ExecutionContext,
-      logContext: EndpointLogContext,
-      correlationId: String): Future[ServiceOutcome[Unit]] = {
+  def unignoreEmployment(request: IgnoreEmploymentRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[Unit]] = {
 
     connector.unignoreEmployment(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 

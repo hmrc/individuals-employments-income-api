@@ -17,7 +17,6 @@
 package v1.controllers
 
 import api.controllers._
-import api.hateoas.HateoasFactory
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.{AppConfig, FeatureSwitches}
 import play.api.libs.json.JsValue
@@ -25,8 +24,6 @@ import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
 import utils.IdGenerator
 import v1.controllers.requestParsers.AmendFinancialDetailsRequestParser
 import v1.models.request.amendFinancialDetails.AmendFinancialDetailsRawData
-import v1.models.response.amendFinancialDetails.AmendFinancialDetailsHateoasData
-import v1.models.response.amendFinancialDetails.AmendFinancialDetailsResponse.AmendFinancialDetailsLinksFactory
 import v1.services.AmendFinancialDetailsService
 
 import javax.inject.{Inject, Singleton}
@@ -39,7 +36,6 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
                                                  parser: AmendFinancialDetailsRequestParser,
                                                  service: AmendFinancialDetailsService,
                                                  auditService: AuditService,
-                                                 hateoasFactory: HateoasFactory,
                                                  cc: ControllerComponents,
                                                  val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
   extends AuthorisedController(cc) {
@@ -70,10 +66,9 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
           auditType = "AmendEmploymentFinancialDetails",
           transactionName = "amend-employment-financial-details",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          requestBody = Some(request.body),
-          includeResponse = true
+          requestBody = Some(request.body)
         ))
-        .withHateoasResult(hateoasFactory)(AmendFinancialDetailsHateoasData(nino, taxYear, employmentId))
+        .withNoContentResult(successStatus = OK)
 
       requestHandler.handleRequest(rawData)
     }

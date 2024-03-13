@@ -16,11 +16,10 @@
 
 package v1.mocks.services
 
-import api.controllers.EndpointLogContext
+import api.controllers.RequestContext
 import api.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 import v1.services.IgnoreEmploymentService
 
@@ -34,8 +33,8 @@ trait MockIgnoreEmploymentService extends MockFactory {
 
     def ignoreEmployment(requestData: IgnoreEmploymentRequest): CallHandler[Future[ServiceOutcome[Unit]]] = {
       (mockIgnoreEmploymentService
-        .ignoreEmployment(_: IgnoreEmploymentRequest)(_: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext, _: String))
-        .expects(requestData, *, *, *, *)
+        .ignoreEmployment(_: IgnoreEmploymentRequest)(_: RequestContext, _: ExecutionContext))
+        .expects(requestData, *, *)
     }
 
   }

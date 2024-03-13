@@ -25,7 +25,7 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import support.IntegrationBaseSpec
-import v1.fixtures.ListEmploymentsControllerFixture._
+import v1.fixtures.ListEmploymentsControllerFixture
 
 class ListEmploymentsControllerISpec extends IntegrationBaseSpec {
 
@@ -82,7 +82,7 @@ class ListEmploymentsControllerISpec extends IntegrationBaseSpec {
     """.stripMargin
     )
 
-    val mtdResponse: JsValue = mtdResponseWithCustomHateoas(nino, taxYear, employmentId)
+    val mtdResponse: JsValue = ListEmploymentsControllerFixture.mtdResponse(employmentId)
 
     def uri: String = s"/$nino/$taxYear"
 

@@ -22,7 +22,7 @@ import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import support.IntegrationBaseSpec
@@ -38,25 +38,6 @@ class UnignoreEmploymentControllerISpec extends IntegrationBaseSpec {
     def mtdUri: String = s"/$nino/$taxYear/$employmentId/unignore"
 
     def downstreamUri: String = s"/income-tax/${TaxYear.fromMtd(taxYear).asTysDownstream}/employments/$nino/ignore/$employmentId"
-
-    val hateoasResponse: JsValue = Json.parse(
-      s"""
-         |{
-         |   "links": [
-         |      {
-         |         "href": "/individuals/employments-income/$nino/$taxYear",
-         |         "rel": "list-employments",
-         |         "method": "GET"
-         |      },
-         |      {
-         |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-         |         "rel": "self",
-         |         "method": "GET"
-         |      }
-         |   ]
-         |}
-       """.stripMargin
-    )
 
     def setupStubs(): StubMapping
 
@@ -84,24 +65,6 @@ class UnignoreEmploymentControllerISpec extends IntegrationBaseSpec {
       "any valid request is made" in new Test {
 
         override val taxYear: String = "2021-22"
-        override val hateoasResponse: JsValue = Json.parse(
-          s"""
-             |{
-             |   "links": [
-             |      {
-             |         "href": "/individuals/employments-income/$nino/$taxYear",
-             |         "rel": "list-employments",
-             |         "method": "GET"
-             |      },
-             |      {
-             |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-             |         "rel": "self",
-             |         "method": "GET"
-             |      }
-             |   ]
-             |}
-       """.stripMargin
-        )
 
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
@@ -112,8 +75,7 @@ class UnignoreEmploymentControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request().post(JsObject.empty))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
 
       "any valid request with a Tax Year Specific (TYS) tax year is made" in new Test {
@@ -127,8 +89,7 @@ class UnignoreEmploymentControllerISpec extends IntegrationBaseSpec {
 
         val response: WSResponse = await(request().post(JsObject.empty))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe hateoasResponse
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
     }
 

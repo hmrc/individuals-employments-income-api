@@ -20,58 +20,30 @@ import play.api.libs.json.{JsObject, Json}
 
 object ListEmploymentsControllerFixture {
 
-  def mtdResponseWithCustomHateoas(nino: String, taxYear: String, employmentId: String): JsObject = Json
+  def mtdResponse(employmentId: String): JsObject = Json
     .parse(
       s"""
        |{
-       |   "employments": [{
+       |   "employments": [
+       |      {
        |         "employmentId": "$employmentId",
        |         "employerName": "Vera Lynn",
-       |         "dateIgnored": "2020-06-17T10:53:38.000Z",
-       |         "links": [{
-       |               "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |               "method": "GET",
-       |               "rel": "self"
-       |         }]
+       |         "dateIgnored": "2020-06-17T10:53:38.000Z"
        |      },
        |      {
        |         "employmentId": "$employmentId",
        |         "employerName": "Vera Lynn",
-       |         "dateIgnored": "2020-06-17T10:53:38.000Z",
-       |         "links": [{
-       |               "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |               "method": "GET",
-       |               "rel": "self"
-       |         }]
-       |   }],
-       |   "customEmployments": [{
+       |         "dateIgnored": "2020-06-17T10:53:38.000Z"
+       |      }
+       |   ],
+       |   "customEmployments": [
+       |      {
        |         "employmentId": "$employmentId",
-       |         "employerName": "Vera Lynn",
-       |         "links": [{
-       |               "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |               "method": "GET",
-       |               "rel": "self"
-       |         }]
+       |         "employerName": "Vera Lynn"
        |      },
        |      {
        |         "employmentId": "$employmentId",
-       |         "employerName": "Vera Lynn",
-       |         "links": [{
-       |               "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |               "method": "GET",
-       |               "rel": "self"
-       |         }]
-       |   }],
-       |   "links": [
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear",
-       |         "method": "POST",
-       |         "rel": "add-custom-employment"
-       |      },
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear",
-       |         "method": "GET",
-       |         "rel": "self"
+       |         "employerName": "Vera Lynn"
        |      }
        |   ]
        |}

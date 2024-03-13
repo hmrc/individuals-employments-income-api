@@ -58,8 +58,7 @@ class DeleteNonPayeEmploymentController @Inject() (val authService: EnrolmentsAu
           auditService = auditService,
           auditType = "DeleteNonPayeEmploymentIncome",
           transactionName = "delete-non-paye-employment-income",
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
-          requestBody = None
+          params = Map("nino" -> nino, "taxYear" -> taxYear)
         ))
 
       requestHandler.handleRequest(rawData)

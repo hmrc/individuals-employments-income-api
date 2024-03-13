@@ -17,7 +17,6 @@
 package v1.controllers
 
 import api.controllers._
-import api.hateoas.HateoasFactory
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.{AppConfig, FeatureSwitches}
 import play.api.libs.json.JsValue
@@ -25,7 +24,6 @@ import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
 import utils.IdGenerator
 import v1.controllers.requestParsers.AddCustomEmploymentRequestParser
 import v1.models.request.addCustomEmployment.AddCustomEmploymentRawData
-import v1.models.response.addCustomEmployment.AddCustomEmploymentHateoasData
 import v1.services.AddCustomEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -38,7 +36,6 @@ class AddCustomEmploymentController @Inject()(val authService: EnrolmentsAuthSer
                                               parser: AddCustomEmploymentRequestParser,
                                               service: AddCustomEmploymentService,
                                               auditService: AuditService,
-                                              hateoasFactory: HateoasFactory,
                                               cc: ControllerComponents,
                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
   extends AuthorisedController(cc) {
@@ -70,7 +67,7 @@ class AddCustomEmploymentController @Inject()(val authService: EnrolmentsAuthSer
           requestBody = Some(request.body),
           includeResponse = true
         ))
-        .withHateoasResultFrom(hateoasFactory)((_, response) => AddCustomEmploymentHateoasData(nino, taxYear, response.employmentId))
+        .withPlainJsonResult()
 
       requestHandler.handleRequest(rawData)
 

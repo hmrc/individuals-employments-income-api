@@ -60,8 +60,7 @@ class DeleteCustomEmploymentController @Inject() (val authService: EnrolmentsAut
           auditService = auditService,
           auditType = "DeleteACustomEmployment",
           transactionName = "delete-a-custom-employment",
-          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          requestBody = None
+          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
         ))
 
       requestHandler.handleRequest(rawData)

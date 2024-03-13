@@ -95,7 +95,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends IntegrationBa
 
         val response: WSResponse = await(request.get())
         response.status shouldBe OK
-        response.json shouldBe mtdResponseWithHateoas(nino, taxYear, employmentId)
+        response.json shouldBe mtdJson
         response.header("Content-Type") shouldBe Some("application/json")
       }
 
@@ -110,7 +110,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends IntegrationBa
 
         val response: WSResponse = await(request.get())
         response.status shouldBe OK
-        response.json shouldBe mtdResponseWithHateoas(nino, taxYear, employmentId)
+        response.json shouldBe mtdJson
         response.header("Content-Type") shouldBe Some("application/json")
       }
 
@@ -127,7 +127,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends IntegrationBa
 
         val response: WSResponse = await(request.get())
         response.status shouldBe OK
-        response.json shouldBe mtdResponseWithHateoas(nino, taxYear, employmentId)
+        response.json shouldBe mtdJson
         response.header("Content-Type") shouldBe Some("application/json")
       }
     }

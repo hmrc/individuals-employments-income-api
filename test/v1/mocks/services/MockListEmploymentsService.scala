@@ -21,7 +21,7 @@ import api.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import v1.models.request.listEmployments.ListEmploymentsRequest
-import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
+import v1.models.response.listEmployment.ListEmploymentResponse
 import v1.services.ListEmploymentsService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,7 +32,7 @@ trait MockListEmploymentsService extends MockFactory {
 
   object MockListEmploymentsService {
 
-    def listEmployments(requestData: ListEmploymentsRequest): CallHandler[Future[ServiceOutcome[ListEmploymentResponse[Employment]]]] = {
+    def listEmployments(requestData: ListEmploymentsRequest): CallHandler[Future[ServiceOutcome[ListEmploymentResponse]]] = {
       (mockListEmploymentsService
         .listEmployments(_: ListEmploymentsRequest)(_: RequestContext, _: ExecutionContext))
         .expects(requestData, *, *)

@@ -17,7 +17,6 @@
 package v1.controllers
 
 import api.controllers._
-import api.hateoas.HateoasFactory
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.{AppConfig, FeatureSwitches}
 import play.api.libs.json.JsValue
@@ -25,8 +24,6 @@ import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
 import utils.IdGenerator
 import v1.controllers.requestParsers.AmendCustomEmploymentRequestParser
 import v1.models.request.amendCustomEmployment.AmendCustomEmploymentRawData
-import v1.models.response.amendCustomEmployment.AmendCustomEmploymentHateoasData
-import v1.models.response.amendCustomEmployment.AmendCustomEmploymentResponse.AmendCustomEmploymentLinksFactory
 import v1.services.AmendCustomEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -39,7 +36,6 @@ class AmendCustomEmploymentController @Inject()(val authService: EnrolmentsAuthS
                                                 parser: AmendCustomEmploymentRequestParser,
                                                 service: AmendCustomEmploymentService,
                                                 auditService: AuditService,
-                                                hateoasFactory: HateoasFactory,
                                                 cc: ControllerComponents,
                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
   extends AuthorisedController(cc) {
@@ -70,10 +66,9 @@ class AmendCustomEmploymentController @Inject()(val authService: EnrolmentsAuthS
           auditType = "AmendACustomEmployment",
           transactionName = "amend-a-custom-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          requestBody = Some(request.body),
-          includeResponse = true
+          requestBody = Some(request.body)
         ))
-        .withHateoasResult(hateoasFactory)(AmendCustomEmploymentHateoasData(nino, taxYear, employmentId))
+        .withNoContentResult(successStatus = OK)
 
       requestHandler.handleRequest(rawData)
     }

@@ -17,13 +17,11 @@
 package v1.controllers
 
 import api.controllers._
-import api.hateoas.HateoasFactory
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
 import v1.controllers.requestParsers.ListEmploymentsRequestParser
 import v1.models.request.listEmployments.ListEmploymentsRawData
-import v1.models.response.listEmployment.ListEmploymentHateoasData
 import v1.services.ListEmploymentsService
 
 import javax.inject.{Inject, Singleton}
@@ -34,7 +32,6 @@ class ListEmploymentsController @Inject() (val authService: EnrolmentsAuthServic
                                            val lookupService: MtdIdLookupService,
                                            parser: ListEmploymentsRequestParser,
                                            service: ListEmploymentsService,
-                                           hateoasFactory: HateoasFactory,
                                            cc: ControllerComponents,
                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
     extends AuthorisedController(cc) {
@@ -58,7 +55,7 @@ class ListEmploymentsController @Inject() (val authService: EnrolmentsAuthServic
         RequestHandler
           .withParser(parser)
           .withService(service.listEmployments)
-          .withResultCreator(ResultCreator.hateoasListWrapping(hateoasFactory)((_, _) => ListEmploymentHateoasData(nino, taxYear)))
+          .withPlainJsonResult()
 
       requestHandler.handleRequest(rawData)
     }

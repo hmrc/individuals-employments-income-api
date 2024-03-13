@@ -70,7 +70,7 @@ object RetrieveEmploymentControllerFixture {
     """.stripMargin
   )
 
-  def mtdHmrcEnteredResponseWithHateoasAndNoDateIgnored(nino: String, taxYear: String, employmentId: String): JsObject = Json
+  val mtdHmrcEnteredResponseWithNoDateIgnored: JsObject = Json
     .parse(
       s"""
       |{
@@ -79,30 +79,13 @@ object RetrieveEmploymentControllerFixture {
       |   "startDate": "2020-06-17",
       |   "cessationDate": "2020-06-17",
       |   "payrollId": "123345657",
-      |   "occupationalPension": false,
-      |   "links":[
-      |      {
-      |         "href": "/individuals/employments-income/$nino/$taxYear",
-      |         "method": "GET",
-      |         "rel": "list-employments"
-      |      },
-      |      {
-      |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-      |         "method": "GET",
-      |         "rel": "self"
-      |      },
-      |      {
-      |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId/ignore",
-      |         "method": "POST",
-      |         "rel": "ignore-employment"
-      |      }
-      |   ]
+      |   "occupationalPension": false
       |}
       |""".stripMargin
     )
     .as[JsObject]
 
-  def mtdHmrcEnteredResponseWithHateoasAndDateIgnored(nino: String, taxYear: String, employmentId: String): JsObject = Json
+  val mtdHmrcEnteredResponseWithDateIgnored: JsObject = Json
     .parse(
       s"""
        |{
@@ -112,30 +95,13 @@ object RetrieveEmploymentControllerFixture {
        |   "cessationDate": "2020-06-17",
        |   "payrollId": "123345657",
        |   "occupationalPension": false,
-       |   "dateIgnored": "2020-06-17T10:53:38.000Z",
-       |   "links":[
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear",
-       |         "method": "GET",
-       |         "rel": "list-employments"
-       |      },
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |         "method": "GET",
-       |         "rel": "self"
-       |      },
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId/unignore",
-       |         "method": "POST",
-       |         "rel": "unignore-employment"
-       |      }
-       |   ]
+       |   "dateIgnored": "2020-06-17T10:53:38.000Z"
        |}
        |""".stripMargin
     )
     .as[JsObject]
 
-  def mtdCustomEnteredResponseWithHateoas(nino: String, taxYear: String, employmentId: String): JsObject = Json
+  val mtdCustomEnteredResponse: JsObject = Json
     .parse(
       s"""
        |{
@@ -145,29 +111,7 @@ object RetrieveEmploymentControllerFixture {
        |   "cessationDate": "2020-06-17",
        |   "payrollId": "123345657",
        |   "occupationalPension": false,
-       |   "submittedOn": "2020-06-17T10:53:38.000Z",
-       |   "links":[
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear",
-       |         "method": "GET",
-       |         "rel": "list-employments"
-       |      },
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |         "method": "GET",
-       |         "rel": "self"
-       |      },
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |         "method": "PUT",
-       |         "rel": "amend-custom-employment"
-       |      },
-       |      {
-       |         "href": "/individuals/employments-income/$nino/$taxYear/$employmentId",
-       |         "method": "DELETE",
-       |         "rel": "delete-custom-employment"
-       |      }
-       |   ]
+       |   "submittedOn": "2020-06-17T10:53:38.000Z"
        |}
        |""".stripMargin
     )

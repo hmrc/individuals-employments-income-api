@@ -17,15 +17,12 @@
 package v1.controllers
 
 import api.controllers._
-import api.hateoas.HateoasFactory
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
 import utils.IdGenerator
 import v1.controllers.requestParsers.AmendOtherEmploymentRequestParser
 import v1.models.request.amendOtherEmployment.AmendOtherEmploymentRawData
-import v1.models.response.amendOtherEmployment.AmendOtherEmploymentHateoasData
-import v1.models.response.amendOtherEmployment.AmendOtherEmploymentResponse.AmendOtherEmploymentLinksFactory
 import v1.services.AmendOtherEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -37,7 +34,6 @@ class AmendOtherEmploymentController @Inject()(val authService: EnrolmentsAuthSe
                                                parser: AmendOtherEmploymentRequestParser,
                                                service: AmendOtherEmploymentService,
                                                auditService: AuditService,
-                                               hateoasFactory: HateoasFactory,
                                                cc: ControllerComponents,
                                                val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
   extends AuthorisedController(cc) {
@@ -66,10 +62,9 @@ class AmendOtherEmploymentController @Inject()(val authService: EnrolmentsAuthSe
           auditType = "CreateAmendOtherEmployment",
           transactionName = "create-amend-other-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
-          requestBody = Some(request.body),
-          includeResponse = true
+          requestBody = Some(request.body)
         ))
-        .withHateoasResult(hateoasFactory)(AmendOtherEmploymentHateoasData(nino, taxYear))
+        .withNoContentResult(successStatus = OK)
 
       requestHandler.handleRequest(rawData)
     }

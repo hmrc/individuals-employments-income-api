@@ -17,21 +17,16 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.hateoas.HateoasLinks
-import api.mocks.hateoas.MockHateoasFactory
 import api.models.domain.{Nino, Timestamp}
 import api.models.errors._
-import api.models.hateoas.Method.{GET, POST}
-import api.models.hateoas.RelType.{ADD_CUSTOM_EMPLOYMENT, SELF}
-import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.mvc.Result
-import v1.fixtures.ListEmploymentsControllerFixture._
+import v1.fixtures.ListEmploymentsControllerFixture.mtdResponse
 import v1.mocks.requestParsers.MockListEmploymentsRequestParser
 import v1.mocks.services.MockListEmploymentsService
 import v1.models.request.listEmployments.{ListEmploymentsRawData, ListEmploymentsRequest}
-import v1.models.response.listEmployment.{Employment, ListEmploymentHateoasData, ListEmploymentResponse}
+import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -41,9 +36,7 @@ class ListEmploymentsControllerSpec
     with ControllerTestRunner
     with MockAppConfig
     with MockListEmploymentsService
-    with MockHateoasFactory
-    with MockListEmploymentsRequestParser
-    with HateoasLinks {
+    with MockListEmploymentsRequestParser {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -57,27 +50,6 @@ class ListEmploymentsControllerSpec
     nino = Nino(nino),
     taxYear = taxYear
   )
-
-  val retrieveEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear/$employmentId",
-      method = GET,
-      rel = SELF
-    )
-
-  val addCustomEmploymentLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear",
-      method = POST,
-      rel = ADD_CUSTOM_EMPLOYMENT
-    )
-
-  val listEmploymentsLink: Link =
-    Link(
-      href = s"/individuals/employments-income/$nino/$taxYear",
-      method = GET,
-      rel = SELF
-    )
 
   private val hmrcEmploymentModel = Employment(
     employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
@@ -95,33 +67,6 @@ class ListEmploymentsControllerSpec
     Some(Seq(customEmploymentModel, customEmploymentModel))
   )
 
-  private val hateoasResponse = ListEmploymentResponse(
-    Some(
-      Seq(
-        HateoasWrapper(
-          hmrcEmploymentModel,
-          Seq(retrieveEmploymentLink)
-        ),
-        HateoasWrapper(
-          hmrcEmploymentModel,
-          Seq(retrieveEmploymentLink)
-        )
-      )),
-    Some(
-      Seq(
-        HateoasWrapper(
-          customEmploymentModel,
-          Seq(retrieveEmploymentLink)
-        ),
-        HateoasWrapper(
-          customEmploymentModel,
-          Seq(retrieveEmploymentLink)
-        )
-      ))
-  )
-
-  private val mtdResponse = mtdResponseWithCustomHateoas(nino, taxYear, employmentId)
-
   "ListEmploymentsController" should {
     "return OK" when {
       "happy path" in new Test {
@@ -133,19 +78,9 @@ class ListEmploymentsControllerSpec
           .listEmployments(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, listEmploymentsResponseModel))))
 
-        MockHateoasFactory
-          .wrapList(listEmploymentsResponseModel, ListEmploymentHateoasData(nino, taxYear))
-          .returns(
-            HateoasWrapper(
-              hateoasResponse,
-              Seq(
-                addCustomEmploymentLink,
-                listEmploymentsLink
-              )))
-
         runOkTest(
           expectedStatus = OK,
-          maybeExpectedResponseBody = Some(mtdResponse)
+          maybeExpectedResponseBody = Some(mtdResponse(employmentId))
         )
       }
     }
@@ -180,7 +115,6 @@ class ListEmploymentsControllerSpec
       lookupService = mockMtdIdLookupService,
       parser = mockListEmploymentsRequestParser,
       service = mockListEmploymentsService,
-      hateoasFactory = mockHateoasFactory,
       cc = cc,
       idGenerator = mockIdGenerator
     )
