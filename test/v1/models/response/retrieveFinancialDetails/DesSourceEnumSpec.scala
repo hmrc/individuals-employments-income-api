@@ -30,7 +30,7 @@ class DesSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 
   "toMtdEnum" must {
     "return the expected 'MtdSourceEnum' object" in {
-      DesSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.hmrcHeld
+      DesSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.`hmrc-held`
       DesSourceEnum.LATEST.toMtdEnum shouldBe MtdSourceEnum.latest
       DesSourceEnum.CUSTOMER.toMtdEnum shouldBe MtdSourceEnum.user
     }

@@ -30,7 +30,7 @@ class DownstreamSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 
   "toMtdEnum" must {
     "return the expected 'MtdSourceEnum' object" in {
-      DownstreamSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.hmrcHeld
+      DownstreamSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.`hmrc-held`
       DownstreamSourceEnum.CUSTOMER.toMtdEnum shouldBe MtdSourceEnum.user
       DownstreamSourceEnum.LATEST.toMtdEnum shouldBe MtdSourceEnum.latest
     }

@@ -13,7 +13,7 @@
       "type": "string",
       "description": "Specifies the source of data.",
       "enum": [
-        "hmrcHeld",
+        "hmrc-held",
         "user",
         "latest"
       ]

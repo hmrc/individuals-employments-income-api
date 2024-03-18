@@ -25,7 +25,7 @@ sealed trait MtdSourceEnum {
 
 object MtdSourceEnum {
 
-  case object hmrcHeld extends MtdSourceEnum {
+  case object `hmrc-held` extends MtdSourceEnum {
     override def toDesViewString: String = "HMRC-HELD"
   }
 

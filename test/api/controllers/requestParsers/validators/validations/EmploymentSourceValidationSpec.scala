@@ -26,7 +26,7 @@ class EmploymentSourceValidationSpec extends UnitSpec with JsonErrorValidators {
 
   "validate" should {
     "return no errors" when {
-      "a valid employment source hmrcHeld is provided" in new SetUp("hmrcHeld") {
+      "a valid employment source hmrc-held is provided" in new SetUp("hmrc-held") {
 
         EmploymentSourceValidation.validate(employmentId).isEmpty shouldBe true
       }

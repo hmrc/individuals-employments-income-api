@@ -52,7 +52,7 @@ class RetrieveNonPayeEmploymentRequestParserSpec extends UnitSpec {
         }
 
       val input = Seq(
-        ("hmrcHeld", RetrieveNonPayeEmploymentIncomeRequest(Nino(nino), taxYear, MtdSourceEnum.hmrcHeld)),
+        ("hmrc-held", RetrieveNonPayeEmploymentIncomeRequest(Nino(nino), taxYear, MtdSourceEnum.`hmrc-held`)),
         ("latest", RetrieveNonPayeEmploymentIncomeRequest(Nino(nino), taxYear, MtdSourceEnum.latest)),
         ("user", RetrieveNonPayeEmploymentIncomeRequest(Nino(nino), taxYear, MtdSourceEnum.user))
       )
