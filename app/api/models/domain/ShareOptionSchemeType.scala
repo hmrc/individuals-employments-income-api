@@ -24,7 +24,7 @@ sealed trait ShareOptionSchemeType
 object ShareOptionSchemeType {
   case object `emi`   extends ShareOptionSchemeType
   case object `csop`  extends ShareOptionSchemeType
-  case object `SAYE`  extends ShareOptionSchemeType
+  case object `saye`  extends ShareOptionSchemeType
   case object `other` extends ShareOptionSchemeType
 
   implicit val format: Format[ShareOptionSchemeType] = Enums.format[ShareOptionSchemeType]
