@@ -22,10 +22,10 @@ import utils.enums.Enums
 sealed trait ShareOptionSchemeType
 
 object ShareOptionSchemeType {
-  case object EMI   extends ShareOptionSchemeType
-  case object CSOP  extends ShareOptionSchemeType
-  case object SAYE  extends ShareOptionSchemeType
-  case object Other extends ShareOptionSchemeType
+  case object `emi`   extends ShareOptionSchemeType
+  case object `csop`  extends ShareOptionSchemeType
+  case object `SAYE`  extends ShareOptionSchemeType
+  case object `other` extends ShareOptionSchemeType
 
   implicit val format: Format[ShareOptionSchemeType] = Enums.format[ShareOptionSchemeType]
 }

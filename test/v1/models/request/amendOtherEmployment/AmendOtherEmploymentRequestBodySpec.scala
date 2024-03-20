@@ -28,7 +28,7 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "AB1321/123",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -47,7 +47,7 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
       |       {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "AB1321/123",
-      |        "schemePlanType": "SIP",
+      |        "schemePlanType": "sip",
       |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |        "noOfShareSecuritiesAwarded": 11,
       |        "classOfShareAwarded": "FIRST",
@@ -108,7 +108,7 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
     AmendShareOptionItem(
       employerName = "Company Ltd",
       employerRef = Some("AB1321/123"),
-      schemePlanType = "EMI",
+      schemePlanType = "emi",
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-11-20",
       optionNotExercisedButConsiderationReceived = true,
@@ -128,7 +128,7 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
     AmendSharesAwardedOrReceivedItem(
       employerName = "Company Ltd",
       employerRef = Some("AB1321/123"),
-      schemePlanType = "SIP",
+      schemePlanType = "sip",
       dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
       noOfShareSecuritiesAwarded = 11,
       classOfShareAwarded = "FIRST",
@@ -228,7 +228,7 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
             |      {
             |        "employerName": false,
             |        "employerRef" : "AB1321/123",
-            |        "schemePlanType": "EMI",
+            |        "schemePlanType": "emi",
             |        "dateOfOptionGrant": "2019-11-20",
             |        "dateOfEvent": "2019-11-20",
             |        "optionNotExercisedButConsiderationReceived": true,

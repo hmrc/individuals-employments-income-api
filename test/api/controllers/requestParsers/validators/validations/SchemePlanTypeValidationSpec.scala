@@ -25,27 +25,27 @@ class SchemePlanTypeValidationSpec extends UnitSpec {
     "validate" must {
       "return an empty list for a valid scheme plan type" in {
         SchemePlanTypeValidation.validate(
-          schemePlanType = "EMI",
+          schemePlanType = "emi",
           awarded = false
         ) shouldBe NoValidationErrors
 
         SchemePlanTypeValidation.validate(
-          schemePlanType = "CSOP",
+          schemePlanType = "csop",
           awarded = false
         ) shouldBe NoValidationErrors
 
         SchemePlanTypeValidation.validate(
-          schemePlanType = "SAYE",
+          schemePlanType = "saye",
           awarded = false
         ) shouldBe NoValidationErrors
 
         SchemePlanTypeValidation.validate(
-          schemePlanType = "SIP",
+          schemePlanType = "sip",
           awarded = true
         ) shouldBe NoValidationErrors
 
         SchemePlanTypeValidation.validate(
-          schemePlanType = "Other",
+          schemePlanType = "other",
           awarded = true
         ) shouldBe NoValidationErrors
       }

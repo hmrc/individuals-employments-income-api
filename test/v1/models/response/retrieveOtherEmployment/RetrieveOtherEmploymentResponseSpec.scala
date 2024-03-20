@@ -30,7 +30,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
       |      {
       |         "employerName": "Company Ltd",
       |         "employerRef" : "123/AB456",
-      |         "schemePlanType": "EMI",
+      |         "schemePlanType": "emi",
       |         "dateOfOptionGrant": "2019-11-20",
       |         "dateOfEvent": "2019-12-22",
       |         "optionNotExercisedButConsiderationReceived": true,
@@ -47,7 +47,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
       |      {
       |         "employerName": "Corp Ltd",
       |         "employerRef" : "345/AB678",
-      |         "schemePlanType": "CSOP",
+      |         "schemePlanType": "csop",
       |         "dateOfOptionGrant": "2019-09-10",
       |         "dateOfEvent": "2019-07-29",
       |         "optionNotExercisedButConsiderationReceived": false,
@@ -66,7 +66,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
       |      {
       |         "employerName": "Company Ltd",
       |         "employerRef" : "123/AB456",
-      |         "schemePlanType": "SIP",
+      |         "schemePlanType": "sip",
       |         "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |         "noOfShareSecuritiesAwarded": 11,
       |         "classOfShareAwarded": "FIRST",
@@ -82,7 +82,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
       |      {
       |         "employerName": "Corp Ltd",
       |         "employerRef" : "345/AB678",
-      |         "schemePlanType": "Other",
+      |         "schemePlanType": "other",
       |         "dateSharesCeasedToBeSubjectToPlan": "2019-10-25",
       |         "noOfShareSecuritiesAwarded": 15,
       |         "classOfShareAwarded": "SECOND",
@@ -141,7 +141,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
     ShareOptionItem(
       employerName = "Company Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = ShareOptionSchemeType.EMI,
+      schemePlanType = ShareOptionSchemeType.`emi`,
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-12-22",
       optionNotExercisedButConsiderationReceived = true,
@@ -158,7 +158,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
     ShareOptionItem(
       employerName = "Corp Ltd",
       employerRef = Some("345/AB678"),
-      schemePlanType = ShareOptionSchemeType.CSOP,
+      schemePlanType = ShareOptionSchemeType.`csop`,
       dateOfOptionGrant = "2019-09-10",
       dateOfEvent = "2019-07-29",
       optionNotExercisedButConsiderationReceived = false,
@@ -178,7 +178,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
     SharesAwardedOrReceivedItem(
       employerName = "Company Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = SharesAwardedOrReceivedSchemeType.SIP,
+      schemePlanType = SharesAwardedOrReceivedSchemeType.`sip`,
       dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
       noOfShareSecuritiesAwarded = 11,
       classOfShareAwarded = "FIRST",
@@ -194,7 +194,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
     SharesAwardedOrReceivedItem(
       employerName = "Corp Ltd",
       employerRef = Some("345/AB678"),
-      schemePlanType = SharesAwardedOrReceivedSchemeType.Other,
+      schemePlanType = SharesAwardedOrReceivedSchemeType.`other`,
       dateSharesCeasedToBeSubjectToPlan = "2019-10-25",
       noOfShareSecuritiesAwarded = 15,
       classOfShareAwarded = "SECOND",

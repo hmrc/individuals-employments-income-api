@@ -26,7 +26,7 @@ class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
       |{
       |   "employerName": "Company Ltd",
       |   "employerRef" : "AB1321/123",
-      |   "schemePlanType": "SIP",
+      |   "schemePlanType": "sip",
       |   "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |   "noOfShareSecuritiesAwarded": 11,
       |   "classOfShareAwarded": "FIRST",
@@ -45,7 +45,7 @@ class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
   private val model = AmendSharesAwardedOrReceivedItem(
     employerName = "Company Ltd",
     employerRef = Some("AB1321/123"),
-    schemePlanType = "SIP",
+    schemePlanType = "sip",
     dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
     noOfShareSecuritiesAwarded = 11,
     classOfShareAwarded = "FIRST",

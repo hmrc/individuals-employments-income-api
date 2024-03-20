@@ -26,7 +26,7 @@ class AmendShareOptionItemSpec extends UnitSpec {
       |{
       |  "employerName": "Company Ltd",
       |  "employerRef" : "AB1321/123",
-      |  "schemePlanType": "EMI",
+      |  "schemePlanType": "emi",
       |  "dateOfOptionGrant": "2019-11-20",
       |  "dateOfEvent": "2019-11-20",
       |  "optionNotExercisedButConsiderationReceived": true,
@@ -46,7 +46,7 @@ class AmendShareOptionItemSpec extends UnitSpec {
   private val model = AmendShareOptionItem(
     employerName = ("Company Ltd"),
     employerRef = Some("AB1321/123"),
-    schemePlanType = "EMI",
+    schemePlanType = "emi",
     dateOfOptionGrant = "2019-11-20",
     dateOfEvent = "2019-11-20",
     optionNotExercisedButConsiderationReceived = true,

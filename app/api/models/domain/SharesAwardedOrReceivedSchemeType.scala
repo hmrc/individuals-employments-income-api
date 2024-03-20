@@ -22,8 +22,8 @@ import utils.enums.Enums
 sealed trait SharesAwardedOrReceivedSchemeType
 
 object SharesAwardedOrReceivedSchemeType {
-  case object SIP   extends SharesAwardedOrReceivedSchemeType
-  case object Other extends SharesAwardedOrReceivedSchemeType
+  case object `sip`   extends SharesAwardedOrReceivedSchemeType
+  case object `other` extends SharesAwardedOrReceivedSchemeType
 
   implicit val format: Format[SharesAwardedOrReceivedSchemeType] = Enums.format[SharesAwardedOrReceivedSchemeType]
 }
