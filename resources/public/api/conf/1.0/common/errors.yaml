@@ -371,3 +371,11 @@ components:
       value:
         code: MATCHING_RESOURCE_NOT_FOUND
         message: Matching resource not found
+
+    #422
+
+    requestCannotBeFulfilled:
+      description: Custom (will vary in production depending on the actual error)
+      value:
+        code: RULE_REQUEST_CANNOT_BE_FULFILLED
+        message: Custom (will vary in production depending on the actual error)
