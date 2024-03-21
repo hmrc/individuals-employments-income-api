@@ -8,11 +8,13 @@ description: |
   ### Test data
   Scenario simulation using Gov-Test-Scenario headers is only available in the sandbox environment.
   
-  | Header Value (Gov-Test-Scenario) | Scenario                                       |
-  |----------------------------------|------------------------------------------------|
-  | N/A - DEFAULT                    | Simulates success response.                    |
-  | NOT_FOUND                        | Simulates the scenario where no data is found. |
-  | STATEFUL                         | Performs a stateful create.                    | 
+  | Header Value (Gov-Test-Scenario) | Scenario                                                                                                                     |
+  |----------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+  | N/A - DEFAULT                    | Simulates success response.                                                                                                  |
+  | NOT_FOUND                        | Simulates the scenario where no data is found.                                                                               |
+  | STATEFUL                         | Performs a stateful create.|
+  | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+
 
 tags:
   - Employments

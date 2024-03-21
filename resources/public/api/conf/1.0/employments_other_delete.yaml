@@ -11,7 +11,9 @@ description: |
   |----------------------------------|------------------------------------------------|
   | N/A - DEFAULT                    | Simulates success response.                    |
   | NOT_FOUND                        | Simulates the scenario where no data is found. |
-  | STATEFUL                         | Performs a stateful delete.                    |  
+  | STATEFUL                         | Performs a stateful delete.                    |
+  | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+
 
 tags:
   - Other Employment Income

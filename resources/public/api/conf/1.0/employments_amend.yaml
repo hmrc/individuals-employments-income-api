@@ -12,7 +12,9 @@ description: |
   | N/A - DEFAULT                    | Simulates success response.                                                            |
   | HMRC_HELD                        | Simulates the scenario in which an update of an HMRC held employment is not permitted. |
   | NOT_FOUND                        | Simulates the scenario where no data is found.                                         |
-  | STATEFUL                         | Performs a stateful update.                                                            |  
+  | STATEFUL                         | Performs a stateful update.                                                            |
+  | REQUEST_CANNOT_BE_FULFILLED    | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.  |
+
 
 tags:
   - Employments
