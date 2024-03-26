@@ -18,6 +18,7 @@ package v1.controllers
 
 import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
+import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
 import v1.controllers.requestParsers.RetrieveFinancialDetailsRequestParser
@@ -33,7 +34,7 @@ class RetrieveEmploymentAndFinancialDetailsController @Inject() (val authService
                                                                  parser: RetrieveFinancialDetailsRequestParser,
                                                                  service: RetrieveEmploymentAndFinancialDetailsService,
                                                                  cc: ControllerComponents,
-                                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
+                                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
   implicit val endpointLogContext: EndpointLogContext =

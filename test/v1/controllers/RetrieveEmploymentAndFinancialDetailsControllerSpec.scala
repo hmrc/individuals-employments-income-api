@@ -20,6 +20,7 @@ import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
+import mocks.MockAppConfig
 import play.api.mvc.Result
 import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
 import v1.mocks.requestParsers.MockRetrieveEmploymentAndFinancialDetailsRequestParser
@@ -33,7 +34,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
-    with MockRetrieveEmploymentAndFinancialDetailsRequestParser {
+    with MockRetrieveEmploymentAndFinancialDetailsRequestParser with MockAppConfig {
 
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"

@@ -22,6 +22,7 @@ import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
+import mocks.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AnyContentAsJson, Result}
 import v1.mocks.requestParsers.MockAmendOtherEmploymentRequestParser
@@ -36,7 +37,8 @@ class AmendOtherEmploymentControllerSpec
     with ControllerTestRunner
     with MockAmendOtherEmploymentRequestParser
     with MockAuditService
-    with MockAmendOtherEmploymentService {
+    with MockAmendOtherEmploymentService
+    with MockAppConfig {
 
   val taxYear: String = "2019-20"
 

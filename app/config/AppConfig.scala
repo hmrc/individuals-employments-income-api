@@ -87,6 +87,8 @@ trait AppConfig {
   def featureSwitches: Configuration
   def endpointsEnabled(version: Version): Boolean
 
+  def allowRequestCannotBeFulfilledHeader(version: Version): Boolean
+
   def confidenceLevelConfig: ConfidenceLevelConfig
 }
 
@@ -136,6 +138,10 @@ class AppConfigImpl @Inject() (config: ServicesConfig, configuration: Configurat
 
   def endpointsEnabled(version: Version): Boolean =
     config.getBoolean(s"api.${version.name}.endpoints.enabled")
+
+
+  def allowRequestCannotBeFulfilledHeader(version: Version): Boolean =
+    config.getBoolean(s"api.$version.endpoints.allow-request-cannot-be-fulfilled-header")
 
 }
 

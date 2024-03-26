@@ -21,6 +21,7 @@ import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
+import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
 import v1.mocks.requestParsers.MockIgnoreEmploymentRequestParser
@@ -34,7 +35,8 @@ class IgnoreEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockIgnoreEmploymentService
-    with MockIgnoreEmploymentRequestParser {
+    with MockIgnoreEmploymentRequestParser
+    with MockAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"

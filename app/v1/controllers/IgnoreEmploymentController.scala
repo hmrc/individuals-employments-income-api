@@ -18,6 +18,7 @@ package v1.controllers
 
 import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.{IdGenerator, Logging}
 import v1.controllers.requestParsers.IgnoreEmploymentRequestParser
@@ -34,7 +35,7 @@ class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthServi
                                             service: IgnoreEmploymentService,
                                             auditService: AuditService,
                                             cc: ControllerComponents,
-                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
+                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc)
     with BaseController
     with Logging {

@@ -165,6 +165,9 @@ object RuleMissingOffPayrollWorker extends MtdError("MISSING_OFF_PAYROLL_WORKER"
 object RuleUnalignedCessationTaxYear
     extends MtdError("RULE_UNALIGNED_CESSATION_TAX_YEAR", "The tax year provided must be the same as the tax year of income to be taxed", BAD_REQUEST)
 
+object RuleRequestCannotBeFulfilled
+  extends MtdError("RULE_REQUEST_CANNOT_BE_FULFILLED", "Custom (will vary in production depending on the actual error)", 422)
+
 //Stub errors
 object RuleIncorrectGovTestScenarioError extends MtdError("RULE_INCORRECT_GOV_TEST_SCENARIO", "The Gov-Test-Scenario was not found", BAD_REQUEST)
 
