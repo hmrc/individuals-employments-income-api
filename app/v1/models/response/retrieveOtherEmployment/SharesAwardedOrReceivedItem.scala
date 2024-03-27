@@ -40,7 +40,7 @@ object SharesAwardedOrReceivedItem {
   implicit val reads: Reads[SharesAwardedOrReceivedItem] = (
     (JsPath \ "employerName").read[String] and
       (JsPath \ "employerRef").readNullable[String] and
-      (JsPath \ "schemePlanType").read[SharesAwardedOrReceivedSchemeType] and
+      (JsPath \ "schemePlanType").read[String].map(SharesAwardedOrReceivedSchemeType.parser) and
       (JsPath \ "dateSharesCeasedToBeSubjectToPlan").read[String] and
       (JsPath \ "noOfShareSecuritiesAwarded").read[BigInt] and
       (JsPath \ "classOfShareAwarded").read[String] and

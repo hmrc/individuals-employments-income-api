@@ -106,7 +106,7 @@ class AmendOtherEmploymentValidator @Inject()(implicit appConfig: AppConfig)
           _.copy(paths = Some(Seq(s"/shareOption/$arrayIndex/employerRef")))
         ),
       SchemePlanTypeValidation
-        .validate(shareOptionItem.schemePlanType, awarded = false)
+        .validate(shareOptionItem.schemePlanType.toString, awarded = false)
         .map(
           _.copy(paths = Some(Seq(s"/shareOption/$arrayIndex/schemePlanType")))
         ),
@@ -171,7 +171,7 @@ class AmendOtherEmploymentValidator @Inject()(implicit appConfig: AppConfig)
           _.copy(paths = Some(Seq(s"/sharesAwardedOrReceived/$arrayIndex/employerRef")))
         ),
       SchemePlanTypeValidation
-        .validate(sharesAwardedOrReceivedItem.schemePlanType, awarded = true)
+        .validate(sharesAwardedOrReceivedItem.schemePlanType.toString, awarded = true)
         .map(
           _.copy(paths = Some(Seq(s"/sharesAwardedOrReceived/$arrayIndex/schemePlanType")))
         ),

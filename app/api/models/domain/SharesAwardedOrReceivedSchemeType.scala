@@ -19,11 +19,19 @@ package api.models.domain
 import play.api.libs.json.Format
 import utils.enums.Enums
 
-sealed trait SharesAwardedOrReceivedSchemeType
+sealed trait SharesAwardedOrReceivedSchemeType{
+  def toDesViewString: String
+}
 
 object SharesAwardedOrReceivedSchemeType {
-  case object `sip`   extends SharesAwardedOrReceivedSchemeType
-  case object `other` extends SharesAwardedOrReceivedSchemeType
+  case object `sip`   extends SharesAwardedOrReceivedSchemeType{
+    override def toDesViewString: String = "SIP"
+  }
+  case object `other` extends SharesAwardedOrReceivedSchemeType{
+    override def toDesViewString: String = "Other"
+  }
 
   implicit val format: Format[SharesAwardedOrReceivedSchemeType] = Enums.format[SharesAwardedOrReceivedSchemeType]
+  val parser: PartialFunction[String, SharesAwardedOrReceivedSchemeType] = Enums.parser[SharesAwardedOrReceivedSchemeType]
+
 }

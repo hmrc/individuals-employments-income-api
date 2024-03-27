@@ -16,12 +16,13 @@
 
 package v1.models.request.amendOtherEmployment
 
+import api.models.domain.SharesAwardedOrReceivedSchemeType
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import play.api.libs.json.{JsPath, OWrites, Reads}
 
 case class AmendSharesAwardedOrReceivedItem(employerName: String,
                                             employerRef: Option[String],
-                                            schemePlanType: String,
+                                            schemePlanType: SharesAwardedOrReceivedSchemeType,
                                             dateSharesCeasedToBeSubjectToPlan: String,
                                             noOfShareSecuritiesAwarded: BigInt,
                                             classOfShareAwarded: String,
@@ -35,12 +36,28 @@ case class AmendSharesAwardedOrReceivedItem(employerName: String,
                                             taxableAmount: BigDecimal)
 
 object AmendSharesAwardedOrReceivedItem {
-  implicit val reads: Reads[AmendSharesAwardedOrReceivedItem] = Json.reads[AmendSharesAwardedOrReceivedItem]
+
+  implicit val reads: Reads[AmendSharesAwardedOrReceivedItem] = (
+    (JsPath \ "employerName").read[String] and
+      (JsPath \ "employerRef").readNullable[String] and
+      (JsPath \ "schemePlanType").read[String].map(SharesAwardedOrReceivedSchemeType.parser) and
+      (JsPath \ "dateSharesCeasedToBeSubjectToPlan").read[String] and
+      (JsPath \ "noOfShareSecuritiesAwarded").read[BigInt] and
+      (JsPath \ "classOfShareAwarded").read[String] and
+      (JsPath \ "dateSharesAwarded").read[String] and
+      (JsPath \ "sharesSubjectToRestrictions").read[Boolean] and
+      (JsPath \ "electionEnteredIgnoreRestrictions").read[Boolean] and
+      (JsPath \ "actualMarketValueOfSharesOnAward").read[BigDecimal] and
+      (JsPath \ "unrestrictedMarketValueOfSharesOnAward").read[BigDecimal] and
+      (JsPath \ "amountPaidForSharesOnAward").read[BigDecimal] and
+      (JsPath \ "marketValueAfterRestrictionsLifted").read[BigDecimal] and
+      (JsPath \ "taxableAmount").read[BigDecimal]
+    ) (AmendSharesAwardedOrReceivedItem.apply _)
 
   implicit val writes: OWrites[AmendSharesAwardedOrReceivedItem] = (
     (JsPath \ "employerName").write[String] and
       (JsPath \ "employerRef").writeNullable[String] and
-      (JsPath \ "schemePlanType").write[String] and
+      (JsPath \ "schemePlanType").write[String].contramap[SharesAwardedOrReceivedSchemeType](_.toDesViewString) and
       (JsPath \ "dateSharesCeasedToBeSubjectToPlan").write[String] and
       (JsPath \ "noOfShareSecuritiesAwarded").write[BigInt] and
       (JsPath \ "classOfShareAwarded").write[String] and

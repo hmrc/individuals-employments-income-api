@@ -16,6 +16,7 @@
 
 package v1.models.request.amendOtherEmployment
 
+import api.models.domain.{ShareOptionSchemeType, SharesAwardedOrReceivedSchemeType}
 import play.api.libs.json.{JsError, JsObject, Json}
 import support.UnitSpec
 
@@ -108,7 +109,7 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
     AmendShareOptionItem(
       employerName = "Company Ltd",
       employerRef = Some("AB1321/123"),
-      schemePlanType = "emi",
+      schemePlanType = ShareOptionSchemeType.`emi`,
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-11-20",
       optionNotExercisedButConsiderationReceived = true,
@@ -128,7 +129,7 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
     AmendSharesAwardedOrReceivedItem(
       employerName = "Company Ltd",
       employerRef = Some("AB1321/123"),
-      schemePlanType = "sip",
+      schemePlanType = SharesAwardedOrReceivedSchemeType.`sip`,
       dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
       noOfShareSecuritiesAwarded = 11,
       classOfShareAwarded = "FIRST",

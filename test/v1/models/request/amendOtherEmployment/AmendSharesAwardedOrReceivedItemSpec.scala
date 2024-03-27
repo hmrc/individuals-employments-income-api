@@ -16,6 +16,7 @@
 
 package v1.models.request.amendOtherEmployment
 
+import api.models.domain.SharesAwardedOrReceivedSchemeType
 import play.api.libs.json.{JsError, JsObject, Json}
 import support.UnitSpec
 
@@ -26,7 +27,7 @@ class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
       |{
       |   "employerName": "Company Ltd",
       |   "employerRef" : "AB1321/123",
-      |   "schemePlanType": "sip",
+      |   "schemePlanType": "SIP",
       |   "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |   "noOfShareSecuritiesAwarded": 11,
       |   "classOfShareAwarded": "FIRST",
@@ -45,7 +46,7 @@ class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
   private val model = AmendSharesAwardedOrReceivedItem(
     employerName = "Company Ltd",
     employerRef = Some("AB1321/123"),
-    schemePlanType = "sip",
+    schemePlanType = SharesAwardedOrReceivedSchemeType.`sip`,
     dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
     noOfShareSecuritiesAwarded = 11,
     classOfShareAwarded = "FIRST",
