@@ -19,7 +19,7 @@ package v1.controllers
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{Nino, ShareOptionSchemeType, SharesAwardedOrReceivedSchemeType, TaxYear}
+import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import play.api.libs.json.{JsValue, Json}
@@ -137,7 +137,7 @@ class AmendOtherEmploymentControllerSpec
     AmendShareOptionItem(
       employerName = "Company Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = ShareOptionSchemeType.`emi`,
+      schemePlanType = "emi",
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-11-20",
       optionNotExercisedButConsiderationReceived = true,
@@ -154,7 +154,7 @@ class AmendOtherEmploymentControllerSpec
     AmendShareOptionItem(
       employerName = "SecondCom Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = ShareOptionSchemeType.`csop`,
+      schemePlanType = "csop",
       dateOfOptionGrant = "2020-09-12",
       dateOfEvent = "2020-09-12",
       optionNotExercisedButConsiderationReceived = false,
@@ -174,7 +174,7 @@ class AmendOtherEmploymentControllerSpec
     AmendSharesAwardedOrReceivedItem(
       employerName = "Company Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = SharesAwardedOrReceivedSchemeType.`sip`,
+      schemePlanType = "sip",
       dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
       noOfShareSecuritiesAwarded = 11,
       classOfShareAwarded = "FIRST",
@@ -190,7 +190,7 @@ class AmendOtherEmploymentControllerSpec
     AmendSharesAwardedOrReceivedItem(
       employerName = "SecondCom Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = SharesAwardedOrReceivedSchemeType.`other`,
+      schemePlanType = "other",
       dateSharesCeasedToBeSubjectToPlan = "2020-09-12",
       noOfShareSecuritiesAwarded = 299,
       classOfShareAwarded = "Ordinary shares",

@@ -16,7 +16,6 @@
 
 package v1.models.request.amendOtherEmployment
 
-import api.models.domain.ShareOptionSchemeType
 import play.api.libs.json.{JsError, JsObject, Json}
 import support.UnitSpec
 
@@ -27,7 +26,7 @@ class AmendShareOptionItemSpec extends UnitSpec {
   private val model = AmendShareOptionItem(
     employerName = ("Company Ltd"),
     employerRef = Some("AB1321/123"),
-    schemePlanType = ShareOptionSchemeType.`emi`,
+    schemePlanType = "emi",
     dateOfOptionGrant = "2019-11-20",
     dateOfEvent = "2019-11-20",
     optionNotExercisedButConsiderationReceived = true,

@@ -16,100 +16,16 @@
 
 package v1.models.request.amendOtherEmployment
 
-import api.models.domain.{ShareOptionSchemeType, SharesAwardedOrReceivedSchemeType}
 import play.api.libs.json.{JsError, JsObject, Json}
 import support.UnitSpec
 
 class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
 
-  private val json = Json.parse(
-    """
-      |{
-      |  "shareOption": [
-      |      {
-      |        "employerName": "Company Ltd",
-      |        "employerRef" : "AB1321/123",
-      |        "schemePlanType": "emi",
-      |        "dateOfOptionGrant": "2019-11-20",
-      |        "dateOfEvent": "2019-11-20",
-      |        "optionNotExercisedButConsiderationReceived": true,
-      |        "amountOfConsiderationReceived": 23122.22,
-      |        "noOfSharesAcquired": 1,
-      |        "classOfSharesAcquired": "FIRST",
-      |        "exercisePrice": 12.22,
-      |        "amountPaidForOption": 123.22,
-      |        "marketValueOfSharesOnExcise": 1232.22,
-      |        "profitOnOptionExercised": 1232.33,
-      |        "employersNicPaid": 2312.22,
-      |        "taxableAmount" : 2132.22
-      |      }
-      |  ],
-      |  "sharesAwardedOrReceived": [
-      |       {
-      |        "employerName": "Company Ltd",
-      |        "employerRef" : "AB1321/123",
-      |        "schemePlanType": "sip",
-      |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
-      |        "noOfShareSecuritiesAwarded": 11,
-      |        "classOfShareAwarded": "FIRST",
-      |        "dateSharesAwarded" : "2019-11-20",
-      |        "sharesSubjectToRestrictions": true,
-      |        "electionEnteredIgnoreRestrictions": false,
-      |        "actualMarketValueOfSharesOnAward": 2123.22,
-      |        "unrestrictedMarketValueOfSharesOnAward": 123.22,
-      |        "amountPaidForSharesOnAward": 123.22,
-      |        "marketValueAfterRestrictionsLifted": 1232.22,
-      |        "taxableAmount": 12321.22
-      |       }
-      |  ],
-      |  "disability":
-      |    {
-      |      "customerReference": "cust ref",
-      |      "amountDeducted": 1223.22
-      |    },
-      |  "foreignService":
-      |    {
-      |      "customerReference": "cust ref",
-      |      "amountDeducted": 1223.22
-      |    },
-      |  "lumpSums": [
-      |    {
-      |      "employerName": "BPDTS Ltd",
-      |      "employerRef": "123/AB456",
-      |      "taxableLumpSumsAndCertainIncome":
-      |         {
-      |           "amount": 5000.99,
-      |           "taxPaid": 3333.33,
-      |           "taxTakenOffInEmployment": true
-      |         },
-      |      "benefitFromEmployerFinancedRetirementScheme":
-      |         {
-      |           "amount": 5000.99,
-      |           "exemptAmount": 2345.99,
-      |           "taxPaid": 3333.33,
-      |           "taxTakenOffInEmployment": true
-      |         },
-      |      "redundancyCompensationPaymentsOverExemption":
-      |         {
-      |           "amount": 5000.99,
-      |           "taxPaid": 3333.33,
-      |           "taxTakenOffInEmployment": true
-      |         },
-      |      "redundancyCompensationPaymentsUnderExemption":
-      |         {
-      |           "amount": 5000.99
-      |         }
-      |      }
-      |   ]
-      |}
-    """.stripMargin
-  )
-
   private val shareOptionModel = Seq(
     AmendShareOptionItem(
       employerName = "Company Ltd",
       employerRef = Some("AB1321/123"),
-      schemePlanType = ShareOptionSchemeType.`emi`,
+      schemePlanType = "emi",
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-11-20",
       optionNotExercisedButConsiderationReceived = true,
@@ -129,7 +45,7 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
     AmendSharesAwardedOrReceivedItem(
       employerName = "Company Ltd",
       employerRef = Some("AB1321/123"),
-      schemePlanType = SharesAwardedOrReceivedSchemeType.`sip`,
+      schemePlanType = "sip",
       dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
       noOfShareSecuritiesAwarded = 11,
       classOfShareAwarded = "FIRST",
@@ -193,7 +109,88 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
   "AmendOtherEmploymentRequestBody" when {
     "read from valid JSON" should {
       "produce the expected AmendOtherEmploymentRequestBody object" in {
-        json.as[AmendOtherEmploymentRequestBody] shouldBe requestBodyModel
+        Json.parse(
+          """
+            |{
+            |  "shareOption": [
+            |      {
+            |        "employerName": "Company Ltd",
+            |        "employerRef" : "AB1321/123",
+            |        "schemePlanType": "emi",
+            |        "dateOfOptionGrant": "2019-11-20",
+            |        "dateOfEvent": "2019-11-20",
+            |        "optionNotExercisedButConsiderationReceived": true,
+            |        "amountOfConsiderationReceived": 23122.22,
+            |        "noOfSharesAcquired": 1,
+            |        "classOfSharesAcquired": "FIRST",
+            |        "exercisePrice": 12.22,
+            |        "amountPaidForOption": 123.22,
+            |        "marketValueOfSharesOnExcise": 1232.22,
+            |        "profitOnOptionExercised": 1232.33,
+            |        "employersNicPaid": 2312.22,
+            |        "taxableAmount" : 2132.22
+            |      }
+            |  ],
+            |  "sharesAwardedOrReceived": [
+            |       {
+            |        "employerName": "Company Ltd",
+            |        "employerRef" : "AB1321/123",
+            |        "schemePlanType": "sip",
+            |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
+            |        "noOfShareSecuritiesAwarded": 11,
+            |        "classOfShareAwarded": "FIRST",
+            |        "dateSharesAwarded" : "2019-11-20",
+            |        "sharesSubjectToRestrictions": true,
+            |        "electionEnteredIgnoreRestrictions": false,
+            |        "actualMarketValueOfSharesOnAward": 2123.22,
+            |        "unrestrictedMarketValueOfSharesOnAward": 123.22,
+            |        "amountPaidForSharesOnAward": 123.22,
+            |        "marketValueAfterRestrictionsLifted": 1232.22,
+            |        "taxableAmount": 12321.22
+            |       }
+            |  ],
+            |  "disability":
+            |    {
+            |      "customerReference": "cust ref",
+            |      "amountDeducted": 1223.22
+            |    },
+            |  "foreignService":
+            |    {
+            |      "customerReference": "cust ref",
+            |      "amountDeducted": 1223.22
+            |    },
+            |  "lumpSums": [
+            |    {
+            |      "employerName": "BPDTS Ltd",
+            |      "employerRef": "123/AB456",
+            |      "taxableLumpSumsAndCertainIncome":
+            |         {
+            |           "amount": 5000.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "benefitFromEmployerFinancedRetirementScheme":
+            |         {
+            |           "amount": 5000.99,
+            |           "exemptAmount": 2345.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "redundancyCompensationPaymentsOverExemption":
+            |         {
+            |           "amount": 5000.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "redundancyCompensationPaymentsUnderExemption":
+            |         {
+            |           "amount": 5000.99
+            |         }
+            |      }
+            |   ]
+            |}
+            """.stripMargin
+        ).as[AmendOtherEmploymentRequestBody] shouldBe requestBodyModel
       }
     }
 
@@ -254,7 +251,88 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JsObject" in {
-        Json.toJson(requestBodyModel) shouldBe json
+        Json.toJson(requestBodyModel) shouldBe Json.parse(
+          """
+            |{
+            |  "shareOption": [
+            |      {
+            |        "employerName": "Company Ltd",
+            |        "employerRef" : "AB1321/123",
+            |        "schemePlanType": "EMI",
+            |        "dateOfOptionGrant": "2019-11-20",
+            |        "dateOfEvent": "2019-11-20",
+            |        "optionNotExercisedButConsiderationReceived": true,
+            |        "amountOfConsiderationReceived": 23122.22,
+            |        "noOfSharesAcquired": 1,
+            |        "classOfSharesAcquired": "FIRST",
+            |        "exercisePrice": 12.22,
+            |        "amountPaidForOption": 123.22,
+            |        "marketValueOfSharesOnExcise": 1232.22,
+            |        "profitOnOptionExercised": 1232.33,
+            |        "employersNicPaid": 2312.22,
+            |        "taxableAmount" : 2132.22
+            |      }
+            |  ],
+            |  "sharesAwardedOrReceived": [
+            |       {
+            |        "employerName": "Company Ltd",
+            |        "employerRef" : "AB1321/123",
+            |        "schemePlanType": "SIP",
+            |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
+            |        "noOfShareSecuritiesAwarded": 11,
+            |        "classOfShareAwarded": "FIRST",
+            |        "dateSharesAwarded" : "2019-11-20",
+            |        "sharesSubjectToRestrictions": true,
+            |        "electionEnteredIgnoreRestrictions": false,
+            |        "actualMarketValueOfSharesOnAward": 2123.22,
+            |        "unrestrictedMarketValueOfSharesOnAward": 123.22,
+            |        "amountPaidForSharesOnAward": 123.22,
+            |        "marketValueAfterRestrictionsLifted": 1232.22,
+            |        "taxableAmount": 12321.22
+            |       }
+            |  ],
+            |  "disability":
+            |    {
+            |      "customerReference": "cust ref",
+            |      "amountDeducted": 1223.22
+            |    },
+            |  "foreignService":
+            |    {
+            |      "customerReference": "cust ref",
+            |      "amountDeducted": 1223.22
+            |    },
+            |  "lumpSums": [
+            |    {
+            |      "employerName": "BPDTS Ltd",
+            |      "employerRef": "123/AB456",
+            |      "taxableLumpSumsAndCertainIncome":
+            |         {
+            |           "amount": 5000.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "benefitFromEmployerFinancedRetirementScheme":
+            |         {
+            |           "amount": 5000.99,
+            |           "exemptAmount": 2345.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "redundancyCompensationPaymentsOverExemption":
+            |         {
+            |           "amount": 5000.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "redundancyCompensationPaymentsUnderExemption":
+            |         {
+            |           "amount": 5000.99
+            |         }
+            |      }
+            |   ]
+            |}
+            """.stripMargin
+        )
       }
     }
   }

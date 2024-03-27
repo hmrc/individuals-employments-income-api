@@ -17,12 +17,11 @@
 package v1.models.request.amendOtherEmployment
 
 import api.models.domain.SharesAwardedOrReceivedSchemeType
-import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, OWrites, Reads}
+import play.api.libs.json.{Json, OWrites, Reads}
 
 case class AmendSharesAwardedOrReceivedItem(employerName: String,
                                             employerRef: Option[String],
-                                            schemePlanType: SharesAwardedOrReceivedSchemeType,
+                                            schemePlanType: String,
                                             dateSharesCeasedToBeSubjectToPlan: String,
                                             noOfShareSecuritiesAwarded: BigInt,
                                             classOfShareAwarded: String,
@@ -37,38 +36,26 @@ case class AmendSharesAwardedOrReceivedItem(employerName: String,
 
 object AmendSharesAwardedOrReceivedItem {
 
-  implicit val reads: Reads[AmendSharesAwardedOrReceivedItem] = (
-    (JsPath \ "employerName").read[String] and
-      (JsPath \ "employerRef").readNullable[String] and
-      (JsPath \ "schemePlanType").read[String].map(SharesAwardedOrReceivedSchemeType.parser) and
-      (JsPath \ "dateSharesCeasedToBeSubjectToPlan").read[String] and
-      (JsPath \ "noOfShareSecuritiesAwarded").read[BigInt] and
-      (JsPath \ "classOfShareAwarded").read[String] and
-      (JsPath \ "dateSharesAwarded").read[String] and
-      (JsPath \ "sharesSubjectToRestrictions").read[Boolean] and
-      (JsPath \ "electionEnteredIgnoreRestrictions").read[Boolean] and
-      (JsPath \ "actualMarketValueOfSharesOnAward").read[BigDecimal] and
-      (JsPath \ "unrestrictedMarketValueOfSharesOnAward").read[BigDecimal] and
-      (JsPath \ "amountPaidForSharesOnAward").read[BigDecimal] and
-      (JsPath \ "marketValueAfterRestrictionsLifted").read[BigDecimal] and
-      (JsPath \ "taxableAmount").read[BigDecimal]
-    ) (AmendSharesAwardedOrReceivedItem.apply _)
+  implicit val reads: Reads[AmendSharesAwardedOrReceivedItem] = Json.reads[AmendSharesAwardedOrReceivedItem]
 
-  implicit val writes: OWrites[AmendSharesAwardedOrReceivedItem] = (
-    (JsPath \ "employerName").write[String] and
-      (JsPath \ "employerRef").writeNullable[String] and
-      (JsPath \ "schemePlanType").write[String].contramap[SharesAwardedOrReceivedSchemeType](_.toDesViewString) and
-      (JsPath \ "dateSharesCeasedToBeSubjectToPlan").write[String] and
-      (JsPath \ "noOfShareSecuritiesAwarded").write[BigInt] and
-      (JsPath \ "classOfShareAwarded").write[String] and
-      (JsPath \ "dateSharesAwarded").write[String] and
-      (JsPath \ "sharesSubjectToRestrictions").write[Boolean] and
-      (JsPath \ "electionEnteredIgnoreRestrictions").write[Boolean] and
-      (JsPath \ "actualMarketValueOfSharesOnAward").write[BigDecimal] and
-      (JsPath \ "unrestrictedMarketValueOfSharesOnAward").write[BigDecimal] and
-      (JsPath \ "amountPaidForSharesOnAward").write[BigDecimal] and
-      (JsPath \ "marketValueAfterRestrictionsLifted").write[BigDecimal] and
-      (JsPath \ "taxableAmount").write[BigDecimal]
-  )(unlift(AmendSharesAwardedOrReceivedItem.unapply))
+  implicit val writes: OWrites[AmendSharesAwardedOrReceivedItem] = (requestBody: AmendSharesAwardedOrReceivedItem) => {
 
+    val schemeType = SharesAwardedOrReceivedSchemeType.parser(requestBody.schemePlanType)
+    Json.obj(
+      "employerName" -> requestBody.employerName,
+      "employerRef" -> requestBody.employerRef,
+      "schemePlanType" -> schemeType.toDesViewString,
+      "dateSharesCeasedToBeSubjectToPlan" -> requestBody.dateSharesCeasedToBeSubjectToPlan,
+      "noOfShareSecuritiesAwarded" -> requestBody.noOfShareSecuritiesAwarded,
+      "classOfShareAwarded" -> requestBody.classOfShareAwarded,
+      "dateSharesAwarded" -> requestBody.dateSharesAwarded,
+      "sharesSubjectToRestrictions" -> requestBody.sharesSubjectToRestrictions,
+      "electionEnteredIgnoreRestrictions" -> requestBody.electionEnteredIgnoreRestrictions,
+      "actualMarketValueOfSharesOnAward" -> requestBody.actualMarketValueOfSharesOnAward,
+      "unrestrictedMarketValueOfSharesOnAward" -> requestBody.unrestrictedMarketValueOfSharesOnAward,
+      "amountPaidForSharesOnAward" -> requestBody.amountPaidForSharesOnAward,
+      "marketValueAfterRestrictionsLifted" -> requestBody.marketValueAfterRestrictionsLifted,
+      "taxableAmount" -> requestBody.taxableAmount
+    )
+  }
 }
