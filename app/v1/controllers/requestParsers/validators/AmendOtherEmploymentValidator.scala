@@ -18,7 +18,7 @@ package v1.controllers.requestParsers.validators
 
 import api.controllers.requestParsers.validators.Validator
 import api.controllers.requestParsers.validators.validations._
-import api.models.errors.MtdError
+import api.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError}
 import config.AppConfig
 import v1.controllers.requestParsers.validators.validation.{DateFormatValidation, LumpSumsRuleValidation}
 import v1.models.request.amendOtherEmployment._
@@ -88,7 +88,12 @@ class AmendOtherEmploymentValidator @Inject()(implicit appConfig: AppConfig)
               validateLumpSums(data, index)
             })
             .getOrElse(NoValidationErrors)
-            .toList
+            .toList,
+          if(requestBodyData == AmendOtherEmploymentRequestBody.empty){
+            List(RuleIncorrectOrEmptyBodyError)
+          }else{
+            NoValidationErrors
+          }
         )
       ))
   }

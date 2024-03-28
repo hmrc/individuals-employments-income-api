@@ -17,8 +17,7 @@
 package v1.models.request.amendOtherEmployment
 
 import api.models.domain.ShareOptionSchemeType
-import play.api.libs.functional.syntax.toFunctionalBuilderOps
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import play.api.libs.json.{Json, OWrites, Reads}
 
 case class AmendShareOptionItem(employerName: String,
                                 employerRef: Option[String],
@@ -43,6 +42,7 @@ object AmendShareOptionItem {
   implicit val writes: OWrites[AmendShareOptionItem] = (requestBody: AmendShareOptionItem) => {
 
     val schemeType = ShareOptionSchemeType.parser(requestBody.schemePlanType)
+    println("schemeType " + schemeType)
     Json.obj(
       "employerName" -> requestBody.employerName,
       "employerRef" -> requestBody.employerRef,
