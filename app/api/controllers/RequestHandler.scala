@@ -18,23 +18,25 @@ package api.controllers
 
 import api.controllers.requestParsers.RequestParser
 import api.hateoas.{HateoasFactory, HateoasLinksFactory}
-import api.models.errors.{ErrorWrapper, InternalError}
+import api.models.errors.{ErrorWrapper, InternalError, RuleRequestCannotBeFulfilled}
 import api.models.hateoas.{HateoasData, HateoasWrapper}
 import api.models.outcomes.ResponseWrapper
 import api.models.request.RawData
 import cats.data.EitherT
 import cats.implicits._
+import config.AppConfig
 import play.api.http.Status
 import play.api.libs.json.{JsValue, Writes}
 import play.api.mvc.Result
 import play.api.mvc.Results.InternalServerError
 import utils.Logging
+import routing.Version
 
 import scala.concurrent.{ExecutionContext, Future}
 
 trait RequestHandler[InputRaw <: RawData] {
 
-  def handleRequest(rawData: InputRaw)(implicit ctx: RequestContext, request: UserRequest[_], ec: ExecutionContext): Future[Result]
+  def handleRequest(rawData: InputRaw)(implicit ctx: RequestContext, request: UserRequest[_], appConfig: AppConfig, ec: ExecutionContext): Future[Result]
 
 }
 
@@ -60,7 +62,7 @@ object RequestHandler {
       auditHandler: Option[AuditHandler] = None
   ) extends RequestHandler[InputRaw] {
 
-    def handleRequest(rawData: InputRaw)(implicit ctx: RequestContext, request: UserRequest[_], ec: ExecutionContext): Future[Result] =
+    def handleRequest(rawData: InputRaw)(implicit ctx: RequestContext, request: UserRequest[_], appConfig: AppConfig, ec: ExecutionContext): Future[Result] =
       Delegate.handleRequest(rawData)
 
     def withResultCreator(resultCreator: ResultCreator[InputRaw, Input, Output]): RequestHandlerBuilder[InputRaw, Input, Output] =
@@ -126,18 +128,22 @@ object RequestHandler {
 
       }
 
-      def handleRequest(rawData: InputRaw)(implicit ctx: RequestContext, request: UserRequest[_], ec: ExecutionContext): Future[Result] = {
+      def handleRequest(rawData: InputRaw)(implicit ctx: RequestContext, request: UserRequest[_], appConfig: AppConfig, ec: ExecutionContext): Future[Result] = {
 
         logger.info(
           message = s"[${ctx.endpointLogContext.controllerName}][${ctx.endpointLogContext.endpointName}] " +
             s"with correlationId : ${ctx.correlationId}")
 
-        val result =
-          for {
-            parsedRequest   <- EitherT.fromEither[Future](parser.parseRequest(rawData))
-            serviceResponse <- EitherT(service(parsedRequest))
-          } yield doWithContext(ctx.withCorrelationId(serviceResponse.correlationId)) { implicit ctx: RequestContext =>
-            handleSuccess(rawData, parsedRequest, serviceResponse)
+
+        val result = if (simulateRequestCannotBeFulfilled) {
+          EitherT[Future, ErrorWrapper, Result](Future.successful(Left(ErrorWrapper(ctx.correlationId, RuleRequestCannotBeFulfilled))))
+        } else {
+            for {
+              parsedRequest <- EitherT.fromEither[Future](parser.parseRequest(rawData))
+              serviceResponse <- EitherT(service(parsedRequest))
+            } yield doWithContext(ctx.withCorrelationId(serviceResponse.correlationId)) { implicit ctx: RequestContext =>
+              handleSuccess(rawData, parsedRequest, serviceResponse)
+            }
           }
 
         result.leftMap { errorWrapper =>
@@ -146,6 +152,10 @@ object RequestHandler {
           }
         }.merge
       }
+
+      private def simulateRequestCannotBeFulfilled(implicit request: UserRequest[_], appConfig: AppConfig): Boolean =
+        request.headers.get("Gov-Test-Scenario").contains("REQUEST_CANNOT_BE_FULFILLED") &&
+          appConfig.allowRequestCannotBeFulfilledHeader(Version(request))
 
       private def doWithContext[A](ctx: RequestContext)(f: RequestContext => A) = f(ctx)
 

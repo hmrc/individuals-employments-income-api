@@ -32,12 +32,11 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class AddCustomEmploymentController @Inject()(val authService: EnrolmentsAuthService,
                                               val lookupService: MtdIdLookupService,
-                                              appConfig: AppConfig,
                                               parser: AddCustomEmploymentRequestParser,
                                               service: AddCustomEmploymentService,
                                               auditService: AuditService,
                                               cc: ControllerComponents,
-                                              val idGenerator: IdGenerator)(implicit ec: ExecutionContext)
+                                              val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
   extends AuthorisedController(cc) {
 
   implicit val endpointLogContext: EndpointLogContext =

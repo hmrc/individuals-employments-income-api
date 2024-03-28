@@ -10,7 +10,9 @@ description: |
   |----------------------------------|------------------------------------------------|
   | N/A - DEFAULT                    | Simulates success response.                    |
   | NOT_FOUND                        | Simulates the scenario where no data is found. |
-  | STATEFUL                         | Performs a stateful list.                      |   
+  | STATEFUL                         | Performs a stateful list.                      |
+  | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+
 
 tags:
   - Employments
@@ -75,3 +77,13 @@ responses:
         examples:
           MATCHING_RESOURCE_NOT_FOUND:
             $ref: './common/errors.yaml#/components/examples/notFound'
+
+  "422":
+    description: Unprocessable Entity
+    content:
+      application/json:
+        schema:
+          $ref: './schemas/error_response.yaml'
+        examples:
+          RULE_REQUEST_CANNOT_BE_FULFILLED:
+            $ref: './common/errors.yaml#/components/examples/requestCannotBeFulfilled'

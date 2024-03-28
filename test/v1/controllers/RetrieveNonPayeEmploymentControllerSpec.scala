@@ -20,6 +20,7 @@ import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
+import mocks.MockAppConfig
 import play.api.mvc.Result
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.mocks.requestParsers.MockRetrieveNonPayeEmploymentRequestParser
@@ -33,7 +34,8 @@ class RetrieveNonPayeEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveNonPayeEmploymentService
-    with MockRetrieveNonPayeEmploymentRequestParser {
+    with MockRetrieveNonPayeEmploymentRequestParser
+    with MockAppConfig {
 
   val taxYear: String       = "2019-20"
   val source: MtdSourceEnum = MtdSourceEnum.`hmrc-held`

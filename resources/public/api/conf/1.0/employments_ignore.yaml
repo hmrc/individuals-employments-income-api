@@ -13,7 +13,9 @@ post:
     | N/A - DEFAULT                    | Simulates success response.                                       |
     | CUSTOM_EMPLOYMENT                | Simulates the scenario where a custom employment is submitted.    |
     | NOT_FOUND                        | Simulates the scenario where no data is found.                    |
-    | TAX_YEAR_NOT_ENDED               | Simulates the scenario where the tax year provided has not ended. |    
+    | TAX_YEAR_NOT_ENDED               | Simulates the scenario where the tax year provided has not ended. |
+    | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+
 
   tags:
     - Employments
@@ -80,3 +82,13 @@ post:
           examples:
             MATCHING_RESOURCE_NOT_FOUND:
               $ref: './common/errors.yaml#/components/examples/notFound'
+
+    "422":
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/error_response.yaml'
+          examples:
+            RULE_REQUEST_CANNOT_BE_FULFILLED:
+              $ref: './common/errors.yaml#/components/examples/requestCannotBeFulfilled'

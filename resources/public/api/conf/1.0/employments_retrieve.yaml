@@ -12,7 +12,9 @@ description: |
   | HMRC_EMPLOYMENT                  | Simulates success response with HMRC employment.         |
   | HMRC_IGNORED                     | Simulates success response with ignored HMRC employment. |
   | NOT_FOUND                        | Simulates the scenario where no data is found.           |
-  | STATEFUL                         | Performs a stateful retrieve.                            |   
+  | STATEFUL                         | Performs a stateful retrieve.                            |
+  | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+
 
 tags:
   - Employments
@@ -88,3 +90,13 @@ responses:
         examples:
           MATCHING_RESOURCE_NOT_FOUND:
             $ref: './common/errors.yaml#/components/examples/notFound'
+
+  "422":
+    description: Unprocessable Entity
+    content:
+      application/json:
+        schema:
+          $ref: './schemas/error_response.yaml'
+        examples:
+          RULE_REQUEST_CANNOT_BE_FULFILLED:
+            $ref: './common/errors.yaml#/components/examples/requestCannotBeFulfilled'

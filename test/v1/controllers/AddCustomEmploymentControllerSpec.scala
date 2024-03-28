@@ -139,7 +139,6 @@ class AddCustomEmploymentControllerSpec
     val controller = new AddCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      appConfig = mockAppConfig,
       parser = mockAddCustomEmploymentRequestParser,
       service = mockAddCustomEmploymentService,
       auditService = mockAuditService,
