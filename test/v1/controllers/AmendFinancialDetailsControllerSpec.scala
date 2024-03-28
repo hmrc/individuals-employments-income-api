@@ -334,7 +334,6 @@ class AmendFinancialDetailsControllerSpec
     val controller = new AmendFinancialDetailsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      appConfig = mockAppConfig,
       parser = mockAmendFinancialDetailsRequestParser,
       service = mockAmendFinancialDetailsService,
       auditService = mockAuditService,

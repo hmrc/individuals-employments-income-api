@@ -24,6 +24,7 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
+import mocks.MockAppConfig
 import v1.mocks.requestParsers.MockDeleteNonPayeEmploymentRequestParser
 import v1.mocks.services.MockDeleteNonPayeEmploymentService
 import v1.models.request.deleteNonPayeEmployment.{DeleteNonPayeEmploymentRawData, DeleteNonPayeEmploymentRequest}
@@ -36,7 +37,8 @@ class DeleteNonPayeEmploymentControllerSpec
     with ControllerTestRunner
     with MockDeleteNonPayeEmploymentRequestParser
     with MockDeleteNonPayeEmploymentService
-    with MockAuditService {
+    with MockAuditService
+    with MockAppConfig {
 
   val taxYear: String = "2020-21"
 

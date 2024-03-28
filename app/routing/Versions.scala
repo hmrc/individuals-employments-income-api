@@ -20,24 +20,30 @@ import play.api.http.HeaderNames.ACCEPT
 import play.api.libs.json._
 import play.api.mvc.RequestHeader
 
+
 object Version {
+  def apply(request: RequestHeader): Version =
+    Versions.getFromRequest(request).getOrElse(throw new Exception("Missing or unsupported version found in request accept header"))
 
-  implicit object VersionWrites extends Writes[Version] {
-
-    def writes(version: Version): JsValue = version match {
-      case Version1 => Json.toJson(Version1.name)
-    }
-
+  object VersionWrites extends Writes[Version] {
+    def writes(version: Version): JsValue = version.asJson
   }
 
-  implicit object VersionReads extends Reads[Version] {
+
+  object VersionReads extends Reads[Version] {
+
+    /** @param version
+      *   expecting a JsString e.g. "1.0"
+      */
 
     override def reads(version: JsValue): JsResult[Version] =
-      version.validate[String].flatMap {
-        case Version1.name => JsSuccess(Version1)
-        case _             => JsError("Unrecognised version")
-      }
-
+      version
+        .validate[String]
+        .flatMap(name =>
+          Versions.getFrom(name) match {
+            case Left(_)        => JsError("Version not recognised")
+            case Right(version) => JsSuccess(version)
+          })
   }
 
   implicit val versionFormat: Format[Version] = Format(VersionReads, VersionWrites)
@@ -45,21 +51,60 @@ object Version {
 
 sealed trait Version {
   val name: String
-  val configName: String
-  val maybePrevious: Option[Version] = None
-  val regexMatch: Option[String]     = None
+  lazy val asJson: JsValue           = Json.toJson(name)
   override def toString: String      = name
 }
 
 case object Version1 extends Version {
   val name       = "1.0"
-  val configName = "1"
+}
+
+case object Version2 extends Version {
+  val name = "2.0"
+}
+
+case object Version3 extends Version {
+  val name = "3.0"
+}
+
+case object Version4 extends Version {
+  val name = "4.0"
+}
+
+case object Version5 extends Version {
+  val name = "5.0"
+}
+
+case object Version6 extends Version {
+  val name = "6.0"
+}
+
+case object Version7 extends Version {
+  val name = "7.0"
+}
+
+case object Version8 extends Version {
+  val name = "8.0"
+}
+
+case object Version9 extends Version {
+  val name = "9.0"
 }
 
 object Versions {
 
+  val latest: Version = Version1
+
   private val versionsByName: Map[String, Version] = Map(
-    Version1.name -> Version1
+    Version1.name -> Version1,
+    Version2.name -> Version2,
+    Version3.name -> Version3,
+    Version4.name -> Version4,
+    Version5.name -> Version5,
+    Version6.name -> Version6,
+    Version7.name -> Version7,
+    Version8.name -> Version8,
+    Version9.name -> Version9
   )
 
   private val versionRegex = """application/vnd.hmrc.(\d.\d)\+json""".r
@@ -73,7 +118,7 @@ object Versions {
   private def getFrom(headers: Seq[(String, String)]): Either[GetFromRequestError, String] =
     headers.collectFirst { case (ACCEPT, versionRegex(ver)) => ver }.toRight(left = InvalidHeader)
 
-  private def getFrom(name: String): Either[GetFromRequestError, Version] =
+  def getFrom(name: String): Either[GetFromRequestError, Version] =
     versionsByName.get(name).toRight(left = VersionNotFound)
 
 }

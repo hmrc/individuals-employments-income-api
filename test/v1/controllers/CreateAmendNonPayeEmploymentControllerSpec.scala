@@ -39,7 +39,8 @@ class CreateAmendNonPayeEmploymentControllerSpec
     with MockAppConfig
     with MockCreateAmendNonPayeEmploymentService
     with MockAuditService
-    with MockCreateAmendNonPayeEmploymentRequestParser {
+    with MockCreateAmendNonPayeEmploymentRequestParser
+     {
 
   val taxYear: String = "2019-20"
 
@@ -113,7 +114,6 @@ class CreateAmendNonPayeEmploymentControllerSpec
     val controller = new CreateAmendNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      appConfig = mockAppConfig,
       parser = mockRequestParser,
       service = mockService,
       auditService = mockAuditService,

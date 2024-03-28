@@ -20,6 +20,7 @@ import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
+import mocks.MockAppConfig
 import play.api.mvc.Result
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v1.fixtures.RetrieveOtherEmploymentControllerFixture.mtdResponse
@@ -34,7 +35,8 @@ class RetrieveOtherEmploymentControllerSpec
   extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveOtherEmploymentIncomeService
-    with MockOtherEmploymentIncomeRequestParser {
+    with MockOtherEmploymentIncomeRequestParser
+    with MockAppConfig {
 
   val taxYear: String = "2019-20"
 
