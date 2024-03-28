@@ -42,7 +42,6 @@ object AmendShareOptionItem {
   implicit val writes: OWrites[AmendShareOptionItem] = (requestBody: AmendShareOptionItem) => {
 
     val schemeType = ShareOptionSchemeType.parser(requestBody.schemePlanType)
-    println("schemeType " + schemeType)
     Json.obj(
       "employerName" -> requestBody.employerName,
       "employerRef" -> requestBody.employerRef,
