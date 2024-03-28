@@ -25,8 +25,8 @@
           },
           "schemePlanType": {
             "type": "string",
-            "description": "The type of share scheme or plan the employer has: Enterprise Management Incentive (EMI), Company Share Option Plan (CSOP) or Save As You Earn (SAYE).",
-            "enum": ["EMI", "CSOP", "SAYE", "Other"]
+            "description": "The type of share scheme or plan the employer has: Enterprise Management Incentive (emi), Company Share Option Plan (csop) or Save As You Earn (saye).",
+            "enum": ["emi", "csop", "saye", "other"]
           },
           "dateOfOptionGrant": {
             "type": "string",
@@ -152,7 +152,7 @@
           "schemePlanType": {
             "type": "string",
             "description": "The type of share scheme or plan the employer has.",
-            "enum": ["SIP", "Other"]
+            "enum": ["sip", "other"]
           },
           "dateSharesCeasedToBeSubjectToPlan": {
             "type": "string",

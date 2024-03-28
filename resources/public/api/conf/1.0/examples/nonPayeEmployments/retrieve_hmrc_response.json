@@ -1,6 +1,6 @@
 {
   "submittedOn": "2020-07-06T09:37:17.542Z",
-  "source": "hmrcHeld",
+  "source": "hmrc-held",
   "totalNonPayeIncome": 876.45,
   "nonPayeIncome": {
     "tips": 876.45

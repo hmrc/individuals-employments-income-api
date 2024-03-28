@@ -28,7 +28,7 @@ object DownstreamSourceEnum {
   implicit val format: Format[DownstreamSourceEnum] = Enums.format[DownstreamSourceEnum]
 
   case object `HMRC HELD` extends DownstreamSourceEnum {
-    override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.hmrcHeld
+    override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
   }
 
   case object CUSTOMER extends DownstreamSourceEnum {

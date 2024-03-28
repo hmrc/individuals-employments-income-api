@@ -20,8 +20,8 @@ import api.models.errors.{MtdError, SchemePlanTypeFormatError}
 
 object SchemePlanTypeValidation {
 
-  val schemeEnumsShareOptions: List[String] = List("EMI", "CSOP", "SAYE", "Other")
-  val schemeEnumsShareAwarded: List[String] = List("SIP", "Other")
+  val schemeEnumsShareOptions: List[String] = List("emi", "csop", "saye", "other")
+  val schemeEnumsShareAwarded: List[String] = List("sip", "other")
 
   def validate(schemePlanType: String, awarded: Boolean): List[MtdError] = {
     if (!awarded && schemeEnumsShareOptions.contains(schemePlanType)) { NoValidationErrors }

@@ -22,14 +22,14 @@ import utils.enums.EnumJsonSpecSupport
 class MtdSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 
   testRoundTrip[MtdSourceEnum](
-    ("hmrcHeld", MtdSourceEnum.hmrcHeld),
+    ("hmrc-held", MtdSourceEnum.`hmrc-held`),
     ("user", MtdSourceEnum.user),
     ("latest", MtdSourceEnum.latest)
   )
 
   "toDesViewString" must {
     "return the expected string" in {
-      MtdSourceEnum.hmrcHeld.toDesViewString shouldBe "HMRC-HELD"
+      MtdSourceEnum.`hmrc-held`.toDesViewString shouldBe "HMRC-HELD"
       MtdSourceEnum.latest.toDesViewString shouldBe "LATEST"
       MtdSourceEnum.user.toDesViewString shouldBe "CUSTOMER"
     }

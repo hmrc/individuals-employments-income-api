@@ -245,7 +245,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -262,7 +262,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "CSOP",
+      |        "schemePlanType": "csop",
       |        "dateOfOptionGrant": "2020-09-12",
       |        "dateOfEvent": "2020-09-12",
       |        "optionNotExercisedButConsiderationReceived": false,
@@ -281,7 +281,7 @@ object AmendOtherEmploymentControllerISpec {
       |       {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "SIP",
+      |        "schemePlanType": "sip",
       |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |        "noOfShareSecuritiesAwarded": 11,
       |        "classOfShareAwarded": "FIRST",
@@ -297,7 +297,7 @@ object AmendOtherEmploymentControllerISpec {
       |       {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "Other",
+      |        "schemePlanType": "other",
       |        "dateSharesCeasedToBeSubjectToPlan": "2020-09-12",
       |        "noOfShareSecuritiesAwarded": 299,
       |        "classOfShareAwarded": "Ordinary shares",
@@ -361,7 +361,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -378,7 +378,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "CSOP",
+      |        "schemePlanType": "csop",
       |        "dateOfOptionGrant": "2020-09-12",
       |        "dateOfEvent": "2020-09-12",
       |        "optionNotExercisedButConsiderationReceived": false,
@@ -397,7 +397,7 @@ object AmendOtherEmploymentControllerISpec {
       |       {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "SIP",
+      |        "schemePlanType": "sip",
       |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |        "noOfShareSecuritiesAwarded": 11,
       |        "classOfShareAwarded": "FIRST",
@@ -413,7 +413,7 @@ object AmendOtherEmploymentControllerISpec {
       |       {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "Other",
+      |        "schemePlanType": "other",
       |        "dateSharesCeasedToBeSubjectToPlan": "2020-09-12",
       |        "noOfShareSecuritiesAwarded": 299,
       |        "classOfShareAwarded": "Ordinary shares",
@@ -848,7 +848,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "This employerName string is 106 characters long--------------------------------------------------------106",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -865,7 +865,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "This employerName string is 106 characters long--------------------------------------------------------106",
       |        "employerRef" : "987/XZ321",
-      |        "schemePlanType": "CSOP",
+      |        "schemePlanType": "csop",
       |        "dateOfOptionGrant": "2020-09-12",
       |        "dateOfEvent": "2020-09-12",
       |        "optionNotExercisedButConsiderationReceived": false,
@@ -891,7 +891,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "InvalidReference",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -908,7 +908,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "ABC393/123",
-      |        "schemePlanType": "CSOP",
+      |        "schemePlanType": "csop",
       |        "dateOfOptionGrant": "2020-09-12",
       |        "dateOfEvent": "2020-09-12",
       |        "optionNotExercisedButConsiderationReceived": false,
@@ -977,7 +977,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "19-11-20",
       |        "dateOfEvent": "19-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -994,7 +994,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "CSOP",
+      |        "schemePlanType": "csop",
       |        "dateOfOptionGrant": "24-07-2020",
       |        "dateOfEvent": "24-07-2020",
       |        "optionNotExercisedButConsiderationReceived": false,
@@ -1020,7 +1020,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -1037,7 +1037,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "CSOP",
+      |        "schemePlanType": "csop",
       |        "dateOfOptionGrant": "2020-09-12",
       |        "dateOfEvent": "2020-09-12",
       |        "optionNotExercisedButConsiderationReceived": false,
@@ -1064,7 +1064,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "SIP",
+      |        "schemePlanType": "sip",
       |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |        "noOfShareSecuritiesAwarded": 11,
       |        "classOfShareAwarded": "This ClassOfShares Awarded string is 91 characters long ---------------------------------91",
@@ -1080,7 +1080,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "Other",
+      |        "schemePlanType": "other",
       |        "dateSharesCeasedToBeSubjectToPlan": "2020-09-12",
       |        "noOfShareSecuritiesAwarded": 299,
       |        "classOfShareAwarded": "This ClassOfShares Awarded string is 91 characters long ---------------------------------91",
@@ -1130,7 +1130,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -1164,7 +1164,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -1181,7 +1181,7 @@ object AmendOtherEmploymentControllerISpec {
       |      {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "CSOP",
+      |        "schemePlanType": "csop",
       |        "dateOfOptionGrant": "2020-09-12",
       |        "dateOfEvent": "2020-09-12",
       |        "optionNotExercisedButConsiderationReceived": false,
@@ -1200,7 +1200,7 @@ object AmendOtherEmploymentControllerISpec {
       |       {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "SIP",
+      |        "schemePlanType": "sip",
       |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |        "noOfShareSecuritiesAwarded": -11,
       |        "classOfShareAwarded": "FIRST",
@@ -1216,7 +1216,7 @@ object AmendOtherEmploymentControllerISpec {
       |       {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "Other",
+      |        "schemePlanType": "other",
       |        "dateSharesCeasedToBeSubjectToPlan": "2020-09-12",
       |        "noOfShareSecuritiesAwarded": -299,
       |        "classOfShareAwarded": "Ordinary shares",

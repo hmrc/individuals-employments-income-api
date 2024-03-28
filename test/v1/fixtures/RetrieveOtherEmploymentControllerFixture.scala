@@ -28,7 +28,7 @@ object RetrieveOtherEmploymentControllerFixture {
       |   {
       |      "employerName": "Company Ltd",
       |      "employerRef" : "123/AB456",
-      |      "schemePlanType": "EMI",
+      |      "schemePlanType": "emi",
       |      "dateOfOptionGrant": "2019-11-20",
       |      "dateOfEvent": "2019-12-22",
       |      "optionNotExercisedButConsiderationReceived": true,
@@ -47,7 +47,7 @@ object RetrieveOtherEmploymentControllerFixture {
       |   {
       |     "employerName": "Company Ltd",
       |     "employerRef" : "123/AB456",
-      |     "schemePlanType": "SIP",
+      |     "schemePlanType": "sip",
       |     "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |     "noOfShareSecuritiesAwarded": 11,
       |     "classOfShareAwarded": "FIRST",

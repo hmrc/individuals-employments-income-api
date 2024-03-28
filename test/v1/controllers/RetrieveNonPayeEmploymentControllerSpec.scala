@@ -38,7 +38,7 @@ class RetrieveNonPayeEmploymentControllerSpec
     with MockAppConfig {
 
   val taxYear: String       = "2019-20"
-  val source: MtdSourceEnum = MtdSourceEnum.hmrcHeld
+  val source: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
 
   val rawData: RetrieveNonPayeEmploymentIncomeRawData =
     RetrieveNonPayeEmploymentIncomeRawData(

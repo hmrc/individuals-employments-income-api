@@ -29,7 +29,7 @@ object DesSourceEnum {
   implicit val format: Format[DesSourceEnum]         = Enums.format[DesSourceEnum]
 
   case object `HMRC HELD` extends DesSourceEnum {
-    override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.hmrcHeld
+    override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
   }
 
   case object CUSTOMER extends DesSourceEnum {

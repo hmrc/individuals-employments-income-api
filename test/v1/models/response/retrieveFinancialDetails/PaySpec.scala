@@ -26,7 +26,7 @@ class PaySpec extends UnitSpec {
       |{
       |  "taxablePayToDate": 100.11,
       |  "totalTaxToDate": 102.11,
-      |  "payFrequency": "CALENDAR MONTHLY",
+      |  "payFrequency": "monthly",
       |  "paymentDate": "2020-04-23",
       |  "taxWeekNo": 2,
       |  "taxMonthNo": 3
@@ -37,7 +37,7 @@ class PaySpec extends UnitSpec {
   val model: Pay = Pay(
     taxablePayToDate = Some(100.11),
     totalTaxToDate = Some(102.11),
-    payFrequency = Some("CALENDAR MONTHLY"),
+    payFrequency = Some("monthly"),
     paymentDate = Some("2020-04-23"),
     taxWeekNo = Some(2),
     taxMonthNo = Some(3)

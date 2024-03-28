@@ -24,7 +24,7 @@ object OtherIncomeEmploymentFixture {
   val shareOption: ShareOptionItem = ShareOptionItem(
     employerName = "Company Ltd",
     employerRef = Some("123/AB456"),
-    schemePlanType = ShareOptionSchemeType.EMI,
+    schemePlanType = ShareOptionSchemeType.`emi`,
     dateOfOptionGrant = "2019-11-20",
     dateOfEvent = "2019-12-22",
     optionNotExercisedButConsiderationReceived = true,
@@ -42,7 +42,7 @@ object OtherIncomeEmploymentFixture {
   val sharesAwardedOrReceived: SharesAwardedOrReceivedItem = SharesAwardedOrReceivedItem(
     employerName = "Company Ltd",
     employerRef = Some("123/AB456"),
-    schemePlanType = SharesAwardedOrReceivedSchemeType.SIP,
+    schemePlanType = SharesAwardedOrReceivedSchemeType.`sip`,
     dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
     noOfShareSecuritiesAwarded = 11,
     classOfShareAwarded = "FIRST",

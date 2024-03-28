@@ -26,7 +26,7 @@ object RetrieveNonPayeEmploymentControllerFixture {
     """
       |{
       | "submittedOn": "2020-07-06T09:37:17.000Z",
-      | "source": "hmrcHeld",
+      | "source": "hmrc-held",
       | "totalNonPayeIncome": 23122.22,
       | "nonPayeIncome": {
       |   "tips": 2132.22
@@ -50,7 +50,7 @@ object RetrieveNonPayeEmploymentControllerFixture {
 
   val responseModel: RetrieveNonPayeEmploymentIncomeResponse = RetrieveNonPayeEmploymentIncomeResponse(
     submittedOn = Timestamp("2020-07-06T09:37:17.000Z"),
-    source = MtdSourceEnum.hmrcHeld,
+    source = MtdSourceEnum.`hmrc-held`,
     totalNonPayeIncome = Some(23122.22),
     nonPayeIncome = Some(NonPayeIncome(tips = Some(2132.22)))
   )
