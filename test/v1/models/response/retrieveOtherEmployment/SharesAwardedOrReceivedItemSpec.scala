@@ -22,27 +22,6 @@ import support.UnitSpec
 
 class SharesAwardedOrReceivedItemSpec extends UnitSpec {
 
-  private val json = Json.parse(
-    """
-      |{
-      |   "employerName": "Company Ltd",
-      |   "employerRef" : "123/AB456",
-      |   "schemePlanType": "sip",
-      |   "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
-      |   "noOfShareSecuritiesAwarded": 11,
-      |   "classOfShareAwarded": "FIRST",
-      |   "dateSharesAwarded" : "2019-12-20",
-      |   "sharesSubjectToRestrictions": true,
-      |   "electionEnteredIgnoreRestrictions": false,
-      |   "actualMarketValueOfSharesOnAward": 2123.22,
-      |   "unrestrictedMarketValueOfSharesOnAward": 123.22,
-      |   "amountPaidForSharesOnAward": 123.22,
-      |   "marketValueAfterRestrictionsLifted": 1232.22,
-      |   "taxableAmount": 12321.22
-      |}
-    """.stripMargin
-  )
-
   private val model = SharesAwardedOrReceivedItem(
     employerName = "Company Ltd",
     employerRef = Some("123/AB456"),
@@ -63,7 +42,26 @@ class SharesAwardedOrReceivedItemSpec extends UnitSpec {
   "SharesAwardedOrReceivedItem" when {
     "read from valid JSON" should {
       "produce the expected SharesAwardedOrReceivedItem object" in {
-        json.as[SharesAwardedOrReceivedItem] shouldBe model
+        Json.parse(
+          """
+            |{
+            |   "employerName": "Company Ltd",
+            |   "employerRef" : "123/AB456",
+            |   "schemePlanType": "SIP",
+            |   "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
+            |   "noOfShareSecuritiesAwarded": 11,
+            |   "classOfShareAwarded": "FIRST",
+            |   "dateSharesAwarded" : "2019-12-20",
+            |   "sharesSubjectToRestrictions": true,
+            |   "electionEnteredIgnoreRestrictions": false,
+            |   "actualMarketValueOfSharesOnAward": 2123.22,
+            |   "unrestrictedMarketValueOfSharesOnAward": 123.22,
+            |   "amountPaidForSharesOnAward": 123.22,
+            |   "marketValueAfterRestrictionsLifted": 1232.22,
+            |   "taxableAmount": 12321.22
+            |}
+            """.stripMargin
+        ).as[SharesAwardedOrReceivedItem] shouldBe model
       }
     }
 
@@ -77,7 +75,26 @@ class SharesAwardedOrReceivedItemSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JsObject" in {
-        Json.toJson(model) shouldBe json
+        Json.toJson(model) shouldBe Json.parse(
+          """
+            |{
+            |   "employerName": "Company Ltd",
+            |   "employerRef" : "123/AB456",
+            |   "schemePlanType": "sip",
+            |   "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
+            |   "noOfShareSecuritiesAwarded": 11,
+            |   "classOfShareAwarded": "FIRST",
+            |   "dateSharesAwarded" : "2019-12-20",
+            |   "sharesSubjectToRestrictions": true,
+            |   "electionEnteredIgnoreRestrictions": false,
+            |   "actualMarketValueOfSharesOnAward": 2123.22,
+            |   "unrestrictedMarketValueOfSharesOnAward": 123.22,
+            |   "amountPaidForSharesOnAward": 123.22,
+            |   "marketValueAfterRestrictionsLifted": 1232.22,
+            |   "taxableAmount": 12321.22
+            |}
+            """.stripMargin
+        )
       }
     }
   }

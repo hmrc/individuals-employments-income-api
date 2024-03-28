@@ -41,7 +41,7 @@ object ShareOptionItem {
   implicit val reads: Reads[ShareOptionItem] = (
     (JsPath \ "employerName").read[String] and
       (JsPath \ "employerRef").readNullable[String] and
-      (JsPath \ "schemePlanType").read[ShareOptionSchemeType] and
+      (JsPath \ "schemePlanType").read[String].map(_. toLowerCase).map(ShareOptionSchemeType.parser) and
       (JsPath \ "dateOfOptionGrant").read[String] and
       (JsPath \ "dateOfEvent").read[String] and
       (JsPath \ "optionNotExercisedButConsiderationReceived").read[Boolean] and
