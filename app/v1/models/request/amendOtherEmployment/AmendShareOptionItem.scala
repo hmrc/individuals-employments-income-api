@@ -45,7 +45,7 @@ object AmendShareOptionItem {
     Json.obj(
       "employerName" -> requestBody.employerName,
       "employerRef" -> requestBody.employerRef,
-      "schemePlanType" -> schemeType.toDesViewString,
+      "schemePlanType" -> schemeType.toDownstreamString,
       "dateOfOptionGrant" -> requestBody.dateOfOptionGrant,
       "dateOfEvent" -> requestBody.dateOfEvent,
       "optionNotExercisedButConsiderationReceived" -> requestBody.optionNotExercisedButConsiderationReceived,

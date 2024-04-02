@@ -16,29 +16,32 @@
 
 package api.models.domain
 
-import play.api.libs.json.Format
+import play.api.libs.json.Writes
 import utils.enums.Enums
 
-sealed trait ShareOptionSchemeType{
-  def toDesViewString: String
+sealed trait ShareOptionSchemeType {
+  def toDownstreamString: String
 }
 
 object ShareOptionSchemeType {
-  case object `emi`   extends ShareOptionSchemeType{
-    override def toDesViewString: String = "EMI"
-  }
-  case object `csop`  extends ShareOptionSchemeType{
-    override def toDesViewString: String = "CSOP"
-  }
-  case object `saye`  extends ShareOptionSchemeType{
-    override def toDesViewString: String = "SAYE"
-  }
-  case object `other` extends ShareOptionSchemeType{
-    override def toDesViewString: String = "Other"
+
+  case object `emi` extends ShareOptionSchemeType {
+    override def toDownstreamString: String = "EMI"
   }
 
-  implicit val format: Format[ShareOptionSchemeType] = Enums.format[ShareOptionSchemeType]
+  case object `csop` extends ShareOptionSchemeType {
+    override def toDownstreamString: String = "CSOP"
+  }
 
+  case object `saye` extends ShareOptionSchemeType {
+    override def toDownstreamString: String = "SAYE"
+  }
+
+  case object `other` extends ShareOptionSchemeType {
+    override def toDownstreamString: String = "Other"
+  }
+
+  implicit val writes: Writes[ShareOptionSchemeType]         = Enums.writes[ShareOptionSchemeType]
   val parser: PartialFunction[String, ShareOptionSchemeType] = Enums.parser[ShareOptionSchemeType]
 
 }

@@ -17,6 +17,7 @@
 package v1.models.response.retrieveOtherEmployment
 
 import api.models.domain.SharesAwardedOrReceivedSchemeType
+import api.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
@@ -40,7 +41,7 @@ object SharesAwardedOrReceivedItem {
   implicit val reads: Reads[SharesAwardedOrReceivedItem] = (
     (JsPath \ "employerName").read[String] and
       (JsPath \ "employerRef").readNullable[String] and
-      (JsPath \ "schemePlanType").read[String].map(_. toLowerCase).map(SharesAwardedOrReceivedSchemeType.parser) and
+      (JsPath \ "schemePlanType").read[DownstreamSharesAwardedOrReceivedSchemeType].map(_.toMtd) and
       (JsPath \ "dateSharesCeasedToBeSubjectToPlan").read[String] and
       (JsPath \ "noOfShareSecuritiesAwarded").read[BigInt] and
       (JsPath \ "classOfShareAwarded").read[String] and

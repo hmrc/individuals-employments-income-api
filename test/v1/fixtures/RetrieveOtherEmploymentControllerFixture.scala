@@ -20,6 +20,89 @@ import play.api.libs.json.{JsValue, Json}
 
 object RetrieveOtherEmploymentControllerFixture {
 
+
+  val downstreamResponse: JsValue = Json.parse(
+    """
+      |{
+      | "submittedOn": "2020-07-06T09:37:17.000Z",
+      | "shareOption":[
+      |   {
+      |      "employerName": "Company Ltd",
+      |      "employerRef" : "123/AB456",
+      |      "schemePlanType": "EMI",
+      |      "dateOfOptionGrant": "2019-11-20",
+      |      "dateOfEvent": "2019-12-22",
+      |      "optionNotExercisedButConsiderationReceived": true,
+      |      "amountOfConsiderationReceived": 23122.22,
+      |      "noOfSharesAcquired": 1,
+      |      "classOfSharesAcquired": "FIRST",
+      |      "exercisePrice": 12.22,
+      |      "amountPaidForOption": 123.22,
+      |      "marketValueOfSharesOnExcise": 1232.22,
+      |      "profitOnOptionExercised": 1232.33,
+      |      "employersNicPaid": 2312.22,
+      |      "taxableAmount" : 2132.22
+      |   }
+      | ],
+      | "sharesAwardedOrReceived":[
+      |   {
+      |     "employerName": "Company Ltd",
+      |     "employerRef" : "123/AB456",
+      |     "schemePlanType": "SIP",
+      |     "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
+      |     "noOfShareSecuritiesAwarded": 11,
+      |     "classOfShareAwarded": "FIRST",
+      |     "dateSharesAwarded" : "2019-12-20",
+      |     "sharesSubjectToRestrictions": true,
+      |     "electionEnteredIgnoreRestrictions": false,
+      |     "actualMarketValueOfSharesOnAward": 2123.22,
+      |     "unrestrictedMarketValueOfSharesOnAward": 123.22,
+      |     "amountPaidForSharesOnAward": 123.22,
+      |     "marketValueAfterRestrictionsLifted": 1232.22,
+      |     "taxableAmount": 12321.22
+      |   }
+      | ],
+      | "disability":{
+      |   "customerReference": "customer reference",
+      |   "amountDeducted": 1223.22
+      | },
+      | "foreignService":{
+      |   "customerReference": "customer reference",
+      |   "amountDeducted": 1223.22
+      | },
+      | "lumpSums": [
+      |    {
+      |      "employerName": "BPDTS Ltd",
+      |      "employerRef": "123/AB456",
+      |      "taxableLumpSumsAndCertainIncome":
+      |         {
+      |           "amount": 5000.99,
+      |           "taxPaid": 3333.33,
+      |           "taxTakenOffInEmployment": true
+      |         },
+      |      "benefitFromEmployerFinancedRetirementScheme":
+      |         {
+      |           "amount": 5000.99,
+      |           "exemptAmount": 2345.99,
+      |           "taxPaid": 3333.33,
+      |           "taxTakenOffInEmployment": true
+      |         },
+      |      "redundancyCompensationPaymentsOverExemption":
+      |         {
+      |           "amount": 5000.99,
+      |           "taxPaid": 3333.33,
+      |           "taxTakenOffInEmployment": true
+      |         },
+      |      "redundancyCompensationPaymentsUnderExemption":
+      |         {
+      |           "amount": 5000.99
+      |         }
+      |      }
+      |   ]
+      |}
+      |""".stripMargin
+  )
+
   val mtdResponse: JsValue = Json.parse(
     """
       |{

@@ -44,7 +44,7 @@ object AmendSharesAwardedOrReceivedItem {
     Json.obj(
       "employerName" -> requestBody.employerName,
       "employerRef" -> requestBody.employerRef,
-      "schemePlanType" -> schemeType.toDesViewString,
+      "schemePlanType" -> schemeType.toDownstreamString,
       "dateSharesCeasedToBeSubjectToPlan" -> requestBody.dateSharesCeasedToBeSubjectToPlan,
       "noOfShareSecuritiesAwarded" -> requestBody.noOfShareSecuritiesAwarded,
       "classOfShareAwarded" -> requestBody.classOfShareAwarded,

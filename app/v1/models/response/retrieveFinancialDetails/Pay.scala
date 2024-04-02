@@ -29,7 +29,9 @@ case class Pay(taxablePayToDate: Option[BigDecimal],
 
 object Pay {
 
-  implicit val payFrequencyReads: Reads[PayFrequency] = implicitly[Reads[DownstreamPayFrequency]].map(_.toMtd)
+  implicit val format: OFormat[Pay] = {
+    implicit val payFrequencyReads: Reads[PayFrequency] = implicitly[Reads[DownstreamPayFrequency]].map(_.toMtd)
+    Json.format[Pay]
+  }
 
-  implicit val format: OFormat[Pay] = Json.format[Pay]
 }
