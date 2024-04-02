@@ -8,7 +8,7 @@ components:
         the latest submitted values will be returned.
       schema:
         type: string
-        enum: [ user, hmrcHeld, latest ]
+        enum: [ user, hmrc-held, latest ]
         example: latest
       required: false
     savingsAccountId:

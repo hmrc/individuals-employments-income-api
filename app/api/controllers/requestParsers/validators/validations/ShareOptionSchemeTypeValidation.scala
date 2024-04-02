@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package api.models.domain
+package api.controllers.requestParsers.validators.validations
 
-import support.UnitSpec
-import utils.enums.EnumJsonSpecSupport
+import api.models.domain.ShareOptionSchemeType
+import api.models.errors.{MtdError, SchemePlanTypeFormatError}
 
-class MtdSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
+object ShareOptionSchemeTypeValidation {
 
-  testRoundTrip[MtdSourceEnum](
-    ("hmrc-held", MtdSourceEnum.`hmrc-held`),
-    ("user", MtdSourceEnum.user),
-    ("latest", MtdSourceEnum.latest)
-  )
-
-  "toDesViewString" must {
-    "return the expected string" in {
-      MtdSourceEnum.`hmrc-held`.toDesViewString shouldBe "HMRC-HELD"
-      MtdSourceEnum.latest.toDesViewString shouldBe "LATEST"
-      MtdSourceEnum.user.toDesViewString shouldBe "CUSTOMER"
-    }
-  }
+  def validate(schemePlanType: String): List[MtdError] =
+    if (ShareOptionSchemeType.parser.isDefinedAt(schemePlanType)) NoValidationErrors else List(SchemePlanTypeFormatError)
 
 }

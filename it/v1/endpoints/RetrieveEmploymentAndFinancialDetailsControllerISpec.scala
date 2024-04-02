@@ -33,7 +33,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends IntegrationBa
 
     val nino: String           = "AA123456A"
     val employmentId: String   = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
-    val source: Option[String] = Some("hmrcHeld")
+    val source: Option[String] = Some("hmrc-held")
 
     def taxYear: String
 

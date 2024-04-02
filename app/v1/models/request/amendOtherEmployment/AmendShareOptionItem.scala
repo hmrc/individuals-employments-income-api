@@ -16,8 +16,8 @@
 
 package v1.models.request.amendOtherEmployment
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import api.models.domain.ShareOptionSchemeType
+import play.api.libs.json.{Json, OWrites, Reads}
 
 case class AmendShareOptionItem(employerName: String,
                                 employerRef: Option[String],
@@ -36,24 +36,28 @@ case class AmendShareOptionItem(employerName: String,
                                 taxableAmount: BigDecimal)
 
 object AmendShareOptionItem {
+
   implicit val reads: Reads[AmendShareOptionItem] = Json.reads[AmendShareOptionItem]
 
-  implicit val writes: OWrites[AmendShareOptionItem] = (
-    (JsPath \ "employerName").write[String] and
-      (JsPath \ "employerRef").writeNullable[String] and
-      (JsPath \ "schemePlanType").write[String] and
-      (JsPath \ "dateOfOptionGrant").write[String] and
-      (JsPath \ "dateOfEvent").write[String] and
-      (JsPath \ "optionNotExercisedButConsiderationReceived").write[Boolean] and
-      (JsPath \ "amountOfConsiderationReceived").write[BigDecimal] and
-      (JsPath \ "noOfSharesAcquired").write[BigInt] and
-      (JsPath \ "classOfSharesAcquired").write[String] and
-      (JsPath \ "exercisePrice").write[BigDecimal] and
-      (JsPath \ "amountPaidForOption").write[BigDecimal] and
-      (JsPath \ "marketValueOfSharesOnExcise").write[BigDecimal] and
-      (JsPath \ "profitOnOptionExercised").write[BigDecimal] and
-      (JsPath \ "employersNicPaid").write[BigDecimal] and
-      (JsPath \ "taxableAmount").write[BigDecimal]
-  )(unlift(AmendShareOptionItem.unapply))
+  implicit val writes: OWrites[AmendShareOptionItem] = (requestBody: AmendShareOptionItem) => {
 
+    val schemeType = ShareOptionSchemeType.parser(requestBody.schemePlanType)
+    Json.obj(
+      "employerName" -> requestBody.employerName,
+      "employerRef" -> requestBody.employerRef,
+      "schemePlanType" -> schemeType.toDownstreamString,
+      "dateOfOptionGrant" -> requestBody.dateOfOptionGrant,
+      "dateOfEvent" -> requestBody.dateOfEvent,
+      "optionNotExercisedButConsiderationReceived" -> requestBody.optionNotExercisedButConsiderationReceived,
+      "amountOfConsiderationReceived" -> requestBody.amountOfConsiderationReceived,
+      "noOfSharesAcquired" -> requestBody.noOfSharesAcquired,
+      "classOfSharesAcquired" -> requestBody.classOfSharesAcquired,
+      "exercisePrice" -> requestBody.exercisePrice,
+      "amountPaidForOption" -> requestBody.amountPaidForOption,
+      "marketValueOfSharesOnExcise" -> requestBody.marketValueOfSharesOnExcise,
+      "profitOnOptionExercised" -> requestBody.profitOnOptionExercised,
+      "employersNicPaid" -> requestBody.employersNicPaid,
+      "taxableAmount" -> requestBody.taxableAmount
+    )
+  }
 }

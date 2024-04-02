@@ -16,27 +16,23 @@
 
 package api.models.domain
 
-import play.api.libs.json.Format
+import play.api.libs.json.Writes
 import utils.enums.Enums
 
-sealed trait MtdSourceEnum {
-  def toDesViewString: String
-}
+sealed trait PayFrequency
 
-object MtdSourceEnum {
+object PayFrequency {
 
-  case object `hmrc-held` extends MtdSourceEnum {
-    override def toDesViewString: String = "HMRC-HELD"
-  }
+  case object `weekly`      extends PayFrequency
+  case object `fortnightly` extends PayFrequency
+  case object `four-weekly` extends PayFrequency
+  case object `monthly`     extends PayFrequency
+  case object `quarterly`   extends PayFrequency
+  case object `bi-annually` extends PayFrequency
+  case object `one-off`     extends PayFrequency
+  case object `irregular`   extends PayFrequency
+  case object `annually`    extends PayFrequency
 
-  case object user extends MtdSourceEnum {
-    override def toDesViewString: String = "CUSTOMER"
-  }
+  implicit val writes : Writes[PayFrequency] = Enums.writes[PayFrequency]
 
-  case object latest extends MtdSourceEnum {
-    override def toDesViewString: String = "LATEST"
-  }
-
-  implicit val format: Format[MtdSourceEnum]         = Enums.format[MtdSourceEnum]
-  val parser: PartialFunction[String, MtdSourceEnum] = Enums.parser[MtdSourceEnum]
 }

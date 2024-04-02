@@ -38,7 +38,7 @@ class AmendOtherEmploymentRequestParserSpec extends UnitSpec {
       |      {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "EMI",
+      |        "schemePlanType": "emi",
       |        "dateOfOptionGrant": "2019-11-20",
       |        "dateOfEvent": "2019-11-20",
       |        "optionNotExercisedButConsiderationReceived": true,
@@ -55,7 +55,7 @@ class AmendOtherEmploymentRequestParserSpec extends UnitSpec {
       |      {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "CSOP",
+      |        "schemePlanType": "csop",
       |        "dateOfOptionGrant": "2020-09-12",
       |        "dateOfEvent": "2020-09-12",
       |        "optionNotExercisedButConsiderationReceived": false,
@@ -74,7 +74,7 @@ class AmendOtherEmploymentRequestParserSpec extends UnitSpec {
       |       {
       |        "employerName": "Company Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "SIP",
+      |        "schemePlanType": "sip",
       |        "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
       |        "noOfShareSecuritiesAwarded": 11,
       |        "classOfShareAwarded": "FIRST",
@@ -90,7 +90,7 @@ class AmendOtherEmploymentRequestParserSpec extends UnitSpec {
       |       {
       |        "employerName": "SecondCom Ltd",
       |        "employerRef" : "123/AB456",
-      |        "schemePlanType": "Other",
+      |        "schemePlanType": "other",
       |        "dateSharesCeasedToBeSubjectToPlan": "2020-09-12",
       |        "noOfShareSecuritiesAwarded": 299,
       |        "classOfShareAwarded": "Ordinary shares",
@@ -159,7 +159,7 @@ class AmendOtherEmploymentRequestParserSpec extends UnitSpec {
     AmendShareOptionItem(
       employerName = "Company Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = "EMI",
+      schemePlanType = "emi",
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-11-20",
       optionNotExercisedButConsiderationReceived = true,
@@ -176,7 +176,7 @@ class AmendOtherEmploymentRequestParserSpec extends UnitSpec {
     AmendShareOptionItem(
       employerName = "SecondCom Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = "CSOP",
+      schemePlanType = "csop",
       dateOfOptionGrant = "2020-09-12",
       dateOfEvent = "2020-09-12",
       optionNotExercisedButConsiderationReceived = false,
@@ -196,7 +196,7 @@ class AmendOtherEmploymentRequestParserSpec extends UnitSpec {
     AmendSharesAwardedOrReceivedItem(
       employerName = "Company Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = "SIP",
+      schemePlanType = "sip",
       dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
       noOfShareSecuritiesAwarded = 11,
       classOfShareAwarded = "FIRST",
@@ -212,7 +212,7 @@ class AmendOtherEmploymentRequestParserSpec extends UnitSpec {
     AmendSharesAwardedOrReceivedItem(
       employerName = "SecondCom Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = "Other",
+      schemePlanType = "other",
       dateSharesCeasedToBeSubjectToPlan = "2020-09-12",
       noOfShareSecuritiesAwarded = 299,
       classOfShareAwarded = "Ordinary shares",

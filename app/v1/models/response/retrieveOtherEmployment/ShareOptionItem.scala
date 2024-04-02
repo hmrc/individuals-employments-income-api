@@ -17,6 +17,7 @@
 package v1.models.response.retrieveOtherEmployment
 
 import api.models.domain.ShareOptionSchemeType
+import api.models.downstream.DownstreamShareOptionSchemeType
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
@@ -41,7 +42,7 @@ object ShareOptionItem {
   implicit val reads: Reads[ShareOptionItem] = (
     (JsPath \ "employerName").read[String] and
       (JsPath \ "employerRef").readNullable[String] and
-      (JsPath \ "schemePlanType").read[ShareOptionSchemeType] and
+      (JsPath \ "schemePlanType").read[DownstreamShareOptionSchemeType].map(_.toMtd) and
       (JsPath \ "dateOfOptionGrant").read[String] and
       (JsPath \ "dateOfEvent").read[String] and
       (JsPath \ "optionNotExercisedButConsiderationReceived").read[Boolean] and

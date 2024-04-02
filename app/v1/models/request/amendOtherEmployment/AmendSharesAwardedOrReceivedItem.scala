@@ -16,8 +16,8 @@
 
 package v1.models.request.amendOtherEmployment
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import api.models.domain.SharesAwardedOrReceivedSchemeType
+import play.api.libs.json.{Json, OWrites, Reads}
 
 case class AmendSharesAwardedOrReceivedItem(employerName: String,
                                             employerRef: Option[String],
@@ -35,23 +35,27 @@ case class AmendSharesAwardedOrReceivedItem(employerName: String,
                                             taxableAmount: BigDecimal)
 
 object AmendSharesAwardedOrReceivedItem {
+
   implicit val reads: Reads[AmendSharesAwardedOrReceivedItem] = Json.reads[AmendSharesAwardedOrReceivedItem]
 
-  implicit val writes: OWrites[AmendSharesAwardedOrReceivedItem] = (
-    (JsPath \ "employerName").write[String] and
-      (JsPath \ "employerRef").writeNullable[String] and
-      (JsPath \ "schemePlanType").write[String] and
-      (JsPath \ "dateSharesCeasedToBeSubjectToPlan").write[String] and
-      (JsPath \ "noOfShareSecuritiesAwarded").write[BigInt] and
-      (JsPath \ "classOfShareAwarded").write[String] and
-      (JsPath \ "dateSharesAwarded").write[String] and
-      (JsPath \ "sharesSubjectToRestrictions").write[Boolean] and
-      (JsPath \ "electionEnteredIgnoreRestrictions").write[Boolean] and
-      (JsPath \ "actualMarketValueOfSharesOnAward").write[BigDecimal] and
-      (JsPath \ "unrestrictedMarketValueOfSharesOnAward").write[BigDecimal] and
-      (JsPath \ "amountPaidForSharesOnAward").write[BigDecimal] and
-      (JsPath \ "marketValueAfterRestrictionsLifted").write[BigDecimal] and
-      (JsPath \ "taxableAmount").write[BigDecimal]
-  )(unlift(AmendSharesAwardedOrReceivedItem.unapply))
+  implicit val writes: OWrites[AmendSharesAwardedOrReceivedItem] = (requestBody: AmendSharesAwardedOrReceivedItem) => {
 
+    val schemeType = SharesAwardedOrReceivedSchemeType.parser(requestBody.schemePlanType)
+    Json.obj(
+      "employerName" -> requestBody.employerName,
+      "employerRef" -> requestBody.employerRef,
+      "schemePlanType" -> schemeType.toDownstreamString,
+      "dateSharesCeasedToBeSubjectToPlan" -> requestBody.dateSharesCeasedToBeSubjectToPlan,
+      "noOfShareSecuritiesAwarded" -> requestBody.noOfShareSecuritiesAwarded,
+      "classOfShareAwarded" -> requestBody.classOfShareAwarded,
+      "dateSharesAwarded" -> requestBody.dateSharesAwarded,
+      "sharesSubjectToRestrictions" -> requestBody.sharesSubjectToRestrictions,
+      "electionEnteredIgnoreRestrictions" -> requestBody.electionEnteredIgnoreRestrictions,
+      "actualMarketValueOfSharesOnAward" -> requestBody.actualMarketValueOfSharesOnAward,
+      "unrestrictedMarketValueOfSharesOnAward" -> requestBody.unrestrictedMarketValueOfSharesOnAward,
+      "amountPaidForSharesOnAward" -> requestBody.amountPaidForSharesOnAward,
+      "marketValueAfterRestrictionsLifted" -> requestBody.marketValueAfterRestrictionsLifted,
+      "taxableAmount" -> requestBody.taxableAmount
+    )
+  }
 }

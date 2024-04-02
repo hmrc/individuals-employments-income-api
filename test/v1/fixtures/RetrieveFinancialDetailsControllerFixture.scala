@@ -16,7 +16,7 @@
 
 package v1.fixtures
 
-import api.models.domain.{MtdSourceEnum, Timestamp}
+import api.models.domain.{MtdSourceEnum, PayFrequency, Timestamp}
 import play.api.libs.json.{JsValue, Json}
 import v1.models.response.retrieveFinancialDetails._
 
@@ -121,7 +121,7 @@ object RetrieveFinancialDetailsControllerFixture {
       |    "pay": {
       |      "taxablePayToDate": 34234.15,
       |      "totalTaxToDate": 6782.92,
-      |      "payFrequency": "CALENDAR MONTHLY",
+      |      "payFrequency": "monthly",
       |      "paymentDate": "2020-04-23",
       |      "taxWeekNo": 32,
       |      "taxMonthNo": 8
@@ -194,7 +194,7 @@ object RetrieveFinancialDetailsControllerFixture {
       |    "pay": {
       |      "taxablePayToDate": 34234.15,
       |      "totalTaxToDate": 6782.92,
-      |      "payFrequency": "CALENDAR MONTHLY",
+      |      "payFrequency": "monthly",
       |      "paymentDate": "2020-04-23",
       |      "taxWeekNo": 32,
       |      "taxMonthNo": 8
@@ -262,7 +262,7 @@ object RetrieveFinancialDetailsControllerFixture {
       Pay(
         taxablePayToDate = Some(34234.15),
         totalTaxToDate = Some(6782.92),
-        payFrequency = Some("CALENDAR MONTHLY"),
+        payFrequency = Some(PayFrequency.`monthly`),
         paymentDate = Some("2020-04-23"),
         taxWeekNo = Some(32),
         taxMonthNo = Some(8)

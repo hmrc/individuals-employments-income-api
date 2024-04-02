@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-package v1.models.response.retrieveFinancialDetails
+package api.models.domain
 
-import api.models.domain.MtdSourceEnum
+import api.models.domain.ShareOptionSchemeType._
 import support.UnitSpec
 import utils.enums.EnumJsonSpecSupport
 
-class DesSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
+class ShareOptionSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 
-  testRoundTrip[DesSourceEnum](
-    ("HMRC HELD", DesSourceEnum.`HMRC HELD`),
-    ("CUSTOMER", DesSourceEnum.CUSTOMER),
-    ("LATEST", DesSourceEnum.LATEST)
+  testSerialization[ShareOptionSchemeType](
+    `emi`   -> "emi",
+    `csop`  -> "csop",
+    `saye`  -> "saye",
+    `other` -> "other"
   )
 
-  "toMtdEnum" must {
-    "return the expected 'MtdSourceEnum' object" in {
-      DesSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.`hmrc-held`
-      DesSourceEnum.LATEST.toMtdEnum shouldBe MtdSourceEnum.latest
-      DesSourceEnum.CUSTOMER.toMtdEnum shouldBe MtdSourceEnum.user
+  "ShareOptionSchemeType" must {
+    "convert to downstream string correctly" in {
+      `emi`.toDownstreamString shouldBe "EMI"
+      `csop`.toDownstreamString shouldBe "CSOP"
+      `saye`.toDownstreamString shouldBe "SAYE"
+      `other`.toDownstreamString shouldBe "Other"
     }
   }
 

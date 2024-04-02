@@ -19,41 +19,23 @@ package api.controllers.requestParsers.validators.validations
 import api.models.errors.SchemePlanTypeFormatError
 import support.UnitSpec
 
-class SchemePlanTypeValidationSpec extends UnitSpec {
+class SharesAwardedOrReceivedSchemeTypeValidationSpec extends UnitSpec {
 
-  "SchemePlanTypeValidation" when {
+  "SharesAwardedOrReceivedSchemeTypeValidation" when {
     "validate" must {
       "return an empty list for a valid scheme plan type" in {
-        SchemePlanTypeValidation.validate(
-          schemePlanType = "EMI",
-          awarded = false
+        SharesAwardedOrReceivedSchemeTypeValidation.validate(
+          schemePlanType = "sip"
         ) shouldBe NoValidationErrors
 
-        SchemePlanTypeValidation.validate(
-          schemePlanType = "CSOP",
-          awarded = false
-        ) shouldBe NoValidationErrors
-
-        SchemePlanTypeValidation.validate(
-          schemePlanType = "SAYE",
-          awarded = false
-        ) shouldBe NoValidationErrors
-
-        SchemePlanTypeValidation.validate(
-          schemePlanType = "SIP",
-          awarded = true
-        ) shouldBe NoValidationErrors
-
-        SchemePlanTypeValidation.validate(
-          schemePlanType = "Other",
-          awarded = true
+        SharesAwardedOrReceivedSchemeTypeValidation.validate(
+          schemePlanType = "other"
         ) shouldBe NoValidationErrors
       }
 
       "return a SchemePlanTypeFormatError for a invalid scheme plan type" in {
-        SchemePlanTypeValidation.validate(
-          schemePlanType = "Not a Scheme plan type",
-          awarded = true
+        SharesAwardedOrReceivedSchemeTypeValidation.validate(
+          schemePlanType = "Not a Scheme plan type"
         ) shouldBe List(SchemePlanTypeFormatError)
       }
     }

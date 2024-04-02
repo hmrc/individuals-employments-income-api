@@ -16,6 +16,7 @@
 
 package v1.models.response.retrieveFinancialDetails
 
+import api.models.domain.PayFrequency
 import play.api.libs.json.{JsError, JsValue, Json}
 import support.UnitSpec
 
@@ -109,7 +110,7 @@ class EmploymentSpec extends UnitSpec {
       |  "pay": {
       |    "taxablePayToDate": 34234.15,
       |    "totalTaxToDate": 6782.92,
-      |    "payFrequency": "CALENDAR MONTHLY",
+      |    "payFrequency": "monthly",
       |    "paymentDate": "2020-04-23",
       |    "taxWeekNo": 32,
       |    "taxMonthNo": 8
@@ -176,7 +177,7 @@ class EmploymentSpec extends UnitSpec {
       Pay(
         taxablePayToDate = Some(34234.15),
         totalTaxToDate = Some(6782.92),
-        payFrequency = Some("CALENDAR MONTHLY"),
+        payFrequency = Some(PayFrequency.`monthly`),
         paymentDate = Some("2020-04-23"),
         taxWeekNo = Some(32),
         taxMonthNo = Some(8)

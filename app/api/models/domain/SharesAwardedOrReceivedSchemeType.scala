@@ -16,14 +16,24 @@
 
 package api.models.domain
 
-import play.api.libs.json.Format
+import play.api.libs.json.Writes
 import utils.enums.Enums
 
-sealed trait SharesAwardedOrReceivedSchemeType
+sealed trait SharesAwardedOrReceivedSchemeType {
+  def toDownstreamString: String
+}
 
 object SharesAwardedOrReceivedSchemeType {
-  case object SIP   extends SharesAwardedOrReceivedSchemeType
-  case object Other extends SharesAwardedOrReceivedSchemeType
 
-  implicit val format: Format[SharesAwardedOrReceivedSchemeType] = Enums.format[SharesAwardedOrReceivedSchemeType]
+  case object `sip` extends SharesAwardedOrReceivedSchemeType {
+    override def toDownstreamString: String = "SIP"
+  }
+
+  case object `other` extends SharesAwardedOrReceivedSchemeType {
+    override def toDownstreamString: String = "Other"
+  }
+
+  implicit val writes: Writes[SharesAwardedOrReceivedSchemeType]         = Enums.format[SharesAwardedOrReceivedSchemeType]
+  val parser: PartialFunction[String, SharesAwardedOrReceivedSchemeType] = Enums.parser[SharesAwardedOrReceivedSchemeType]
+
 }

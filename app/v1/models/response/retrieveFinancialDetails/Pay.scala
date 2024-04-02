@@ -16,15 +16,22 @@
 
 package v1.models.response.retrieveFinancialDetails
 
-import play.api.libs.json.{Json, OFormat}
+import api.models.domain.PayFrequency
+import api.models.downstream.DownstreamPayFrequency
+import play.api.libs.json.{Json, OFormat, Reads}
 
 case class Pay(taxablePayToDate: Option[BigDecimal],
                totalTaxToDate: Option[BigDecimal],
-               payFrequency: Option[String],
+               payFrequency: Option[PayFrequency],
                paymentDate: Option[String],
                taxWeekNo: Option[Int],
                taxMonthNo: Option[Int])
 
 object Pay {
-  implicit val format: OFormat[Pay] = Json.format[Pay]
+
+  implicit val format: OFormat[Pay] = {
+    implicit val payFrequencyReads: Reads[PayFrequency] = implicitly[Reads[DownstreamPayFrequency]].map(_.toMtd)
+    Json.format[Pay]
+  }
+
 }

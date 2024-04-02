@@ -34,7 +34,7 @@ class RetrieveOtherEmploymentControllerISpec extends IntegrationBaseSpec {
     val nino: String = "AA123456A"
     def taxYear: String
 
-    val downstreamResponse: JsValue = RetrieveOtherEmploymentControllerFixture.mtdResponse
+    val downstreamResponse: JsValue = RetrieveOtherEmploymentControllerFixture.downstreamResponse
     val mtdResponse: JsValue        = RetrieveOtherEmploymentControllerFixture.mtdResponse
 
     def setupStubs(): StubMapping

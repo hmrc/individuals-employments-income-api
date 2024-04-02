@@ -22,126 +22,11 @@ import support.UnitSpec
 
 class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
 
-  private val json = Json.parse(
-    """
-      |{
-      |   "submittedOn": "2020-07-06T09:37:17.000Z",
-      |   "shareOption": [
-      |      {
-      |         "employerName": "Company Ltd",
-      |         "employerRef" : "123/AB456",
-      |         "schemePlanType": "EMI",
-      |         "dateOfOptionGrant": "2019-11-20",
-      |         "dateOfEvent": "2019-12-22",
-      |         "optionNotExercisedButConsiderationReceived": true,
-      |         "amountOfConsiderationReceived": 23122.22,
-      |         "noOfSharesAcquired": 1,
-      |         "classOfSharesAcquired": "FIRST",
-      |         "exercisePrice": 12.22,
-      |         "amountPaidForOption": 123.22,
-      |         "marketValueOfSharesOnExcise": 1232.22,
-      |         "profitOnOptionExercised": 1232.33,
-      |         "employersNicPaid": 2312.22,
-      |         "taxableAmount" : 2132.22
-      |      },
-      |      {
-      |         "employerName": "Corp Ltd",
-      |         "employerRef" : "345/AB678",
-      |         "schemePlanType": "CSOP",
-      |         "dateOfOptionGrant": "2019-09-10",
-      |         "dateOfEvent": "2019-07-29",
-      |         "optionNotExercisedButConsiderationReceived": false,
-      |         "amountOfConsiderationReceived": 30000.22,
-      |         "noOfSharesAcquired": 5,
-      |         "classOfSharesAcquired": "SECOND",
-      |         "exercisePrice": 10.50,
-      |         "amountPaidForOption": 150.50,
-      |         "marketValueOfSharesOnExcise": 2250.22,
-      |         "profitOnOptionExercised": 1350.40,
-      |         "employersNicPaid": 2450.25,
-      |         "taxableAmount" : 2140.20
-      |      }
-      |   ],
-      |   "sharesAwardedOrReceived": [
-      |      {
-      |         "employerName": "Company Ltd",
-      |         "employerRef" : "123/AB456",
-      |         "schemePlanType": "SIP",
-      |         "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
-      |         "noOfShareSecuritiesAwarded": 11,
-      |         "classOfShareAwarded": "FIRST",
-      |         "dateSharesAwarded" : "2019-12-20",
-      |         "sharesSubjectToRestrictions": true,
-      |         "electionEnteredIgnoreRestrictions": false,
-      |         "actualMarketValueOfSharesOnAward": 2123.22,
-      |         "unrestrictedMarketValueOfSharesOnAward": 123.22,
-      |         "amountPaidForSharesOnAward": 123.22,
-      |         "marketValueAfterRestrictionsLifted": 1232.22,
-      |         "taxableAmount": 12321.22
-      |      },
-      |      {
-      |         "employerName": "Corp Ltd",
-      |         "employerRef" : "345/AB678",
-      |         "schemePlanType": "Other",
-      |         "dateSharesCeasedToBeSubjectToPlan": "2019-10-25",
-      |         "noOfShareSecuritiesAwarded": 15,
-      |         "classOfShareAwarded": "SECOND",
-      |         "dateSharesAwarded" : "2019-08-23",
-      |         "sharesSubjectToRestrictions": true,
-      |         "electionEnteredIgnoreRestrictions": false,
-      |         "actualMarketValueOfSharesOnAward": 2140.23,
-      |         "unrestrictedMarketValueOfSharesOnAward": 125.30,
-      |         "amountPaidForSharesOnAward": 124.25,
-      |         "marketValueAfterRestrictionsLifted": 1259.40,
-      |         "taxableAmount": 12450.30
-      |      }
-      |   ],
-      |   "disability": {
-      |         "customerReference": "customer reference",
-      |         "amountDeducted": 1223.22
-      |   },
-      |   "foreignService": {
-      |         "customerReference": "cust ref",
-      |         "amountDeducted": 1234.50
-      |   },
-      |   "lumpSums": [
-      |    {
-      |      "employerName": "BPDTS Ltd",
-      |      "employerRef": "123/AB456",
-      |      "taxableLumpSumsAndCertainIncome":
-      |         {
-      |           "amount": 5000.99,
-      |           "taxPaid": 3333.33,
-      |           "taxTakenOffInEmployment": true
-      |         },
-      |      "benefitFromEmployerFinancedRetirementScheme":
-      |         {
-      |           "amount": 5000.99,
-      |           "exemptAmount": 2345.99,
-      |           "taxPaid": 3333.33,
-      |           "taxTakenOffInEmployment": true
-      |         },
-      |      "redundancyCompensationPaymentsOverExemption":
-      |         {
-      |           "amount": 5000.99,
-      |           "taxPaid": 3333.33,
-      |           "taxTakenOffInEmployment": true
-      |         },
-      |      "redundancyCompensationPaymentsUnderExemption":
-      |         {
-      |           "amount": 5000.99
-      |         }
-      |      }
-      |   ]
-      |}
-    """.stripMargin
-  )
-
   private val shareOptionItemModel = Seq(
     ShareOptionItem(
       employerName = "Company Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = ShareOptionSchemeType.EMI,
+      schemePlanType = ShareOptionSchemeType.`emi`,
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-12-22",
       optionNotExercisedButConsiderationReceived = true,
@@ -158,7 +43,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
     ShareOptionItem(
       employerName = "Corp Ltd",
       employerRef = Some("345/AB678"),
-      schemePlanType = ShareOptionSchemeType.CSOP,
+      schemePlanType = ShareOptionSchemeType.`csop`,
       dateOfOptionGrant = "2019-09-10",
       dateOfEvent = "2019-07-29",
       optionNotExercisedButConsiderationReceived = false,
@@ -178,7 +63,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
     SharesAwardedOrReceivedItem(
       employerName = "Company Ltd",
       employerRef = Some("123/AB456"),
-      schemePlanType = SharesAwardedOrReceivedSchemeType.SIP,
+      schemePlanType = SharesAwardedOrReceivedSchemeType.`sip`,
       dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
       noOfShareSecuritiesAwarded = 11,
       classOfShareAwarded = "FIRST",
@@ -194,7 +79,7 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
     SharesAwardedOrReceivedItem(
       employerName = "Corp Ltd",
       employerRef = Some("345/AB678"),
-      schemePlanType = SharesAwardedOrReceivedSchemeType.Other,
+      schemePlanType = SharesAwardedOrReceivedSchemeType.`other`,
       dateSharesCeasedToBeSubjectToPlan = "2019-10-25",
       noOfShareSecuritiesAwarded = 15,
       classOfShareAwarded = "SECOND",
@@ -264,7 +149,120 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
   "RetrieveOtherEmploymentResponse" when {
     "read from valid JSON" should {
       "produce the expected RetrieveOtherEmploymentResponse object" in {
-        json.as[RetrieveOtherEmploymentResponse] shouldBe responseModel
+        Json.parse(
+          """
+            |{
+            |   "submittedOn": "2020-07-06T09:37:17.000Z",
+            |   "shareOption": [
+            |      {
+            |         "employerName": "Company Ltd",
+            |         "employerRef" : "123/AB456",
+            |         "schemePlanType": "EMI",
+            |         "dateOfOptionGrant": "2019-11-20",
+            |         "dateOfEvent": "2019-12-22",
+            |         "optionNotExercisedButConsiderationReceived": true,
+            |         "amountOfConsiderationReceived": 23122.22,
+            |         "noOfSharesAcquired": 1,
+            |         "classOfSharesAcquired": "FIRST",
+            |         "exercisePrice": 12.22,
+            |         "amountPaidForOption": 123.22,
+            |         "marketValueOfSharesOnExcise": 1232.22,
+            |         "profitOnOptionExercised": 1232.33,
+            |         "employersNicPaid": 2312.22,
+            |         "taxableAmount" : 2132.22
+            |      },
+            |      {
+            |         "employerName": "Corp Ltd",
+            |         "employerRef" : "345/AB678",
+            |         "schemePlanType": "CSOP",
+            |         "dateOfOptionGrant": "2019-09-10",
+            |         "dateOfEvent": "2019-07-29",
+            |         "optionNotExercisedButConsiderationReceived": false,
+            |         "amountOfConsiderationReceived": 30000.22,
+            |         "noOfSharesAcquired": 5,
+            |         "classOfSharesAcquired": "SECOND",
+            |         "exercisePrice": 10.50,
+            |         "amountPaidForOption": 150.50,
+            |         "marketValueOfSharesOnExcise": 2250.22,
+            |         "profitOnOptionExercised": 1350.40,
+            |         "employersNicPaid": 2450.25,
+            |         "taxableAmount" : 2140.20
+            |      }
+            |   ],
+            |   "sharesAwardedOrReceived": [
+            |      {
+            |         "employerName": "Company Ltd",
+            |         "employerRef" : "123/AB456",
+            |         "schemePlanType": "SIP",
+            |         "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
+            |         "noOfShareSecuritiesAwarded": 11,
+            |         "classOfShareAwarded": "FIRST",
+            |         "dateSharesAwarded" : "2019-12-20",
+            |         "sharesSubjectToRestrictions": true,
+            |         "electionEnteredIgnoreRestrictions": false,
+            |         "actualMarketValueOfSharesOnAward": 2123.22,
+            |         "unrestrictedMarketValueOfSharesOnAward": 123.22,
+            |         "amountPaidForSharesOnAward": 123.22,
+            |         "marketValueAfterRestrictionsLifted": 1232.22,
+            |         "taxableAmount": 12321.22
+            |      },
+            |      {
+            |         "employerName": "Corp Ltd",
+            |         "employerRef" : "345/AB678",
+            |         "schemePlanType": "Other",
+            |         "dateSharesCeasedToBeSubjectToPlan": "2019-10-25",
+            |         "noOfShareSecuritiesAwarded": 15,
+            |         "classOfShareAwarded": "SECOND",
+            |         "dateSharesAwarded" : "2019-08-23",
+            |         "sharesSubjectToRestrictions": true,
+            |         "electionEnteredIgnoreRestrictions": false,
+            |         "actualMarketValueOfSharesOnAward": 2140.23,
+            |         "unrestrictedMarketValueOfSharesOnAward": 125.30,
+            |         "amountPaidForSharesOnAward": 124.25,
+            |         "marketValueAfterRestrictionsLifted": 1259.40,
+            |         "taxableAmount": 12450.30
+            |      }
+            |   ],
+            |   "disability": {
+            |         "customerReference": "customer reference",
+            |         "amountDeducted": 1223.22
+            |   },
+            |   "foreignService": {
+            |         "customerReference": "cust ref",
+            |         "amountDeducted": 1234.50
+            |   },
+            |   "lumpSums": [
+            |    {
+            |      "employerName": "BPDTS Ltd",
+            |      "employerRef": "123/AB456",
+            |      "taxableLumpSumsAndCertainIncome":
+            |         {
+            |           "amount": 5000.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "benefitFromEmployerFinancedRetirementScheme":
+            |         {
+            |           "amount": 5000.99,
+            |           "exemptAmount": 2345.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "redundancyCompensationPaymentsOverExemption":
+            |         {
+            |           "amount": 5000.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "redundancyCompensationPaymentsUnderExemption":
+            |         {
+            |           "amount": 5000.99
+            |         }
+            |      }
+            |   ]
+            |}
+    """.stripMargin
+        ).as[RetrieveOtherEmploymentResponse] shouldBe responseModel
       }
     }
 
@@ -287,7 +285,120 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JsObject" in {
-        Json.toJson(responseModel) shouldBe json
+        Json.toJson(responseModel) shouldBe Json.parse(
+          """
+            |{
+            |   "submittedOn": "2020-07-06T09:37:17.000Z",
+            |   "shareOption": [
+            |      {
+            |         "employerName": "Company Ltd",
+            |         "employerRef" : "123/AB456",
+            |         "schemePlanType": "emi",
+            |         "dateOfOptionGrant": "2019-11-20",
+            |         "dateOfEvent": "2019-12-22",
+            |         "optionNotExercisedButConsiderationReceived": true,
+            |         "amountOfConsiderationReceived": 23122.22,
+            |         "noOfSharesAcquired": 1,
+            |         "classOfSharesAcquired": "FIRST",
+            |         "exercisePrice": 12.22,
+            |         "amountPaidForOption": 123.22,
+            |         "marketValueOfSharesOnExcise": 1232.22,
+            |         "profitOnOptionExercised": 1232.33,
+            |         "employersNicPaid": 2312.22,
+            |         "taxableAmount" : 2132.22
+            |      },
+            |      {
+            |         "employerName": "Corp Ltd",
+            |         "employerRef" : "345/AB678",
+            |         "schemePlanType": "csop",
+            |         "dateOfOptionGrant": "2019-09-10",
+            |         "dateOfEvent": "2019-07-29",
+            |         "optionNotExercisedButConsiderationReceived": false,
+            |         "amountOfConsiderationReceived": 30000.22,
+            |         "noOfSharesAcquired": 5,
+            |         "classOfSharesAcquired": "SECOND",
+            |         "exercisePrice": 10.50,
+            |         "amountPaidForOption": 150.50,
+            |         "marketValueOfSharesOnExcise": 2250.22,
+            |         "profitOnOptionExercised": 1350.40,
+            |         "employersNicPaid": 2450.25,
+            |         "taxableAmount" : 2140.20
+            |      }
+            |   ],
+            |   "sharesAwardedOrReceived": [
+            |      {
+            |         "employerName": "Company Ltd",
+            |         "employerRef" : "123/AB456",
+            |         "schemePlanType": "sip",
+            |         "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
+            |         "noOfShareSecuritiesAwarded": 11,
+            |         "classOfShareAwarded": "FIRST",
+            |         "dateSharesAwarded" : "2019-12-20",
+            |         "sharesSubjectToRestrictions": true,
+            |         "electionEnteredIgnoreRestrictions": false,
+            |         "actualMarketValueOfSharesOnAward": 2123.22,
+            |         "unrestrictedMarketValueOfSharesOnAward": 123.22,
+            |         "amountPaidForSharesOnAward": 123.22,
+            |         "marketValueAfterRestrictionsLifted": 1232.22,
+            |         "taxableAmount": 12321.22
+            |      },
+            |      {
+            |         "employerName": "Corp Ltd",
+            |         "employerRef" : "345/AB678",
+            |         "schemePlanType": "other",
+            |         "dateSharesCeasedToBeSubjectToPlan": "2019-10-25",
+            |         "noOfShareSecuritiesAwarded": 15,
+            |         "classOfShareAwarded": "SECOND",
+            |         "dateSharesAwarded" : "2019-08-23",
+            |         "sharesSubjectToRestrictions": true,
+            |         "electionEnteredIgnoreRestrictions": false,
+            |         "actualMarketValueOfSharesOnAward": 2140.23,
+            |         "unrestrictedMarketValueOfSharesOnAward": 125.30,
+            |         "amountPaidForSharesOnAward": 124.25,
+            |         "marketValueAfterRestrictionsLifted": 1259.40,
+            |         "taxableAmount": 12450.30
+            |      }
+            |   ],
+            |   "disability": {
+            |         "customerReference": "customer reference",
+            |         "amountDeducted": 1223.22
+            |   },
+            |   "foreignService": {
+            |         "customerReference": "cust ref",
+            |         "amountDeducted": 1234.50
+            |   },
+            |   "lumpSums": [
+            |    {
+            |      "employerName": "BPDTS Ltd",
+            |      "employerRef": "123/AB456",
+            |      "taxableLumpSumsAndCertainIncome":
+            |         {
+            |           "amount": 5000.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "benefitFromEmployerFinancedRetirementScheme":
+            |         {
+            |           "amount": 5000.99,
+            |           "exemptAmount": 2345.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "redundancyCompensationPaymentsOverExemption":
+            |         {
+            |           "amount": 5000.99,
+            |           "taxPaid": 3333.33,
+            |           "taxTakenOffInEmployment": true
+            |         },
+            |      "redundancyCompensationPaymentsUnderExemption":
+            |         {
+            |           "amount": 5000.99
+            |         }
+            |      }
+            |   ]
+            |}
+    """.stripMargin
+        )
       }
     }
   }

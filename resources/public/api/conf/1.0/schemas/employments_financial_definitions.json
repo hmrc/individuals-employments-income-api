@@ -8,7 +8,7 @@
     "source": {
       "type": "string",
       "description": "Specifies the source of data to be returned. If source is not provided, the latest submitted values will be returned.",
-      "enum": ["hmrcHeld", "user", "latest"]
+      "enum": ["hmrc-held", "user", "latest"]
     },
     "customerAdded": {
       "type": "string",
@@ -106,8 +106,8 @@
             "payFrequency": {
               "type": "string",
               "description": "The payment frequency",
-              "example": "FORTNIGHTLY",
-              "enum": ["WEEKLY", "FORTNIGHTLY", "FOUR WEEKLY", "CALENDAR MONTHLY", "QUARTERLY", "BI-ANNUALLY", "ONE-OFF", "IRREGULAR", "ANNUALLY"]
+              "example": "fortnightly",
+              "enum": ["weekly", "fortnightly", "four-weekly", "monthly", "quarterly", "bi-annually", "one-off", "irregular", "annually"]
             },
             "paymentDate": {
               "type": "string",

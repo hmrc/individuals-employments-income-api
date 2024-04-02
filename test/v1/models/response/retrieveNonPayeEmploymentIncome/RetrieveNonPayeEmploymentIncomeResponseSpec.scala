@@ -26,7 +26,7 @@ class RetrieveNonPayeEmploymentIncomeResponseSpec extends UnitSpec {
     """
       |{
       |  "submittedOn": "2020-07-06T09:37:17.000Z",
-      |  "source": "hmrcHeld",
+      |  "source": "hmrc-held",
       |  "totalNonPayeIncome": 435.12,
       |  "nonPayeIncome": {
       |    "tips": 653.34
@@ -51,7 +51,7 @@ class RetrieveNonPayeEmploymentIncomeResponseSpec extends UnitSpec {
   val model: RetrieveNonPayeEmploymentIncomeResponse =
     RetrieveNonPayeEmploymentIncomeResponse(
       Timestamp("2020-07-06T09:37:17.000Z"),
-      MtdSourceEnum.hmrcHeld,
+      MtdSourceEnum.`hmrc-held`,
       Some(435.12),
       Some(NonPayeIncome(Some(653.34)))
     )

@@ -18,7 +18,7 @@ package v1.controllers.requestParsers.validators
 
 import api.controllers.requestParsers.validators.Validator
 import api.controllers.requestParsers.validators.validations._
-import api.models.errors.MtdError
+import api.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError}
 import config.AppConfig
 import v1.controllers.requestParsers.validators.validation.{DateFormatValidation, LumpSumsRuleValidation}
 import v1.models.request.amendOtherEmployment._
@@ -88,7 +88,12 @@ class AmendOtherEmploymentValidator @Inject()(implicit appConfig: AppConfig)
               validateLumpSums(data, index)
             })
             .getOrElse(NoValidationErrors)
-            .toList
+            .toList,
+          if(requestBodyData == AmendOtherEmploymentRequestBody.empty){
+            List(RuleIncorrectOrEmptyBodyError)
+          }else{
+            NoValidationErrors
+          }
         )
       ))
   }
@@ -105,8 +110,8 @@ class AmendOtherEmploymentValidator @Inject()(implicit appConfig: AppConfig)
         .map(
           _.copy(paths = Some(Seq(s"/shareOption/$arrayIndex/employerRef")))
         ),
-      SchemePlanTypeValidation
-        .validate(shareOptionItem.schemePlanType, awarded = false)
+      ShareOptionSchemeTypeValidation
+        .validate(shareOptionItem.schemePlanType)
         .map(
           _.copy(paths = Some(Seq(s"/shareOption/$arrayIndex/schemePlanType")))
         ),
@@ -170,8 +175,8 @@ class AmendOtherEmploymentValidator @Inject()(implicit appConfig: AppConfig)
         .map(
           _.copy(paths = Some(Seq(s"/sharesAwardedOrReceived/$arrayIndex/employerRef")))
         ),
-      SchemePlanTypeValidation
-        .validate(sharesAwardedOrReceivedItem.schemePlanType, awarded = true)
+      SharesAwardedOrReceivedSchemeTypeValidation
+        .validate(sharesAwardedOrReceivedItem.schemePlanType)
         .map(
           _.copy(paths = Some(Seq(s"/sharesAwardedOrReceived/$arrayIndex/schemePlanType")))
         ),

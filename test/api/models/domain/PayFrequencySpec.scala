@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,22 @@
 
 package api.models.domain
 
+import api.models.domain.PayFrequency._
 import support.UnitSpec
 import utils.enums.EnumJsonSpecSupport
 
-class MtdSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
+class PayFrequencySpec extends UnitSpec with EnumJsonSpecSupport {
 
-  testRoundTrip[MtdSourceEnum](
-    ("hmrc-held", MtdSourceEnum.`hmrc-held`),
-    ("user", MtdSourceEnum.user),
-    ("latest", MtdSourceEnum.latest)
-  )
-
-  "toDesViewString" must {
-    "return the expected string" in {
-      MtdSourceEnum.`hmrc-held`.toDesViewString shouldBe "HMRC-HELD"
-      MtdSourceEnum.latest.toDesViewString shouldBe "LATEST"
-      MtdSourceEnum.user.toDesViewString shouldBe "CUSTOMER"
-    }
-  }
+    testSerialization[PayFrequency](
+      `weekly`      -> "weekly",
+      `fortnightly` -> "fortnightly",
+      `four-weekly` -> "four-weekly",
+      `monthly`     -> "monthly",
+      `quarterly`   -> "quarterly",
+      `bi-annually` -> "bi-annually",
+      `one-off`     -> "one-off",
+      `irregular`   -> "irregular",
+      `annually`    -> "annually"
+    )
 
 }
