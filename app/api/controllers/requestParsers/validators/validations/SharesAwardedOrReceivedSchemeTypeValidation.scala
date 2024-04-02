@@ -16,17 +16,12 @@
 
 package api.controllers.requestParsers.validators.validations
 
+import api.models.domain.SharesAwardedOrReceivedSchemeType
 import api.models.errors.{MtdError, SchemePlanTypeFormatError}
 
-object SchemePlanTypeValidation {
+object SharesAwardedOrReceivedSchemeTypeValidation {
 
-  val schemeEnumsShareOptions: List[String] = List("emi", "csop", "saye", "other")
-  val schemeEnumsShareAwarded: List[String] = List("sip", "other")
-
-  def validate(schemePlanType: String, awarded: Boolean): List[MtdError] = {
-    if (!awarded && schemeEnumsShareOptions.contains(schemePlanType)) { NoValidationErrors }
-    else if (awarded && schemeEnumsShareAwarded.contains(schemePlanType)) { NoValidationErrors }
-    else { List(SchemePlanTypeFormatError) }
-  }
+  def validate(schemePlanType: String): List[MtdError] =
+    if (SharesAwardedOrReceivedSchemeType.parser.isDefinedAt(schemePlanType)) NoValidationErrors else List(SchemePlanTypeFormatError)
 
 }
