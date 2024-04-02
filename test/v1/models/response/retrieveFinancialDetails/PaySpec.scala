@@ -16,28 +16,16 @@
 
 package v1.models.response.retrieveFinancialDetails
 
+import api.models.domain.PayFrequency
 import play.api.libs.json.{JsError, JsValue, Json}
 import support.UnitSpec
 
 class PaySpec extends UnitSpec {
 
-  val json: JsValue = Json.parse(
-    """
-      |{
-      |  "taxablePayToDate": 100.11,
-      |  "totalTaxToDate": 102.11,
-      |  "payFrequency": "monthly",
-      |  "paymentDate": "2020-04-23",
-      |  "taxWeekNo": 2,
-      |  "taxMonthNo": 3
-      |}
-    """.stripMargin
-  )
-
   val model: Pay = Pay(
     taxablePayToDate = Some(100.11),
     totalTaxToDate = Some(102.11),
-    payFrequency = Some("monthly"),
+    payFrequency = Some(PayFrequency.`monthly`),
     paymentDate = Some("2020-04-23"),
     taxWeekNo = Some(2),
     taxMonthNo = Some(3)
@@ -46,7 +34,18 @@ class PaySpec extends UnitSpec {
   "Pay" when {
     "read from valid JSON" should {
       "return the expected Pay object" in {
-        json.as[Pay] shouldBe model
+        Json.parse(
+          """
+            |{
+            |  "taxablePayToDate": 100.11,
+            |  "totalTaxToDate": 102.11,
+            |  "payFrequency": "CALENDAR MONTHLY",
+            |  "paymentDate": "2020-04-23",
+            |  "taxWeekNo": 2,
+            |  "taxMonthNo": 3
+            |}
+    """.stripMargin
+        ).as[Pay] shouldBe model
       }
     }
 
@@ -66,7 +65,18 @@ class PaySpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JsObject" in {
-        Json.toJson(model) shouldBe json
+        Json.toJson(model) shouldBe Json.parse(
+          """
+            |{
+            |  "taxablePayToDate": 100.11,
+            |  "totalTaxToDate": 102.11,
+            |  "payFrequency": "monthly",
+            |  "paymentDate": "2020-04-23",
+            |  "taxWeekNo": 2,
+            |  "taxMonthNo": 3
+            |}
+    """.stripMargin
+        )
       }
     }
   }
