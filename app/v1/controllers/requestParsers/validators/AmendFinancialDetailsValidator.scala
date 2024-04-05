@@ -21,7 +21,7 @@ import api.controllers.requestParsers.validators.validations._
 import api.models.domain.TaxYear
 import api.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError, RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
 import config.AppConfig
-import v1.models.request.amendFinancialDetails.emploment.AmendEmployment
+import v1.models.request.amendFinancialDetails.employment.AmendEmployment
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRawData, AmendFinancialDetailsRequestBody}
 
 import javax.inject.{Inject, Singleton}

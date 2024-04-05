@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package v1.models.request.amendFinancialDetails.emploment
+package v1.models.request.amendFinancialDetails.employment.studentLoans
 
 import play.api.libs.json.{Json, OFormat}
-import v1.models.request.amendFinancialDetails.emploment.studentLoans.AmendStudentLoans
 
-case class AmendDeductions(studentLoans: Option[AmendStudentLoans]) {
-  def isEmpty: Boolean = studentLoans.isEmpty
+case class AmendStudentLoans(uglDeductionAmount: Option[BigDecimal], pglDeductionAmount: Option[BigDecimal]) {
+
+  def isEmpty: Boolean =
+    uglDeductionAmount.isEmpty && pglDeductionAmount.isEmpty
+
 }
 
-object AmendDeductions {
-  implicit val format: OFormat[AmendDeductions] = Json.format[AmendDeductions]
+object AmendStudentLoans {
+  implicit val format: OFormat[AmendStudentLoans] = Json.format[AmendStudentLoans]
 }

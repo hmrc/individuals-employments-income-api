@@ -21,25 +21,25 @@ import support.UnitSpec
 
 class AmendShareOptionItemSpec extends UnitSpec {
 
-
-
-  private val model = AmendShareOptionItem(
-    employerName = ("Company Ltd"),
-    employerRef = Some("AB1321/123"),
+  private def modelWith(employerRef: Option[String]) = AmendShareOptionItem(
+    employerName = "Company Ltd",
+    employerRef = employerRef,
     schemePlanType = "emi",
-    dateOfOptionGrant = "2019-11-20",
-    dateOfEvent = "2019-11-20",
+    dateOfOptionGrant = "2001-01-01",
+    dateOfEvent = "2002-02-02",
     optionNotExercisedButConsiderationReceived = true,
-    amountOfConsiderationReceived = 23122.22,
-    noOfSharesAcquired = 1,
+    amountOfConsiderationReceived = 1.01,
+    noOfSharesAcquired = 2,
     classOfSharesAcquired = "FIRST",
-    exercisePrice = 12.22,
-    amountPaidForOption = 123.22,
-    marketValueOfSharesOnExcise = 1232.22,
-    profitOnOptionExercised = 1232.33,
-    employersNicPaid = 2312.22,
-    taxableAmount = 2132.22
+    exercisePrice = 3.01,
+    amountPaidForOption = 4.01,
+    marketValueOfSharesOnExcise = 5.01,
+    profitOnOptionExercised = 6.01,
+    employersNicPaid = 7.01,
+    taxableAmount = 8.01
   )
+
+  private val model = modelWith(Some("AB1321/123"))
 
   "AmendShareOptionItem" when {
     "read from valid JSON" should {
@@ -50,18 +50,18 @@ class AmendShareOptionItemSpec extends UnitSpec {
             |  "employerName": "Company Ltd",
             |  "employerRef" : "AB1321/123",
             |  "schemePlanType": "emi",
-            |  "dateOfOptionGrant": "2019-11-20",
-            |  "dateOfEvent": "2019-11-20",
+            |  "dateOfOptionGrant": "2001-01-01",
+            |  "dateOfEvent": "2002-02-02",
             |  "optionNotExercisedButConsiderationReceived": true,
-            |  "amountOfConsiderationReceived": 23122.22,
-            |  "noOfSharesAcquired": 1,
+            |  "amountOfConsiderationReceived": 1.01,
+            |  "noOfSharesAcquired": 2,
             |  "classOfSharesAcquired": "FIRST",
-            |  "exercisePrice": 12.22,
-            |  "amountPaidForOption": 123.22,
-            |  "marketValueOfSharesOnExcise": 1232.22,
-            |  "profitOnOptionExercised": 1232.33,
-            |  "employersNicPaid": 2312.22,
-            |  "taxableAmount" : 2132.22
+            |  "exercisePrice": 3.01,
+            |  "amountPaidForOption": 4.01,
+            |  "marketValueOfSharesOnExcise": 5.01,
+            |  "profitOnOptionExercised": 6.01,
+            |  "employersNicPaid": 7.01,
+            |  "taxableAmount" : 8.01
             |}
             """.stripMargin
         ).as[AmendShareOptionItem] shouldBe model
@@ -83,18 +83,41 @@ class AmendShareOptionItemSpec extends UnitSpec {
             |  "employerName": "Company Ltd",
             |  "employerRef" : "AB1321/123",
             |  "schemePlanType": "EMI",
-            |  "dateOfOptionGrant": "2019-11-20",
-            |  "dateOfEvent": "2019-11-20",
+            |  "dateOfOptionGrant": "2001-01-01",
+            |  "dateOfEvent": "2002-02-02",
             |  "optionNotExercisedButConsiderationReceived": true,
-            |  "amountOfConsiderationReceived": 23122.22,
-            |  "noOfSharesAcquired": 1,
+            |  "amountOfConsiderationReceived": 1.01,
+            |  "noOfSharesAcquired": 2,
             |  "classOfSharesAcquired": "FIRST",
-            |  "exercisePrice": 12.22,
-            |  "amountPaidForOption": 123.22,
-            |  "marketValueOfSharesOnExcise": 1232.22,
-            |  "profitOnOptionExercised": 1232.33,
-            |  "employersNicPaid": 2312.22,
-            |  "taxableAmount" : 2132.22
+            |  "exercisePrice": 3.01,
+            |  "amountPaidForOption": 4.01,
+            |  "marketValueOfSharesOnExcise": 5.01,
+            |  "profitOnOptionExercised": 6.01,
+            |  "employersNicPaid": 7.01,
+            |  "taxableAmount" : 8.01
+            |}
+            """.stripMargin
+        )
+      }
+
+      "produce the expected JsObject when only mandatory fields present" in {
+        Json.toJson(modelWith(employerRef = None)) shouldBe Json.parse(
+          """
+            |{
+            |  "employerName": "Company Ltd",
+            |  "schemePlanType": "EMI",
+            |  "dateOfOptionGrant": "2001-01-01",
+            |  "dateOfEvent": "2002-02-02",
+            |  "optionNotExercisedButConsiderationReceived": true,
+            |  "amountOfConsiderationReceived": 1.01,
+            |  "noOfSharesAcquired": 2,
+            |  "classOfSharesAcquired": "FIRST",
+            |  "exercisePrice": 3.01,
+            |  "amountPaidForOption": 4.01,
+            |  "marketValueOfSharesOnExcise": 5.01,
+            |  "profitOnOptionExercised": 6.01,
+            |  "employersNicPaid": 7.01,
+            |  "taxableAmount" : 8.01
             |}
             """.stripMargin
         )
