@@ -17,6 +17,7 @@
 package v1.models.response.retrieveFinancialDetails
 
 import api.models.domain.{MtdSourceEnum, Timestamp}
+import api.models.downstream.DownstreamSourceEnum
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
@@ -31,7 +32,7 @@ object RetrieveEmploymentAndFinancialDetailsResponse {
 
   implicit val reads: Reads[RetrieveEmploymentAndFinancialDetailsResponse] = (
     (JsPath \ "submittedOn").read[Timestamp] and
-      (JsPath \ "source").readNullable[DesSourceEnum].map(_.map(_.toMtdEnum)) and
+      (JsPath \ "source").readNullable[DownstreamSourceEnum].map(_.map(_.toMtdEnum)) and
       (JsPath \ "customerAdded").readNullable[Timestamp] and
       (JsPath \ "dateIgnored").readNullable[Timestamp] and
       (JsPath \ "employment").read[Employment]

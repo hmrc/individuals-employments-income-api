@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.models.request.amendFinancialDetails.emploment
+package v1.models.request.amendFinancialDetails.employment
 
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Format, Json, OFormat}

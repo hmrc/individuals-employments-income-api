@@ -28,8 +28,8 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AnyContentAsJson, Result}
 import v1.mocks.requestParsers.MockAmendFinancialDetailsRequestParser
 import v1.mocks.services.MockAmendFinancialDetailsService
-import v1.models.request.amendFinancialDetails.emploment.studentLoans.AmendStudentLoans
-import v1.models.request.amendFinancialDetails.emploment.{AmendBenefitsInKind, AmendDeductions, AmendEmployment, AmendPay}
+import v1.models.request.amendFinancialDetails.employment.studentLoans.AmendStudentLoans
+import v1.models.request.amendFinancialDetails.employment.{AmendBenefitsInKind, AmendDeductions, AmendEmployment, AmendPay}
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRawData, AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
 import scala.concurrent.ExecutionContext.Implicits.global

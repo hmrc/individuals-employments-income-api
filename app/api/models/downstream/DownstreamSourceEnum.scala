@@ -14,29 +14,28 @@
  * limitations under the License.
  */
 
-package v1.models.response.retrieveFinancialDetails
+package api.models.downstream
 
 import api.models.domain.MtdSourceEnum
 import play.api.libs.json.Format
 import utils.enums.Enums
 
-sealed trait DesSourceEnum {
+sealed trait DownstreamSourceEnum {
   def toMtdEnum: MtdSourceEnum
 }
 
-object DesSourceEnum {
-  val parser: PartialFunction[String, DesSourceEnum] = Enums.parser[DesSourceEnum]
-  implicit val format: Format[DesSourceEnum]         = Enums.format[DesSourceEnum]
+object DownstreamSourceEnum {
+  implicit val format: Format[DownstreamSourceEnum] = Enums.format[DownstreamSourceEnum]
 
-  case object `HMRC HELD` extends DesSourceEnum {
+  case object `HMRC HELD` extends DownstreamSourceEnum {
     override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
   }
 
-  case object CUSTOMER extends DesSourceEnum {
+  case object CUSTOMER extends DownstreamSourceEnum {
     override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.user
   }
 
-  case object LATEST extends DesSourceEnum {
+  case object LATEST extends DownstreamSourceEnum {
     override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.latest
   }
 

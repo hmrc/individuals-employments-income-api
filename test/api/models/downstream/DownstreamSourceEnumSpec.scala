@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package v1.models.response.retrieveFinancialDetails
+package api.models.downstream
 
 import api.models.domain.MtdSourceEnum
 import support.UnitSpec
 import utils.enums.EnumJsonSpecSupport
 
-class DesSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
+class DownstreamSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 
-  testRoundTrip[DesSourceEnum](
-    ("HMRC HELD", DesSourceEnum.`HMRC HELD`),
-    ("CUSTOMER", DesSourceEnum.CUSTOMER),
-    ("LATEST", DesSourceEnum.LATEST)
+  testRoundTrip[DownstreamSourceEnum](
+    ("HMRC HELD", DownstreamSourceEnum.`HMRC HELD`),
+    ("CUSTOMER", DownstreamSourceEnum.CUSTOMER),
+    ("LATEST", DownstreamSourceEnum.LATEST)
   )
 
   "toMtdEnum" must {
     "return the expected 'MtdSourceEnum' object" in {
-      DesSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.`hmrc-held`
-      DesSourceEnum.LATEST.toMtdEnum shouldBe MtdSourceEnum.latest
-      DesSourceEnum.CUSTOMER.toMtdEnum shouldBe MtdSourceEnum.user
+      DownstreamSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.`hmrc-held`
+      DownstreamSourceEnum.CUSTOMER.toMtdEnum shouldBe MtdSourceEnum.user
+      DownstreamSourceEnum.LATEST.toMtdEnum shouldBe MtdSourceEnum.latest
     }
   }
 

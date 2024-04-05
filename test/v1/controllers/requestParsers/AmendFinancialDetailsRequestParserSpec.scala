@@ -22,8 +22,8 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.AnyContentAsJson
 import support.UnitSpec
 import v1.mocks.validators.MockAmendFinancialDetailsValidator
-import v1.models.request.amendFinancialDetails.emploment.studentLoans.AmendStudentLoans
-import v1.models.request.amendFinancialDetails.emploment.{AmendBenefitsInKind, AmendDeductions, AmendEmployment, AmendPay}
+import v1.models.request.amendFinancialDetails.employment.studentLoans.AmendStudentLoans
+import v1.models.request.amendFinancialDetails.employment.{AmendBenefitsInKind, AmendDeductions, AmendEmployment, AmendPay}
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRawData, AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
 class AmendFinancialDetailsRequestParserSpec extends UnitSpec {

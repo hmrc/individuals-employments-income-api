@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package v1.models.request.amendFinancialDetails.emploment
+package v1.models.request.amendFinancialDetails.employment
 
-import play.api.libs.json.{JsObject, Json, Reads, Writes}
+import play.api.libs.functional.syntax._
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendEmployment(pay: AmendPay,
                            deductions: Option[AmendDeductions],
@@ -27,25 +28,14 @@ object AmendEmployment {
 
   implicit val reads: Reads[AmendEmployment] = Json.reads[AmendEmployment]
 
-  implicit val amendEmploymentWrites = new Writes[AmendEmployment] {
+  private def trimIfNotTrue(value: Option[Boolean]) =
+    if (value.contains(true)) value else None
 
-    def writes(amendEmployment: AmendEmployment): JsObject = {
-
-      val append = amendEmployment.offPayrollWorker match {
-        case Some(true) => Json.obj("offPayrollWorker" -> Some(true))
-        case _          => JsObject.empty
-      }
-
-      val result = Json.obj(
-        "pay"            -> amendEmployment.pay,
-        "deductions"     -> amendEmployment.deductions,
-        "benefitsInKind" -> amendEmployment.benefitsInKind
-      )
-
-      result ++ append
-
-    }
-
-  }
+  implicit val writes: OWrites[AmendEmployment] = (
+    (JsPath \ "pay").write[AmendPay] and
+      (JsPath \ "deductions").writeNullable[AmendDeductions] and
+      (JsPath \ "benefitsInKind").writeNullable[AmendBenefitsInKind] and
+      (JsPath \ "offPayrollWorker").writeNullable[Boolean].contramap[Option[Boolean]](trimIfNotTrue)
+  )(unlift(AmendEmployment.unapply))
 
 }

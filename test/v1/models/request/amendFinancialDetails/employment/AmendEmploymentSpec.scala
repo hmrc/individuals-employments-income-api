@@ -18,8 +18,7 @@ package v1.models.request.amendFinancialDetails.employment
 
 import play.api.libs.json.{JsError, JsObject, Json}
 import support.UnitSpec
-import v1.models.request.amendFinancialDetails.emploment.studentLoans.AmendStudentLoans
-import v1.models.request.amendFinancialDetails.emploment.{AmendBenefitsInKind, AmendDeductions, AmendEmployment, AmendPay}
+import v1.models.request.amendFinancialDetails.employment.studentLoans.AmendStudentLoans
 
 class AmendEmploymentSpec extends UnitSpec {
 
@@ -142,6 +141,30 @@ class AmendEmploymentSpec extends UnitSpec {
       "produce the expected JsObject" in {
         Json.toJson(employmentModel) shouldBe json
       }
+
+      "produce the expected JsObject when only mandatory fields present" in {
+        Json.toJson(AmendEmployment(pay = payModel, None, None, None)) shouldBe Json.parse(
+          """
+            |{
+            |    "pay": {
+            |        "taxablePayToDate": 3500.75,
+            |        "totalTaxToDate": 6782.92
+            |    }
+            |}""".stripMargin
+        )
+      }
+    }
+
+    "not include offPayrollWorker when it is false" in {
+      Json.toJson(AmendEmployment(pay = payModel, None, None, Some(false))) shouldBe Json.parse(
+        """
+          |{
+          |    "pay": {
+          |        "taxablePayToDate": 3500.75,
+          |        "totalTaxToDate": 6782.92
+          |    }
+          |}""".stripMargin
+      )
     }
   }
 

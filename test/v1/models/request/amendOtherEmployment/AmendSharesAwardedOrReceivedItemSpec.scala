@@ -21,22 +21,25 @@ import support.UnitSpec
 
 class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
 
-  private val model = AmendSharesAwardedOrReceivedItem(
+
+  private def modelWith(employerRef: Option[String]) = AmendSharesAwardedOrReceivedItem(
     employerName = "Company Ltd",
-    employerRef = Some("AB1321/123"),
+    employerRef = employerRef,
     schemePlanType = "sip",
     dateSharesCeasedToBeSubjectToPlan = "2019-11-10",
-    noOfShareSecuritiesAwarded = 11,
+    noOfShareSecuritiesAwarded = 1,
     classOfShareAwarded = "FIRST",
     dateSharesAwarded = "2019-11-20",
     sharesSubjectToRestrictions = true,
     electionEnteredIgnoreRestrictions = false,
-    actualMarketValueOfSharesOnAward = 2123.22,
-    unrestrictedMarketValueOfSharesOnAward = 123.22,
-    amountPaidForSharesOnAward = 123.22,
-    marketValueAfterRestrictionsLifted = 1232.22,
-    taxableAmount = 12321.22
+    actualMarketValueOfSharesOnAward = 2.01,
+    unrestrictedMarketValueOfSharesOnAward = 3.01,
+    amountPaidForSharesOnAward = 4.01,
+    marketValueAfterRestrictionsLifted = 5.01,
+    taxableAmount = 6.01
   )
+
+  private val model = modelWith(Some("AB1321/123"))
 
   "AmendSharesAwardedOrReceivedItem" when {
     "read from valid JSON" should {
@@ -48,16 +51,16 @@ class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
             |   "employerRef" : "AB1321/123",
             |   "schemePlanType": "sip",
             |   "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
-            |   "noOfShareSecuritiesAwarded": 11,
+            |   "noOfShareSecuritiesAwarded": 1,
             |   "classOfShareAwarded": "FIRST",
             |   "dateSharesAwarded" : "2019-11-20",
             |   "sharesSubjectToRestrictions": true,
             |   "electionEnteredIgnoreRestrictions": false,
-            |   "actualMarketValueOfSharesOnAward": 2123.22,
-            |   "unrestrictedMarketValueOfSharesOnAward": 123.22,
-            |   "amountPaidForSharesOnAward": 123.22,
-            |   "marketValueAfterRestrictionsLifted": 1232.22,
-            |   "taxableAmount": 12321.22
+            |   "actualMarketValueOfSharesOnAward": 2.01,
+            |   "unrestrictedMarketValueOfSharesOnAward": 3.01,
+            |   "amountPaidForSharesOnAward": 4.01,
+            |   "marketValueAfterRestrictionsLifted": 5.01,
+            |   "taxableAmount": 6.01
             |}
             """.stripMargin
         ).as[AmendSharesAwardedOrReceivedItem] shouldBe model
@@ -80,16 +83,38 @@ class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
             |   "employerRef" : "AB1321/123",
             |   "schemePlanType": "SIP",
             |   "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
-            |   "noOfShareSecuritiesAwarded": 11,
+            |   "noOfShareSecuritiesAwarded": 1,
             |   "classOfShareAwarded": "FIRST",
             |   "dateSharesAwarded" : "2019-11-20",
             |   "sharesSubjectToRestrictions": true,
             |   "electionEnteredIgnoreRestrictions": false,
-            |   "actualMarketValueOfSharesOnAward": 2123.22,
-            |   "unrestrictedMarketValueOfSharesOnAward": 123.22,
-            |   "amountPaidForSharesOnAward": 123.22,
-            |   "marketValueAfterRestrictionsLifted": 1232.22,
-            |   "taxableAmount": 12321.22
+            |   "actualMarketValueOfSharesOnAward": 2.01,
+            |   "unrestrictedMarketValueOfSharesOnAward": 3.01,
+            |   "amountPaidForSharesOnAward": 4.01,
+            |   "marketValueAfterRestrictionsLifted": 5.01,
+            |   "taxableAmount": 6.01
+            |}
+            """.stripMargin
+        )
+      }
+
+      "produce the expected JsObject when only mandatory fields present" in {
+        Json.toJson(modelWith(employerRef = None)) shouldBe Json.parse(
+          """
+            |{
+            |   "employerName": "Company Ltd",
+            |   "schemePlanType": "SIP",
+            |   "dateSharesCeasedToBeSubjectToPlan": "2019-11-10",
+            |   "noOfShareSecuritiesAwarded": 1,
+            |   "classOfShareAwarded": "FIRST",
+            |   "dateSharesAwarded" : "2019-11-20",
+            |   "sharesSubjectToRestrictions": true,
+            |   "electionEnteredIgnoreRestrictions": false,
+            |   "actualMarketValueOfSharesOnAward": 2.01,
+            |   "unrestrictedMarketValueOfSharesOnAward": 3.01,
+            |   "amountPaidForSharesOnAward": 4.01,
+            |   "marketValueAfterRestrictionsLifted": 5.01,
+            |   "taxableAmount": 6.01
             |}
             """.stripMargin
         )
