@@ -61,7 +61,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
         .withService(service.createAndAmend)
         .withAuditing(AuditHandler(
           auditService = auditService,
-          auditType = "CreateAmendNonPayeEmployment",
+          auditType = "CreateAmendNonPayeEmploymentIncome",
           transactionName = "create-amend-non-paye-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
           requestBody = Some(request.body)

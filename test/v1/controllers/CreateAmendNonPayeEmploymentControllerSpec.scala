@@ -125,7 +125,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
-        auditType = "CreateAmendNonPayeEmployment",
+        auditType = "CreateAmendNonPayeEmploymentIncome",
         transactionName = "create-amend-non-paye-employment",
         detail = GenericAuditDetail(
           userType = "Individual",
