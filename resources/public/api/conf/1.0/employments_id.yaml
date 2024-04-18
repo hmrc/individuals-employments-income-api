@@ -1,20 +1,20 @@
 get:
   $ref: "./employments_retrieve.yaml"
-  summary: Retrieve an Employment
+  summary: Retrieve an Employment [Test only]
   security:
     - User-Restricted:
         - read:self-assessment
 
 put:
   $ref: "./employments_amend.yaml"
-  summary: Amend a Custom Employment
+  summary: Amend a Custom Employment [Test only]
   security:
     - User-Restricted:
         - write:self-assessment
 
 delete:
   $ref: "./employments_delete.yaml"
-  summary: Delete a Custom Employment
+  summary: Delete a Custom Employment [Test only]
   security:
     - User-Restricted:
         - write:self-assessment

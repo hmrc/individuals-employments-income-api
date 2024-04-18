@@ -86,7 +86,7 @@ class DocumentationControllerISpec extends IntegrationBaseSpec {
         val openAPI = Option(parserResult.getOpenAPI).getOrElse(fail("openAPI wasn't defined"))
 
         openAPI.getOpenapi shouldBe "3.0.3"
-        openAPI.getInfo.getTitle shouldBe "Individuals Employments Income (MTD)"
+        openAPI.getInfo.getTitle shouldBe "Individuals Employments Income (MTD) [Test only]"
         openAPI.getInfo.getVersion shouldBe version.toString
       }
 
