@@ -33,6 +33,9 @@ trait MockFeatureSwitches extends MockFactory {
     def isTemporalValidationEnabled(implicit request: Request[_]): CallHandler[Boolean] =
       (mockFeatureSwitches.isTemporalValidationEnabled(_: Request[_])).expects(request)
 
+    def isDesIf_MigrationEnabled: CallHandler[Boolean] =
+      (() => mockFeatureSwitches.isDesIf_MigrationEnabled).expects()
+
   }
 
 }

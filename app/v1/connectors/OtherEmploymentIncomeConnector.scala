@@ -16,9 +16,9 @@
 
 package v1.connectors
 
-import api.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
+import api.connectors.DownstreamUri.{DesUri, IfsUri, TaxYearSpecificIfsUri}
 import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import config.AppConfig
+import config.{AppConfig, FeatureSwitches}
 import play.api.http.Status.NO_CONTENT
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
@@ -28,7 +28,8 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appConfig: AppConfig)(implicit featureSwitches: FeatureSwitches)
+    extends BaseDownstreamConnector {
 
   def deleteOtherEmploymentIncome(request: OtherEmploymentIncomeRequest)(implicit
       hc: HeaderCarrier,
@@ -39,11 +40,15 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appCon
 
     implicit val successCode: SuccessCode = SuccessCode(NO_CONTENT)
 
+    val path = s"income-tax/income/other/employments/${request.nino}/${request.taxYear.asMtd}"
+
     val downstreamUri =
       if (request.taxYear.useTaxYearSpecificApi) {
         TaxYearSpecificIfsUri[Unit](s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
+      } else if (featureSwitches.isDesIf_MigrationEnabled) {
+        IfsUri[Unit](path)
       } else {
-        DesUri[Unit](s"income-tax/income/other/employments/${request.nino}/${request.taxYear.asMtd}")
+        DesUri[Unit](path)
       }
 
     delete(
@@ -58,13 +63,15 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appCon
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
+    val path = s"income-tax/income/other/employments/${request.nino}/${request.taxYear.asMtd}"
+
     val resolvedDownstreamUri = if (request.taxYear.useTaxYearSpecificApi) {
       TaxYearSpecificIfsUri[RetrieveOtherEmploymentResponse](
         s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
+    } else if (featureSwitches.isDesIf_MigrationEnabled) {
+      IfsUri[RetrieveOtherEmploymentResponse](path)
     } else {
-      DesUri[RetrieveOtherEmploymentResponse](
-        s"income-tax/income/other/employments/${request.nino}/${request.taxYear.asMtd}"
-      )
+      DesUri[RetrieveOtherEmploymentResponse](path)
     }
 
     get(uri = resolvedDownstreamUri)

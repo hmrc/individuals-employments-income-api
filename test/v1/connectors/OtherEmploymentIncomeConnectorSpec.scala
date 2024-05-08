@@ -19,13 +19,14 @@ package v1.connectors
 import api.connectors.ConnectorSpec
 import api.models.domain.{Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
+import mocks.MockFeatureSwitches
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveResponse
 import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
 import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
 
 import scala.concurrent.Future
 
-class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec {
+class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureSwitches {
 
   val nino: String = "AA123456A"
 
@@ -43,7 +44,8 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec {
 
   "OtherEmploymentIncomeConnector" should {
     "return a 200 result on delete" when {
-      "the downstream call is successful and not tax year specific" in new DesTest with Test {
+      "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest with Test {
+        MockFeatureSwitches.isDesIf_MigrationEnabled.returns(false)
         def taxYear: TaxYear                               = TaxYear.fromMtd("2017-18")
         val deleteRequest: OtherEmploymentIncomeRequest    = OtherEmploymentIncomeRequest(Nino(nino), taxYear)
         val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
@@ -63,10 +65,40 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec {
         await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
       }
 
+      "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is on" in new IfsTest with Test {
+        MockFeatureSwitches.isDesIf_MigrationEnabled.returns(true)
+
+        def taxYear: TaxYear = TaxYear.fromMtd("2017-18")
+
+        val deleteRequest: OtherEmploymentIncomeRequest    = OtherEmploymentIncomeRequest(Nino(nino), taxYear)
+        val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
+
+        willDelete(s"$baseUrl/income-tax/income/other/employments/$nino/2017-18") returns Future.successful(outcome)
+
+        await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
+
+      }
     }
 
     "return a 200 result on retrieve" when {
-      "the downstream call is successful and is not tax year specific" in new DesTest with Test {
+      "the downstream call is successful, is not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest with Test {
+        MockFeatureSwitches.isDesIf_MigrationEnabled.returns(false)
+        def taxYear: TaxYear = TaxYear.fromMtd("2021-22")
+
+        val retrieveRequest: OtherEmploymentIncomeRequest = OtherEmploymentIncomeRequest(
+          nino = Nino(nino),
+          taxYear = TaxYear.fromMtd("2021-22")
+        )
+
+        val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherEmploymentResponse]] = Right(ResponseWrapper(correlationId, retrieveResponse))
+
+        willGet(s"$baseUrl/income-tax/income/other/employments/$nino/2021-22") returns Future.successful(outcome)
+
+        await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
+      }
+
+      "the downstream call is successful, is not tax year specific and 'isDesIf_MigrationEnabled' is on" in new IfsTest with Test {
+        MockFeatureSwitches.isDesIf_MigrationEnabled.returns(true)
         def taxYear: TaxYear = TaxYear.fromMtd("2021-22")
 
         val retrieveRequest: OtherEmploymentIncomeRequest = OtherEmploymentIncomeRequest(
