@@ -33,18 +33,22 @@ class FeatureSwitchesSpec extends UnitSpec {
 
         featureSwitches.isOpwEnabled shouldBe true
         featureSwitches.isPostCessationReceiptsEnabled shouldBe true
+        featureSwitches.isDesIf_MigrationEnabled shouldBe true
+
       }
 
       "enabled" in {
         val configuration = Configuration(
           "tys-api.enabled"              -> true,
           "opw.enabled"                  -> true,
-          "postCessationReceipt.enabled" -> true
+          "postCessationReceipt.enabled" -> true,
+          "desIf_Migration.enabled"      -> true
         )
         val featureSwitches = FeatureSwitches(configuration)
 
         featureSwitches.isOpwEnabled shouldBe true
         featureSwitches.isPostCessationReceiptsEnabled shouldBe true
+        featureSwitches.isDesIf_MigrationEnabled shouldBe true
 
       }
     }
@@ -54,13 +58,16 @@ class FeatureSwitchesSpec extends UnitSpec {
         val configuration = Configuration(
           "tys-api.enabled"               -> false,
           "opw.enabled"                   -> false,
-          "postCessationReceipts.enabled" -> false
+          "postCessationReceipts.enabled" -> false,
+          "desIf_Migration.enabled"       -> false
         )
 
         val featureSwitches = FeatureSwitches(configuration)
 
         featureSwitches.isOpwEnabled shouldBe false
         featureSwitches.isPostCessationReceiptsEnabled shouldBe false
+        featureSwitches.isDesIf_MigrationEnabled shouldBe false
+
       }
     }
   }
