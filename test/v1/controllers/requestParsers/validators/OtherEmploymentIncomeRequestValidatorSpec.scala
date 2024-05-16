@@ -16,28 +16,11 @@
 
 package v1.controllers.requestParsers.validators
 
-/*
- * Copyright 2022 HM Revenue & Customs
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import api.mocks.MockCurrentDateTime
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
-import org.joda.time.DateTime
-import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+import java.time.LocalDate
 import support.UnitSpec
 import utils.CurrentDateTime
 import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequestRawData
@@ -55,12 +38,11 @@ class OtherEmploymentIncomeRequestValidatorSpec extends UnitSpec with MockAppCon
 
     implicit val appConfig: AppConfig              = mockAppConfig
     implicit val dateTimeProvider: CurrentDateTime = mockCurrentDateTime
-    val dateTimeFormatter: DateTimeFormatter       = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     val validator = new OtherEmploymentIncomeRequestValidator()
 
-    MockCurrentDateTime.getDateTime
-      .returns(DateTime.parse("2021-07-29", dateTimeFormatter))
+    MockCurrentDateTime.getLocalDate
+      .returns(LocalDate.parse("2021-07-29"))
       .anyNumberOfTimes()
 
     private val MINIMUM_YEAR = 2018
