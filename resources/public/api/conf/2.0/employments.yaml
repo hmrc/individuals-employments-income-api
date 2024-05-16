@@ -1,0 +1,13 @@
+get:
+  $ref: "./employments_list.yaml"
+  summary: List Employments [Test only]
+  security:
+    - User-Restricted:
+      - read:self-assessment
+
+post:
+  $ref: "./employments_add.yaml"
+  summary: Add a Custom Employment [Test only]
+  security:
+    - User-Restricted:
+      - write:self-assessment
