@@ -17,9 +17,11 @@
 package v1.controllers.requestParsers.validators
 
 import api.mocks.MockCurrentDateTime
+import api.models.domain.TaxYear
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
+
 import java.time.LocalDate
 import support.UnitSpec
 import utils.CurrentDateTime
@@ -30,7 +32,6 @@ class RetrieveNonPayeEmploymentValidatorSpec extends UnitSpec {
   private val validNino               = "AA123456A"
   private val validTaxYear            = "2021-22"
   private val validSource             = "latest"
-  private val minimumPermittedTaxYear = 2021
 
   class Test extends MockCurrentDateTime with MockAppConfig {
 
@@ -44,9 +45,7 @@ class RetrieveNonPayeEmploymentValidatorSpec extends UnitSpec {
       .returns(LocalDate.parse("2022-07-11"))
       .anyNumberOfTimes()
 
-    MockedAppConfig.minimumPermittedTaxYear
-      .returns(minimumPermittedTaxYear)
-
+    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "running a validation" should {
@@ -76,7 +75,7 @@ class RetrieveNonPayeEmploymentValidatorSpec extends UnitSpec {
 
     "return RuleTaxYearNotSupportedError error" when {
       "a tax year that is not supported is supplied" in new Test {
-        validator.validate(RetrieveNonPayeEmploymentIncomeRawData(validNino, "2018-19", Some(validSource))) shouldBe
+        validator.validate(RetrieveNonPayeEmploymentIncomeRawData(validNino, "2019-20", Some(validSource))) shouldBe
           List(RuleTaxYearNotSupportedError)
       }
     }

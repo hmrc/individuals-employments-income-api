@@ -17,9 +17,11 @@
 package v1.controllers.requestParsers.validators
 
 import api.mocks.MockCurrentDateTime
+import api.models.domain.TaxYear
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
+
 import java.time.LocalDate
 import support.UnitSpec
 import utils.CurrentDateTime
@@ -31,7 +33,6 @@ class RetrieveFinancialDetailsValidatorSpec extends UnitSpec {
   private val validTaxYear            = "2021-22"
   private val validEmploymentId       = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
   private val validSource             = "latest"
-  private val minimumPermittedTaxYear = 2021
 
   class Test extends MockCurrentDateTime with MockAppConfig {
 
@@ -45,9 +46,7 @@ class RetrieveFinancialDetailsValidatorSpec extends UnitSpec {
       .returns(LocalDate.parse("2022-07-11"))
       .anyNumberOfTimes()
 
-    MockedAppConfig.minimumPermittedTaxYear
-      .returns(minimumPermittedTaxYear)
-
+    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "running a validation" should {

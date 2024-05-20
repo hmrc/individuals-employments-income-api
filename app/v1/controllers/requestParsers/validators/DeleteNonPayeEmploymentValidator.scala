@@ -43,7 +43,7 @@ class DeleteNonPayeEmploymentValidator @Inject() (implicit appConfig: AppConfig)
   private def parameterRuleValidation: DeleteNonPayeEmploymentRawData => List[List[MtdError]] =
     (data: DeleteNonPayeEmploymentRawData) => {
       List(
-        TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear)
+        TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear.year)
       )
     }
 

@@ -18,9 +18,11 @@ package v1.controllers.requestParsers.validators
 
 import api.controllers.requestParsers.validators.validations.ValueFormatErrorMessages
 import api.mocks.MockCurrentDateTime
+import api.models.domain.TaxYear
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
+
 import java.time.LocalDate
 import support.UnitSpec
 import utils.CurrentDateTime
@@ -40,8 +42,7 @@ class IgnoreEmploymentValidatorSpec extends UnitSpec with ValueFormatErrorMessag
       .returns(LocalDate.parse("2022-07-11"))
       .anyNumberOfTimes()
 
-    MockedAppConfig.minimumPermittedTaxYear
-      .returns(2021)
+    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
 
     implicit val appConfig: AppConfig = mockAppConfig
 

@@ -16,6 +16,7 @@
 
 package mocks
 
+import api.models.domain.TaxYear
 import config.{AppConfig, ConfidenceLevelConfig}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
@@ -63,7 +64,7 @@ trait MockAppConfig extends MockFactory {
     def apiGatewayContext: CallHandler[String]                   = (() => mockAppConfig.apiGatewayContext).expects()
     def apiStatus(version: Version): CallHandler[String]         = (mockAppConfig.apiStatus(_: Version)).expects(version)
     def endpointsEnabled(version: Version): CallHandler[Boolean] = (mockAppConfig.endpointsEnabled(_: Version)).expects(version)
-    def minimumPermittedTaxYear: CallHandler[Int]                = (() => mockAppConfig.minimumPermittedTaxYear).expects()
+    def minimumPermittedTaxYear: CallHandler[TaxYear]            = (() => mockAppConfig.minimumPermittedTaxYear).expects()
 
     def confidenceLevelCheckEnabled: CallHandler[ConfidenceLevelConfig] =
       (() => mockAppConfig.confidenceLevelConfig).expects()

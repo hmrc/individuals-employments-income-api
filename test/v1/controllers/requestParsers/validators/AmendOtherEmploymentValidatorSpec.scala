@@ -17,6 +17,7 @@
 package v1.controllers.requestParsers.validators
 
 import api.controllers.requestParsers.validators.validations.ValueFormatErrorMessages
+import api.models.domain.TaxYear
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
@@ -707,10 +708,7 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with ValueFormatErrorMe
 
     val validator = new AmendOtherEmploymentValidator()
 
-    MockedAppConfig.minimumPermittedTaxYear
-      .returns(2021)
-      .anyNumberOfTimes()
-
+    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "running a validation" should {

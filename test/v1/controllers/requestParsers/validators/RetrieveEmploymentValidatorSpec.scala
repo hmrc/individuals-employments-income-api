@@ -17,9 +17,11 @@
 package v1.controllers.requestParsers.validators
 
 import api.mocks.MockCurrentDateTime
+import api.models.domain.TaxYear
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
+
 import java.time.LocalDate
 import support.UnitSpec
 import utils.CurrentDateTime
@@ -43,9 +45,7 @@ class RetrieveEmploymentValidatorSpec extends UnitSpec {
       .returns(LocalDate.parse("2022-07-11"))
       .anyNumberOfTimes()
 
-    MockedAppConfig.minimumPermittedTaxYear
-      .returns(2021)
-
+    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "running a validation" should {

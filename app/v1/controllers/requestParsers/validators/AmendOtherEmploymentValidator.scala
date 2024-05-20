@@ -51,7 +51,7 @@ class AmendOtherEmploymentValidator @Inject()(implicit appConfig: AppConfig)
 
   private def parameterRuleValidation: AmendOtherEmploymentRawData => List[List[MtdError]] = { data =>
     List(
-      TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear)
+      TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear.year)
     )
   }
 

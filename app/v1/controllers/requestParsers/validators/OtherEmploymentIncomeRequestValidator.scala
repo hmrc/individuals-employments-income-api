@@ -44,7 +44,7 @@ class OtherEmploymentIncomeRequestValidator @Inject() (implicit appConfig: AppCo
   private def parameterRuleValidation: OtherEmploymentIncomeRequestRawData => List[List[MtdError]] =
     (data: OtherEmploymentIncomeRequestRawData) => {
       List(
-        TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear)
+        TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear.year)
       )
     }
 
