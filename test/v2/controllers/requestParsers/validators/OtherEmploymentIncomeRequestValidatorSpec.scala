@@ -36,8 +36,7 @@ import api.mocks.MockCurrentDateTime
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
-import org.joda.time.DateTime
-import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+import java.time.LocalDate
 import support.UnitSpec
 import utils.CurrentDateTime
 import v2.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequestRawData
@@ -55,12 +54,11 @@ class OtherEmploymentIncomeRequestValidatorSpec extends UnitSpec with MockAppCon
 
     implicit val appConfig: AppConfig              = mockAppConfig
     implicit val dateTimeProvider: CurrentDateTime = mockCurrentDateTime
-    val dateTimeFormatter: DateTimeFormatter       = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     val validator = new OtherEmploymentIncomeRequestValidator()
 
-    MockCurrentDateTime.getDateTime
-      .returns(DateTime.parse("2021-07-29", dateTimeFormatter))
+    MockCurrentDateTime.getLocalDate
+      .returns(LocalDate.parse("2021-07-29"))
       .anyNumberOfTimes()
 
     private val MINIMUM_YEAR = 2018
