@@ -16,13 +16,13 @@
 
 package v1.controllers.validators
 
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
+import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import mocks.MockAppConfig
 import support.UnitSpec
-import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
+import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
-class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockAppConfig {
+class DeleteNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -33,10 +33,8 @@ class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockApp
 
   trait Test {
 
-    def validate(nino: String = validNino,
-                 taxYear: String = validTaxYear,
-                 maybeSource: Option[String] = None): Either[ErrorWrapper, RetrieveNonPayeEmploymentIncomeRequest] =
-      new RetrieveNonPayeEmploymentIncomeValidator(nino, taxYear, maybeSource, mockAppConfig).validateAndWrapResult()
+    def validate(nino: String = validNino, taxYear: String = validTaxYear): Either[ErrorWrapper, DeleteNonPayeEmploymentRequest] =
+      new DeleteNonPayeEmploymentIncomeValidator(nino, taxYear, mockAppConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
@@ -45,21 +43,8 @@ class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockApp
 
   "validate" should {
     "return a request object" when {
-      def validateSuccessfullyWith(sourceString: String, expectedRequest: RetrieveNonPayeEmploymentIncomeRequest): Unit =
-        s"valid request data is supplied with source $sourceString" in new Test {
-          validate(maybeSource = Some(sourceString)) shouldBe Right(expectedRequest)
-        }
-
-      val input = Seq(
-        ("hmrc-held", RetrieveNonPayeEmploymentIncomeRequest(parsedNino, parsedTaxYear, MtdSourceEnum.`hmrc-held`)),
-        ("latest", RetrieveNonPayeEmploymentIncomeRequest(parsedNino, parsedTaxYear, MtdSourceEnum.latest)),
-        ("user", RetrieveNonPayeEmploymentIncomeRequest(parsedNino, parsedTaxYear, MtdSourceEnum.user))
-      )
-
-      input.foreach(args => (validateSuccessfullyWith _).tupled(args))
-
-      "default to 'latest' source" in new Test {
-        validate(maybeSource = None) shouldBe Right(RetrieveNonPayeEmploymentIncomeRequest(parsedNino, parsedTaxYear, MtdSourceEnum.latest))
+      "valid" in new Test {
+        validate() shouldBe Right(DeleteNonPayeEmploymentRequest(parsedNino, parsedTaxYear))
       }
     }
 

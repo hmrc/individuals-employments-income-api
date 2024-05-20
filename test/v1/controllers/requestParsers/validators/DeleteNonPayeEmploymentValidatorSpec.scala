@@ -67,7 +67,7 @@ class DeleteNonPayeEmploymentValidatorSpec extends UnitSpec {
 
     "return RuleTaxYearNotSupportedError error" when {
       "an invalid tax year is supplied" in new Test {
-        validator.validate(DeleteNonPayeEmploymentRawData(validNino, "2018-19")) shouldBe
+        validator.validate(DeleteNonPayeEmploymentRawData(validNino, "2019-20")) shouldBe
           List(RuleTaxYearNotSupportedError)
       }
     }
