@@ -4,8 +4,8 @@ PUT        /non-paye/:nino/:taxYear                             v1.controllers.C
 DELETE     /non-paye/:nino/:taxYear                             v1.controllers.DeleteNonPayeEmploymentController.delete(nino: String, taxYear: String)
 
 PUT        /other/:nino/:taxYear                                v1.controllers.AmendOtherEmploymentController.amendOtherEmployment(nino: String, taxYear: String)
-DELETE     /other/:nino/:taxYear                                v2.controllers.DeleteOtherEmploymentController.deleteOtherEmployment(nino: String, taxYear: String)
-GET        /other/:nino/:taxYear                                v2.controllers.RetrieveOtherEmploymentController.retrieveOther(nino: String, taxYear: String)
+DELETE     /other/:nino/:taxYear                                v1.controllers.DeleteOtherEmploymentController.deleteOtherEmployment(nino: String, taxYear: String)
+GET        /other/:nino/:taxYear                                v1.controllers.RetrieveOtherEmploymentController.retrieveOther(nino: String, taxYear: String)
 
 # Employment endpoints
 PUT        /:nino/:taxYear/:employmentId                        v1.controllers.AmendCustomEmploymentController.amendEmployment(nino: String, taxYear: String, employmentId: String)
