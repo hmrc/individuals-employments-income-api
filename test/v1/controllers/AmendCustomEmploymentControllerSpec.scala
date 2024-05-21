@@ -19,7 +19,7 @@ package v1.controllers
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
@@ -74,8 +74,8 @@ class AmendCustomEmploymentControllerSpec
 
   val requestData: AmendCustomEmploymentRequest = AmendCustomEmploymentRequest(
     nino = Nino(nino),
-    taxYear = taxYear,
-    employmentId = employmentId,
+    taxYear = TaxYear.fromMtd(taxYear),
+    employmentId = EmploymentId(employmentId),
     body = amendCustomEmploymentRequestBody
   )
 

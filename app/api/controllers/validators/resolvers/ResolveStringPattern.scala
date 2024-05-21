@@ -18,17 +18,16 @@ package api.controllers.validators.resolvers
 
 import api.models.errors.MtdError
 import cats.data.Validated
-import cats.data.Validated.{Invalid, Valid}
 
 import scala.util.matching.Regex
 
 case class ResolveStringPattern(regexFormat: Regex, error: MtdError) extends ResolverSupport {
 
-  val resolver: Resolver[String, String] = value =>
-    if (regexFormat.matches(value))
-      Valid(value)
-    else
-      Invalid(List(error))
+  val resolver: Resolver[String, String] =
+    resolveValid[String] thenValidate validator
+
+  def validator: Validator[String] =
+    value => Option.when(!regexFormat.matches(value))(Seq(error))
 
   def apply(value: String): Validated[Seq[MtdError], String] = resolver(value)
 }

@@ -18,7 +18,7 @@ package v1.connectors
 
 import api.connectors.ConnectorSpec
 import api.mocks.MockHttpClient
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import uk.gov.hmrc.http.HeaderCarrier
@@ -43,8 +43,8 @@ class AmendCustomEmploymentConnectorSpec extends ConnectorSpec {
 
   val request: AmendCustomEmploymentRequest = AmendCustomEmploymentRequest(
     nino = Nino(nino),
-    taxYear = taxYear,
-    employmentId = employmentId,
+    taxYear = TaxYear.fromMtd(taxYear),
+    employmentId = EmploymentId(employmentId),
     body = amendCustomEmploymentRequestBody
   )
 

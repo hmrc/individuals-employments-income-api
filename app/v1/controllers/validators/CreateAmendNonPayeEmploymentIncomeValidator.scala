@@ -37,8 +37,8 @@ object CreateAmendNonPayeEmploymentIncomeValidator {
 class CreateAmendNonPayeEmploymentIncomeValidator(nino: String,
                                                   taxYear: String,
                                                   body: JsValue,
-                                                  temporalValidationEnabled: Boolean = true,
-                                                  appConfig: AppConfig)(implicit clock: Clock)
+                                                  temporalValidationEnabled: Boolean,
+                                                  appConfig: AppConfig)(implicit clock: Clock = Clock.systemUTC)
     extends Validator[CreateAmendNonPayeEmploymentRequest]
     with ResolverSupport {
   import CreateAmendNonPayeEmploymentIncomeValidator._

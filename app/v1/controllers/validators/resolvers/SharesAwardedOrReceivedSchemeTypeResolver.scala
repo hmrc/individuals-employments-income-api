@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
-package v1.models.request.amendCustomEmployment
+package v1.controllers.validators.resolvers
 
-import api.models.domain.{EmploymentId, Nino, TaxYear}
+import api.controllers.validators.resolvers.ResolverSupport
+import api.models.domain.SharesAwardedOrReceivedSchemeType
+import api.models.errors.MtdError
 
-case class AmendCustomEmploymentRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId, body: AmendCustomEmploymentRequestBody)
+object SharesAwardedOrReceivedSchemeTypeResolver extends ResolverSupport {
+
+  def resolver(error: => MtdError): Resolver[String, SharesAwardedOrReceivedSchemeType] =
+    resolvePartialFunction(error)(SharesAwardedOrReceivedSchemeType.parser)
+
+}

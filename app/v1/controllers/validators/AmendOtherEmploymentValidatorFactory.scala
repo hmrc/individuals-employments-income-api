@@ -19,17 +19,14 @@ package v1.controllers.validators
 import api.controllers.validators.Validator
 import config.AppConfig
 import play.api.libs.json.JsValue
-import v1.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest
+import v1.models.request.amendOtherEmployment.AmendOtherEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class CreateAmendNonPayeEmploymentIncomeValidatorFactory @Inject() (appConfig: AppConfig) {
+class AmendOtherEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
 
-  def validator(nino: String,
-                taxYear: String,
-                body: JsValue,
-                temporalValidationEnabled: Boolean): Validator[CreateAmendNonPayeEmploymentRequest] =
-    new CreateAmendNonPayeEmploymentIncomeValidator(nino, taxYear, body, temporalValidationEnabled, appConfig)
+  def validator(nino: String, taxYear: String, body: JsValue): Validator[AmendOtherEmploymentRequest] =
+    new AmendOtherEmploymentValidator(nino, taxYear, body, appConfig)
 
 }
