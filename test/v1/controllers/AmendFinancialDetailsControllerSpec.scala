@@ -19,7 +19,7 @@ package v1.controllers
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
@@ -220,7 +220,7 @@ class AmendFinancialDetailsControllerSpec
   val requestData: AmendFinancialDetailsRequest = AmendFinancialDetailsRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear),
-    employmentId = employmentId,
+    employmentId = EmploymentId(employmentId),
     body = amendFinancialDetailsRequestBody
   )
 
