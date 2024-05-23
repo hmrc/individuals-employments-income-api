@@ -23,13 +23,7 @@ import cats.data.Validated
 import cats.implicits._
 import v1.controllers.validators.resolvers.EmploymentsIncomeValidators._
 import v1.controllers.validators.resolvers.{ShareOptionSchemeTypeResolver, SharesAwardedOrReceivedSchemeTypeResolver}
-import v1.models.request.amendOtherEmployment.{
-  AmendCommonOtherEmployment,
-  AmendLumpSums,
-  AmendOtherEmploymentRequest,
-  AmendShareOptionItem,
-  AmendSharesAwardedOrReceivedItem
-}
+import v1.models.request.amendOtherEmployment._
 
 object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmploymentRequest] with ResolverSupport {
 
@@ -59,43 +53,21 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
       case None        => valid
     }
 
-  private def validateNonNegativeNumber(amount: BigDecimal, path: String) =
-    ResolveParsedNumber()(amount, path)
-
-  private def validateOptionalNonNegativeNumber(amount: Option[BigDecimal], path: String) =
-    ResolveParsedNumber()(amount, path)
-
-  private def validatePositiveInt(amount: BigInt, path: String) =
-    resolveValid[BigInt].thenValidate(satisfiesMin(0, ValueFormatError.forPathAndMin(path, "0")))(amount)
-
   private def validateDate(path: String) =
     ResolveIsoDate(DateFormatError.withPath(path)).resolver
       .map(_.getYear)
       .thenValidate(inRange(1900, 2099, RuleDateRangeInvalidError.withPath(path)))
 
   private def validateShareOption(item: AmendShareOptionItem, arrayIndex: Int) = {
-    def validateEmployerName =
-      resolveValid[String].thenValidate(employmentNameValidator(EmployerNameFormatError.withPath(s"/shareOption/$arrayIndex/employerName")))(
-        item.employerName)
-
-    def validateEmployerRef =
-      resolveValid[String]
-        .thenValidate(employmentRefValidator(EmployerRefFormatError.withPath(s"/shareOption/$arrayIndex/employerRef")))
-        .resolveOptionally(item.employerRef)
-
-    def validateClassOfShares =
-      resolveValid[String].thenValidate(
-        classOfSharesValidator(ClassOfSharesAcquiredFormatError.withPath(s"/shareOption/$arrayIndex/classOfSharesAcquired")))(
-        item.classOfSharesAcquired)
 
     def validateSchemeType =
       ShareOptionSchemeTypeResolver
         .resolver(SchemePlanTypeFormatError.withPath(s"/shareOption/$arrayIndex/schemePlanType"))(item.schemePlanType)
 
     combine(
-      validateEmployerName,
-      validateEmployerRef,
-      validateClassOfShares,
+      validateEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/shareOption/$arrayIndex/employerName")),
+      validateOptionalEmployerRef(item.employerRef, EmployerRefFormatError.withPath(s"/shareOption/$arrayIndex/employerRef")),
+      validateClassOfShares(item.classOfSharesAcquired, ClassOfSharesAcquiredFormatError.withPath(s"/shareOption/$arrayIndex/classOfSharesAcquired")),
       validateSchemeType,
       validateDate(s"/shareOption/$arrayIndex/dateOfOptionGrant")(item.dateOfOptionGrant),
       validateDate(s"/shareOption/$arrayIndex/dateOfEvent")(item.dateOfEvent),
@@ -135,28 +107,17 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
   }
 
   private def validateSharesAwaredOrReceived(item: AmendSharesAwardedOrReceivedItem, arrayIndex: Int) = {
-    def validateEmployerName =
-      resolveValid[String].thenValidate(
-        employmentNameValidator(EmployerNameFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/employerName")))(item.employerName)
-
-    def validateEmployerRef =
-      resolveValid[String]
-        .thenValidate(employmentRefValidator(EmployerRefFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/employerRef")))
-        .resolveOptionally(item.employerRef)
-
-    def validateClassOfShares =
-      resolveValid[String].thenValidate(
-        classOfSharesValidator(ClassOfSharesAwardedFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/classOfShareAwarded")))(
-        item.classOfShareAwarded)
 
     def validateSchemeType =
       SharesAwardedOrReceivedSchemeTypeResolver
         .resolver(SchemePlanTypeFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/schemePlanType"))(item.schemePlanType)
 
     combine(
-      validateEmployerName,
-      validateEmployerRef,
-      validateClassOfShares,
+      validateEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/employerName")),
+      validateOptionalEmployerRef(item.employerRef, EmployerRefFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/employerRef")),
+      validateClassOfShares(
+        item.classOfShareAwarded,
+        ClassOfSharesAwardedFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/classOfShareAwarded")),
       validateSchemeType,
       validateDate(s"/sharesAwardedOrReceived/$arrayIndex/dateSharesCeasedToBeSubjectToPlan")(item.dateSharesCeasedToBeSubjectToPlan),
       validateDate(s"/sharesAwardedOrReceived/$arrayIndex/dateSharesAwarded")(item.dateSharesAwarded),
@@ -194,13 +155,9 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
     validateCommon(item, x => s"/foreignService/$x")
 
   private def validateCommon(item: AmendCommonOtherEmployment, path: String => String) = {
-    def validateCustomerRef =
-      resolveValid[String]
-        .thenValidate(customerReferenceValidator(CustomerRefFormatError.withPath(path("customerReference"))))
-        .resolveOptionally(item.customerReference)
 
     combine(
-      validateCustomerRef,
+      validateCustomerRef(item.customerReference, CustomerRefFormatError.withPath(path("customerReference"))),
       validateNonNegativeNumber(
         amount = item.amountDeducted,
         path("amountDeducted")
@@ -209,13 +166,6 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
   }
 
   private def validateLumpSums(item: AmendLumpSums, arrayIndex: Int) = {
-    def validateEmployerName =
-      resolveValid[String].thenValidate(employmentNameValidator(EmployerNameFormatError.withPath(s"/lumpSums/$arrayIndex/employerName")))(
-        item.employerName)
-
-    def validateEmployerRef =
-      resolveValid[String].thenValidate(employmentRefValidator(EmployerRefFormatError.withPath(s"/lumpSums/$arrayIndex/employerRef")))(
-        item.employerRef)
 
     def validateLumpSumSectionPresent = {
       val validator = (lumpSums: AmendLumpSums) =>
@@ -231,8 +181,8 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
     }
 
     combine(
-      validateEmployerName,
-      validateEmployerRef,
+      validateEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/lumpSums/$arrayIndex/employerName")),
+      validateEmployerRef(item.employerRef, EmployerRefFormatError.withPath(s"/lumpSums/$arrayIndex/employerRef")),
       validateLumpSumSectionPresent,
       validateOptionalNonNegativeNumber(
         amount = item.taxableLumpSumsAndCertainIncome.map(_.amount),

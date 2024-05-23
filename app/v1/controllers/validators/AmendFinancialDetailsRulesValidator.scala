@@ -23,6 +23,7 @@ import api.models.errors.{MtdError, RuleMissingOffPayrollWorker, RuleNotAllowedO
 import cats.data.Validated
 import v1.models.request.amendFinancialDetails.AmendFinancialDetailsRequest
 import v1.models.request.amendFinancialDetails.employment.{AmendBenefitsInKind, AmendDeductions, AmendPay}
+import v1.controllers.validators.resolvers.EmploymentsIncomeValidators._
 
 object AmendFinancialDetailsRulesValidator extends RulesValidator[AmendFinancialDetailsRequest] with ResolverSupport {
 
@@ -44,22 +45,13 @@ object AmendFinancialDetailsRulesValidator extends RulesValidator[AmendFinancial
       case None        => valid
     }
 
-  private def resolveOptionalNonNegativeNumber(amount: Option[BigDecimal], path: String): Validated[Seq[MtdError], Option[BigDecimal]] =
-    ResolveParsedNumber()(amount, path)
-
-  private def resolveNonNegativeNumber(amount: BigDecimal, path: String): Validated[Seq[MtdError], BigDecimal] =
-    ResolveParsedNumber()(amount, path)
-
-  private def resolveNumber(amount: BigDecimal, path: String): Validated[Seq[MtdError], BigDecimal] =
-    ResolveParsedNumber(min = -99999999999.99)(amount, path)
-
   private def validatePay(pay: AmendPay) = {
     combine(
-      resolveNonNegativeNumber(
+      validateNonNegativeNumber(
         amount = pay.taxablePayToDate,
         path = "/employment/pay/taxablePayToDate"
       ),
-      resolveNumber(
+      validateNumber(
         amount = pay.totalTaxToDate,
         path = "/employment/pay/totalTaxToDate"
       )
@@ -68,11 +60,11 @@ object AmendFinancialDetailsRulesValidator extends RulesValidator[AmendFinancial
 
   private def validateDeductions(deductions: AmendDeductions) = {
     combine(
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = deductions.studentLoans.flatMap(_.pglDeductionAmount),
         path = "/employment/deductions/studentLoans/pglDeductionAmount"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = deductions.studentLoans.flatMap(_.uglDeductionAmount),
         path = "/employment/deductions/studentLoans/uglDeductionAmount"
       )
@@ -81,115 +73,115 @@ object AmendFinancialDetailsRulesValidator extends RulesValidator[AmendFinancial
 
   private def validateBenefitsInKind(benefitsInKind: AmendBenefitsInKind) = {
     combine(
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.accommodation,
         path = "/employment/benefitsInKind/accommodation"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.assets,
         path = "/employment/benefitsInKind/assets"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.assetTransfer,
         path = "/employment/benefitsInKind/assetTransfer"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.beneficialLoan,
         path = "/employment/benefitsInKind/beneficialLoan"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.car,
         path = "/employment/benefitsInKind/car"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.carFuel,
         path = "/employment/benefitsInKind/carFuel"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.educationalServices,
         path = "/employment/benefitsInKind/educationalServices"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.entertaining,
         path = "/employment/benefitsInKind/entertaining"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.expenses,
         path = "/employment/benefitsInKind/expenses"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.medicalInsurance,
         path = "/employment/benefitsInKind/medicalInsurance"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.telephone,
         path = "/employment/benefitsInKind/telephone"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.service,
         path = "/employment/benefitsInKind/service"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.taxableExpenses,
         path = "/employment/benefitsInKind/taxableExpenses"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.van,
         path = "/employment/benefitsInKind/van"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.vanFuel,
         path = "/employment/benefitsInKind/vanFuel"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.mileage,
         path = "/employment/benefitsInKind/mileage"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.nonQualifyingRelocationExpenses,
         path = "/employment/benefitsInKind/nonQualifyingRelocationExpenses"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.nurseryPlaces,
         path = "/employment/benefitsInKind/nurseryPlaces"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.otherItems,
         path = "/employment/benefitsInKind/otherItems"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.paymentsOnEmployeesBehalf,
         path = "/employment/benefitsInKind/paymentsOnEmployeesBehalf"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.personalIncidentalExpenses,
         path = "/employment/benefitsInKind/personalIncidentalExpenses"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.qualifyingRelocationExpenses,
         path = "/employment/benefitsInKind/qualifyingRelocationExpenses"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.employerProvidedProfessionalSubscriptions,
         path = "/employment/benefitsInKind/employerProvidedProfessionalSubscriptions"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.employerProvidedServices,
         path = "/employment/benefitsInKind/employerProvidedServices"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.incomeTaxPaidByDirector,
         path = "/employment/benefitsInKind/incomeTaxPaidByDirector"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.travelAndSubsistence,
         path = "/employment/benefitsInKind/travelAndSubsistence"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.vouchersAndCreditCards,
         path = "/employment/benefitsInKind/vouchersAndCreditCards"
       ),
-      resolveOptionalNonNegativeNumber(
+      validateOptionalNonNegativeNumber(
         amount = benefitsInKind.nonCash,
         path = "/employment/benefitsInKind/nonCash"
       )

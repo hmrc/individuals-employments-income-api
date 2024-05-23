@@ -32,20 +32,12 @@ object AddCustomEmploymentRulesValidator extends RulesValidator[AddCustomEmploym
 
     combine(
       validateEmployerName(body.employerName),
-      validateEmployerRef(body.employerRef),
+      validateOptionalEmployerRef(body.employerRef),
       validatePayrollId(body.payrollId),
       validateDates(parsed.taxYear, body)
     ).onSuccess(parsed)
   }
 
-  private def validateEmployerName(employerName: String) =
-    resolveValid[String].thenValidate(employmentNameValidator())(employerName)
-
-  private def validateEmployerRef(employerRef: Option[String]) =
-    resolveValid[String].thenValidate(employmentRefValidator()).resolveOptionally(employerRef)
-
-  private def validatePayrollId(payrollId: Option[String]) =
-    resolveValid[String].thenValidate(payrollIdValidator()).resolveOptionally(payrollId)
 
   private def validateDates(taxYear: TaxYear, body: AddCustomEmploymentRequestBody) = {
     resolveValid[(String, Option[String])]

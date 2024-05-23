@@ -16,34 +16,49 @@
 
 package v1.controllers.validators.resolvers
 
-import api.controllers.validators.resolvers.ResolveStringPattern
-import api.models.errors.{CustomerRefFormatError, EmployerNameFormatError, EmployerRefFormatError, MtdError, PayrollIdFormatError}
-import v1.controllers.validators.AmendOtherEmploymentRulesValidator.Validator
+import api.controllers.validators.resolvers.{ResolveParsedNumber, ResolveStringPattern, ResolverSupport}
+import api.models.errors._
+import cats.data.Validated
 
-object EmploymentsIncomeValidators {
-  private val employmentNameRegex = "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,105}$".r
+object EmploymentsIncomeValidators extends ResolverSupport {
+  private val employerNameRegex = "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,105}$".r
 
-  def employmentNameValidator(error: => MtdError = EmployerNameFormatError): Validator[String] =
-    ResolveStringPattern(employmentNameRegex, error).validator
+  def validateEmployerName(name: String, error: => MtdError = EmployerNameFormatError): Validated[Seq[MtdError], String] =
+    ResolveStringPattern(employerNameRegex, error)(name)
 
   private val employerRefValidation = "^[0-9]{3}/[^ ].{0,9}$".r
 
-  def employmentRefValidator(error: => MtdError = EmployerRefFormatError): Validator[String] =
-    ResolveStringPattern(employerRefValidation, error).validator
+  def validateEmployerRef(value : String, error: => MtdError = EmployerRefFormatError): Validated[Seq[MtdError], String] =
+    ResolveStringPattern(employerRefValidation, error)(value)
+
+  def validateOptionalEmployerRef(value : Option[String], error: => MtdError = EmployerRefFormatError): Validated[Seq[MtdError], Option[String]] =
+    ResolveStringPattern(employerRefValidation, error).resolver.resolveOptionally(value)
 
   private val classOfSharesRegex = "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,90}$".r
 
-  def classOfSharesValidator(error: => MtdError): Validator[String] =
-    ResolveStringPattern(classOfSharesRegex, error).validator
+  def validateClassOfShares(value: String, error: => MtdError): Validated[Seq[MtdError], String] =
+    ResolveStringPattern(classOfSharesRegex, error)(value)
 
   private val customerReferenceRegex = "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,90}$".r
 
-  def customerReferenceValidator(error: => MtdError = CustomerRefFormatError): Validator[String] =
-    ResolveStringPattern(customerReferenceRegex, error).validator
+  def validateCustomerRef(value: Option[String], error: => MtdError = CustomerRefFormatError): Validated[Seq[MtdError], Option[String]] =
+    ResolveStringPattern(customerReferenceRegex, error).resolver.resolveOptionally(value)
 
   private val payrollIdRegex = "^[A-Za-z0-9.,\\-()/=!\"%&*; <>'+:\\?]{0,38}$".r
 
-  def payrollIdValidator(error: => MtdError = PayrollIdFormatError): Validator[String] =
-    ResolveStringPattern(payrollIdRegex, error).validator
+  def validatePayrollId(value: Option[String], error: => MtdError = PayrollIdFormatError): Validated[Seq[MtdError], Option[String]] =
+    ResolveStringPattern(payrollIdRegex, error).resolver.resolveOptionally(value)
+
+  def validateOptionalNonNegativeNumber(amount: Option[BigDecimal], path: String): Validated[Seq[MtdError], Option[BigDecimal]] =
+    ResolveParsedNumber()(amount, path)
+
+  def validateNonNegativeNumber(amount: BigDecimal, path: String): Validated[Seq[MtdError], BigDecimal] =
+    ResolveParsedNumber()(amount, path)
+
+  def validateNumber(amount: BigDecimal, path: String): Validated[Seq[MtdError], BigDecimal] =
+    ResolveParsedNumber(min = -99999999999.99)(amount, path)
+
+  def validatePositiveInt(amount: BigInt, path: String): Validated[Seq[MtdError], BigInt] =
+    resolveValid[BigInt].thenValidate(satisfiesMin(0, ValueFormatError.forPathAndMin(path, "0")))(amount)
 
 }
