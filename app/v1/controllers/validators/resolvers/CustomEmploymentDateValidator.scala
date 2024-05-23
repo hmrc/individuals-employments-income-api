@@ -22,6 +22,7 @@ import api.models.errors._
 import cats.data.Validated.{Invalid, Valid}
 
 import java.time.LocalDate
+import scala.math.Ordering.Implicits.infixOrderingOps
 
 object CustomEmploymentDateValidator extends ResolverSupport {
   private type StringDateRange = (String, Option[String])
@@ -69,8 +70,8 @@ object CustomEmploymentDateValidator extends ResolverSupport {
     inRange(1900, 2099, error).contramap(_.getYear)
 
   private def validateDatesInOrder(startDate: LocalDate, maybeCessation: Option[LocalDate]) =
-    maybeCessation.flatMap { cessation =>
-      Option.when(startDate.isAfter(cessation))(Seq(RuleCessationDateBeforeStartDateError))
+    maybeCessation.flatMap { cessationDate =>
+      Option.when(cessationDate < startDate)(Seq(RuleCessationDateBeforeStartDateError))
     }
 
   private def combineErrors(maybeErrs: Option[Seq[MtdError]]*): Option[Seq[MtdError]] =
