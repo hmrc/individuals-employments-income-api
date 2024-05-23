@@ -17,7 +17,7 @@
 package v1.controllers.requestParsers
 
 import api.controllers.requestParsers.RequestParser
-import api.models.domain.Nino
+import api.models.domain.{Nino, TaxYear}
 import v1.controllers.requestParsers.validators.AddCustomEmploymentValidator
 import v1.models.request.addCustomEmployment._
 
@@ -28,6 +28,6 @@ class AddCustomEmploymentRequestParser @Inject()(val validator: AddCustomEmploym
   extends RequestParser[AddCustomEmploymentRawData, AddCustomEmploymentRequest] {
 
   override protected def requestFor(data: AddCustomEmploymentRawData): AddCustomEmploymentRequest =
-    AddCustomEmploymentRequest(Nino(data.nino), data.taxYear, data.body.json.as[AddCustomEmploymentRequestBody])
+    AddCustomEmploymentRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear), data.body.json.as[AddCustomEmploymentRequestBody])
 
 }

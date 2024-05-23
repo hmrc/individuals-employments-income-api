@@ -17,7 +17,7 @@
 package v1.services
 
 import api.controllers.EndpointLogContext
-import api.models.domain.Nino
+import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
@@ -43,7 +43,7 @@ class AddCustomEmploymentServiceSpec extends ServiceSpec {
 
   val request: AddCustomEmploymentRequest = AddCustomEmploymentRequest(
     nino = Nino(nino),
-    taxYear = taxYear,
+    taxYear = TaxYear.fromMtd(taxYear),
     body = addCustomEmploymentRequestBody
   )
 

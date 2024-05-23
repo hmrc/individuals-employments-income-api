@@ -1,0 +1,55 @@
+/*
+ * Copyright 2024 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package v1.controllers.validators
+
+import api.controllers.validators.RulesValidator
+import api.controllers.validators.resolvers._
+import api.models.domain.TaxYear
+import api.models.errors._
+import cats.data.Validated
+import v1.controllers.validators.resolvers.CustomEmploymentDateValidator
+import v1.controllers.validators.resolvers.EmploymentsIncomeValidators._
+import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
+
+object AddCustomEmploymentRulesValidator extends RulesValidator[AddCustomEmploymentRequest] with ResolverSupport {
+
+  def validateBusinessRules(parsed: AddCustomEmploymentRequest): Validated[Seq[MtdError], AddCustomEmploymentRequest] = {
+    import parsed.body
+
+    combine(
+      validateEmployerName(body.employerName),
+      validateEmployerRef(body.employerRef),
+      validatePayrollId(body.payrollId),
+      validateDates(parsed.taxYear, body)
+    ).onSuccess(parsed)
+  }
+
+  private def validateEmployerName(employerName: String) =
+    resolveValid[String].thenValidate(employmentNameValidator())(employerName)
+
+  private def validateEmployerRef(employerRef: Option[String]) =
+    resolveValid[String].thenValidate(employmentRefValidator()).resolveOptionally(employerRef)
+
+  private def validatePayrollId(payrollId: Option[String]) =
+    resolveValid[String].thenValidate(payrollIdValidator()).resolveOptionally(payrollId)
+
+  private def validateDates(taxYear: TaxYear, body: AddCustomEmploymentRequestBody) = {
+    resolveValid[(String, Option[String])]
+      .thenValidate(CustomEmploymentDateValidator.validator(taxYear))((body.startDate, body.cessationDate))
+  }
+
+}
