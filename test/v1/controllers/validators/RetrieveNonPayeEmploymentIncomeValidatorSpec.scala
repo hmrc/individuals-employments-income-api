@@ -87,6 +87,12 @@ class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockApp
       }
     }
 
+    "return SourceFormatError error" when {
+      "an unsupported tax year is supplied" in new Test {
+        validate(maybeSource = Some("BAD_SOURCE")) shouldBe singleError(SourceFormatError)
+      }
+    }
+
     "return multiple errors" when {
       "request supplied has multiple errors" in new Test {
         validate("BAD_NINO", "BAD_TAX_YEAR") shouldBe
