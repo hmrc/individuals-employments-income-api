@@ -16,7 +16,7 @@
 
 package v1.controllers.requestParsers
 
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.AnyContentAsJson
@@ -64,8 +64,8 @@ class AmendCustomEmploymentRequestParserSpec extends UnitSpec {
 
   private val amendCustomEmploymentRequest = AmendCustomEmploymentRequest(
     nino = Nino(nino),
-    taxYear = taxYear,
-    employmentId = employmentId,
+    taxYear = TaxYear.fromMtd(taxYear),
+    employmentId = EmploymentId(employmentId),
     body = amendCustomEmploymentBodyModel
   )
 

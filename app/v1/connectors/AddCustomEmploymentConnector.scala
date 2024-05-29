@@ -39,7 +39,7 @@ class AddCustomEmploymentConnector @Inject()(val http: HttpClient, val appConfig
     val nino    = request.nino.nino
     val taxYear = request.taxYear
 
-    post(request.body, Api1661Uri[AddCustomEmploymentResponse](s"income-tax/income/employments/$nino/$taxYear/custom"))
+    post(request.body, Api1661Uri[AddCustomEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom"))
   }
 
 }

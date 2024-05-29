@@ -17,7 +17,7 @@
 package v1.connectors
 
 import api.connectors.ConnectorSpec
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
 import v1.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
@@ -87,7 +87,7 @@ class AmendFinancialDetailsConnectorSpec extends ConnectorSpec {
     )
 
     protected val amendFinancialDetailsRequest: AmendFinancialDetailsRequest =
-      AmendFinancialDetailsRequest(Nino(nino), taxYear, employmentId, amendFinancialDetailsRequestBody)
+      AmendFinancialDetailsRequest(Nino(nino), taxYear, EmploymentId(employmentId), amendFinancialDetailsRequestBody)
 
     def taxYear: TaxYear
 

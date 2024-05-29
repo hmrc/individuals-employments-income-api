@@ -49,7 +49,7 @@ class CreateAmendNonPayeEmploymentValidator @Inject() (implicit currentDateTime:
 
   private def parameterRuleValidation: CreateAmendNonPayeEmploymentRawData => List[List[MtdError]] = data => {
     List(
-      TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear),
+      TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear.year),
       if (data.temporalValidationEnabled) TaxYearNotEndedValidation.validate(data.taxYear) else Nil
     )
   }

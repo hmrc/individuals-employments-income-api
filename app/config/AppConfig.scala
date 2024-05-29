@@ -16,6 +16,7 @@
 
 package config
 
+import api.models.domain.TaxYear
 import com.typesafe.config.Config
 import play.api.{ConfigLoader, Configuration}
 import routing.Version
@@ -80,7 +81,7 @@ trait AppConfig {
   def api1661EnvironmentHeaders: Option[Seq[String]]
 
   def apiGatewayContext: String
-  def minimumPermittedTaxYear: Int
+  def minimumPermittedTaxYear: TaxYear
 
   // API Config
   def apiStatus(version: Version): String
@@ -128,7 +129,7 @@ class AppConfigImpl @Inject() (config: ServicesConfig, configuration: Configurat
   val api1661EnvironmentHeaders: Option[Seq[String]] = configuration.getOptional[Seq[String]]("microservice.services.api1661.environmentHeaders")
 
   val apiGatewayContext: String                    = config.getString("api.gateway.context")
-  val minimumPermittedTaxYear: Int                 = config.getInt("minimumPermittedTaxYear")
+  val minimumPermittedTaxYear: TaxYear             = TaxYear.ending(config.getInt("minimumPermittedTaxYear"))
   val confidenceLevelConfig: ConfidenceLevelConfig = configuration.get[ConfidenceLevelConfig](s"api.confidence-level-check")
 
   // API Config
@@ -138,7 +139,6 @@ class AppConfigImpl @Inject() (config: ServicesConfig, configuration: Configurat
 
   def endpointsEnabled(version: Version): Boolean =
     config.getBoolean(s"api.${version.name}.endpoints.enabled")
-
 
   def allowRequestCannotBeFulfilledHeader(version: Version): Boolean =
     config.getBoolean(s"api.$version.endpoints.allow-request-cannot-be-fulfilled-header")

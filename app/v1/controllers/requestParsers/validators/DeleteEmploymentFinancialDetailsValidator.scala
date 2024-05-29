@@ -45,7 +45,7 @@ class DeleteEmploymentFinancialDetailsValidator @Inject() (implicit appConfig: A
   private def parameterRuleValidation: DeleteEmploymentFinancialDetailsRawData => List[List[MtdError]] =
     (data: DeleteEmploymentFinancialDetailsRawData) => {
       List(
-        TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear)
+        TaxYearNotSupportedValidation.validate(data.taxYear, appConfig.minimumPermittedTaxYear.year)
       )
     }
 

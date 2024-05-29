@@ -17,9 +17,11 @@
 package v1.controllers.requestParsers.validators
 
 import api.mocks.MockCurrentDateTime
+import api.models.domain.TaxYear
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
+
 import java.time.LocalDate
 import support.UnitSpec
 import utils.CurrentDateTime
@@ -45,8 +47,7 @@ class OtherEmploymentIncomeRequestValidatorSpec extends UnitSpec with MockAppCon
       .returns(LocalDate.parse("2021-07-29"))
       .anyNumberOfTimes()
 
-    private val MINIMUM_YEAR = 2018
-    MockedAppConfig.minimumPermittedTaxYear returns MINIMUM_YEAR
+    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2017-18")
   }
 
   "running validation" should {

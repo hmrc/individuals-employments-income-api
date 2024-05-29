@@ -18,9 +18,11 @@ package v1.controllers.requestParsers.validators
 
 import api.controllers.requestParsers.validators.validations.ValueFormatErrorMessages
 import api.mocks.MockCurrentDateTime
+import api.models.domain.TaxYear
 import api.models.errors._
 import config.AppConfig
 import mocks.MockAppConfig
+
 import java.time.LocalDate
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.AnyContentAsJson
@@ -379,8 +381,7 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with ValueFormatErrorM
       .returns(LocalDate.parse("2022-07-11"))
       .anyNumberOfTimes()
 
-    MockedAppConfig.minimumPermittedTaxYear
-      .returns(2021)
+    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
 
     implicit val appConfig: AppConfig = mockAppConfig
 
@@ -443,41 +444,57 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with ValueFormatErrorM
 
       "return RuleIncorrectOrEmptyBodyError error for a non-empty JSON body with no expected fields provided (No mandatory employment object)" in new Test {
         validator.validate(
-          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryEmploymentRawRequestBody, opwEnabled = false)) shouldBe
+          AmendFinancialDetailsRawData(
+            validNino,
+            validTaxYear,
+            validEmploymentId,
+            missingMandatoryEmploymentRawRequestBody,
+            opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error for a non-empty JSON body with no mandatory pay object provided" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryPayRawRequestBody, opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryPayRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment/pay"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when mandatory fields are not provided" in new Test {
         val paths: Seq[String] = Seq("/employment/pay/taxablePayToDate", "/employment/pay/totalTaxToDate")
 
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryFieldsRawRequestBody, opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMandatoryFieldsRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(paths)))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when studentLoans object is provided with no fields" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingStudentLoansRawRequestBody, opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingStudentLoansRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment/deductions/studentLoans"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when deductions object is provided with no fields" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingDeductionsRawRequestBody, opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingDeductionsRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment/deductions"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when benefitsInKind object is provided with no fields" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingBenefitsInKindRawRequestBody, opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingBenefitsInKindRawRequestBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(Seq("/employment/benefitsInKind"))))
       }
 
       "return RuleIncorrectOrEmptyBodyError error when multiple object bodies are not provided" in new Test {
         val paths: Seq[String] = Seq("/employment/benefitsInKind", "/employment/deductions/studentLoans")
 
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, missingMultipleObjectBodiesRequestBody, opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(
+            validNino,
+            validTaxYear,
+            validEmploymentId,
+            missingMultipleObjectBodiesRequestBody,
+            opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(paths)))
       }
 
@@ -488,7 +505,8 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with ValueFormatErrorM
           "/employment/pay/taxablePayToDate"
         )
 
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, incorrectFormatRawBody, opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, incorrectFormatRawBody, opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(paths)))
       }
 
@@ -503,18 +521,21 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with ValueFormatErrorM
       }
 
       "return RuleNotAllowedOffPayrollWorker error when offPayrollWorker is provided & opw is not enabled for a taxYear before 23-24" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, rawBodyWithOpw(false), opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, rawBodyWithOpw(false), opwEnabled = false)) shouldBe
           List(RuleNotAllowedOffPayrollWorker)
       }
 
       "return only RuleIncorrectOrEmptyBody error when validating an empty body" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, AnyContentAsJson(Json.parse("{}")), opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, AnyContentAsJson(Json.parse("{}")), opwEnabled = false)) shouldBe
           List(RuleIncorrectOrEmptyBodyError)
       }
 
       // body value error scenarios
       "return ValueFormatError error for incorrect field formats" in new Test {
-        validator.validate(AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, allInvalidValueRawRequestBody, opwEnabled = false)) shouldBe
+        validator.validate(
+          AmendFinancialDetailsRawData(validNino, validTaxYear, validEmploymentId, allInvalidValueRawRequestBody, opwEnabled = false)) shouldBe
           List(
             ValueFormatError.copy(
               message = ZERO_MINIMUM_INCLUSIVE,

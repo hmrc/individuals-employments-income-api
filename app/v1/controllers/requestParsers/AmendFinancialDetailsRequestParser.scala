@@ -17,7 +17,7 @@
 package v1.controllers.requestParsers
 
 import api.controllers.requestParsers.RequestParser
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import v1.controllers.requestParsers.validators.AmendFinancialDetailsValidator
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRawData, AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
@@ -31,7 +31,7 @@ class AmendFinancialDetailsRequestParser @Inject() (val validator: AmendFinancia
     AmendFinancialDetailsRequest(
       Nino(data.nino),
       TaxYear.fromMtd(data.taxYear),
-      data.employmentId,
+      EmploymentId(data.employmentId),
       data.body.json.as[AmendFinancialDetailsRequestBody])
 
 }

@@ -39,7 +39,7 @@ class AmendCustomEmploymentConnector @Inject()(val http: HttpClient, val appConf
     val taxYear      = request.taxYear
     val employmentId = request.employmentId
 
-    put(Release6Uri[Unit](s"income-tax/income/employments/$nino/$taxYear/custom/$employmentId"), request.body)
+    put(Release6Uri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}"), request.body)
   }
 
 }
