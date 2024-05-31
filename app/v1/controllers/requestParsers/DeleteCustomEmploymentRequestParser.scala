@@ -17,7 +17,7 @@
 package v1.controllers.requestParsers
 
 import api.controllers.requestParsers.RequestParser
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import v1.controllers.requestParsers.validators.DeleteCustomEmploymentValidator
 import v1.models.request.deleteCustomEmployment.{DeleteCustomEmploymentRawData, DeleteCustomEmploymentRequest}
 
@@ -28,6 +28,6 @@ class DeleteCustomEmploymentRequestParser @Inject() (val validator: DeleteCustom
     extends RequestParser[DeleteCustomEmploymentRawData, DeleteCustomEmploymentRequest] {
 
   override protected def requestFor(data: DeleteCustomEmploymentRawData): DeleteCustomEmploymentRequest =
-    DeleteCustomEmploymentRequest(Nino(data.nino), data.taxYear, data.employmentId)
+    DeleteCustomEmploymentRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear), EmploymentId(data.employmentId))
 
 }

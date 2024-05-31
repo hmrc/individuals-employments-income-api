@@ -22,20 +22,21 @@ import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
 import config.AppConfig
-import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
+import v1.controllers.validators.resolvers.ResolveEmploymentId
+import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
-
-class DeleteOtherEmploymentValidator(nino: String, taxYear: String, appConfig: AppConfig)
-  extends Validator[DeleteOtherEmploymentIncomeRequest]
+class DeleteCustomEmploymentValidator(nino: String, taxYear: String, employmentId: String, appConfig: AppConfig)
+    extends Validator[DeleteCustomEmploymentRequest]
     with ResolverSupport {
 
   private val resolveTaxYear =
     ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
 
-  override def validate: Validated[Seq[MtdError], DeleteOtherEmploymentIncomeRequest] =
+  override def validate: Validated[Seq[MtdError], DeleteCustomEmploymentRequest] =
     (
       ResolveNino(nino),
-      resolveTaxYear(taxYear)
-    ).mapN(DeleteOtherEmploymentIncomeRequest)
+      resolveTaxYear(taxYear),
+      ResolveEmploymentId(employmentId)
+    ).mapN(DeleteCustomEmploymentRequest)
 
 }

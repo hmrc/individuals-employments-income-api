@@ -16,26 +16,29 @@
 
 package v1.controllers.validators
 
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import mocks.MockAppConfig
 import support.UnitSpec
-import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
+import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
-class DeleteOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
+class DeleteCustomEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
 
   private implicit val correlationId: String = "correlationId"
-  private val validNino = "AA123456B"
-  private val validTaxYear = "2020-21"
+  private val validNino                      = "AA123456B"
+  private val validTaxYear                   = "2020-21"
+  private val validEmploymentId              = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  private val parsedNino = Nino(validNino)
-  private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
+  private val parsedNino         = Nino(validNino)
+  private val parsedTaxYear      = TaxYear.fromMtd(validTaxYear)
+  private val parsedEmploymentId = EmploymentId(validEmploymentId)
 
   trait Test {
 
     def validate(nino: String = validNino,
-                 taxYear: String = validTaxYear): Either[ErrorWrapper, DeleteOtherEmploymentIncomeRequest] =
-      new DeleteOtherEmploymentValidator(nino, taxYear, mockAppConfig).validateAndWrapResult()
+                 taxYear: String = validTaxYear,
+                 employmentId: String = validEmploymentId): Either[ErrorWrapper, DeleteCustomEmploymentRequest] =
+      new DeleteCustomEmploymentValidator(nino, taxYear, employmentId, mockAppConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
@@ -45,7 +48,7 @@ class DeleteOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
   "validate" should {
     "return a request object" when {
       "valid" in new Test {
-        validate() shouldBe Right(DeleteOtherEmploymentIncomeRequest(parsedNino, parsedTaxYear))
+        validate() shouldBe Right(DeleteCustomEmploymentRequest(parsedNino, parsedTaxYear, parsedEmploymentId))
       }
     }
 
@@ -70,6 +73,12 @@ class DeleteOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
     "return RuleTaxYearNotSupportedError error" when {
       "an unsupported tax year is supplied" in new Test {
         validate(taxYear = "2018-19") shouldBe singleError(RuleTaxYearNotSupportedError)
+      }
+    }
+
+    "return EmploymentIdFormatError error" when {
+      "an unsupported tax year is supplied" in new Test {
+        validate(employmentId = "BAD_EMP_ID") shouldBe singleError(EmploymentIdFormatError)
       }
     }
 

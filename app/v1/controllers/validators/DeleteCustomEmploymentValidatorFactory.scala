@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-package v1.models.request.deleteCustomEmployment
+package v1.controllers.validators
 
-import api.models.domain.{EmploymentId, Nino, TaxYear}
+import api.controllers.validators.Validator
+import config.AppConfig
+import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
-case class DeleteCustomEmploymentRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId)
+import javax.inject.{Inject, Singleton}
+
+@Singleton
+class DeleteCustomEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
+
+  def validator(nino: String, taxYear: String, employmentId: String): Validator[DeleteCustomEmploymentRequest] =
+    new DeleteCustomEmploymentValidator(nino, taxYear, employmentId, appConfig)
+
+}
