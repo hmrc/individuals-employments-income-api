@@ -16,7 +16,7 @@
 
 package v1.controllers.requestParsers
 
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import support.UnitSpec
 import v1.mocks.validators.MockRetrieveEmploymentValidator
@@ -49,7 +49,7 @@ class RetrieveEmploymentRequestParserSpec extends UnitSpec {
         MockRetrieveCustomEmploymentValidator.validate(retrieveCustomEmploymentRawData).returns(Nil)
 
         parser.parseRequest(retrieveCustomEmploymentRawData) shouldBe
-          Right(RetrieveEmploymentRequest(Nino(nino), taxYear, employmentId))
+          Right(RetrieveEmploymentRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId)))
       }
     }
 

@@ -17,7 +17,7 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.domain.{Nino, Timestamp}
+import api.models.domain.{EmploymentId, Nino, TaxYear, Timestamp}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
@@ -49,8 +49,8 @@ class RetrieveEmploymentControllerSpec
 
   val requestData: RetrieveEmploymentRequest = RetrieveEmploymentRequest(
     nino = Nino(nino),
-    taxYear = taxYear,
-    employmentId = employmentId
+    taxYear = TaxYear.fromMtd(taxYear),
+    employmentId = EmploymentId(employmentId)
   )
 
   private val hmrcEnteredEmploymentWithoutDateIgnoredResponseModel = RetrieveEmploymentResponse(

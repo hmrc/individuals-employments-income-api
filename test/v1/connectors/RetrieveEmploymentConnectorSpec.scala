@@ -17,7 +17,7 @@
 package v1.connectors
 
 import api.connectors.ConnectorSpec
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
@@ -46,7 +46,7 @@ class RetrieveEmploymentConnectorSpec extends ConnectorSpec {
       appConfig = mockAppConfig
     )
 
-    val request: RetrieveEmploymentRequest = RetrieveEmploymentRequest(Nino(nino), taxYear, employmentId)
+    val request: RetrieveEmploymentRequest = RetrieveEmploymentRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId))
 
     val responseModel: RetrieveEmploymentResponse = RetrieveEmploymentResponse(
       employerRef = Some("123/AB56797"),
