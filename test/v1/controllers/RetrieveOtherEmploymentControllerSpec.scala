@@ -26,7 +26,7 @@ import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v1.fixtures.RetrieveOtherEmploymentControllerFixture.mtdResponse
 import v1.mocks.requestParsers.MockOtherEmploymentIncomeRequestParser
 import v1.mocks.services.MockRetrieveOtherEmploymentIncomeService
-import v1.models.request.otherEmploymentIncome.{OtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
+import v1.models.request.otherEmploymentIncome.{RetrieveOtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -45,7 +45,7 @@ class RetrieveOtherEmploymentControllerSpec
     taxYear = taxYear
   )
 
-  val requestData: OtherEmploymentIncomeRequest = OtherEmploymentIncomeRequest(
+  val requestData: RetrieveOtherEmploymentIncomeRequest = RetrieveOtherEmploymentIncomeRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear)
   )

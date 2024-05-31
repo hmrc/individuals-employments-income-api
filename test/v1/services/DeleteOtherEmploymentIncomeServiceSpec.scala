@@ -22,13 +22,13 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
 import v1.mocks.connectors.MockOtherEmploymentIncomeConnector
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
+import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 
 import scala.concurrent.Future
 
 class DeleteOtherEmploymentIncomeServiceSpec extends ServiceSpec {
 
-  private val deleteRequest = OtherEmploymentIncomeRequest(
+  private val deleteRequest = DeleteOtherEmploymentIncomeRequest(
     nino = Nino("AA112233A"),
     taxYear = TaxYear.fromMtd("2023-24")
   )

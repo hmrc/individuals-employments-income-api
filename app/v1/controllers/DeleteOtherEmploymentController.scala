@@ -22,7 +22,7 @@ import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
 import v1.controllers.requestParsers.OtherEmploymentIncomeRequestParser
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequestRawData
+import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData, RetrieveOtherEmploymentIncomeRequest}
 import v1.services.DeleteOtherEmploymentIncomeService
 
 import javax.inject.{Inject, Singleton}
@@ -55,7 +55,7 @@ class DeleteOtherEmploymentController @Inject() (val authService: EnrolmentsAuth
 
       val requestHandler = RequestHandler
         .withParser(parser)
-        .withService(service.delete)
+        .withService((x: RetrieveOtherEmploymentIncomeRequest) => service.delete(DeleteOtherEmploymentIncomeRequest(x.nino, x.taxYear)))
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "DeleteOtherEmployment",

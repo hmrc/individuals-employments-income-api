@@ -20,7 +20,7 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import mocks.MockAppConfig
 import support.UnitSpec
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
+import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 
 class RetrieveOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
 
@@ -34,7 +34,7 @@ class RetrieveOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
   trait Test {
 
     def validate(nino: String = validNino,
-                 taxYear: String = validTaxYear): Either[ErrorWrapper, OtherEmploymentIncomeRequest] =
+                 taxYear: String = validTaxYear): Either[ErrorWrapper, RetrieveOtherEmploymentIncomeRequest] =
       new RetrieveOtherEmploymentValidator(nino, taxYear, mockAppConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
@@ -45,7 +45,7 @@ class RetrieveOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
   "validate" should {
     "return a request object" when {
       "valid" in new Test {
-        validate() shouldBe Right(OtherEmploymentIncomeRequest(parsedNino, parsedTaxYear))
+        validate() shouldBe Right(RetrieveOtherEmploymentIncomeRequest(parsedNino, parsedTaxYear))
       }
     }
 

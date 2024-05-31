@@ -19,16 +19,16 @@ package v1.controllers.requestParsers
 import api.controllers.requestParsers.RequestParser
 import api.models.domain.{Nino, TaxYear}
 import v1.controllers.requestParsers.validators.OtherEmploymentIncomeRequestValidator
-import v1.models.request.otherEmploymentIncome.{OtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
+import v1.models.request.otherEmploymentIncome.{RetrieveOtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
 class OtherEmploymentIncomeRequestParser @Inject() (val validator: OtherEmploymentIncomeRequestValidator)
-    extends RequestParser[OtherEmploymentIncomeRequestRawData, OtherEmploymentIncomeRequest] {
+    extends RequestParser[OtherEmploymentIncomeRequestRawData, RetrieveOtherEmploymentIncomeRequest] {
 
-  override protected def requestFor(data: OtherEmploymentIncomeRequestRawData): OtherEmploymentIncomeRequest =
-    OtherEmploymentIncomeRequest(
+  override protected def requestFor(data: OtherEmploymentIncomeRequestRawData): RetrieveOtherEmploymentIncomeRequest =
+    RetrieveOtherEmploymentIncomeRequest(
       Nino(data.nino),
       TaxYear.fromMtd(data.taxYear)
     )

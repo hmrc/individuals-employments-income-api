@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package v1.controllers.validators
+package v1.models.request.otherEmploymentIncome
 
-import api.controllers.validators.Validator
-import config.AppConfig
-import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
+import api.models.domain.{Nino, TaxYear}
 
-import javax.inject.{Inject, Singleton}
-
-@Singleton
-class DeleteOtherEmploymentValidatorFactory @Inject()(appConfig: AppConfig) {
-
-  def validator(nino: String, taxYear: String): Validator[RetrieveOtherEmploymentIncomeRequest] =
-    new DeleteOtherEmploymentValidator(nino, taxYear, appConfig)
-
-}
+case class DeleteOtherEmploymentIncomeRequest(nino: Nino, taxYear: TaxYear)

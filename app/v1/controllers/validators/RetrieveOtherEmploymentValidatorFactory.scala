@@ -18,14 +18,14 @@ package v1.controllers.validators
 
 import api.controllers.validators.Validator
 import config.AppConfig
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
+import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
 class RetrieveOtherEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
 
-  def validator(nino: String, taxYear: String): Validator[OtherEmploymentIncomeRequest] =
+  def validator(nino: String, taxYear: String): Validator[RetrieveOtherEmploymentIncomeRequest] =
     new RetrieveOtherEmploymentValidator(nino, taxYear, appConfig)
 
 }

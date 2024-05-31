@@ -20,7 +20,7 @@ import api.models.errors.ErrorWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import v1.controllers.requestParsers.OtherEmploymentIncomeRequestParser
-import v1.models.request.otherEmploymentIncome.{OtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
+import v1.models.request.otherEmploymentIncome.{RetrieveOtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
 
 trait MockOtherEmploymentIncomeRequestParser extends MockFactory {
 
@@ -29,7 +29,7 @@ trait MockOtherEmploymentIncomeRequestParser extends MockFactory {
 
   object MockOtherEmploymentIncomeRequestParser {
 
-    def parse(data: OtherEmploymentIncomeRequestRawData): CallHandler[Either[ErrorWrapper, OtherEmploymentIncomeRequest]] =
+    def parse(data: OtherEmploymentIncomeRequestRawData): CallHandler[Either[ErrorWrapper, RetrieveOtherEmploymentIncomeRequest]] =
       (mockOtherEmploymentIncomeRequestParser
         .parseRequest(_: OtherEmploymentIncomeRequestRawData)(_: String))
         .expects(data, *)

@@ -18,4 +18,4 @@ package v1.models.request.otherEmploymentIncome
 
 import api.models.domain.{Nino, TaxYear}
 
-case class OtherEmploymentIncomeRequest(nino: Nino, taxYear: TaxYear)
+case class RetrieveOtherEmploymentIncomeRequest(nino: Nino, taxYear: TaxYear)

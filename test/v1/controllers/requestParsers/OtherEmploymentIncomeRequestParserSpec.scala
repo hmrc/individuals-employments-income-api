@@ -20,7 +20,7 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import support.UnitSpec
 import v1.mocks.validators.MockOtherEmploymentIncomeValidator
-import v1.models.request.otherEmploymentIncome.{OtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
+import v1.models.request.otherEmploymentIncome.{RetrieveOtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
 
 class OtherEmploymentIncomeRequestParserSpec extends UnitSpec {
   val nino: String                   = "AA123456B"
@@ -48,9 +48,9 @@ class OtherEmploymentIncomeRequestParserSpec extends UnitSpec {
           .validate(rawData)
           .returns(Nil)
 
-        val result: Either[ErrorWrapper, OtherEmploymentIncomeRequest] =
+        val result: Either[ErrorWrapper, RetrieveOtherEmploymentIncomeRequest] =
           parser.parseRequest(rawData)
-        result shouldBe Right(OtherEmploymentIncomeRequest(Nino(nino), taxYear))
+        result shouldBe Right(RetrieveOtherEmploymentIncomeRequest(Nino(nino), taxYear))
       }
     }
 
@@ -60,7 +60,7 @@ class OtherEmploymentIncomeRequestParserSpec extends UnitSpec {
           .validate(rawData.copy(nino = "notANino"))
           .returns(List(NinoFormatError))
 
-        val result: Either[ErrorWrapper, OtherEmploymentIncomeRequest] =
+        val result: Either[ErrorWrapper, RetrieveOtherEmploymentIncomeRequest] =
           parser.parseRequest(rawData.copy(nino = "notANino"))
         result shouldBe Left(ErrorWrapper(correlationId, NinoFormatError, None))
 
@@ -71,7 +71,7 @@ class OtherEmploymentIncomeRequestParserSpec extends UnitSpec {
           .validate(rawData.copy(nino = "notANino", taxYear = "notATaxYear"))
           .returns(List(NinoFormatError, TaxYearFormatError))
 
-        val result: Either[ErrorWrapper, OtherEmploymentIncomeRequest] =
+        val result: Either[ErrorWrapper, RetrieveOtherEmploymentIncomeRequest] =
           parser.parseRequest(rawData.copy(nino = "notANino", taxYear = "notATaxYear"))
         result shouldBe Left(ErrorWrapper(correlationId, BadRequestError, Some(Seq(NinoFormatError, TaxYearFormatError))))
       }

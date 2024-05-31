@@ -21,7 +21,7 @@ import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import config.{AppConfig, FeatureSwitches}
 import play.api.http.Status.NO_CONTENT
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
+import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
 import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
 
 import javax.inject.{Inject, Singleton}
@@ -31,10 +31,10 @@ import scala.concurrent.{ExecutionContext, Future}
 class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appConfig: AppConfig)(implicit featureSwitches: FeatureSwitches)
     extends BaseDownstreamConnector {
 
-  def deleteOtherEmploymentIncome(request: OtherEmploymentIncomeRequest)(implicit
-      hc: HeaderCarrier,
-      ec: ExecutionContext,
-      correlationId: String): Future[DownstreamOutcome[Unit]] = {
+  def deleteOtherEmploymentIncome(request: DeleteOtherEmploymentIncomeRequest)(implicit
+                                                                                 hc: HeaderCarrier,
+                                                                                 ec: ExecutionContext,
+                                                                                 correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
@@ -56,10 +56,10 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appCon
     )
   }
 
-  def retrieveOtherEmploymentIncome(request: OtherEmploymentIncomeRequest)(implicit
-      hc: HeaderCarrier,
-      ec: ExecutionContext,
-      correlationId: String): Future[DownstreamOutcome[RetrieveOtherEmploymentResponse]] = {
+  def retrieveOtherEmploymentIncome(request: RetrieveOtherEmploymentIncomeRequest)(implicit
+                                                                                   hc: HeaderCarrier,
+                                                                                   ec: ExecutionContext,
+                                                                                   correlationId: String): Future[DownstreamOutcome[RetrieveOtherEmploymentResponse]] = {
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
 

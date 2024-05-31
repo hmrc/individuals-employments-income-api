@@ -27,7 +27,7 @@ import play.api.libs.json.JsValue
 import play.api.mvc.Result
 import v1.mocks.requestParsers.MockOtherEmploymentIncomeRequestParser
 import v1.mocks.services.MockDeleteOtherEmploymentIncomeService
-import v1.models.request.otherEmploymentIncome.{OtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
+import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData, RetrieveOtherEmploymentIncomeRequest}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -47,7 +47,12 @@ class DeleteOtherEmploymentControllerSpec
     taxYear = taxYear
   )
 
-  val requestData: OtherEmploymentIncomeRequest = OtherEmploymentIncomeRequest(
+ private val requestData: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(
+    nino = Nino(nino),
+    taxYear = TaxYear.fromMtd(taxYear)
+  )
+
+  private val tempRequestData: RetrieveOtherEmploymentIncomeRequest = RetrieveOtherEmploymentIncomeRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
@@ -57,7 +62,7 @@ class DeleteOtherEmploymentControllerSpec
       "the request received is valid" in new Test {
         MockOtherEmploymentIncomeRequestParser
           .parse(rawData)
-          .returns(Right(requestData))
+          .returns(Right(tempRequestData))
 
         MockDeleteOtherEmploymentIncomeService
           .delete(requestData)
@@ -79,7 +84,7 @@ class DeleteOtherEmploymentControllerSpec
       "service returns an error" in new Test {
         MockOtherEmploymentIncomeRequestParser
           .parse(rawData)
-          .returns(Right(requestData))
+          .returns(Right(tempRequestData))
 
         MockDeleteOtherEmploymentIncomeService
           .delete(requestData)

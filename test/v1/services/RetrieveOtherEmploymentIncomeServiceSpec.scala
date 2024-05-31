@@ -23,14 +23,14 @@ import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v1.mocks.connectors.MockOtherEmploymentIncomeConnector
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
+import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
 
 import scala.concurrent.Future
 
 class RetrieveOtherEmploymentIncomeServiceSpec extends ServiceSpec {
 
-  private val retrieveRequest = OtherEmploymentIncomeRequest(
+  private val retrieveRequest = RetrieveOtherEmploymentIncomeRequest(
     nino = Nino("AA112233A"),
     taxYear = TaxYear.fromMtd("2023-24")
   )
