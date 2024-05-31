@@ -54,7 +54,7 @@ class DeleteEmploymentFinancialDetailsController @Inject() (val authService: Enr
         employmentId = employmentId
       )
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(parser)
         .withService(service.delete)
         .withAuditing(AuditHandler(

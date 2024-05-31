@@ -55,7 +55,7 @@ class AmendOtherEmploymentController @Inject()(val authService: EnrolmentsAuthSe
         body = AnyContentAsJson(request.body)
       )
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(parser)
         .withService(service.amendOtherEmployment)
         .withAuditing(AuditHandler(

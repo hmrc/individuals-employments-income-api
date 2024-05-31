@@ -54,7 +54,7 @@ class RetrieveEmploymentController @Inject() (val authService: EnrolmentsAuthSer
       )
 
       val requestHandler =
-        RequestHandler
+        RequestHandlerX
           .withParser(parser)
           .withService(service.retrieve)
           .withPlainJsonResult()

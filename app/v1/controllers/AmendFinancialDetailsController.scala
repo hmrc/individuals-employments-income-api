@@ -57,7 +57,7 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
         opwEnabled = FeatureSwitches(appConfig.featureSwitches).isOpwEnabled
       )
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(parser)
         .withService(service.amendFinancialDetails)
         .withAuditing(AuditHandler(

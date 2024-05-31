@@ -16,7 +16,7 @@
 
 package v1.controllers
 
-import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandlerX}
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
@@ -54,7 +54,7 @@ class RetrieveNonPayeEmploymentController @Inject() (val authService: Enrolments
       )
 
       val requestHandler =
-        RequestHandler
+        RequestHandlerX
           .withParser(parser)
           .withService(service.retrieveNonPayeEmployment)
           .withPlainJsonResult()

@@ -54,7 +54,7 @@ class DeleteCustomEmploymentController @Inject() (val authService: EnrolmentsAut
         employmentId = employmentId
       )
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(parser)
         .withService(service.delete)
         .withAuditing(AuditHandler(

@@ -55,7 +55,7 @@ class AddCustomEmploymentController @Inject()(val authService: EnrolmentsAuthSer
         body = AnyContentAsJson(request.body),
         temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled)
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(parser)
         .withService(service.addEmployment)
         .withAuditing(AuditHandler(

@@ -56,7 +56,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
         temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled
       )
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(parser)
         .withService(service.createAndAmend)
         .withAuditing(AuditHandler(

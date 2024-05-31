@@ -53,7 +53,7 @@ class DeleteOtherEmploymentController @Inject() (val authService: EnrolmentsAuth
         taxYear = taxYear
       )
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(parser)
         .withService((x: RetrieveOtherEmploymentIncomeRequest) => service.delete(DeleteOtherEmploymentIncomeRequest(x.nino, x.taxYear)))
         .withAuditing(AuditHandler(

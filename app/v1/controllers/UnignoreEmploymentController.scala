@@ -57,7 +57,7 @@ class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthSer
         employmentId = employmentId
       )
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(requestParser)
         .withService((x: IgnoreEmploymentRequest) => service.unignoreEmployment(UnignoreEmploymentRequest(x.nino,x.taxYear, x.employmentId)))
         .withAuditing(AuditHandler(

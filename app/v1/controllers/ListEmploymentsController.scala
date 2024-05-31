@@ -53,7 +53,7 @@ class ListEmploymentsController @Inject() (val authService: EnrolmentsAuthServic
       )
 
       val requestHandler =
-        RequestHandler
+        RequestHandlerX
           .withParser(parser)
           .withService(service.listEmployments)
           .withPlainJsonResult()

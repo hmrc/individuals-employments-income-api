@@ -52,7 +52,7 @@ class DeleteNonPayeEmploymentController @Inject() (val authService: EnrolmentsAu
         taxYear = taxYear
       )
 
-      val requestHandler = RequestHandler
+      val requestHandler = RequestHandlerX
         .withParser(parser)
         .withService(service.deleteNonPayeEmployment)
         .withAuditing(AuditHandler(
