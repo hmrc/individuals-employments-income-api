@@ -17,7 +17,7 @@
 package v1.connectors
 
 import api.connectors.ConnectorSpec
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
@@ -39,7 +39,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
     val request: IgnoreEmploymentRequest = IgnoreEmploymentRequest(
       nino = Nino(nino),
       taxYear = taxYear,
-      employmentId = employmentId
+      employmentId = EmploymentId(employmentId)
     )
 
     val outcome = Right(ResponseWrapper(correlationId, ()))

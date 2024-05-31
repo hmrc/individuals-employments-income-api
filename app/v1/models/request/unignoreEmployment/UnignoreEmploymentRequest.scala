@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package v1.models.request.ignoreEmployment
+package v1.models.request.unignoreEmployment
 
 import api.models.domain.{EmploymentId, Nino, TaxYear}
 
-case class IgnoreEmploymentRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId)
+case class UnignoreEmploymentRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId)

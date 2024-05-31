@@ -16,7 +16,7 @@
 
 package v1.controllers.requestParsers
 
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import support.UnitSpec
 import v1.mocks.validators.MockIgnoreEmploymentValidator
@@ -38,7 +38,7 @@ class IgnoreEmploymentRequestParserSpec extends UnitSpec {
   private val ignoreEmploymentRequest = IgnoreEmploymentRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear),
-    employmentId = employmentId
+    employmentId = EmploymentId(employmentId)
   )
 
   trait Test extends MockIgnoreEmploymentValidator {

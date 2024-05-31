@@ -22,7 +22,7 @@ import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
 import utils.Logging
 import v1.connectors.UnignoreEmploymentConnector
-import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
+import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -30,7 +30,7 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class UnignoreEmploymentService @Inject() (connector: UnignoreEmploymentConnector) extends BaseService with Logging {
 
-  def unignoreEmployment(request: IgnoreEmploymentRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[Unit]] = {
+  def unignoreEmployment(request: UnignoreEmploymentRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[Unit]] = {
 
     connector.unignoreEmployment(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 

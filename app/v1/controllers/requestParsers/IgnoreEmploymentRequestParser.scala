@@ -17,7 +17,7 @@
 package v1.controllers.requestParsers
 
 import api.controllers.requestParsers.RequestParser
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import v1.controllers.requestParsers.validators.IgnoreEmploymentValidator
 import v1.models.request.ignoreEmployment.{IgnoreEmploymentRawData, IgnoreEmploymentRequest}
 
@@ -28,6 +28,6 @@ class IgnoreEmploymentRequestParser @Inject() (val validator: IgnoreEmploymentVa
     extends RequestParser[IgnoreEmploymentRawData, IgnoreEmploymentRequest] {
 
   override protected def requestFor(data: IgnoreEmploymentRawData): IgnoreEmploymentRequest =
-    IgnoreEmploymentRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear), data.employmentId)
+    IgnoreEmploymentRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear), EmploymentId(data.employmentId))
 
 }

@@ -18,7 +18,7 @@ package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
@@ -27,6 +27,7 @@ import play.api.mvc.Result
 import v1.mocks.requestParsers.MockIgnoreEmploymentRequestParser
 import v1.mocks.services.MockUnignoreEmploymentService
 import v1.models.request.ignoreEmployment.{IgnoreEmploymentRawData, IgnoreEmploymentRequest}
+import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -42,6 +43,7 @@ class UnignoreEmploymentControllerSpec
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
+
     val controller = new UnignoreEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
@@ -79,7 +81,13 @@ class UnignoreEmploymentControllerSpec
   val requestData: IgnoreEmploymentRequest = IgnoreEmploymentRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear),
-    employmentId = employmentId
+    employmentId = EmploymentId(employmentId)
+  )
+
+  private val tempRequestData: UnignoreEmploymentRequest = UnignoreEmploymentRequest(
+    nino = Nino(nino),
+    taxYear = TaxYear.fromMtd(taxYear),
+    employmentId = EmploymentId(employmentId)
   )
 
   "UnignoreEmploymentController" should {
@@ -90,7 +98,7 @@ class UnignoreEmploymentControllerSpec
           .returns(Right(requestData))
 
         MockUnignoreEmploymentService
-          .unignoreEmployment(requestData)
+          .unignoreEmployment(tempRequestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
         runOkTestWithAudit(expectedStatus = OK)
@@ -112,7 +120,7 @@ class UnignoreEmploymentControllerSpec
           .returns(Right(requestData))
 
         MockUnignoreEmploymentService
-          .unignoreEmployment(requestData)
+          .unignoreEmployment(tempRequestData)
           .returns(Future.successful(Left(ErrorWrapper(correlationId, RuleTaxYearNotSupportedError))))
 
         runErrorTestWithAudit(RuleTaxYearNotSupportedError)
