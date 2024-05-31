@@ -40,7 +40,7 @@ class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: A
     val taxYear = request.taxYear
 
     get(
-      Release6Uri[ListEmploymentResponse](s"income-tax/income/employments/$nino/$taxYear")
+      Release6Uri[ListEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}")
     )
   }
 

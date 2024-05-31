@@ -16,7 +16,7 @@
 
 package v1.controllers.requestParsers
 
-import api.models.domain.Nino
+import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import support.UnitSpec
 import v1.mocks.validators.MockListEmploymentsValidator
@@ -47,7 +47,7 @@ class ListEmploymentsRequestParserSpec extends UnitSpec {
         MockListEmploymentsValidator.validate(listEmploymentsRawData).returns(Nil)
 
         parser.parseRequest(listEmploymentsRawData) shouldBe
-          Right(ListEmploymentsRequest(Nino(nino), taxYear))
+          Right(ListEmploymentsRequest(Nino(nino), TaxYear.fromMtd(taxYear)))
       }
     }
 

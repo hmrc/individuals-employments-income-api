@@ -17,7 +17,7 @@
 package v1.services
 
 import api.controllers.EndpointLogContext
-import api.models.domain.{Nino, Timestamp}
+import api.models.domain.{Nino, TaxYear, Timestamp}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
@@ -30,7 +30,7 @@ import scala.concurrent.Future
 class ListEmploymentsServiceSpec extends ServiceSpec {
 
   private val nino    = "AA112233A"
-  private val taxYear = "2019-20"
+  private val taxYear = TaxYear.fromMtd("2019-20")
 
   private val requestData = ListEmploymentsRequest(Nino(nino), taxYear)
 

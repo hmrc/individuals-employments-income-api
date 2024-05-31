@@ -17,7 +17,7 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.domain.{Nino, Timestamp}
+import api.models.domain.{Nino, TaxYear, Timestamp}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
@@ -48,7 +48,7 @@ class ListEmploymentsControllerSpec
 
   val requestData: ListEmploymentsRequest = ListEmploymentsRequest(
     nino = Nino(nino),
-    taxYear = taxYear
+    taxYear = TaxYear.fromMtd(taxYear)
   )
 
   private val hmrcEmploymentModel = Employment(

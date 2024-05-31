@@ -17,7 +17,7 @@
 package v1.controllers.requestParsers
 
 import api.controllers.requestParsers.RequestParser
-import api.models.domain.Nino
+import api.models.domain.{Nino, TaxYear}
 import v1.controllers.requestParsers.validators.ListEmploymentsValidator
 import v1.models.request.listEmployments.{ListEmploymentsRawData, ListEmploymentsRequest}
 
@@ -28,6 +28,6 @@ class ListEmploymentsRequestParser @Inject() (val validator: ListEmploymentsVali
     extends RequestParser[ListEmploymentsRawData, ListEmploymentsRequest] {
 
   override protected def requestFor(data: ListEmploymentsRawData): ListEmploymentsRequest =
-    ListEmploymentsRequest(Nino(data.nino), data.taxYear)
+    ListEmploymentsRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear))
 
 }
