@@ -26,7 +26,7 @@ import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AnyContentAsJson, Result}
-import v1.mocks.requestParsers.MockAddCustomEmploymentRequestParser
+import v1.controllers.validators.MockAddCustomEmploymentValidatorFactory
 import v1.mocks.services.MockAddCustomEmploymentService
 import v1.models.request.addCustomEmployment.{AddCustomEmploymentRawData, AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
@@ -40,7 +40,7 @@ class AddCustomEmploymentControllerSpec
     with MockAppConfig
     with MockAddCustomEmploymentService
     with MockAuditService
-    with MockAddCustomEmploymentRequestParser {
+    with MockAddCustomEmploymentValidatorFactory {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -94,9 +94,7 @@ class AddCustomEmploymentControllerSpec
   "AddCustomEmploymentController" should {
     "return a successful response with status 200 (OK)" when {
       "the request received is valid" in new Test {
-        MockAddCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockAddCustomEmploymentService
           .addEmployment(requestData)
@@ -113,17 +111,13 @@ class AddCustomEmploymentControllerSpec
 
     "return the error as per spec" when {
       "parser validation fails" in new Test {
-        MockAddCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError, Some(requestBodyJson))
       }
 
       "the service returns an error" in new Test {
-        MockAddCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockAddCustomEmploymentService
           .addEmployment(requestData)
@@ -139,7 +133,7 @@ class AddCustomEmploymentControllerSpec
     val controller = new AddCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockAddCustomEmploymentRequestParser,
+      validatorFactory= mockAddCustomEmploymentValidatorFactory,
       service = mockAddCustomEmploymentService,
       auditService = mockAuditService,
       cc = cc,
