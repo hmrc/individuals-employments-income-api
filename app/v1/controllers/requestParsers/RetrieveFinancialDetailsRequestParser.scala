@@ -17,7 +17,7 @@
 package v1.controllers.requestParsers
 
 import api.controllers.requestParsers.RequestParser
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
+import api.models.domain.{EmploymentId, MtdSourceEnum, Nino, TaxYear}
 import v1.controllers.requestParsers.validators.RetrieveFinancialDetailsValidator
 import v1.models.request.retrieveFinancialDetails.{RetrieveEmploymentAndFinancialDetailsRequest, RetrieveFinancialDetailsRawData}
 
@@ -31,7 +31,7 @@ class RetrieveFinancialDetailsRequestParser @Inject() (val validator: RetrieveFi
     RetrieveEmploymentAndFinancialDetailsRequest(
       Nino(data.nino),
       TaxYear.fromMtd(data.taxYear),
-      data.employmentId,
+      EmploymentId(data.employmentId),
       data.source.flatMap(MtdSourceEnum.parser.lift).getOrElse(MtdSourceEnum.latest))
 
 }

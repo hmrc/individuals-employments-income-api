@@ -17,7 +17,7 @@
 package v1.services
 
 import api.controllers.EndpointLogContext
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear, Timestamp}
+import api.models.domain.{EmploymentId, MtdSourceEnum, Nino, TaxYear, Timestamp}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
@@ -39,7 +39,7 @@ class RetrieveEmploymentAndFinancialDetailsServiceSpec extends ServiceSpec {
   val request: RetrieveEmploymentAndFinancialDetailsRequest = RetrieveEmploymentAndFinancialDetailsRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear),
-    employmentId = employmentId,
+    employmentId = EmploymentId(employmentId),
     source = MtdSourceEnum.latest
   )
 

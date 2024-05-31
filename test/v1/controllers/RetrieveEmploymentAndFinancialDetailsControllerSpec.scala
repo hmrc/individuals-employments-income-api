@@ -17,7 +17,7 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
+import api.models.domain.{EmploymentId, MtdSourceEnum, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
@@ -50,7 +50,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
   val requestData: RetrieveEmploymentAndFinancialDetailsRequest = RetrieveEmploymentAndFinancialDetailsRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear),
-    employmentId = employmentId,
+    employmentId = EmploymentId(employmentId),
     source = MtdSourceEnum.latest
   )
 

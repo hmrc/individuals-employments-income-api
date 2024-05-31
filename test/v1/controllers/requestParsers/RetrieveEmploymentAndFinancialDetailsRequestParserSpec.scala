@@ -16,7 +16,7 @@
 
 package v1.controllers.requestParsers
 
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
+import api.models.domain.{EmploymentId, MtdSourceEnum, Nino, TaxYear}
 import api.models.errors._
 import support.UnitSpec
 import v1.mocks.validators.MockRetrieveFinancialDetailsValidator
@@ -51,14 +51,14 @@ class RetrieveEmploymentAndFinancialDetailsRequestParserSpec extends UnitSpec {
         MockRetrieveFinancialDetailsValidator.validate(retrieveFinancialDetailsRawData).returns(Nil)
 
         parser.parseRequest(retrieveFinancialDetailsRawData) shouldBe
-          Right(RetrieveEmploymentAndFinancialDetailsRequest(Nino(nino), TaxYear.fromMtd(taxYear), employmentId, MtdSourceEnum.latest))
+          Right(RetrieveEmploymentAndFinancialDetailsRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId), MtdSourceEnum.latest))
       }
 
       "valid request data with out source is supplied" in new Test {
         MockRetrieveFinancialDetailsValidator.validate(retrieveFinancialDetailsRawData.copy(source = None)).returns(Nil)
 
         parser.parseRequest(retrieveFinancialDetailsRawData.copy(source = None)) shouldBe
-          Right(RetrieveEmploymentAndFinancialDetailsRequest(Nino(nino), TaxYear.fromMtd(taxYear), employmentId, MtdSourceEnum.latest))
+          Right(RetrieveEmploymentAndFinancialDetailsRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId), MtdSourceEnum.latest))
       }
     }
 

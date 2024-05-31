@@ -38,11 +38,11 @@ class DeleteEmploymentFinancialDetailsConnector @Inject() (val http: HttpClient,
 
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
       TaxYearSpecificIfsUri[Unit](
-        s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/$employmentId"
+        s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}"
       )
     } else {
       Release6Uri[Unit](
-        s"income-tax/income/employments/$nino/${taxYear.asMtd}/$employmentId"
+        s"income-tax/income/employments/$nino/${taxYear.asMtd}/${employmentId.value}"
       )
     }
 

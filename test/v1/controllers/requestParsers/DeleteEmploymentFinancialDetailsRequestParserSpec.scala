@@ -16,7 +16,7 @@
 
 package v1.controllers.requestParsers
 
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import support.UnitSpec
 import v1.mocks.validators.MockDeleteEmploymentFinancialDetailsValidator
@@ -49,7 +49,7 @@ class DeleteEmploymentFinancialDetailsRequestParserSpec extends UnitSpec {
         MockDeleteEmploymentFinancialDetailsValidator.validate(deleteEmploymentFinancialDetailsRawData).returns(Nil)
 
         parser.parseRequest(deleteEmploymentFinancialDetailsRawData) shouldBe
-          Right(DeleteEmploymentFinancialDetailsRequest(Nino(nino), TaxYear.fromMtd(taxYear), employmentId))
+          Right(DeleteEmploymentFinancialDetailsRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId)))
       }
     }
 

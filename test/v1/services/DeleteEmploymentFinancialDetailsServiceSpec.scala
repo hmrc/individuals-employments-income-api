@@ -17,7 +17,7 @@
 package v1.services
 
 import api.controllers.EndpointLogContext
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
@@ -81,7 +81,7 @@ class DeleteEmploymentFinancialDetailsServiceSpec extends ServiceSpec {
     val request: DeleteEmploymentFinancialDetailsRequest = DeleteEmploymentFinancialDetailsRequest(
       nino = nino,
       taxYear = taxYear,
-      employmentId = employmentId
+      employmentId = EmploymentId(employmentId)
     )
 
     val service: DeleteEmploymentFinancialDetailsService = new DeleteEmploymentFinancialDetailsService(

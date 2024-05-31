@@ -17,7 +17,7 @@
 package v1.controllers.requestParsers
 
 import api.controllers.requestParsers.RequestParser
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import v1.controllers.requestParsers.validators.DeleteEmploymentFinancialDetailsValidator
 import v1.models.request.deleteEmploymentFinancialDetails.{DeleteEmploymentFinancialDetailsRawData, DeleteEmploymentFinancialDetailsRequest}
 
@@ -28,6 +28,6 @@ class DeleteEmploymentFinancialDetailsRequestParser @Inject() (val validator: De
     extends RequestParser[DeleteEmploymentFinancialDetailsRawData, DeleteEmploymentFinancialDetailsRequest] {
 
   override protected def requestFor(data: DeleteEmploymentFinancialDetailsRawData): DeleteEmploymentFinancialDetailsRequest =
-    DeleteEmploymentFinancialDetailsRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear), data.employmentId)
+    DeleteEmploymentFinancialDetailsRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear), EmploymentId(data.employmentId))
 
 }
