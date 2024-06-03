@@ -25,7 +25,7 @@ import play.api.mvc.Result
 import v1.controllers.validators.MockRetrieveFinancialDetailsValidatorFactory
 import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
 import v1.mocks.services.MockRetrieveEmploymentAndFinancialDetailsService
-import v1.models.request.retrieveFinancialDetails.{RetrieveEmploymentAndFinancialDetailsRequest, RetrieveFinancialDetailsRawData}
+import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,13 +39,6 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
   val source: String       = "latest"
-
-  val rawData: RetrieveFinancialDetailsRawData = RetrieveFinancialDetailsRawData(
-    nino = nino,
-    taxYear = taxYear,
-    employmentId = employmentId,
-    source = Some(source)
-  )
 
   val requestData: RetrieveEmploymentAndFinancialDetailsRequest = RetrieveEmploymentAndFinancialDetailsRequest(
     nino = Nino(nino),

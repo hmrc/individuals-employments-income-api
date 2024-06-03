@@ -25,7 +25,7 @@ import play.api.mvc.Result
 import v1.controllers.validators.MockRetrieveNonPayeEmploymentIncomeValidatorFactory
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.mocks.services.MockRetrieveNonPayeEmploymentService
-import v1.models.request.retrieveNonPayeEmploymentIncome.{RetrieveNonPayeEmploymentIncomeRawData, RetrieveNonPayeEmploymentIncomeRequest}
+import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,13 +39,6 @@ class RetrieveNonPayeEmploymentControllerSpec
 
   val taxYear: String       = "2019-20"
   val source: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
-
-  val rawData: RetrieveNonPayeEmploymentIncomeRawData =
-    RetrieveNonPayeEmploymentIncomeRawData(
-      nino = nino,
-      taxYear = taxYear,
-      source = Some(source.toString)
-    )
 
   val requestData: RetrieveNonPayeEmploymentIncomeRequest =
     RetrieveNonPayeEmploymentIncomeRequest(

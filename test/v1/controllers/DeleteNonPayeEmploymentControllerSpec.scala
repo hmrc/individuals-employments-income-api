@@ -27,7 +27,7 @@ import play.api.libs.json.JsValue
 import play.api.mvc.Result
 import v1.controllers.validators.MockDeleteNonPayeEmploymentIncomeValidatorFactory
 import v1.mocks.services.MockDeleteNonPayeEmploymentService
-import v1.models.request.deleteNonPayeEmployment.{DeleteNonPayeEmploymentRawData, DeleteNonPayeEmploymentRequest}
+import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -41,11 +41,6 @@ class DeleteNonPayeEmploymentControllerSpec
     with MockAppConfig {
 
   val taxYear: String = "2020-21"
-
-  val rawData: DeleteNonPayeEmploymentRawData = DeleteNonPayeEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear
-  )
 
   val requestData: DeleteNonPayeEmploymentRequest = DeleteNonPayeEmploymentRequest(
     nino = Nino(nino),

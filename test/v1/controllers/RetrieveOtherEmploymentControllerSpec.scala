@@ -26,7 +26,7 @@ import v1.controllers.validators.MockRetrieveOtherEmploymentValidatorFactory
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v1.fixtures.RetrieveOtherEmploymentControllerFixture.mtdResponse
 import v1.mocks.services.MockRetrieveOtherEmploymentIncomeService
-import v1.models.request.otherEmploymentIncome.{OtherEmploymentIncomeRequestRawData, RetrieveOtherEmploymentIncomeRequest}
+import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,11 +39,6 @@ class RetrieveOtherEmploymentControllerSpec
     with MockAppConfig {
 
   val taxYear: String = "2019-20"
-
-  val rawData: OtherEmploymentIncomeRequestRawData = OtherEmploymentIncomeRequestRawData(
-    nino = nino,
-    taxYear = taxYear
-  )
 
   val requestData: RetrieveOtherEmploymentIncomeRequest = RetrieveOtherEmploymentIncomeRequest(
     nino = Nino(nino),

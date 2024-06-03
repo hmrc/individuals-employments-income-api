@@ -25,7 +25,7 @@ import play.api.mvc.Result
 import v1.controllers.validators.MockRetrieveEmploymentValidatorFactory
 import v1.fixtures.RetrieveEmploymentControllerFixture._
 import v1.mocks.services.MockRetrieveEmploymentService
-import v1.models.request.retrieveEmployment.{RetrieveEmploymentRawData, RetrieveEmploymentRequest}
+import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -40,12 +40,6 @@ class RetrieveEmploymentControllerSpec
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
-
-  val rawData: RetrieveEmploymentRawData = RetrieveEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    employmentId = employmentId
-  )
 
   val requestData: RetrieveEmploymentRequest = RetrieveEmploymentRequest(
     nino = Nino(nino),

@@ -27,7 +27,7 @@ import play.api.libs.json.JsValue
 import play.api.mvc.Result
 import v1.controllers.validators.MockDeleteOtherEmploymentValidatorFactory
 import v1.mocks.services.MockDeleteOtherEmploymentIncomeService
-import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
+import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -41,11 +41,6 @@ class DeleteOtherEmploymentControllerSpec
     with MockAppConfig {
 
   val taxYear: String = "2019-20"
-
-  val rawData: OtherEmploymentIncomeRequestRawData = OtherEmploymentIncomeRequestRawData(
-    nino = nino,
-    taxYear = taxYear
-  )
 
  private val requestData: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(
     nino = Nino(nino),

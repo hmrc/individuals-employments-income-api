@@ -24,7 +24,7 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{AnyContentAsJson, Result}
+import play.api.mvc.Result
 import v1.controllers.validators.MockAmendOtherEmploymentValidatorFactory
 import v1.mocks.services.MockAmendOtherEmploymentService
 import v1.models.request.amendOtherEmployment._
@@ -127,12 +127,6 @@ class AmendOtherEmploymentControllerSpec
       |    }
       |}
     """.stripMargin
-  )
-
-  val rawData: AmendOtherEmploymentRawData = AmendOtherEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    body = AnyContentAsJson(requestBodyJson)
   )
 
   val shareOptionItem: Seq[AmendShareOptionItem] = Seq(

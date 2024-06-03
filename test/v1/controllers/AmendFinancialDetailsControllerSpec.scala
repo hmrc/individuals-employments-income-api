@@ -25,12 +25,12 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{AnyContentAsJson, Result}
+import play.api.mvc.Result
 import v1.controllers.validators.MockAmendFinancialDetailsValidatorFactory
 import v1.mocks.services.MockAmendFinancialDetailsService
 import v1.models.request.amendFinancialDetails.employment.studentLoans.AmendStudentLoans
 import v1.models.request.amendFinancialDetails.employment.{AmendBenefitsInKind, AmendDeductions, AmendEmployment, AmendPay}
-import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRawData, AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
+import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -94,14 +94,6 @@ class AmendFinancialDetailsControllerSpec
       |    }
       |}
     """.stripMargin
-  )
-
-  val rawData: AmendFinancialDetailsRawData = AmendFinancialDetailsRawData(
-    nino = nino,
-    taxYear = taxYear,
-    employmentId = employmentId,
-    body = AnyContentAsJson(requestBodyJson),
-    opwEnabled = false
   )
 
   val pay: AmendPay = AmendPay(

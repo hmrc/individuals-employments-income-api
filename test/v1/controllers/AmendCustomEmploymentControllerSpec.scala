@@ -25,8 +25,7 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{AnyContentAsJson, Result}
-
+import play.api.mvc.Result
 import v1.controllers.validators.MockAmendCustomEmploymentValidatorFactory
 import v1.mocks.services.MockAmendCustomEmploymentService
 import v1.models.request.amendCustomEmployment._
@@ -55,13 +54,6 @@ class AmendCustomEmploymentControllerSpec
       |  "payrollId": "124214112412"
       |}
     """.stripMargin
-  )
-
-  val rawData: AmendCustomEmploymentRawData = AmendCustomEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    employmentId = employmentId,
-    body = AnyContentAsJson(requestBodyJson)
   )
 
   val amendCustomEmploymentRequestBody: AmendCustomEmploymentRequestBody = AmendCustomEmploymentRequestBody(

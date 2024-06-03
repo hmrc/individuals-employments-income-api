@@ -27,7 +27,7 @@ import play.api.libs.json.JsValue
 import play.api.mvc.Result
 import v1.controllers.validators.MockDeleteCustomEmploymentValidatorFactory
 import v1.mocks.services.MockDeleteCustomEmploymentService
-import v1.models.request.deleteCustomEmployment.{DeleteCustomEmploymentRawData, DeleteCustomEmploymentRequest}
+import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -42,12 +42,6 @@ class DeleteCustomEmploymentControllerSpec
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
-
-  val rawData: DeleteCustomEmploymentRawData = DeleteCustomEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    employmentId = employmentId
-  )
 
   val requestData: DeleteCustomEmploymentRequest = DeleteCustomEmploymentRequest(
     nino = Nino(nino),

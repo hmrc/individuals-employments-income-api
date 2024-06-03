@@ -25,17 +25,17 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{AnyContentAsJson, Result}
+import play.api.mvc.Result
 import v1.controllers.validators.MockAddCustomEmploymentValidatorFactory
 import v1.mocks.services.MockAddCustomEmploymentService
-import v1.models.request.addCustomEmployment.{AddCustomEmploymentRawData, AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
+import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AddCustomEmploymentControllerSpec
-  extends ControllerBaseSpec
+    extends ControllerBaseSpec
     with ControllerTestRunner
     with MockAppConfig
     with MockAddCustomEmploymentService
@@ -56,12 +56,6 @@ class AddCustomEmploymentControllerSpec
       |  "occupationalPension": false
       |}
     """.stripMargin
-  )
-
-  val rawData: AddCustomEmploymentRawData = AddCustomEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    body = AnyContentAsJson(requestBodyJson)
   )
 
   val addCustomEmploymentRequestBody: AddCustomEmploymentRequestBody = AddCustomEmploymentRequestBody(
@@ -133,7 +127,7 @@ class AddCustomEmploymentControllerSpec
     val controller = new AddCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      validatorFactory= mockAddCustomEmploymentValidatorFactory,
+      validatorFactory = mockAddCustomEmploymentValidatorFactory,
       service = mockAddCustomEmploymentService,
       auditService = mockAuditService,
       cc = cc,

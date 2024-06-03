@@ -25,7 +25,7 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{AnyContentAsJson, Result}
+import play.api.mvc.Result
 import v1.controllers.validators.MockCreateAmendNonPayeEmploymentIncomeValidatorFactory
 import v1.mocks.services.MockCreateAmendNonPayeEmploymentService
 import v1.models.request.createAmendNonPayeEmployment._
@@ -50,12 +50,6 @@ class CreateAmendNonPayeEmploymentControllerSpec
       |    "tips": 100.23
       |}
       |""".stripMargin
-  )
-
-  val rawData: CreateAmendNonPayeEmploymentRawData = CreateAmendNonPayeEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    body = AnyContentAsJson.apply(validRequestJson)
   )
 
   val requestModel: CreateAmendNonPayeEmploymentRequestBody = CreateAmendNonPayeEmploymentRequestBody(

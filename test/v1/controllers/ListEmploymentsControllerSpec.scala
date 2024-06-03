@@ -25,7 +25,7 @@ import play.api.mvc.Result
 import v1.controllers.validators.MockListEmploymentsValidatorFactory
 import v1.fixtures.ListEmploymentsControllerFixture.mtdResponse
 import v1.mocks.services.MockListEmploymentsService
-import v1.models.request.listEmployments.{ListEmploymentsRawData, ListEmploymentsRequest}
+import v1.models.request.listEmployments.ListEmploymentsRequest
 import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -40,11 +40,6 @@ class ListEmploymentsControllerSpec
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
-
-  val rawData: ListEmploymentsRawData = ListEmploymentsRawData(
-    nino = nino,
-    taxYear = taxYear
-  )
 
   val requestData: ListEmploymentsRequest = ListEmploymentsRequest(
     nino = Nino(nino),

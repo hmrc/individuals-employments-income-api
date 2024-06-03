@@ -26,7 +26,7 @@ import play.api.libs.json.JsValue
 import play.api.mvc.Result
 import v1.controllers.validators.MockIgnoreEmploymentValidatorFactory
 import v1.mocks.services.MockIgnoreEmploymentService
-import v1.models.request.ignoreEmployment.{IgnoreEmploymentRawData, IgnoreEmploymentRequest}
+import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -70,12 +70,6 @@ class IgnoreEmploymentControllerSpec
       )
 
   }
-
-  val rawData: IgnoreEmploymentRawData = IgnoreEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    employmentId = employmentId
-  )
 
   val requestData: IgnoreEmploymentRequest = IgnoreEmploymentRequest(
     nino = Nino(nino),
