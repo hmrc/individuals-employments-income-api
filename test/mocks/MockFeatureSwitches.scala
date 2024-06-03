@@ -27,9 +27,6 @@ trait MockFeatureSwitches extends MockFactory {
 
   object MockFeatureSwitches {
 
-    def isOpwEnabled: CallHandler[Boolean] =
-      (() => mockFeatureSwitches.isOpwEnabled).expects()
-
     def isTemporalValidationEnabled(implicit request: Request[_]): CallHandler[Boolean] =
       (mockFeatureSwitches.isTemporalValidationEnabled(_: Request[_])).expects(request)
 

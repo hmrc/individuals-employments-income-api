@@ -47,9 +47,7 @@ trait IntegrationBaseSpec extends UnitSpec with WireMockHelper with GuiceOneServ
     "microservice.services.auth.host"              -> mockHost,
     "microservice.services.auth.port"              -> mockPort,
     "auditing.consumer.baseUri.port"               -> mockPort,
-    "minimumPermittedTaxYear"                      -> 2020,
-    "feature-switch.opw.enabled"                   -> "true",
-    "feature-switch.postCessationReceipts.enabled" -> "true"
+    "minimumPermittedTaxYear"                      -> 2020
   )
 
   override implicit lazy val app: Application = new GuiceApplicationBuilder()

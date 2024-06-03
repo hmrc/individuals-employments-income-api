@@ -197,7 +197,7 @@ class AmendFinancialDetailsControllerSpec
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     MockedAppConfig.featureSwitches
-      .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true, "tys-api.enabled" -> true))
+      .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true))
       .anyNumberOfTimes()
 
     val controller = new AmendFinancialDetailsController(

@@ -26,10 +26,10 @@ import javax.inject.{Inject, Singleton}
 @ImplementedBy(classOf[FeatureSwitchesImpl])
 trait FeatureSwitches {
 
-  def isPostCessationReceiptsEnabled: Boolean
-  def isPassDeleteIntentEnabled: Boolean
+  def isEnabled(feature: String): Boolean
+
   def isTemporalValidationEnabled(implicit request: Request[_]): Boolean
-  def isOpwEnabled: Boolean
+
   def isDesIf_MigrationEnabled: Boolean
 }
 
@@ -39,20 +39,19 @@ class FeatureSwitchesImpl(featureSwitchConfig: Configuration) extends FeatureSwi
   @Inject
   def this(appConfig: AppConfig) = this(appConfig.featureSwitches)
 
-  val isPostCessationReceiptsEnabled: Boolean = isEnabled("postCessationReceipts.enabled")
-  val isPassDeleteIntentEnabled: Boolean      = isEnabled("passDeleteIntentHeader.enabled")
-  val isOpwEnabled: Boolean                   = isEnabled("opw.enabled")
-  val isDesIf_MigrationEnabled: Boolean       = isEnabled("desIf_Migration.enabled")
+  val isDesIf_MigrationEnabled: Boolean = isEnabled("desIf_Migration")
 
   def isTemporalValidationEnabled(implicit request: Request[_]): Boolean = {
-    if (isEnabled("allowTemporalValidationSuspension.enabled")) {
+    if (isEnabled("allowTemporalValidationSuspension")) {
       request.headers.get("suspend-temporal-validations").forall(!BooleanUtils.toBoolean(_))
     } else {
       true
     }
   }
 
-  private def isEnabled(key: String): Boolean = featureSwitchConfig.getOptional[Boolean](key).getOrElse(true)
+  def isEnabled(feature: String): Boolean = isConfigTrue(feature + ".enabled")
+
+  private def isConfigTrue(key: String): Boolean = featureSwitchConfig.getOptional[Boolean](key).getOrElse(true)
 }
 
 object FeatureSwitches {
