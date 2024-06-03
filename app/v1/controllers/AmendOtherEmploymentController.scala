@@ -20,10 +20,9 @@ import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.libs.json.JsValue
-import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
+import play.api.mvc.{Action, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.AmendOtherEmploymentRequestParser
-import v1.models.request.amendOtherEmployment.AmendOtherEmploymentRawData
+import v1.controllers.validators.AmendOtherEmploymentValidatorFactory
 import v1.services.AmendOtherEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -32,7 +31,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class AmendOtherEmploymentController @Inject()(val authService: EnrolmentsAuthService,
                                                val lookupService: MtdIdLookupService,
-                                               parser: AmendOtherEmploymentRequestParser,
+                                               validatorFactory: AmendOtherEmploymentValidatorFactory,
                                                service: AmendOtherEmploymentService,
                                                auditService: AuditService,
                                                cc: ControllerComponents,
@@ -49,14 +48,14 @@ class AmendOtherEmploymentController @Inject()(val authService: EnrolmentsAuthSe
     authorisedAction(nino).async(parse.json) { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: AmendOtherEmploymentRawData = AmendOtherEmploymentRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
-        body = AnyContentAsJson(request.body)
+        body = request.body
       )
 
-      val requestHandler = RequestHandlerX
-        .withParser(parser)
+      val requestHandler = RequestHandler
+        .withValidator(validator)
         .withService(service.amendOtherEmployment)
         .withAuditing(AuditHandler(
           auditService = auditService,
@@ -67,7 +66,7 @@ class AmendOtherEmploymentController @Inject()(val authService: EnrolmentsAuthSe
         ))
         .withNoContentResult(successStatus = OK)
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

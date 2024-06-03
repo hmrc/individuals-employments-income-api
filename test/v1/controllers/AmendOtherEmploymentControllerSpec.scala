@@ -25,7 +25,7 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AnyContentAsJson, Result}
-import v1.mocks.requestParsers.MockAmendOtherEmploymentRequestParser
+import v1.controllers.validators.MockAmendOtherEmploymentValidatorFactory
 import v1.mocks.services.MockAmendOtherEmploymentService
 import v1.models.request.amendOtherEmployment._
 
@@ -35,7 +35,7 @@ import scala.concurrent.Future
 class AmendOtherEmploymentControllerSpec
   extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockAmendOtherEmploymentRequestParser
+    with MockAmendOtherEmploymentValidatorFactory
     with MockAuditService
     with MockAmendOtherEmploymentService
     with MockAppConfig {
@@ -270,9 +270,7 @@ class AmendOtherEmploymentControllerSpec
   "AmendOtherEmploymentController" should {
     "return a successful response with status 200 (OK)" when {
       "the request received is valid" in new Test {
-        MockAmendOtherEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockAmendOtherEmploymentService
           .amend(requestData)
@@ -287,17 +285,13 @@ class AmendOtherEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockAmendOtherEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError, Some(requestBodyJson))
       }
 
       "the service returns an error" in new Test {
-        MockAmendOtherEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockAmendOtherEmploymentService
           .amend(requestData)
@@ -313,7 +307,7 @@ class AmendOtherEmploymentControllerSpec
     val controller = new AmendOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockAmendOtherEmploymentRequestParser,
+      validatorFactory = mockAmendOtherEmploymentValidatorFactory,
       service = mockAmendOtherEmploymentService,
       auditService = mockAuditService,
       cc = cc,

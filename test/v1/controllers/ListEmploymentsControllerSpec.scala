@@ -22,8 +22,8 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.mvc.Result
+import v1.controllers.validators.MockListEmploymentsValidatorFactory
 import v1.fixtures.ListEmploymentsControllerFixture.mtdResponse
-import v1.mocks.requestParsers.MockListEmploymentsRequestParser
 import v1.mocks.services.MockListEmploymentsService
 import v1.models.request.listEmployments.{ListEmploymentsRawData, ListEmploymentsRequest}
 import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
@@ -36,7 +36,7 @@ class ListEmploymentsControllerSpec
     with ControllerTestRunner
     with MockAppConfig
     with MockListEmploymentsService
-    with MockListEmploymentsRequestParser {
+    with MockListEmploymentsValidatorFactory {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -70,9 +70,7 @@ class ListEmploymentsControllerSpec
   "ListEmploymentsController" should {
     "return OK" when {
       "happy path" in new Test {
-        MockListEmploymentsRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockListEmploymentsService
           .listEmployments(requestData)
@@ -87,17 +85,13 @@ class ListEmploymentsControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockListEmploymentsRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTest(NinoFormatError)
       }
 
       "the service returns an error" in new Test {
-        MockListEmploymentsRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockListEmploymentsService
           .listEmployments(requestData)
@@ -113,7 +107,7 @@ class ListEmploymentsControllerSpec
     val controller = new ListEmploymentsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockListEmploymentsRequestParser,
+      validatorFactory = mockListEmploymentsValidatorFactory,
       service = mockListEmploymentsService,
       cc = cc,
       idGenerator = mockIdGenerator

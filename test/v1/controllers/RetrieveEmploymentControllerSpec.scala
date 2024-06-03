@@ -22,8 +22,8 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.mvc.Result
+import v1.controllers.validators.MockRetrieveEmploymentValidatorFactory
 import v1.fixtures.RetrieveEmploymentControllerFixture._
-import v1.mocks.requestParsers.MockRetrieveEmploymentRequestParser
 import v1.mocks.services.MockRetrieveEmploymentService
 import v1.models.request.retrieveEmployment.{RetrieveEmploymentRawData, RetrieveEmploymentRequest}
 import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
@@ -35,7 +35,7 @@ class RetrieveEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentService
-    with MockRetrieveEmploymentRequestParser
+    with MockRetrieveEmploymentValidatorFactory
     with MockAppConfig {
 
   val taxYear: String      = "2019-20"
@@ -89,9 +89,7 @@ class RetrieveEmploymentControllerSpec
   "RetrieveEmploymentController" should {
     "return OK" when {
       "happy path for retrieving hmrc entered employment with no date ignored present" in new Test {
-        MockRetrieveCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveEmploymentService
           .retrieve(requestData)
@@ -101,9 +99,7 @@ class RetrieveEmploymentControllerSpec
       }
 
       "happy path for retrieving hmrc entered employment with date ignored present" in new Test {
-        MockRetrieveCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveEmploymentService
           .retrieve(requestData)
@@ -113,9 +109,7 @@ class RetrieveEmploymentControllerSpec
       }
 
       "happy path for retrieving custom entered employment" in new Test {
-        MockRetrieveCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveEmploymentService
           .retrieve(requestData)
@@ -127,17 +121,13 @@ class RetrieveEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockRetrieveCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTest(NinoFormatError)
       }
 
       "the service returns an error" in new Test {
-        MockRetrieveCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveEmploymentService
           .retrieve(requestData)
@@ -153,7 +143,7 @@ class RetrieveEmploymentControllerSpec
     val controller = new RetrieveEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockRetrieveCustomEmploymentRequestParser,
+      validatorFactory = mockRetrieveEmploymentValidatorFactory,
       service = mockRetrieveEmploymentService,
       cc = cc,
       idGenerator = mockIdGenerator

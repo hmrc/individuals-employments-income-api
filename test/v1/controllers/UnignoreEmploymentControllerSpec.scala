@@ -24,9 +24,9 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import v1.mocks.requestParsers.MockIgnoreEmploymentRequestParser
+import v1.controllers.validators.MockUnignoreEmploymentValidatorFactory
 import v1.mocks.services.MockUnignoreEmploymentService
-import v1.models.request.ignoreEmployment.{IgnoreEmploymentRawData, IgnoreEmploymentRequest}
+import v1.models.request.ignoreEmployment.IgnoreEmploymentRawData
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -36,7 +36,7 @@ class UnignoreEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockUnignoreEmploymentService
-    with MockIgnoreEmploymentRequestParser
+    with MockUnignoreEmploymentValidatorFactory
     with MockAppConfig {
 
   val taxYear: String      = "2019-20"
@@ -47,7 +47,7 @@ class UnignoreEmploymentControllerSpec
     val controller = new UnignoreEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      requestParser = mockIgnoreEmploymentRequestParser,
+      validatorFactory = mockUnignoreEmploymentValidatorFactory,
       service = mockUnignoreEmploymentService,
       auditService = mockAuditService,
       cc = cc,
@@ -78,13 +78,7 @@ class UnignoreEmploymentControllerSpec
     employmentId = employmentId
   )
 
-  val requestData: IgnoreEmploymentRequest = IgnoreEmploymentRequest(
-    nino = Nino(nino),
-    taxYear = TaxYear.fromMtd(taxYear),
-    employmentId = EmploymentId(employmentId)
-  )
-
-  private val tempRequestData: UnignoreEmploymentRequest = UnignoreEmploymentRequest(
+  private val requestData: UnignoreEmploymentRequest = UnignoreEmploymentRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId)
@@ -93,12 +87,10 @@ class UnignoreEmploymentControllerSpec
   "UnignoreEmploymentController" should {
     "return OK" when {
       "happy path" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockUnignoreEmploymentService
-          .unignoreEmployment(tempRequestData)
+          .unignoreEmployment(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
         runOkTestWithAudit(expectedStatus = OK)
@@ -107,20 +99,16 @@ class UnignoreEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError)
       }
 
       "service returns an error" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockUnignoreEmploymentService
-          .unignoreEmployment(tempRequestData)
+          .unignoreEmployment(requestData)
           .returns(Future.successful(Left(ErrorWrapper(correlationId, RuleTaxYearNotSupportedError))))
 
         runErrorTestWithAudit(RuleTaxYearNotSupportedError)

@@ -21,8 +21,7 @@ import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.DeleteCustomEmploymentRequestParser
-import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRawData
+import v1.controllers.validators.DeleteCustomEmploymentValidatorFactory
 import v1.services.DeleteCustomEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class DeleteCustomEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                                   val lookupService: MtdIdLookupService,
-                                                  parser: DeleteCustomEmploymentRequestParser,
+                                                  validatorFactory: DeleteCustomEmploymentValidatorFactory,
                                                   service: DeleteCustomEmploymentService,
                                                   auditService: AuditService,
                                                   cc: ControllerComponents,
@@ -48,14 +47,14 @@ class DeleteCustomEmploymentController @Inject() (val authService: EnrolmentsAut
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: DeleteCustomEmploymentRawData = DeleteCustomEmploymentRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId
       )
 
-      val requestHandler = RequestHandlerX
-        .withParser(parser)
+      val requestHandler = RequestHandler
+        .withValidator(validator)
         .withService(service.delete)
         .withAuditing(AuditHandler(
           auditService = auditService,
@@ -64,7 +63,7 @@ class DeleteCustomEmploymentController @Inject() (val authService: EnrolmentsAut
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
         ))
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

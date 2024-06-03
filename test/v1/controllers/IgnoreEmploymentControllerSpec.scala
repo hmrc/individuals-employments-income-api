@@ -24,7 +24,7 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import v1.mocks.requestParsers.MockIgnoreEmploymentRequestParser
+import v1.controllers.validators.MockIgnoreEmploymentValidatorFactory
 import v1.mocks.services.MockIgnoreEmploymentService
 import v1.models.request.ignoreEmployment.{IgnoreEmploymentRawData, IgnoreEmploymentRequest}
 
@@ -35,7 +35,7 @@ class IgnoreEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockIgnoreEmploymentService
-    with MockIgnoreEmploymentRequestParser
+    with MockIgnoreEmploymentValidatorFactory
     with MockAppConfig {
 
   val taxYear: String      = "2019-20"
@@ -46,7 +46,7 @@ class IgnoreEmploymentControllerSpec
     val controller = new IgnoreEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      requestParser = mockIgnoreEmploymentRequestParser,
+      validatorFactory = mockIgnoreEmploymentValidatorFactory,
       service = mockIgnoreEmploymentService,
       auditService = mockAuditService,
       cc = cc,
@@ -86,9 +86,7 @@ class IgnoreEmploymentControllerSpec
   "IgnoreEmploymentController" should {
     "return OK" when {
       "happy path" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockIgnoreEmploymentService
           .ignoreEmployment(requestData)
@@ -100,17 +98,13 @@ class IgnoreEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError)
       }
 
       "service returns an error" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockIgnoreEmploymentService
           .ignoreEmployment(requestData)

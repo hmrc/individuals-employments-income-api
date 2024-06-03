@@ -26,7 +26,8 @@ import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AnyContentAsJson, Result}
-import v1.mocks.requestParsers.MockAmendCustomEmploymentRequestParser
+
+import v1.controllers.validators.MockAmendCustomEmploymentValidatorFactory
 import v1.mocks.services.MockAmendCustomEmploymentService
 import v1.models.request.amendCustomEmployment._
 
@@ -38,7 +39,7 @@ class AmendCustomEmploymentControllerSpec
     with ControllerTestRunner
     with MockAppConfig
     with MockAuditService
-    with MockAmendCustomEmploymentRequestParser
+    with MockAmendCustomEmploymentValidatorFactory
     with MockAmendCustomEmploymentService {
 
   val taxYear: String = "2019-20"
@@ -82,9 +83,7 @@ class AmendCustomEmploymentControllerSpec
   "AmendCustomEmploymentController" should {
     "return a successful response with status 200 (OK)" when {
       "the request received is valid" in new Test {
-        MockAmendCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockAmendCustomEmploymentService
           .amend(requestData)
@@ -99,17 +98,13 @@ class AmendCustomEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockAmendCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError, Some(requestBodyJson))
       }
 
       "the service returns an error" in new Test {
-        MockAmendCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockAmendCustomEmploymentService
           .amend(requestData)
@@ -125,7 +120,7 @@ class AmendCustomEmploymentControllerSpec
     val controller = new AmendCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockAmendCustomEmploymentRequestParser,
+      validatorFactory = mockAmendCustomEmploymentValidatorFactory,
       service = mockAmendCustomEmploymentService,
       auditService = mockAuditService,
       cc = cc,

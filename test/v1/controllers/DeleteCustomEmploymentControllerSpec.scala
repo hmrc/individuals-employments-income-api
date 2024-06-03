@@ -25,7 +25,7 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import v1.mocks.requestParsers.MockDeleteCustomEmploymentRequestParser
+import v1.controllers.validators.MockDeleteCustomEmploymentValidatorFactory
 import v1.mocks.services.MockDeleteCustomEmploymentService
 import v1.models.request.deleteCustomEmployment.{DeleteCustomEmploymentRawData, DeleteCustomEmploymentRequest}
 
@@ -37,7 +37,7 @@ class DeleteCustomEmploymentControllerSpec
     with ControllerTestRunner
     with MockDeleteCustomEmploymentService
     with MockAuditService
-    with MockDeleteCustomEmploymentRequestParser
+    with MockDeleteCustomEmploymentValidatorFactory
     with MockAppConfig {
 
   val taxYear: String      = "2019-20"
@@ -58,9 +58,7 @@ class DeleteCustomEmploymentControllerSpec
   "DeleteCustomEmploymentController" should {
     "return NO_content" when {
       "happy path" in new Test {
-        MockDeleteCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteCustomEmploymentService
           .delete(requestData)
@@ -72,17 +70,13 @@ class DeleteCustomEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockDeleteCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError)
       }
 
       "service returns an error" in new Test {
-        MockDeleteCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteCustomEmploymentService
           .delete(requestData)
@@ -98,7 +92,7 @@ class DeleteCustomEmploymentControllerSpec
     val controller = new DeleteCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockDeleteCustomEmploymentRequestParser,
+      validatorFactory = mockDeleteCustomEmploymentValidatorFactory,
       service = mockDeleteCustomEmploymentService,
       auditService = mockAuditService,
       cc = cc,

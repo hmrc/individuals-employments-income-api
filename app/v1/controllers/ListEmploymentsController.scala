@@ -21,8 +21,7 @@ import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.ListEmploymentsRequestParser
-import v1.models.request.listEmployments.ListEmploymentsRawData
+import v1.controllers.validators.ListEmploymentsValidatorFactory
 import v1.services.ListEmploymentsService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class ListEmploymentsController @Inject() (val authService: EnrolmentsAuthService,
                                            val lookupService: MtdIdLookupService,
-                                           parser: ListEmploymentsRequestParser,
+                                           validatorFactory: ListEmploymentsValidatorFactory,
                                            service: ListEmploymentsService,
                                            cc: ControllerComponents,
                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
@@ -47,18 +46,18 @@ class ListEmploymentsController @Inject() (val authService: EnrolmentsAuthServic
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: ListEmploymentsRawData = ListEmploymentsRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear
       )
 
       val requestHandler =
-        RequestHandlerX
-          .withParser(parser)
+        RequestHandler
+          .withValidator(validator)
           .withService(service.listEmployments)
           .withPlainJsonResult()
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

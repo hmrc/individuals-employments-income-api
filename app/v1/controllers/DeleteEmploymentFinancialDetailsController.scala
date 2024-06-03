@@ -21,8 +21,7 @@ import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.DeleteEmploymentFinancialDetailsRequestParser
-import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRawData
+import v1.controllers.validators.DeleteFinancialDetailsValidatorFactory
 import v1.services.DeleteEmploymentFinancialDetailsService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class DeleteEmploymentFinancialDetailsController @Inject() (val authService: EnrolmentsAuthService,
                                                             val lookupService: MtdIdLookupService,
-                                                            parser: DeleteEmploymentFinancialDetailsRequestParser,
+                                                            validatorFactory: DeleteFinancialDetailsValidatorFactory,
                                                             service: DeleteEmploymentFinancialDetailsService,
                                                             auditService: AuditService,
                                                             cc: ControllerComponents,
@@ -48,14 +47,14 @@ class DeleteEmploymentFinancialDetailsController @Inject() (val authService: Enr
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: DeleteEmploymentFinancialDetailsRawData = DeleteEmploymentFinancialDetailsRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId
       )
 
-      val requestHandler = RequestHandlerX
-        .withParser(parser)
+      val requestHandler = RequestHandler
+        .withValidator(validator)
         .withService(service.delete)
         .withAuditing(AuditHandler(
           auditService = auditService,
@@ -64,7 +63,7 @@ class DeleteEmploymentFinancialDetailsController @Inject() (val authService: Enr
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
         ))
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

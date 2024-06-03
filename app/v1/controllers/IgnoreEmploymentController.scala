@@ -21,8 +21,7 @@ import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.{IdGenerator, Logging}
-import v1.controllers.requestParsers.IgnoreEmploymentRequestParser
-import v1.models.request.ignoreEmployment.IgnoreEmploymentRawData
+import v1.controllers.validators.IgnoreEmploymentValidatorFactory
 import v1.services.IgnoreEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                             val lookupService: MtdIdLookupService,
-                                            requestParser: IgnoreEmploymentRequestParser,
+                                            validatorFactory: IgnoreEmploymentValidatorFactory,
                                             service: IgnoreEmploymentService,
                                             auditService: AuditService,
                                             cc: ControllerComponents,
@@ -50,14 +49,14 @@ class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthServi
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData = IgnoreEmploymentRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId
       )
 
-      val requestHandler = RequestHandlerX
-        .withParser(requestParser)
+      val requestHandler = RequestHandler
+        .withValidator(validator)
         .withService(service.ignoreEmployment)
         .withAuditing(AuditHandler(
           auditService = auditService,
@@ -67,7 +66,7 @@ class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthServi
         ))
         .withNoContentResult(successStatus = OK)
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

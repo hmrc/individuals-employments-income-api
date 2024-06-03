@@ -21,9 +21,7 @@ import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.{IdGenerator, Logging}
-import v1.controllers.requestParsers.IgnoreEmploymentRequestParser
-import v1.models.request.ignoreEmployment.{IgnoreEmploymentRawData, IgnoreEmploymentRequest}
-import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
+import v1.controllers.validators.UnignoreEmploymentValidatorFactory
 import v1.services.UnignoreEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -32,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                               val lookupService: MtdIdLookupService,
-                                              requestParser: IgnoreEmploymentRequestParser,
+                                              validatorFactory: UnignoreEmploymentValidatorFactory,
                                               service: UnignoreEmploymentService,
                                               auditService: AuditService,
                                               cc: ControllerComponents,
@@ -51,15 +49,15 @@ class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthSer
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData = IgnoreEmploymentRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId
       )
 
-      val requestHandler = RequestHandlerX
-        .withParser(requestParser)
-        .withService((x: IgnoreEmploymentRequest) => service.unignoreEmployment(UnignoreEmploymentRequest(x.nino,x.taxYear, x.employmentId)))
+      val requestHandler = RequestHandler
+        .withValidator(validator)
+        .withService(service.unignoreEmployment)
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "UnignoreEmployment",
@@ -68,7 +66,7 @@ class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthSer
         ))
         .withNoContentResult(successStatus = OK)
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

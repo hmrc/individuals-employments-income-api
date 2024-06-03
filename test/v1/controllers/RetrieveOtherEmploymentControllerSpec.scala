@@ -22,11 +22,11 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.mvc.Result
+import v1.controllers.validators.MockRetrieveOtherEmploymentValidatorFactory
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v1.fixtures.RetrieveOtherEmploymentControllerFixture.mtdResponse
-import v1.mocks.requestParsers.MockOtherEmploymentIncomeRequestParser
 import v1.mocks.services.MockRetrieveOtherEmploymentIncomeService
-import v1.models.request.otherEmploymentIncome.{RetrieveOtherEmploymentIncomeRequest, OtherEmploymentIncomeRequestRawData}
+import v1.models.request.otherEmploymentIncome.{OtherEmploymentIncomeRequestRawData, RetrieveOtherEmploymentIncomeRequest}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -35,7 +35,7 @@ class RetrieveOtherEmploymentControllerSpec
   extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveOtherEmploymentIncomeService
-    with MockOtherEmploymentIncomeRequestParser
+    with MockRetrieveOtherEmploymentValidatorFactory
     with MockAppConfig {
 
   val taxYear: String = "2019-20"
@@ -53,9 +53,7 @@ class RetrieveOtherEmploymentControllerSpec
   "RetrieveOtherEmploymentIncomeController" should {
     "return OK" when {
       "the request is valid" in new Test {
-        MockOtherEmploymentIncomeRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveOtherEmploymentIncomeService
           .retrieve(requestData)
@@ -67,17 +65,13 @@ class RetrieveOtherEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockOtherEmploymentIncomeRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTest(NinoFormatError)
       }
 
       "the service returns an error" in new Test {
-        MockOtherEmploymentIncomeRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveOtherEmploymentIncomeService
           .retrieve(requestData)
@@ -93,7 +87,7 @@ class RetrieveOtherEmploymentControllerSpec
     val controller = new RetrieveOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockOtherEmploymentIncomeRequestParser,
+      validatorFactory = mockRetrieveOtherEmploymentValidatorFactory,
       service = mockRetrieveOtherEmploymentIncomeService,
       cc = cc,
       idGenerator = mockIdGenerator

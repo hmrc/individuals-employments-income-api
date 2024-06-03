@@ -22,10 +22,10 @@ import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
+import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import mocks.MockAppConfig
-import v1.mocks.requestParsers.MockDeleteNonPayeEmploymentRequestParser
+import v1.controllers.validators.MockDeleteNonPayeEmploymentIncomeValidatorFactory
 import v1.mocks.services.MockDeleteNonPayeEmploymentService
 import v1.models.request.deleteNonPayeEmployment.{DeleteNonPayeEmploymentRawData, DeleteNonPayeEmploymentRequest}
 
@@ -35,7 +35,7 @@ import scala.concurrent.Future
 class DeleteNonPayeEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockDeleteNonPayeEmploymentRequestParser
+    with MockDeleteNonPayeEmploymentIncomeValidatorFactory
     with MockDeleteNonPayeEmploymentService
     with MockAuditService
     with MockAppConfig {
@@ -55,9 +55,7 @@ class DeleteNonPayeEmploymentControllerSpec
   "DeleteNonPayeEmploymentController" when {
     "return a successful response with status 204 (No Content)" when {
       "the request received is valid" in new Test {
-        MockDeleteNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteNonPayeEmploymentService
           .deleteNonPayeEmployment(requestData)
@@ -69,17 +67,13 @@ class DeleteNonPayeEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockDeleteNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError)
       }
 
       "service returns an error" in new Test {
-        MockDeleteNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteNonPayeEmploymentService
           .deleteNonPayeEmployment(requestData)
@@ -95,7 +89,7 @@ class DeleteNonPayeEmploymentControllerSpec
     val controller = new DeleteNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockDeleteNonPayeEmploymentRequestParser,
+      validatorFactory = mockDeleteNonPayeEmploymentIncomeValidatorFactory,
       service = mockDeleteNonPayeEmploymentService,
       auditService = mockAuditService,
       cc = cc,

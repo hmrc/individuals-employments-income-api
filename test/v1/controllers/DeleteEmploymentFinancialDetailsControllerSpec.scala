@@ -25,7 +25,7 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import v1.mocks.requestParsers.MockDeleteEmploymentFinancialDetailsRequestParser
+import v1.controllers.validators.MockDeleteFinancialDetailsValidatorFactory
 import v1.mocks.services.MockDeleteEmploymentFinancialDetailsService
 import v1.models.request.deleteEmploymentFinancialDetails.{DeleteEmploymentFinancialDetailsRawData, DeleteEmploymentFinancialDetailsRequest}
 
@@ -37,7 +37,7 @@ class DeleteEmploymentFinancialDetailsControllerSpec
     with ControllerTestRunner
     with MockDeleteEmploymentFinancialDetailsService
     with MockAuditService
-    with MockDeleteEmploymentFinancialDetailsRequestParser
+    with MockDeleteFinancialDetailsValidatorFactory
     with MockAppConfig {
 
   val taxYear: String      = "2019-20"
@@ -58,9 +58,7 @@ class DeleteEmploymentFinancialDetailsControllerSpec
   "deleteEmploymentFinancialDetailsController" should {
     "return NO_content" when {
       "happy path" in new Test {
-        MockDeleteEmploymentFinancialDetailsRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteEmploymentFinancialDetailsService
           .delete(requestData)
@@ -72,17 +70,13 @@ class DeleteEmploymentFinancialDetailsControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockDeleteEmploymentFinancialDetailsRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError)
       }
 
       "service returns an error" in new Test {
-        MockDeleteEmploymentFinancialDetailsRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteEmploymentFinancialDetailsService
           .delete(requestData)
@@ -98,7 +92,7 @@ class DeleteEmploymentFinancialDetailsControllerSpec
     val controller = new DeleteEmploymentFinancialDetailsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockDeleteEmploymentFinancialDetailsRequestParser,
+      validatorFactory = mockDeleteFinancialDetailsValidatorFactory,
       service = mockDeleteEmploymentFinancialDetailsService,
       auditService = mockAuditService,
       cc = cc,

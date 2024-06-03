@@ -22,8 +22,8 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.mvc.Result
+import v1.controllers.validators.MockRetrieveFinancialDetailsValidatorFactory
 import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
-import v1.mocks.requestParsers.MockRetrieveEmploymentAndFinancialDetailsRequestParser
 import v1.mocks.services.MockRetrieveEmploymentAndFinancialDetailsService
 import v1.models.request.retrieveFinancialDetails.{RetrieveEmploymentAndFinancialDetailsRequest, RetrieveFinancialDetailsRawData}
 
@@ -34,7 +34,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
-    with MockRetrieveEmploymentAndFinancialDetailsRequestParser with MockAppConfig {
+    with MockRetrieveFinancialDetailsValidatorFactory with MockAppConfig {
 
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -57,9 +57,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
   "RetrieveFinancialDetailsController" should {
     "return OK" when {
       "happy path" in new Test {
-        MockRetrieveFinancialDetailsRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveEmploymentAndFinancialDetailsService
           .retrieve(requestData)
@@ -74,17 +72,13 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockRetrieveFinancialDetailsRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTest(NinoFormatError)
       }
 
       "the service returns an error" in new Test {
-        MockRetrieveFinancialDetailsRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveEmploymentAndFinancialDetailsService
           .retrieve(requestData)
@@ -100,7 +94,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     val controller = new RetrieveEmploymentAndFinancialDetailsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockRetrieveFinancialDetailsRequestParser,
+      validatorFactory = mockRetrieveFinancialDetailsValidatorFactory,
       service = mockRetrieveEmploymentAndFinancialDetailsService,
       cc = cc,
       idGenerator = mockIdGenerator
