@@ -141,7 +141,7 @@ class AddCustomEmploymentValidatorSpec extends UnitSpec with JsonErrorValidators
 
     "return EmployerNameFormatError error" when {
       "the format of the employer name is not valid" in new Test {
-        validate(body = validRequestBodyJson.update("employerName", JsString("x" * 106))) shouldBe
+        validate(body = validRequestBodyJson.update("employerName", JsString("x" * 75))) shouldBe
           singleError(EmployerNameFormatError)
       }
     }

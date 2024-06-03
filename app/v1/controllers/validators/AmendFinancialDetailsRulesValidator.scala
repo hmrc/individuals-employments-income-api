@@ -61,12 +61,12 @@ object AmendFinancialDetailsRulesValidator extends RulesValidator[AmendFinancial
   private def validateDeductions(deductions: AmendDeductions) = {
     combine(
       validateOptionalNonNegativeNumber(
-        amount = deductions.studentLoans.flatMap(_.pglDeductionAmount),
-        path = "/employment/deductions/studentLoans/pglDeductionAmount"
-      ),
-      validateOptionalNonNegativeNumber(
         amount = deductions.studentLoans.flatMap(_.uglDeductionAmount),
         path = "/employment/deductions/studentLoans/uglDeductionAmount"
+      ),
+      validateOptionalNonNegativeNumber(
+        amount = deductions.studentLoans.flatMap(_.pglDeductionAmount),
+        path = "/employment/deductions/studentLoans/pglDeductionAmount"
       )
     )
   }

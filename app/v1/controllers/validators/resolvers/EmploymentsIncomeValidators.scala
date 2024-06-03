@@ -21,10 +21,16 @@ import api.models.errors._
 import cats.data.Validated
 
 object EmploymentsIncomeValidators extends ResolverSupport {
-  private val employerNameRegex = "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,105}$".r
 
-  def validateEmployerName(name: String, error: => MtdError = EmployerNameFormatError): Validated[Seq[MtdError], String] =
-    ResolveStringPattern(employerNameRegex, error)(name)
+  private val otherEmployerNameRegex = "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,105}$".r
+
+  def validateOtherEmployerName(name: String, error: => MtdError = EmployerNameFormatError): Validated[Seq[MtdError], String] =
+    ResolveStringPattern(otherEmployerNameRegex, error)(name)
+
+  private val customEmployerNameRegex = s"^\\S.{0,73}$$".r
+
+  def validateCustomEmployerName(name: String, error: => MtdError = EmployerNameFormatError): Validated[Seq[MtdError], String] =
+    ResolveStringPattern(customEmployerNameRegex, error)(name)
 
   private val employerRefValidation = "^[0-9]{3}/[^ ].{0,9}$".r
 

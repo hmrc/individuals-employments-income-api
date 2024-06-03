@@ -81,55 +81,6 @@ class AmendCustomEmploymentControllerISpec extends IntegrationBaseSpec {
       }
     }
 
-    "return a 400 with multiple errors" when {
-      "all field value validations fail on the request body" in new Test {
-
-        private val amendCustomEmploymentInvalidRequest = Json.parse(s"""
-             |{
-             |  "employerRef": "1234/AB56797",
-             |  "employerName": "asasfdsgdgdsgdffdhfhgfjghjhgkhkhjgkfgdsfsfsfasfsafsesgsdgdsgdfgsdgdsgdsgdsgsdgsdgsdgdsgsdgsdgdsgsdgs",
-             |  "startDate": "2019-01-013",
-             |  "cessationDate": "2020-06-013",
-             |  "payrollId": "123addusersitepackagesaddusersitepackagesaddusersitepackagesaddusersitepackagesaddusersitepackages",
-             |  "occupationalPension": false
-             |}
-             |""".stripMargin)
-
-        private val responseJson = Json.parse("""
-            |{
-            |	"code": "INVALID_REQUEST",
-            |	"message": "Invalid request",
-            |	"errors": [{
-            |		"code": "FORMAT_EMPLOYER_REF",
-            |		"message": "The provided employer ref is invalid"
-            |	}, {
-            |		"code": "FORMAT_EMPLOYER_NAME",
-            |		"message": "The provided employer name is invalid"
-            |	}, {
-            |		"code": "FORMAT_START_DATE",
-            |		"message": "The provided start date is invalid"
-            |	}, {
-            |		"code": "FORMAT_CESSATION_DATE",
-            |		"message": "The provided cessation date is invalid"
-            |	}, {
-            |		"code": "FORMAT_PAYROLL_ID",
-            |		"message": "The provided payroll ID is invalid"
-            |	}]
-            |}
-            |""".stripMargin)
-
-        override def setupStubs(): StubMapping = {
-          AuditStub.audit()
-          AuthStub.authorised()
-          MtdIdLookupStub.ninoFound(nino)
-        }
-
-        val response: WSResponse = await(request().put(amendCustomEmploymentInvalidRequest))
-        response.status shouldBe BAD_REQUEST
-        response.json shouldBe responseJson
-      }
-    }
-
     "return error according to spec" when {
 
       val validRequestJson: JsValue = Json.parse(

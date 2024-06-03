@@ -31,7 +31,7 @@ object AmendCustomEmploymentRulesValidator extends RulesValidator[AmendCustomEmp
     import parsed.body
 
     combine(
-      validateEmployerName(body.employerName),
+      validateCustomEmployerName(body.employerName),
       validateOptionalEmployerRef(body.employerRef),
       validatePayrollId(body.payrollId),
       validateDates(parsed.taxYear, body)
