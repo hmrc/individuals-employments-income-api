@@ -21,8 +21,7 @@ import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.OtherEmploymentIncomeRequestParser
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequestRawData
+import v1.controllers.validators.DeleteOtherEmploymentValidatorFactory
 import v1.services.DeleteOtherEmploymentIncomeService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class DeleteOtherEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                                  val lookupService: MtdIdLookupService,
-                                                 parser: OtherEmploymentIncomeRequestParser,
+                                                 validatorFactory: DeleteOtherEmploymentValidatorFactory,
                                                  service: DeleteOtherEmploymentIncomeService,
                                                  auditService: AuditService,
                                                  cc: ControllerComponents,
@@ -48,13 +47,13 @@ class DeleteOtherEmploymentController @Inject() (val authService: EnrolmentsAuth
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: OtherEmploymentIncomeRequestRawData = OtherEmploymentIncomeRequestRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear
       )
 
       val requestHandler = RequestHandler
-        .withParser(parser)
+        .withValidator(validator)
         .withService(service.delete)
         .withAuditing(AuditHandler(
           auditService = auditService,
@@ -63,7 +62,7 @@ class DeleteOtherEmploymentController @Inject() (val authService: EnrolmentsAuth
           params = Map("nino" -> nino, "taxYear" -> taxYear)
         ))
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

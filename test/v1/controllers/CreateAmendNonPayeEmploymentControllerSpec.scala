@@ -25,8 +25,8 @@ import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{AnyContentAsJson, Result}
-import v1.mocks.requestParsers.MockCreateAmendNonPayeEmploymentRequestParser
+import play.api.mvc.Result
+import v1.controllers.validators.MockCreateAmendNonPayeEmploymentIncomeValidatorFactory
 import v1.mocks.services.MockCreateAmendNonPayeEmploymentService
 import v1.models.request.createAmendNonPayeEmployment._
 
@@ -39,7 +39,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
     with MockAppConfig
     with MockCreateAmendNonPayeEmploymentService
     with MockAuditService
-    with MockCreateAmendNonPayeEmploymentRequestParser
+    with MockCreateAmendNonPayeEmploymentIncomeValidatorFactory
      {
 
   val taxYear: String = "2019-20"
@@ -50,12 +50,6 @@ class CreateAmendNonPayeEmploymentControllerSpec
       |    "tips": 100.23
       |}
       |""".stripMargin
-  )
-
-  val rawData: CreateAmendNonPayeEmploymentRawData = CreateAmendNonPayeEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    body = AnyContentAsJson.apply(validRequestJson)
   )
 
   val requestModel: CreateAmendNonPayeEmploymentRequestBody = CreateAmendNonPayeEmploymentRequestBody(
@@ -71,9 +65,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
   "CreateAmendNonPayeEmploymentController" should {
     "return a successful response with status 200 (OK)" when {
       "the request received is valid" in new Test {
-        MockCreateAmendNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockCreateAmendNonPayeEmploymentService
           .createAndAmend(requestData)
@@ -88,17 +80,13 @@ class CreateAmendNonPayeEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockCreateAmendNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError, Some(validRequestJson))
 
       }
       "the service returns an error" in new Test {
-        MockCreateAmendNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockCreateAmendNonPayeEmploymentService
           .createAndAmend(requestData)
@@ -114,7 +102,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
     val controller = new CreateAmendNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockRequestParser,
+      validatorFactory = mockCreateAmendNonPayeEmploymentIncomeValidatorFactory,
       service = mockService,
       auditService = mockAuditService,
       cc = cc,

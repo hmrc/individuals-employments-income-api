@@ -20,7 +20,7 @@ import api.controllers.RequestContext
 import api.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
+import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 import v1.services.UnignoreEmploymentService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -31,9 +31,9 @@ trait MockUnignoreEmploymentService extends MockFactory {
 
   object MockUnignoreEmploymentService {
 
-    def unignoreEmployment(requestData: IgnoreEmploymentRequest): CallHandler[Future[ServiceOutcome[Unit]]] = {
+    def unignoreEmployment(requestData: UnignoreEmploymentRequest): CallHandler[Future[ServiceOutcome[Unit]]] = {
       (mockUnignoreEmploymentService
-        .unignoreEmployment(_: IgnoreEmploymentRequest)(_: RequestContext, _: ExecutionContext))
+        .unignoreEmployment(_: UnignoreEmploymentRequest)(_: RequestContext, _: ExecutionContext))
         .expects(requestData, *, *)
     }
 

@@ -18,15 +18,15 @@ package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import v1.mocks.requestParsers.MockIgnoreEmploymentRequestParser
+import v1.controllers.validators.MockUnignoreEmploymentValidatorFactory
 import v1.mocks.services.MockUnignoreEmploymentService
-import v1.models.request.ignoreEmployment.{IgnoreEmploymentRawData, IgnoreEmploymentRequest}
+import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -35,17 +35,18 @@ class UnignoreEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockUnignoreEmploymentService
-    with MockIgnoreEmploymentRequestParser
+    with MockUnignoreEmploymentValidatorFactory
     with MockAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
+
     val controller = new UnignoreEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      requestParser = mockIgnoreEmploymentRequestParser,
+      validatorFactory = mockUnignoreEmploymentValidatorFactory,
       service = mockUnignoreEmploymentService,
       auditService = mockAuditService,
       cc = cc,
@@ -70,24 +71,16 @@ class UnignoreEmploymentControllerSpec
 
   }
 
-  val rawData: IgnoreEmploymentRawData = IgnoreEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    employmentId = employmentId
-  )
-
-  val requestData: IgnoreEmploymentRequest = IgnoreEmploymentRequest(
+  private val requestData: UnignoreEmploymentRequest = UnignoreEmploymentRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear),
-    employmentId = employmentId
+    employmentId = EmploymentId(employmentId)
   )
 
   "UnignoreEmploymentController" should {
     "return OK" when {
       "happy path" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockUnignoreEmploymentService
           .unignoreEmployment(requestData)
@@ -99,17 +92,13 @@ class UnignoreEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError)
       }
 
       "service returns an error" in new Test {
-        MockIgnoreEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockUnignoreEmploymentService
           .unignoreEmployment(requestData)

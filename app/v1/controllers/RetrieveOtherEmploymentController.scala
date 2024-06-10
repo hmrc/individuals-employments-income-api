@@ -21,8 +21,7 @@ import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.OtherEmploymentIncomeRequestParser
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequestRawData
+import v1.controllers.validators.RetrieveOtherEmploymentValidatorFactory
 import v1.services.RetrieveOtherEmploymentIncomeService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class RetrieveOtherEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                                    val lookupService: MtdIdLookupService,
-                                                   parser: OtherEmploymentIncomeRequestParser,
+                                                   validatorFactory: RetrieveOtherEmploymentValidatorFactory,
                                                    service: RetrieveOtherEmploymentIncomeService,
                                                    cc: ControllerComponents,
                                                    val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
@@ -47,18 +46,18 @@ class RetrieveOtherEmploymentController @Inject() (val authService: EnrolmentsAu
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: OtherEmploymentIncomeRequestRawData = OtherEmploymentIncomeRequestRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear
       )
 
       val requestHandler =
         RequestHandler
-          .withParser(parser)
+          .withValidator(validator)
           .withService(service.retrieve)
           .withPlainJsonResult()
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

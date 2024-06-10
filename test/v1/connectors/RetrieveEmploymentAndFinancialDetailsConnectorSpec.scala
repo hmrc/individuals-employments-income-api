@@ -17,7 +17,7 @@
 package v1.connectors
 
 import api.connectors.{ConnectorSpec, DownstreamOutcome}
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear, Timestamp}
+import api.models.domain.{EmploymentId, MtdSourceEnum, Nino, TaxYear, Timestamp}
 import api.models.errors.{DownstreamErrorCode, DownstreamErrors}
 import api.models.outcomes.ResponseWrapper
 import org.scalamock.handlers.CallHandler
@@ -95,7 +95,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends ConnectorSpec {
     def taxYear: TaxYear = TaxYear.fromMtd("2018-19")
 
     val request: RetrieveEmploymentAndFinancialDetailsRequest =
-      RetrieveEmploymentAndFinancialDetailsRequest(Nino(nino), taxYear, employmentId, source)
+      RetrieveEmploymentAndFinancialDetailsRequest(Nino(nino), taxYear, EmploymentId(employmentId), source)
 
     val connector: RetrieveEmploymentAndFinancialDetailsConnector =
       new RetrieveEmploymentAndFinancialDetailsConnector(http = mockHttpClient, appConfig = mockAppConfig)

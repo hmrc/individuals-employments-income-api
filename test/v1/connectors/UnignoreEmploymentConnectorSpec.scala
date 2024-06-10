@@ -17,9 +17,9 @@
 package v1.connectors
 
 import api.connectors.{ConnectorSpec, DownstreamOutcome}
-import api.models.domain.{Nino, TaxYear}
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
-import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
+import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 import scala.concurrent.Future
 
@@ -47,10 +47,10 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
     val nino: String         = "AA111111A"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-    val request: IgnoreEmploymentRequest = IgnoreEmploymentRequest(
+    val request: UnignoreEmploymentRequest = UnignoreEmploymentRequest(
       nino = Nino(nino),
       taxYear = taxYear,
-      employmentId = employmentId
+      employmentId = EmploymentId(employmentId)
     )
 
     val connector: UnignoreEmploymentConnector = new UnignoreEmploymentConnector(

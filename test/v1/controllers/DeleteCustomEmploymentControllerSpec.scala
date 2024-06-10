@@ -19,15 +19,15 @@ package v1.controllers
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import v1.mocks.requestParsers.MockDeleteCustomEmploymentRequestParser
+import v1.controllers.validators.MockDeleteCustomEmploymentValidatorFactory
 import v1.mocks.services.MockDeleteCustomEmploymentService
-import v1.models.request.deleteCustomEmployment.{DeleteCustomEmploymentRawData, DeleteCustomEmploymentRequest}
+import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -37,30 +37,22 @@ class DeleteCustomEmploymentControllerSpec
     with ControllerTestRunner
     with MockDeleteCustomEmploymentService
     with MockAuditService
-    with MockDeleteCustomEmploymentRequestParser
+    with MockDeleteCustomEmploymentValidatorFactory
     with MockAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  val rawData: DeleteCustomEmploymentRawData = DeleteCustomEmploymentRawData(
-    nino = nino,
-    taxYear = taxYear,
-    employmentId = employmentId
-  )
-
   val requestData: DeleteCustomEmploymentRequest = DeleteCustomEmploymentRequest(
     nino = Nino(nino),
-    taxYear = taxYear,
-    employmentId = employmentId
+    taxYear = TaxYear.fromMtd(taxYear),
+    employmentId = EmploymentId(employmentId)
   )
 
   "DeleteCustomEmploymentController" should {
     "return NO_content" when {
       "happy path" in new Test {
-        MockDeleteCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteCustomEmploymentService
           .delete(requestData)
@@ -72,17 +64,13 @@ class DeleteCustomEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockDeleteCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError)
       }
 
       "service returns an error" in new Test {
-        MockDeleteCustomEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteCustomEmploymentService
           .delete(requestData)
@@ -98,7 +86,7 @@ class DeleteCustomEmploymentControllerSpec
     val controller = new DeleteCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockDeleteCustomEmploymentRequestParser,
+      validatorFactory = mockDeleteCustomEmploymentValidatorFactory,
       service = mockDeleteCustomEmploymentService,
       auditService = mockAuditService,
       cc = cc,

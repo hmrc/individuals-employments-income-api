@@ -25,49 +25,27 @@ class FeatureSwitchesSpec extends UnitSpec {
 
   "a feature switch" should {
     "be true" when {
-
       "absent from the config" in {
-
         val configuration   = Configuration.empty
         val featureSwitches = FeatureSwitches(configuration)
 
-        featureSwitches.isOpwEnabled shouldBe true
-        featureSwitches.isPostCessationReceiptsEnabled shouldBe true
-        featureSwitches.isDesIf_MigrationEnabled shouldBe true
-
+        featureSwitches.isEnabled("some-feature") shouldBe true
       }
 
       "enabled" in {
-        val configuration = Configuration(
-          "tys-api.enabled"              -> true,
-          "opw.enabled"                  -> true,
-          "postCessationReceipt.enabled" -> true,
-          "desIf_Migration.enabled"      -> true
-        )
+        val configuration   = Configuration("some-feature.enabled" -> true)
         val featureSwitches = FeatureSwitches(configuration)
 
-        featureSwitches.isOpwEnabled shouldBe true
-        featureSwitches.isPostCessationReceiptsEnabled shouldBe true
-        featureSwitches.isDesIf_MigrationEnabled shouldBe true
-
+        featureSwitches.isEnabled("some-feature") shouldBe true
       }
     }
 
     "be false" when {
       "disabled" in {
-        val configuration = Configuration(
-          "tys-api.enabled"               -> false,
-          "opw.enabled"                   -> false,
-          "postCessationReceipts.enabled" -> false,
-          "desIf_Migration.enabled"       -> false
-        )
-
+        val configuration   = Configuration("some-feature.enabled" -> false)
         val featureSwitches = FeatureSwitches(configuration)
 
-        featureSwitches.isOpwEnabled shouldBe false
-        featureSwitches.isPostCessationReceiptsEnabled shouldBe false
-        featureSwitches.isDesIf_MigrationEnabled shouldBe false
-
+        featureSwitches.isEnabled("some-feature") shouldBe false
       }
     }
   }

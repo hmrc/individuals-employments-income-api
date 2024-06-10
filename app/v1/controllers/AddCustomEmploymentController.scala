@@ -20,10 +20,9 @@ import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.{AppConfig, FeatureSwitches}
 import play.api.libs.json.JsValue
-import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
+import play.api.mvc.{Action, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.AddCustomEmploymentRequestParser
-import v1.models.request.addCustomEmployment.AddCustomEmploymentRawData
+import v1.controllers.validators.AddCustomEmploymentValidatorFactory
 import v1.services.AddCustomEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -32,7 +31,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class AddCustomEmploymentController @Inject()(val authService: EnrolmentsAuthService,
                                               val lookupService: MtdIdLookupService,
-                                              parser: AddCustomEmploymentRequestParser,
+                                              validatorFactory: AddCustomEmploymentValidatorFactory,
                                               service: AddCustomEmploymentService,
                                               auditService: AuditService,
                                               cc: ControllerComponents,
@@ -49,14 +48,14 @@ class AddCustomEmploymentController @Inject()(val authService: EnrolmentsAuthSer
     authorisedAction(nino).async(parse.json) { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: AddCustomEmploymentRawData = AddCustomEmploymentRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
-        body = AnyContentAsJson(request.body),
+        body = request.body,
         temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled)
 
       val requestHandler = RequestHandler
-        .withParser(parser)
+        .withValidator(validator)
         .withService(service.addEmployment)
         .withAuditing(AuditHandler(
           auditService = auditService,
@@ -68,7 +67,7 @@ class AddCustomEmploymentController @Inject()(val authService: EnrolmentsAuthSer
         ))
         .withPlainJsonResult()
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
 
     }
 

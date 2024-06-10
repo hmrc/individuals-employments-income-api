@@ -21,8 +21,7 @@ import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.RetrieveEmploymentRequestParser
-import v1.models.request.retrieveEmployment.RetrieveEmploymentRawData
+import v1.controllers.validators.RetrieveEmploymentValidatorFactory
 import v1.services.RetrieveEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class RetrieveEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                               val lookupService: MtdIdLookupService,
-                                              parser: RetrieveEmploymentRequestParser,
+                                              validatorFactory: RetrieveEmploymentValidatorFactory,
                                               service: RetrieveEmploymentService,
                                               cc: ControllerComponents,
                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
@@ -47,7 +46,7 @@ class RetrieveEmploymentController @Inject() (val authService: EnrolmentsAuthSer
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: RetrieveEmploymentRawData = RetrieveEmploymentRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId
@@ -55,11 +54,11 @@ class RetrieveEmploymentController @Inject() (val authService: EnrolmentsAuthSer
 
       val requestHandler =
         RequestHandler
-          .withParser(parser)
+          .withValidator(validator)
           .withService(service.retrieve)
           .withPlainJsonResult()
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

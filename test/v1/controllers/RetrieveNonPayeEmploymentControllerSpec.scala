@@ -22,10 +22,10 @@ import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.mvc.Result
+import v1.controllers.validators.MockRetrieveNonPayeEmploymentIncomeValidatorFactory
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
-import v1.mocks.requestParsers.MockRetrieveNonPayeEmploymentRequestParser
 import v1.mocks.services.MockRetrieveNonPayeEmploymentService
-import v1.models.request.retrieveNonPayeEmploymentIncome.{RetrieveNonPayeEmploymentIncomeRawData, RetrieveNonPayeEmploymentIncomeRequest}
+import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -34,18 +34,11 @@ class RetrieveNonPayeEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveNonPayeEmploymentService
-    with MockRetrieveNonPayeEmploymentRequestParser
+    with MockRetrieveNonPayeEmploymentIncomeValidatorFactory
     with MockAppConfig {
 
   val taxYear: String       = "2019-20"
   val source: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
-
-  val rawData: RetrieveNonPayeEmploymentIncomeRawData =
-    RetrieveNonPayeEmploymentIncomeRawData(
-      nino = nino,
-      taxYear = taxYear,
-      source = Some(source.toString)
-    )
 
   val requestData: RetrieveNonPayeEmploymentIncomeRequest =
     RetrieveNonPayeEmploymentIncomeRequest(
@@ -57,9 +50,7 @@ class RetrieveNonPayeEmploymentControllerSpec
   "RetrieveNonPayeEmploymentIncomeController" should {
     "return OK" when {
       "the request is valid" in new Test {
-        MockRetrieveNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveNonPayeEmploymentService
           .retrieveNonPayeEmployment(requestData)
@@ -71,17 +62,13 @@ class RetrieveNonPayeEmploymentControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockRetrieveNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError, None)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTest(NinoFormatError)
       }
 
       "the service returns an error" in new Test {
-        MockRetrieveNonPayeEmploymentRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockRetrieveNonPayeEmploymentService
           .retrieveNonPayeEmployment(requestData)
@@ -97,7 +84,7 @@ class RetrieveNonPayeEmploymentControllerSpec
     val controller = new RetrieveNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockRetrieveNonPayeEmploymentRequestParser,
+      validatorFactory = mockRetrieveNonPayeEmploymentIncomeValidatorFactory,
       service = mockRetrieveNonPayeEmploymentService,
       cc = cc,
       idGenerator = mockIdGenerator

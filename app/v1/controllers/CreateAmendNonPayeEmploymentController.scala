@@ -20,10 +20,9 @@ import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.{AppConfig, FeatureSwitches}
 import play.api.libs.json.JsValue
-import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
+import play.api.mvc.{Action, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.CreateAmendNonPayeEmploymentRequestParser
-import v1.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRawData
+import v1.controllers.validators.CreateAmendNonPayeEmploymentIncomeValidatorFactory
 import v1.services.CreateAmendNonPayeEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -32,7 +31,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class CreateAmendNonPayeEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                                         val lookupService: MtdIdLookupService,
-                                                        parser: CreateAmendNonPayeEmploymentRequestParser,
+                                                        validatorFactory: CreateAmendNonPayeEmploymentIncomeValidatorFactory,
                                                         service: CreateAmendNonPayeEmploymentService,
                                                         auditService: AuditService,
                                                         cc: ControllerComponents,
@@ -49,15 +48,15 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
     authorisedAction(nino).async(parse.json) { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: CreateAmendNonPayeEmploymentRawData = CreateAmendNonPayeEmploymentRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
-        body = AnyContentAsJson(request.body),
+        body = request.body,
         temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled
       )
 
       val requestHandler = RequestHandler
-        .withParser(parser)
+        .withValidator(validator)
         .withService(service.createAndAmend)
         .withAuditing(AuditHandler(
           auditService = auditService,
@@ -68,7 +67,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
         ))
         .withNoContentResult(successStatus = OK)
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

@@ -21,7 +21,7 @@ import api.models.errors._
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
 import v1.connectors.OtherEmploymentIncomeConnector
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
+import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
 
 import javax.inject.{Inject, Singleton}
@@ -30,9 +30,9 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class RetrieveOtherEmploymentIncomeService @Inject() (connector: OtherEmploymentIncomeConnector) extends BaseService {
 
-  def retrieve(request: OtherEmploymentIncomeRequest)(implicit
-      ctx: RequestContext,
-      ec: ExecutionContext): Future[ServiceOutcome[RetrieveOtherEmploymentResponse]] = {
+  def retrieve(request: RetrieveOtherEmploymentIncomeRequest)(implicit
+                                                              ctx: RequestContext,
+                                                              ec: ExecutionContext): Future[ServiceOutcome[RetrieveOtherEmploymentResponse]] = {
 
     connector.retrieveOtherEmploymentIncome(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 

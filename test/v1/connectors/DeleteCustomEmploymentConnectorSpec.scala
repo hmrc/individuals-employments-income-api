@@ -17,7 +17,7 @@
 package v1.connectors
 
 import api.connectors.{ConnectorSpec, DownstreamOutcome}
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
 import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
@@ -53,8 +53,8 @@ class DeleteCustomEmploymentConnectorSpec extends ConnectorSpec {
     protected val request: DeleteCustomEmploymentRequest =
       DeleteCustomEmploymentRequest(
         nino = Nino(nino),
-        taxYear = taxYear,
-        employmentId = employmentId
+        taxYear = TaxYear.fromMtd(taxYear),
+        employmentId = EmploymentId(employmentId)
       )
 
     val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))

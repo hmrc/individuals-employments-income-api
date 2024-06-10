@@ -65,7 +65,7 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
         .resolver(SchemePlanTypeFormatError.withPath(s"/shareOption/$arrayIndex/schemePlanType"))(item.schemePlanType)
 
     combine(
-      validateEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/shareOption/$arrayIndex/employerName")),
+      validateOtherEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/shareOption/$arrayIndex/employerName")),
       validateOptionalEmployerRef(item.employerRef, EmployerRefFormatError.withPath(s"/shareOption/$arrayIndex/employerRef")),
       validateClassOfShares(item.classOfSharesAcquired, ClassOfSharesAcquiredFormatError.withPath(s"/shareOption/$arrayIndex/classOfSharesAcquired")),
       validateSchemeType,
@@ -113,7 +113,7 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
         .resolver(SchemePlanTypeFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/schemePlanType"))(item.schemePlanType)
 
     combine(
-      validateEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/employerName")),
+      validateOtherEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/employerName")),
       validateOptionalEmployerRef(item.employerRef, EmployerRefFormatError.withPath(s"/sharesAwardedOrReceived/$arrayIndex/employerRef")),
       validateClassOfShares(
         item.classOfShareAwarded,
@@ -181,7 +181,7 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
     }
 
     combine(
-      validateEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/lumpSums/$arrayIndex/employerName")),
+      validateOtherEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/lumpSums/$arrayIndex/employerName")),
       validateEmployerRef(item.employerRef, EmployerRefFormatError.withPath(s"/lumpSums/$arrayIndex/employerRef")),
       validateLumpSumSectionPresent,
       validateOptionalNonNegativeNumber(

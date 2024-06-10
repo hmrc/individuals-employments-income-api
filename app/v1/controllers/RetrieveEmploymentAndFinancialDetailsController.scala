@@ -21,8 +21,7 @@ import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.RetrieveFinancialDetailsRequestParser
-import v1.models.request.retrieveFinancialDetails.RetrieveFinancialDetailsRawData
+import v1.controllers.validators.RetrieveFinancialDetailsValidatorFactory
 import v1.services.RetrieveEmploymentAndFinancialDetailsService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class RetrieveEmploymentAndFinancialDetailsController @Inject() (val authService: EnrolmentsAuthService,
                                                                  val lookupService: MtdIdLookupService,
-                                                                 parser: RetrieveFinancialDetailsRequestParser,
+                                                                 validatorFactory: RetrieveFinancialDetailsValidatorFactory,
                                                                  service: RetrieveEmploymentAndFinancialDetailsService,
                                                                  cc: ControllerComponents,
                                                                  val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
@@ -47,20 +46,20 @@ class RetrieveEmploymentAndFinancialDetailsController @Inject() (val authService
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: RetrieveFinancialDetailsRawData = RetrieveFinancialDetailsRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId,
-        source = source
+        maybeSource = source
       )
 
       val requestHandler =
         RequestHandler
-          .withParser(parser)
+          .withValidator(validator)
           .withService(service.retrieve)
           .withPlainJsonResult()
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

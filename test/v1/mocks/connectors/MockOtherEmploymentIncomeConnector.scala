@@ -21,7 +21,7 @@ import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.connectors.OtherEmploymentIncomeConnector
-import v1.models.request.otherEmploymentIncome.OtherEmploymentIncomeRequest
+import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
 import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -33,10 +33,10 @@ trait MockOtherEmploymentIncomeConnector extends MockFactory {
 
   object OtherEmploymentIncomeConnector {
 
-    def deleteOtherEmploymentIncome(request: OtherEmploymentIncomeRequest): CallHandler[Future[DownstreamOutcome[Unit]]] = {
+    def deleteOtherEmploymentIncome(request: DeleteOtherEmploymentIncomeRequest): CallHandler[Future[DownstreamOutcome[Unit]]] = {
       (
         otherEmploymentIncomeConnector
-          .deleteOtherEmploymentIncome(_: OtherEmploymentIncomeRequest)(
+          .deleteOtherEmploymentIncome(_: DeleteOtherEmploymentIncomeRequest)(
             _: HeaderCarrier,
             _: ExecutionContext,
             _: String
@@ -46,10 +46,10 @@ trait MockOtherEmploymentIncomeConnector extends MockFactory {
     }
 
     def retrieveOtherEmploymentIncome(
-        request: OtherEmploymentIncomeRequest): CallHandler[Future[DownstreamOutcome[RetrieveOtherEmploymentResponse]]] = {
+        request: RetrieveOtherEmploymentIncomeRequest): CallHandler[Future[DownstreamOutcome[RetrieveOtherEmploymentResponse]]] = {
       (
         otherEmploymentIncomeConnector
-          .retrieveOtherEmploymentIncome(_: OtherEmploymentIncomeRequest)(
+          .retrieveOtherEmploymentIncome(_: RetrieveOtherEmploymentIncomeRequest)(
             _: HeaderCarrier,
             _: ExecutionContext,
             _: String

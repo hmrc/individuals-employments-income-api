@@ -26,6 +26,7 @@ import play.api.libs.json.JsValue
 import play.api.mvc.{AnyContentAsEmpty, ControllerComponents, Result}
 import play.api.test.Helpers.stubControllerComponents
 import play.api.test.{FakeRequest, ResultExtractors}
+import routing.{Version, Version4}
 import support.UnitSpec
 import uk.gov.hmrc.http.HeaderCarrier
 
@@ -33,7 +34,10 @@ import scala.concurrent.Future
 
 class ControllerBaseSpec extends UnitSpec with Status with MimeTypes with HeaderNames with ResultExtractors with MockAuditService {
 
-  implicit lazy val fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+  val apiVersion: Version = Version4
+
+  lazy val fakeRequest: FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest().withHeaders(HeaderNames.ACCEPT -> s"application/vnd.hmrc.${apiVersion.name}+json")
 
   lazy val cc: ControllerComponents = stubControllerComponents()
 
@@ -48,18 +52,6 @@ class ControllerBaseSpec extends UnitSpec with Status with MimeTypes with Header
   def fakePostRequest[T](body: T): FakeRequest[T] = fakeRequest.withBody(body)
 
   def fakePutRequest[T](body: T): FakeRequest[T] = fakeRequest.withBody(body)
-
-  def withPath(error: MtdError): MtdError = error.copy(paths = Some(Seq("/somePath")))
-
-  def defaultDownstreamErrorMap: Map[String, MtdError] =
-    Map(
-      "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
-      "INVALID_TAX_YEAR"          -> TaxYearFormatError,
-      "INVALID_CORRELATIONID"     -> InternalError,
-      "NO_DATA_FOUND"             -> NotFoundError,
-      "SERVER_ERROR"              -> InternalError,
-      "SERVICE_UNAVAILABLE"       -> InternalError
-    )
 
 }
 

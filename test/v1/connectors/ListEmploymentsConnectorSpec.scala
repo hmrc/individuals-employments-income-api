@@ -18,7 +18,7 @@ package v1.connectors
 
 import api.connectors.ConnectorSpec
 import api.mocks.MockHttpClient
-import api.models.domain.{Nino, Timestamp}
+import api.models.domain.{Nino, TaxYear, Timestamp}
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import uk.gov.hmrc.http.HeaderCarrier
@@ -30,9 +30,9 @@ import scala.concurrent.Future
 class ListEmploymentsConnectorSpec extends ConnectorSpec {
 
   val nino: String    = "AA111111A"
-  val taxYear: String = "2019"
+  val taxYear: String = "2019-20"
 
-  val request: ListEmploymentsRequest = ListEmploymentsRequest(Nino(nino), taxYear)
+  val request: ListEmploymentsRequest = ListEmploymentsRequest(Nino(nino), TaxYear.fromMtd(taxYear))
 
   private val validResponse = ListEmploymentResponse(
     employments = Some(

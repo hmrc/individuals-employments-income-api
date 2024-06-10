@@ -43,11 +43,11 @@ class RetrieveEmploymentAndFinancialDetailsConnector @Inject() (val http: HttpCl
     val downstreamUri =
       if (taxYear.useTaxYearSpecificApi) {
         TaxYearSpecificIfsUri[RetrieveEmploymentAndFinancialDetailsResponse](
-          s"income-tax/income/employments/${taxYear.asTysDownstream}/${nino.value}/$employmentId"
+          s"income-tax/income/employments/${taxYear.asTysDownstream}/${nino.value}/${employmentId.value}"
         )
       } else {
         Release6Uri[RetrieveEmploymentAndFinancialDetailsResponse](
-          s"income-tax/income/employments/${nino.value}/${taxYear.asMtd}/$employmentId"
+          s"income-tax/income/employments/${nino.value}/${taxYear.asMtd}/${employmentId.value}"
         )
       }
 

@@ -38,7 +38,7 @@ class RetrieveEmploymentConnector @Inject() (val http: HttpClient, val appConfig
     import request._
 
     val downstreamUri: Release6Uri[RetrieveEmploymentResponse] = Release6Uri[RetrieveEmploymentResponse](
-      s"income-tax/income/employments/$nino/$taxYear?employmentId=$employmentId"
+      s"income-tax/income/employments/$nino/${taxYear.asMtd}?employmentId=${employmentId.value}"
     )
 
     get(uri = downstreamUri)

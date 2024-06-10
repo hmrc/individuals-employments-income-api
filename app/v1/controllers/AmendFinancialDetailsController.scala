@@ -18,12 +18,11 @@ package v1.controllers
 
 import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.{AppConfig, FeatureSwitches}
+import config.AppConfig
 import play.api.libs.json.JsValue
-import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
+import play.api.mvc.{Action, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.AmendFinancialDetailsRequestParser
-import v1.models.request.amendFinancialDetails.AmendFinancialDetailsRawData
+import v1.controllers.validators.AmendFinancialDetailsValidatorFactory
 import v1.services.AmendFinancialDetailsService
 
 import javax.inject.{Inject, Singleton}
@@ -32,7 +31,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuthService,
                                                  val lookupService: MtdIdLookupService,
-                                                 parser: AmendFinancialDetailsRequestParser,
+                                                 validatorFactory: AmendFinancialDetailsValidatorFactory,
                                                  service: AmendFinancialDetailsService,
                                                  auditService: AuditService,
                                                  cc: ControllerComponents,
@@ -49,16 +48,15 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
     authorisedAction(nino).async(parse.json) { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: AmendFinancialDetailsRawData = AmendFinancialDetailsRawData(
+      val validator= validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId,
-        body = AnyContentAsJson(request.body),
-        opwEnabled = FeatureSwitches(appConfig.featureSwitches).isOpwEnabled
+        body = request.body
       )
 
       val requestHandler = RequestHandler
-        .withParser(parser)
+        .withValidator(validator)
         .withService(service.amendFinancialDetails)
         .withAuditing(AuditHandler(
           auditService = auditService,
@@ -69,7 +67,7 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
         ))
         .withNoContentResult(successStatus = OK)
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

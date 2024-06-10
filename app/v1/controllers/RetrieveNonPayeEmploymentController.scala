@@ -21,8 +21,7 @@ import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import utils.IdGenerator
-import v1.controllers.requestParsers.RetrieveNonPayeEmploymentRequestParser
-import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRawData
+import v1.controllers.validators.RetrieveNonPayeEmploymentIncomeValidatorFactory
 import v1.services.RetrieveNonPayeEmploymentService
 
 import javax.inject.{Inject, Singleton}
@@ -31,7 +30,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class RetrieveNonPayeEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                                      val lookupService: MtdIdLookupService,
-                                                     parser: RetrieveNonPayeEmploymentRequestParser,
+                                                     validatorFactory: RetrieveNonPayeEmploymentIncomeValidatorFactory,
                                                      service: RetrieveNonPayeEmploymentService,
                                                      cc: ControllerComponents,
                                                      val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
@@ -47,19 +46,19 @@ class RetrieveNonPayeEmploymentController @Inject() (val authService: Enrolments
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData = RetrieveNonPayeEmploymentIncomeRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
-        source = source
+        maybeSource = source
       )
 
       val requestHandler =
         RequestHandler
-          .withParser(parser)
+          .withValidator(validator)
           .withService(service.retrieveNonPayeEmployment)
           .withPlainJsonResult()
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
 }

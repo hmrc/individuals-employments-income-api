@@ -17,7 +17,7 @@
 package v1.services
 
 import api.controllers.EndpointLogContext
-import api.models.domain.Nino
+import api.models.domain.{EmploymentId, Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
@@ -71,8 +71,8 @@ class RetrieveEmploymentServiceSpec extends ServiceSpec {
   trait Test extends MockRetrieveEmploymentConnector {
 
     private val nino    = "AA112233A"
-    private val taxYear = "2019-20"
-    val employmentId    = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+    private val taxYear = TaxYear.fromMtd("2019-20")
+    val employmentId    = EmploymentId("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
 
     val request: RetrieveEmploymentRequest = RetrieveEmploymentRequest(Nino(nino), taxYear, employmentId)
 

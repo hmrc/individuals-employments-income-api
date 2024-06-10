@@ -20,7 +20,7 @@ import api.controllers.RequestContext
 import api.models.errors._
 import api.services.{BaseService, ServiceOutcome}
 import cats.data.EitherT
-import config.{AppConfig, FeatureSwitches}
+import config.AppConfig
 import v1.connectors.RetrieveEmploymentAndFinancialDetailsConnector
 import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 import v1.models.response.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsResponse
@@ -37,18 +37,10 @@ class RetrieveEmploymentAndFinancialDetailsService @Inject() (connector: Retriev
       ec: ExecutionContext): Future[ServiceOutcome[RetrieveEmploymentAndFinancialDetailsResponse]] = {
 
     EitherT(connector.retrieve(request))
-      .map(_.map(opwResponseMap))
       .leftMap(mapDownstreamErrors(downstreamErrorMap))
       .value
   }
 
-  def opwResponseMap(response: RetrieveEmploymentAndFinancialDetailsResponse): RetrieveEmploymentAndFinancialDetailsResponse = {
-    if (!FeatureSwitches(appConfig.featureSwitches).isOpwEnabled) {
-      response.copy(employment = response.employment.copy(offPayrollWorker = None))
-    } else {
-      response
-    }
-  }
 
   private val downstreamErrorMap: Map[String, MtdError] = Map(
     "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,

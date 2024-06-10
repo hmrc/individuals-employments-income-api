@@ -36,7 +36,7 @@ class DeleteCustomEmploymentConnector @Inject() (val http: HttpClient, val appCo
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
     import request._
 
-    val downstreamUri = IfsUri[Unit](s"income-tax/income/employments/$nino/$taxYear/custom/$employmentId")
+    val downstreamUri = IfsUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}")
 
     delete(uri = downstreamUri)
   }
