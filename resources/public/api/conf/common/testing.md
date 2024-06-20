@@ -15,7 +15,7 @@ what you submitted.
 
 The following groups are stateful in the sandbox:
 
-- Employment Resources V1.0
-- Non-PAYE Employment Income V1.0
-- Other Employment Income V1.0
-- Employments Financial Details V1.0
+- Employment Resources
+- Non-PAYE Employment Income
+- Other Employment Income
+- Employments Financial Details
