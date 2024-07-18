@@ -34,10 +34,10 @@ object EmploymentsIncomeValidators extends ResolverSupport {
 
   private val employerRefValidation = "^[0-9]{3}/[^ ].{0,9}$".r
 
-  def validateEmployerRef(value : String, error: => MtdError = EmployerRefFormatError): Validated[Seq[MtdError], String] =
+  def validateEmployerRef(value: String, error: => MtdError = EmployerRefFormatError): Validated[Seq[MtdError], String] =
     ResolveStringPattern(employerRefValidation, error)(value)
 
-  def validateOptionalEmployerRef(value : Option[String], error: => MtdError = EmployerRefFormatError): Validated[Seq[MtdError], Option[String]] =
+  def validateOptionalEmployerRef(value: Option[String], error: => MtdError = EmployerRefFormatError): Validated[Seq[MtdError], Option[String]] =
     ResolveStringPattern(employerRefValidation, error).resolver.resolveOptionally(value)
 
   private val classOfSharesRegex = "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,90}$".r

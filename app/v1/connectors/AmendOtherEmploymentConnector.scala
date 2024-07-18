@@ -26,7 +26,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendOtherEmploymentConnector @Inject()(val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class AmendOtherEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
 
   def amendOtherEmployment(request: AmendOtherEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -35,7 +35,6 @@ class AmendOtherEmploymentConnector @Inject()(val http: HttpClient, val appConfi
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
     import request._
-
 
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
       TaxYearSpecificIfsUri[Unit](s"income-tax/income/other/employments/${taxYear.asTysDownstream}/${nino.nino}")

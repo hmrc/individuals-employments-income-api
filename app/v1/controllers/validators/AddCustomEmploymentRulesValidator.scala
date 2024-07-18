@@ -38,7 +38,6 @@ object AddCustomEmploymentRulesValidator extends RulesValidator[AddCustomEmploym
     ).onSuccess(parsed)
   }
 
-
   private def validateDates(taxYear: TaxYear, body: AddCustomEmploymentRequestBody) = {
     resolveValid[(String, Option[String])]
       .thenValidate(CustomEmploymentDateValidator.validator(taxYear))((body.startDate, body.cessationDate))

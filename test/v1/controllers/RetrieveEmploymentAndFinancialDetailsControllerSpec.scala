@@ -34,7 +34,8 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
-    with MockRetrieveFinancialDetailsValidatorFactory with MockAppConfig {
+    with MockRetrieveFinancialDetailsValidatorFactory
+    with MockAppConfig {
 
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"

@@ -46,9 +46,9 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
     "return a 200 result on delete" when {
       "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest with Test {
         MockFeatureSwitches.isDesIf_MigrationEnabled.returns(false)
-        def taxYear: TaxYear                               = TaxYear.fromMtd("2017-18")
-        val deleteRequest: DeleteOtherEmploymentIncomeRequest    = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
-        val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
+        def taxYear: TaxYear                                  = TaxYear.fromMtd("2017-18")
+        val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
+        val outcome: Right[Nothing, ResponseWrapper[Unit]]    = Right(ResponseWrapper(correlationId, ()))
 
         willDelete(s"$baseUrl/income-tax/2017-18/income/other/employments/$nino") returns Future.successful(outcome)
 
@@ -56,9 +56,9 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
       }
 
       "the downstream call is successful and is tax year specific" in new TysIfsTest with Test {
-        def taxYear: TaxYear                               = TaxYear.fromMtd("2023-24")
-        val deleteRequest: DeleteOtherEmploymentIncomeRequest    = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
-        val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
+        def taxYear: TaxYear                                  = TaxYear.fromMtd("2023-24")
+        val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
+        val outcome: Right[Nothing, ResponseWrapper[Unit]]    = Right(ResponseWrapper(correlationId, ()))
 
         willDelete(s"$baseUrl/income-tax/income/other/employments/23-24/$nino") returns Future.successful(outcome)
 
@@ -70,8 +70,8 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
 
         def taxYear: TaxYear = TaxYear.fromMtd("2017-18")
 
-        val deleteRequest: DeleteOtherEmploymentIncomeRequest    = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
-        val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
+        val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
+        val outcome: Right[Nothing, ResponseWrapper[Unit]]    = Right(ResponseWrapper(correlationId, ()))
 
         willDelete(s"$baseUrl/income-tax/2017-18/income/other/employments/$nino") returns Future.successful(outcome)
 
@@ -116,7 +116,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
       "the downstream call is successful and is tax year specific" in new TysIfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
-        val retrieveRequest: RetrieveOtherEmploymentIncomeRequest                             = RetrieveOtherEmploymentIncomeRequest(Nino(nino), taxYear)
+        val retrieveRequest: RetrieveOtherEmploymentIncomeRequest                     = RetrieveOtherEmploymentIncomeRequest(Nino(nino), taxYear)
         val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherEmploymentResponse]] = Right(ResponseWrapper(correlationId, retrieveResponse))
 
         willGet(s"$baseUrl/income-tax/income/other/employments/23-24/$nino") returns Future.successful(outcome)

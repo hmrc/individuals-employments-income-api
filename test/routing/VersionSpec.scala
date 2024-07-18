@@ -47,7 +47,7 @@ class VersionSpec extends UnitSpec {
   "VersionReads" should {
     apiVersions.foreach { version =>
       s"successfully read Version${version.name.take(1)}" in {
-        val versionJson: JsValue = JsString(version.name)
+        val versionJson: JsValue      = JsString(version.name)
         val result: JsResult[Version] = VersionReads.reads(versionJson)
 
         result shouldEqual JsSuccess(version)
@@ -55,10 +55,11 @@ class VersionSpec extends UnitSpec {
     }
 
     "return error for unrecognised version" in {
-      val versionJson: JsValue = JsString("UnknownVersion")
+      val versionJson: JsValue      = JsString("UnknownVersion")
       val result: JsResult[Version] = VersionReads.reads(versionJson)
 
       result shouldBe a[JsError]
     }
   }
+
 }

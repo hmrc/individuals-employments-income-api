@@ -20,7 +20,6 @@ import play.api.libs.json.{JsValue, Json}
 
 object RetrieveOtherEmploymentControllerFixture {
 
-
   val downstreamResponse: JsValue = Json.parse(
     """
       |{

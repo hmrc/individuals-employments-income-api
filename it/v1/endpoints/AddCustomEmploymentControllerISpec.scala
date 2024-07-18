@@ -368,8 +368,8 @@ class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
                                 scenario: Option[String]): Unit = {
           s"validation fails with ${expectedBody.code} error ${scenario.getOrElse("")}" in new Test {
 
-            override val nino: String = requestNino
-            override val taxYear: String = requestTaxYear
+            override val nino: String             = requestNino
+            override val taxYear: String          = requestTaxYear
             override val requestBodyJson: JsValue = requestBody
 
             override def setupStubs(): StubMapping = {
@@ -385,7 +385,7 @@ class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
         }
 
         val input = Seq(
-          ("AA123456A", "2019-20", invalidStartDateRangeRequestJson, BAD_REQUEST, StartDateFormatError, None),
+          ("AA123456A", "2019-20", invalidStartDateRangeRequestJson, BAD_REQUEST, StartDateFormatError, None)
         )
         input.foreach(args => (validationErrorTest _).tupled(args))
       }

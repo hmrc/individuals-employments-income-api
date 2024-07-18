@@ -72,13 +72,10 @@ object InvalidBodyTypeError extends MtdError("INVALID_BODY_TYPE", "Expecting tex
 object InvalidTaxYearParameterError
     extends MtdError(code = "INVALID_TAX_YEAR_PARAMETER", message = "A tax year before 2023-24 was supplied", BAD_REQUEST)
 
-//Authentication/Authorisation errors
-
-object ClientNotAuthenticatedError extends MtdError("CLIENT_OR_AGENT_NOT_AUTHORISED", "The client or agent is not authorised", UNAUTHORIZED)
-
-/** Authentication OK but not allowed access to the requested resource
-  */
-object ClientNotAuthorisedError extends MtdError("CLIENT_OR_AGENT_NOT_AUTHORISED", "The client or agent is not authorised", FORBIDDEN)
+// Authentication OK but not allowed access to the requested resource
+object ClientOrAgentNotAuthorisedError extends MtdError("CLIENT_OR_AGENT_NOT_AUTHORISED", "The client or agent is not authorised", FORBIDDEN) {
+  def withStatus401: MtdError = copy(httpStatus = UNAUTHORIZED)
+}
 
 object InvalidBearerTokenError extends MtdError("UNAUTHORIZED", "Bearer token is missing or not authorized", UNAUTHORIZED)
 
@@ -115,7 +112,8 @@ object MissingFromDateError
 object RangeToDateBeforeFromDateError
     extends MtdError(code = "RANGE_TO_DATE_BEFORE_FROM_DATE", message = "The toDate cannot be earlier than the fromDate", BAD_REQUEST)
 
-object RuleDateRangeInvalidError extends MtdError(code = "RULE_DATE_RANGE_INVALID", message = "The date specified does not lie within the supported range", BAD_REQUEST)
+object RuleDateRangeInvalidError
+    extends MtdError(code = "RULE_DATE_RANGE_INVALID", message = "The date specified does not lie within the supported range", BAD_REQUEST)
 
 object RuleInvalidDateRangeError extends MtdError(code = "RULE_INVALID_DATE_RANGE", message = "The provided date range is invalid", BAD_REQUEST)
 

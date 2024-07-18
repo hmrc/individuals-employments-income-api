@@ -33,6 +33,6 @@ object PayFrequency {
   case object `irregular`   extends PayFrequency
   case object `annually`    extends PayFrequency
 
-  implicit val writes : Writes[PayFrequency] = Enums.writes[PayFrequency]
+  implicit val writes: Writes[PayFrequency] = Enums.writes[PayFrequency]
 
 }

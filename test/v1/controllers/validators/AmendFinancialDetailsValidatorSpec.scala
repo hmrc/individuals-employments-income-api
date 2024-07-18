@@ -133,7 +133,7 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidato
 
     "return a request object" when {
       "valid without offPayrollWorker included for a TYS tax year" in new Test {
-        private val taxYearString = "2022-23"
+        private val taxYearString           = "2022-23"
         private val bodyWithoutOpw: JsValue = validRequestBodyJson.removeProperty("/employment/offPayrollWorker")
 
         validate(

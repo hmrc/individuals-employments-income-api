@@ -23,7 +23,7 @@ import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class RetrieveEmploymentValidatorFactory @Inject()(appConfig: AppConfig) {
+class RetrieveEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
 
   def validator(nino: String, taxYear: String, employmentId: String): Validator[RetrieveEmploymentRequest] =
     new RetrieveEmploymentValidator(nino, taxYear, employmentId, appConfig)

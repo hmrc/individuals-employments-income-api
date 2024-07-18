@@ -25,12 +25,12 @@ import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 class IgnoreEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
 
   private implicit val correlationId: String = "correlationId"
-  private val validNino = "AA123456B"
-  private val validTaxYear = "2020-21"
-  private val validEmploymentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val validNino                      = "AA123456B"
+  private val validTaxYear                   = "2020-21"
+  private val validEmploymentId              = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  private val parsedNino = Nino(validNino)
-  private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
+  private val parsedNino         = Nino(validNino)
+  private val parsedTaxYear      = TaxYear.fromMtd(validTaxYear)
   private val parsedEmploymentId = EmploymentId(validEmploymentId)
 
   trait Test {

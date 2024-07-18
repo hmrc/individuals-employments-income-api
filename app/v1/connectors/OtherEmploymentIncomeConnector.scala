@@ -32,9 +32,9 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appCon
     extends BaseDownstreamConnector {
 
   def deleteOtherEmploymentIncome(request: DeleteOtherEmploymentIncomeRequest)(implicit
-                                                                                 hc: HeaderCarrier,
-                                                                                 ec: ExecutionContext,
-                                                                                 correlationId: String): Future[DownstreamOutcome[Unit]] = {
+      hc: HeaderCarrier,
+      ec: ExecutionContext,
+      correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
@@ -57,9 +57,9 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appCon
   }
 
   def retrieveOtherEmploymentIncome(request: RetrieveOtherEmploymentIncomeRequest)(implicit
-                                                                                   hc: HeaderCarrier,
-                                                                                   ec: ExecutionContext,
-                                                                                   correlationId: String): Future[DownstreamOutcome[RetrieveOtherEmploymentResponse]] = {
+      hc: HeaderCarrier,
+      ec: ExecutionContext,
+      correlationId: String): Future[DownstreamOutcome[RetrieveOtherEmploymentResponse]] = {
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
 

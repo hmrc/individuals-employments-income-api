@@ -23,7 +23,7 @@ import v1.models.request.listEmployments.ListEmploymentsRequest
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class ListEmploymentsValidatorFactory @Inject()(appConfig: AppConfig) {
+class ListEmploymentsValidatorFactory @Inject() (appConfig: AppConfig) {
 
   def validator(nino: String, taxYear: String): Validator[ListEmploymentsRequest] =
     new ListEmploymentsValidator(nino, taxYear, appConfig)

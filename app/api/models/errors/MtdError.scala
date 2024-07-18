@@ -23,21 +23,21 @@ case class MtdError(code: String, message: String, httpStatus: Int, paths: Optio
   val asJson: JsObject = Json.toJson(this).as[JsObject]
 
   /** Returns a copy of this error with the path, replacing any that were already present.
-   */
+    */
   def withPath(path: String): MtdError = copy(paths = Some(List(path)))
 
   /** Returns a copy of this error with the paths, replacing any that were already present.
-   */
+    */
   def withPaths(paths: Seq[String]): MtdError = copy(paths = Some(paths))
 
   /** If maybePath is defined, returns a copy of this error with the path, replacing any that were already present; otherwise returns the original
-   * error.
-   */
+    * error.
+    */
   def maybeWithPath(maybePath: Option[String]): MtdError =
     maybePath.map(withPath).getOrElse(this)
 
   /** Returns a copy of this error with an additional path.
-   */
+    */
   def withExtraPath(newPath: String): MtdError =
     paths.fold(
       copy(paths = Some(List(newPath)))

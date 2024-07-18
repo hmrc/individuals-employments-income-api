@@ -23,7 +23,7 @@ import utils.enums.EnumJsonSpecSupport
 class SharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 
   testSerialization[SharesAwardedOrReceivedSchemeType](
-    `sip` -> "sip",
+    `sip`   -> "sip",
     `other` -> "other"
   )
 

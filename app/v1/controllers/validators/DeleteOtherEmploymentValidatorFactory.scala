@@ -23,7 +23,7 @@ import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeReques
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class DeleteOtherEmploymentValidatorFactory @Inject()(appConfig: AppConfig) {
+class DeleteOtherEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
 
   def validator(nino: String, taxYear: String): Validator[DeleteOtherEmploymentIncomeRequest] =
     new DeleteOtherEmploymentValidator(nino, taxYear, appConfig)

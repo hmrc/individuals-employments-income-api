@@ -42,8 +42,9 @@ class SharesAwardedOrReceivedItemSpec extends UnitSpec {
   "SharesAwardedOrReceivedItem" when {
     "read from valid JSON" should {
       "produce the expected SharesAwardedOrReceivedItem object" in {
-        Json.parse(
-          """
+        Json
+          .parse(
+            """
             |{
             |   "employerName": "Company Ltd",
             |   "employerRef" : "123/AB456",
@@ -61,7 +62,8 @@ class SharesAwardedOrReceivedItemSpec extends UnitSpec {
             |   "taxableAmount": 12321.22
             |}
             """.stripMargin
-        ).as[SharesAwardedOrReceivedItem] shouldBe model
+          )
+          .as[SharesAwardedOrReceivedItem] shouldBe model
       }
     }
 

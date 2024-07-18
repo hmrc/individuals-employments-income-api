@@ -43,8 +43,9 @@ class ShareOptionItemSpec extends UnitSpec {
   "ShareOptionItem" when {
     "read from valid JSON" should {
       "produce the expected ShareOptionItem object" in {
-        Json.parse(
-          """
+        Json
+          .parse(
+            """
             |{
             |   "employerName": "Company Ltd",
             |   "employerRef" : "123/AB456",
@@ -63,7 +64,8 @@ class ShareOptionItemSpec extends UnitSpec {
             |   "taxableAmount" : 2132.22
             |}
             """.stripMargin
-        ).as[ShareOptionItem] shouldBe model
+          )
+          .as[ShareOptionItem] shouldBe model
       }
     }
 

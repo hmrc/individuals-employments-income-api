@@ -41,7 +41,6 @@ class RetrieveEmploymentAndFinancialDetailsService @Inject() (connector: Retriev
       .value
   }
 
-
   private val downstreamErrorMap: Map[String, MtdError] = Map(
     "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
     "INVALID_TAX_YEAR"          -> TaxYearFormatError,

@@ -30,9 +30,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class ListEmploymentsService @Inject() (connector: ListEmploymentsConnector) extends BaseService {
 
-  def listEmployments(request: ListEmploymentsRequest)(implicit
-      ctx: RequestContext,
-      ec: ExecutionContext): Future[ServiceOutcome[ListEmploymentResponse]] =
+  def listEmployments(
+      request: ListEmploymentsRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[ListEmploymentResponse]] =
     connector.listEmployments(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
   private val downstreamErrorMap: Map[String, MtdError] = Map(

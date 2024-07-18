@@ -23,7 +23,7 @@ import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class IgnoreEmploymentValidatorFactory @Inject()(appConfig: AppConfig) {
+class IgnoreEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
 
   def validator(nino: String, taxYear: String, employmentId: String): Validator[IgnoreEmploymentRequest] =
     new IgnoreEmploymentValidator(nino, taxYear, employmentId, appConfig)

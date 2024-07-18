@@ -149,4 +149,3 @@ object RuleUnalignedCessationTaxYear
 
 // Not found errors
 object PpdSubmissionIdNotFoundError extends MtdError("PPD_SUBMISSION_ID_NOT_FOUND", "Matching resource not found", NOT_FOUND)
-

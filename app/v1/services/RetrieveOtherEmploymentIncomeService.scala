@@ -31,8 +31,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class RetrieveOtherEmploymentIncomeService @Inject() (connector: OtherEmploymentIncomeConnector) extends BaseService {
 
   def retrieve(request: RetrieveOtherEmploymentIncomeRequest)(implicit
-                                                              ctx: RequestContext,
-                                                              ec: ExecutionContext): Future[ServiceOutcome[RetrieveOtherEmploymentResponse]] = {
+      ctx: RequestContext,
+      ec: ExecutionContext): Future[ServiceOutcome[RetrieveOtherEmploymentResponse]] = {
 
     connector.retrieveOtherEmploymentIncome(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
