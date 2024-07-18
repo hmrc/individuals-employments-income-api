@@ -28,10 +28,10 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AddCustomEmploymentService @Inject()(connector: AddCustomEmploymentConnector) extends BaseService {
+class AddCustomEmploymentService @Inject() (connector: AddCustomEmploymentConnector) extends BaseService {
 
   def addEmployment(
-                     request: AddCustomEmploymentRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[AddCustomEmploymentResponse]] =
+      request: AddCustomEmploymentRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[AddCustomEmploymentResponse]] =
     connector.addEmployment(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
   private val downstreamErrorMap: Map[String, MtdError] =

@@ -21,7 +21,6 @@ import support.UnitSpec
 
 class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
 
-
   private def modelWith(employerRef: Option[String]) = AmendSharesAwardedOrReceivedItem(
     employerName = "Company Ltd",
     employerRef = employerRef,
@@ -44,8 +43,9 @@ class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
   "AmendSharesAwardedOrReceivedItem" when {
     "read from valid JSON" should {
       "produce the expected AmendSharesAwardedOrReceivedItem object" in {
-        Json.parse(
-          """
+        Json
+          .parse(
+            """
             |{
             |   "employerName": "Company Ltd",
             |   "employerRef" : "AB1321/123",
@@ -63,7 +63,8 @@ class AmendSharesAwardedOrReceivedItemSpec extends UnitSpec {
             |   "taxableAmount": 6.01
             |}
             """.stripMargin
-        ).as[AmendSharesAwardedOrReceivedItem] shouldBe model
+          )
+          .as[AmendSharesAwardedOrReceivedItem] shouldBe model
       }
     }
 

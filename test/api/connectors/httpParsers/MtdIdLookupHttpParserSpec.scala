@@ -28,13 +28,13 @@ import uk.gov.hmrc.http.HttpResponse
 class MtdIdLookupHttpParserSpec extends UnitSpec {
 
   private val method = "GET"
-  private val url = "test-url"
+  private val url    = "test-url"
 
   "read" when {
     "the response contains a 200 status" when {
       "the response body contains an MtdId" must {
         "return the MtdId" in {
-          val mtdId = "test-mtd-id"
+          val mtdId    = "test-mtd-id"
           val response = HttpResponse(OK, Json.obj("mtdbsa" -> mtdId), Map.empty[String, Seq[String]])
           mtdIdLookupHttpReads.read(method, url, response) shouldBe Right(mtdId)
         }
@@ -49,7 +49,7 @@ class MtdIdLookupHttpParserSpec extends UnitSpec {
 
     "the response contains a non-200 status" must {
       "return the status code as an error" in {
-        val status = IM_A_TEAPOT
+        val status   = IM_A_TEAPOT
         val response = HttpResponse(status, "ignored")
         mtdIdLookupHttpReads.read(method, url, response) shouldBe Left(MtdIdLookupConnector.Error(status))
       }

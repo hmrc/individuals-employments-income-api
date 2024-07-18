@@ -25,10 +25,10 @@ import uk.gov.hmrc.http.HeaderCarrier
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
-
 object MtdIdLookupService {
   type Outcome = Either[MtdError, String]
 }
+
 @Singleton
 class MtdIdLookupService @Inject() (val connector: MtdIdLookupConnector) {
 
@@ -40,11 +40,12 @@ class MtdIdLookupService @Inject() (val connector: MtdIdLookupConnector) {
         case Right(mtdId) => Right(mtdId)
         case Left(MtdIdLookupConnector.Error(statusCode)) =>
           statusCode match {
-            case FORBIDDEN => Left(ClientOrAgentNotAuthorisedError)
+            case FORBIDDEN    => Left(ClientOrAgentNotAuthorisedError)
             case UNAUTHORIZED => Left(InvalidBearerTokenError)
-            case _ => Left(InternalError)
+            case _            => Left(InternalError)
           }
       }
     }
   }
+
 }

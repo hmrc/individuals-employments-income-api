@@ -467,8 +467,7 @@ class AmendFinancialDetailsControllerISpec extends IntegrationBaseSpec {
         )
       )
 
-      def offPayrollRequestBodyJson(boolean: Boolean): JsValue = Json.parse(
-        s"""
+      def offPayrollRequestBodyJson(boolean: Boolean): JsValue = Json.parse(s"""
            |{
            |    "employment": {
            |        "pay": {
@@ -526,9 +525,9 @@ class AmendFinancialDetailsControllerISpec extends IntegrationBaseSpec {
                                 scenario: Option[String]): Unit = {
           s"validation fails with ${expectedBody.error} error ${scenario.getOrElse("")}" in new NonTysTest {
 
-            override val nino: String = requestNino
-            override val taxYear: String = requestTaxYear
-            override val employmentId: String = requestEmploymentId
+            override val nino: String             = requestNino
+            override val taxYear: String          = requestTaxYear
+            override val employmentId: String     = requestEmploymentId
             override val requestBodyJson: JsValue = requestBody
 
             val response: WSResponse = await(request().put(requestBodyJson))
@@ -619,8 +618,8 @@ class AmendFinancialDetailsControllerISpec extends IntegrationBaseSpec {
 
   private trait Test {
 
-    val nino: String = "AA123456A"
-    val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+    val nino: String          = "AA123456A"
+    val employmentId: String  = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
     val correlationId: String = "X-123"
 
     val requestBodyJson: JsValue = Json.parse(
@@ -676,8 +675,7 @@ class AmendFinancialDetailsControllerISpec extends IntegrationBaseSpec {
 
     def taxYear: String
 
-    def offPayrollRequestBodyJson(boolean: Boolean): JsValue = Json.parse(
-      s"""
+    def offPayrollRequestBodyJson(boolean: Boolean): JsValue = Json.parse(s"""
          |{
          |    "employment": {
          |        "pay": {

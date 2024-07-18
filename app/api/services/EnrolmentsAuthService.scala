@@ -49,11 +49,11 @@ class EnrolmentsAuthService @Inject() (val connector: AuthConnector, val appConf
     authFunction
       .authorised(buildPredicate(predicate))
       .retrieve(affinityGroup) {
-        case Some(Individual) => Future.successful(Right(UserDetails("", "Individual", None)))
+        case Some(Individual)   => Future.successful(Right(UserDetails("", "Individual", None)))
         case Some(Organisation) => Future.successful(Right(UserDetails("", "Organisation", None)))
         case Some(Agent) =>
           retrieveAgentDetails().map {
-            case arn@Some(_) => Right(UserDetails("", "Agent", arn))
+            case arn @ Some(_) => Right(UserDetails("", "Agent", arn))
             case None =>
               logger.warn(s"[EnrolmentsAuthService][authorised] No AgentReferenceNumber defined on agent enrolment.")
               Left(InternalError)
@@ -63,7 +63,7 @@ class EnrolmentsAuthService @Inject() (val connector: AuthConnector, val appConf
           Future.successful(Left(ClientOrAgentNotAuthorisedError))
       }
       .recoverWith {
-        case _: MissingBearerToken => Future.successful(Left(ClientOrAgentNotAuthorisedError))
+        case _: MissingBearerToken     => Future.successful(Left(ClientOrAgentNotAuthorisedError))
         case _: AuthorisationException => Future.successful(Left(ClientOrAgentNotAuthorisedError))
         case error =>
           logger.warn(s"[EnrolmentsAuthService][authorised] An unexpected error occurred: $error")
@@ -83,4 +83,5 @@ class EnrolmentsAuthService @Inject() (val connector: AuthConnector, val appConf
         Future.successful(getAgentReferenceFrom(enrolments))
       }
   }
+
 }

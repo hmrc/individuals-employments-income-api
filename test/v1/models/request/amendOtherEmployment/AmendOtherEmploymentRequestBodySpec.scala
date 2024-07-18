@@ -109,8 +109,9 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
   "AmendOtherEmploymentRequestBody" when {
     "read from valid JSON" should {
       "produce the expected AmendOtherEmploymentRequestBody object" in {
-        Json.parse(
-          """
+        Json
+          .parse(
+            """
             |{
             |  "shareOption": [
             |      {
@@ -190,7 +191,8 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
             |   ]
             |}
             """.stripMargin
-        ).as[AmendOtherEmploymentRequestBody] shouldBe requestBodyModel
+          )
+          .as[AmendOtherEmploymentRequestBody] shouldBe requestBodyModel
       }
     }
 

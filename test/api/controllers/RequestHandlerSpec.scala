@@ -282,12 +282,7 @@ class RequestHandlerSpec
           AuditEvent(
             auditType = auditType,
             transactionName = txName,
-            GenericAuditDetail(
-              userDetails,
-              params = params,
-              request = requestBody,
-              `X-CorrelationId` = correlationId,
-              response = auditResponse)
+            GenericAuditDetail(userDetails, params = params, request = requestBody, `X-CorrelationId` = correlationId, response = auditResponse)
           ))
 
       "a request is successful" when {

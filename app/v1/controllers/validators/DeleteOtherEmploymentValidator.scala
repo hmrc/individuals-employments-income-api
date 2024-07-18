@@ -24,9 +24,8 @@ import cats.implicits._
 import config.AppConfig
 import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 
-
 class DeleteOtherEmploymentValidator(nino: String, taxYear: String, appConfig: AppConfig)
-  extends Validator[DeleteOtherEmploymentIncomeRequest]
+    extends Validator[DeleteOtherEmploymentIncomeRequest]
     with ResolverSupport {
 
   private val resolveTaxYear =

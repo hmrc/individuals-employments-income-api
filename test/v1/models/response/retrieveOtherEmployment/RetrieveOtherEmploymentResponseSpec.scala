@@ -149,8 +149,9 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
   "RetrieveOtherEmploymentResponse" when {
     "read from valid JSON" should {
       "produce the expected RetrieveOtherEmploymentResponse object" in {
-        Json.parse(
-          """
+        Json
+          .parse(
+            """
             |{
             |   "submittedOn": "2020-07-06T09:37:17.000Z",
             |   "shareOption": [
@@ -262,7 +263,8 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
             |   ]
             |}
     """.stripMargin
-        ).as[RetrieveOtherEmploymentResponse] shouldBe responseModel
+          )
+          .as[RetrieveOtherEmploymentResponse] shouldBe responseModel
       }
     }
 

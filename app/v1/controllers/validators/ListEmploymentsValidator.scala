@@ -24,8 +24,7 @@ import cats.implicits._
 import config.AppConfig
 import v1.models.request.listEmployments.ListEmploymentsRequest
 
-class ListEmploymentsValidator(nino: String, taxYear: String, appConfig: AppConfig)
-    extends Validator[ListEmploymentsRequest] {
+class ListEmploymentsValidator(nino: String, taxYear: String, appConfig: AppConfig) extends Validator[ListEmploymentsRequest] {
 
   private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear)
 

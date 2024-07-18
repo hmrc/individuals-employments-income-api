@@ -34,8 +34,9 @@ class PaySpec extends UnitSpec {
   "Pay" when {
     "read from valid JSON" should {
       "return the expected Pay object" in {
-        Json.parse(
-          """
+        Json
+          .parse(
+            """
             |{
             |  "taxablePayToDate": 100.11,
             |  "totalTaxToDate": 102.11,
@@ -45,7 +46,8 @@ class PaySpec extends UnitSpec {
             |  "taxMonthNo": 3
             |}
     """.stripMargin
-        ).as[Pay] shouldBe model
+          )
+          .as[Pay] shouldBe model
       }
     }
 

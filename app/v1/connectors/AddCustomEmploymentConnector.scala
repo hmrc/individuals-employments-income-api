@@ -27,12 +27,12 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AddCustomEmploymentConnector @Inject()(val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class AddCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
 
   def addEmployment(request: AddCustomEmploymentRequest)(implicit
-                                                         hc: HeaderCarrier,
-                                                         ec: ExecutionContext,
-                                                         correlationId: String): Future[DownstreamOutcome[AddCustomEmploymentResponse]] = {
+      hc: HeaderCarrier,
+      ec: ExecutionContext,
+      correlationId: String): Future[DownstreamOutcome[AddCustomEmploymentResponse]] = {
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
 

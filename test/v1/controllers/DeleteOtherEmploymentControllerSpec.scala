@@ -42,7 +42,7 @@ class DeleteOtherEmploymentControllerSpec
 
   val taxYear: String = "2019-20"
 
- private val requestData: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(
+  private val requestData: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(
     nino = Nino(nino),
     taxYear = TaxYear.fromMtd(taxYear)
   )

@@ -55,12 +55,13 @@ class DeleteOtherEmploymentController @Inject() (val authService: EnrolmentsAuth
       val requestHandler = RequestHandler
         .withValidator(validator)
         .withService(service.delete)
-        .withAuditing(AuditHandler(
-          auditService = auditService,
-          auditType = "DeleteOtherEmployment",
-          transactionName = "delete-other-employment",
-          params = Map("nino" -> nino, "taxYear" -> taxYear)
-        ))
+        .withAuditing(
+          AuditHandler(
+            auditService = auditService,
+            auditType = "DeleteOtherEmployment",
+            transactionName = "delete-other-employment",
+            params = Map("nino" -> nino, "taxYear" -> taxYear)
+          ))
 
       requestHandler.handleRequest()
     }

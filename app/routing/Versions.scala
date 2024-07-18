@@ -20,15 +20,14 @@ import play.api.http.HeaderNames.ACCEPT
 import play.api.libs.json._
 import play.api.mvc.RequestHeader
 
-
 object Version {
+
   def apply(request: RequestHeader): Version =
     Versions.getFromRequest(request).getOrElse(throw new Exception("Missing or unsupported version found in request accept header"))
 
   object VersionWrites extends Writes[Version] {
     def writes(version: Version): JsValue = version.asJson
   }
-
 
   object VersionReads extends Reads[Version] {
 
@@ -44,6 +43,7 @@ object Version {
             case Left(_)        => JsError("Version not recognised")
             case Right(version) => JsSuccess(version)
           })
+
   }
 
   implicit val versionFormat: Format[Version] = Format(VersionReads, VersionWrites)
@@ -51,12 +51,12 @@ object Version {
 
 sealed trait Version {
   val name: String
-  lazy val asJson: JsValue           = Json.toJson(name)
-  override def toString: String      = name
+  lazy val asJson: JsValue      = Json.toJson(name)
+  override def toString: String = name
 }
 
 case object Version1 extends Version {
-  val name       = "1.0"
+  val name = "1.0"
 }
 
 case object Version2 extends Version {

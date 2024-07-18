@@ -17,7 +17,14 @@
 package api.controllers.validators.resolvers
 
 import api.models.domain.TaxYear
-import api.models.errors.{InvalidTaxYearParameterError, MtdError, RuleTaxYearNotEndedError, RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
+import api.models.errors.{
+  InvalidTaxYearParameterError,
+  MtdError,
+  RuleTaxYearNotEndedError,
+  RuleTaxYearNotSupportedError,
+  RuleTaxYearRangeInvalidError,
+  TaxYearFormatError
+}
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 
@@ -46,8 +53,7 @@ object ResolveTaxYear extends ResolverSupport {
       case None        => Valid(None)
     }
 
-  /**
-    * Adaptor for existing callers.
+  /** Adaptor for existing callers.
     */
   def apply(minimumTaxYear: TaxYear, value: String): Validated[Seq[MtdError], TaxYear] = {
     val resolver = ResolveTaxYearMinimum(minimumTaxYear)

@@ -24,7 +24,7 @@ import utils.enums.EnumJsonSpecSupport
 class DownstreamSharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 
   testDeserialization[DownstreamSharesAwardedOrReceivedSchemeType](
-    "SIP" -> `SIP`,
+    "SIP"   -> `SIP`,
     "Other" -> `Other`
   )
 

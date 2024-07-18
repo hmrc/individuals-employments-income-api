@@ -24,7 +24,6 @@ import cats.implicits._
 import config.AppConfig
 import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 
-
 class RetrieveOtherEmploymentValidator(nino: String, taxYear: String, appConfig: AppConfig)
     extends Validator[RetrieveOtherEmploymentIncomeRequest]
     with ResolverSupport {

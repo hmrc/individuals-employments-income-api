@@ -28,8 +28,9 @@ object MtdIdLookupHttpParser extends HttpParser {
 
   implicit val mtdIdLookupHttpReads: HttpReads[connectors.MtdIdLookupConnector.Outcome] = (_: String, _: String, response: HttpResponse) => {
     response.status match {
-      case OK => Right(response.json.as[String](mtdIdJsonReads))
+      case OK     => Right(response.json.as[String](mtdIdJsonReads))
       case status => Left(MtdIdLookupConnector.Error(status))
     }
   }
+
 }

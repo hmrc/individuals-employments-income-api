@@ -36,7 +36,7 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
                                                  auditService: AuditService,
                                                  cc: ControllerComponents,
                                                  val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
-  extends AuthorisedController(cc) {
+    extends AuthorisedController(cc) {
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
@@ -48,7 +48,7 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
     authorisedAction(nino).async(parse.json) { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val validator= validatorFactory.validator(
+      val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId,

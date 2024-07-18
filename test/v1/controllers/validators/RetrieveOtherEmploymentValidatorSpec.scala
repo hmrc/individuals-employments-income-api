@@ -25,16 +25,15 @@ import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequ
 class RetrieveOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
 
   private implicit val correlationId: String = "correlationId"
-  private val validNino = "AA123456B"
-  private val validTaxYear = "2020-21"
+  private val validNino                      = "AA123456B"
+  private val validTaxYear                   = "2020-21"
 
-  private val parsedNino = Nino(validNino)
+  private val parsedNino    = Nino(validNino)
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
   trait Test {
 
-    def validate(nino: String = validNino,
-                 taxYear: String = validTaxYear): Either[ErrorWrapper, RetrieveOtherEmploymentIncomeRequest] =
+    def validate(nino: String = validNino, taxYear: String = validTaxYear): Either[ErrorWrapper, RetrieveOtherEmploymentIncomeRequest] =
       new RetrieveOtherEmploymentValidator(nino, taxYear, mockAppConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))

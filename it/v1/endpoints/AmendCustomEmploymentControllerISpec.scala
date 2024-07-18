@@ -315,23 +315,53 @@ class AmendCustomEmploymentControllerISpec extends IntegrationBaseSpec {
             None),
           ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", invalidPayrollIdRequestJson, BAD_REQUEST, PayrollIdFormatError, None),
           ("AA123456A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", invalidStartDateRequestJson, BAD_REQUEST, StartDateFormatError, None),
-          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", invalidCessationDateRequestJson, BAD_REQUEST,
+          (
+            "AA123456A",
+            "2019-20",
+            "78d9f015-a8b4-47a8-8bbc-c253a1e8057e",
+            invalidCessationDateRequestJson,
+            BAD_REQUEST,
             CessationDateFormatError,
             None),
-          ("AA123456A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", invalidDateOrderRequestJson, BAD_REQUEST,
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            invalidDateOrderRequestJson,
+            BAD_REQUEST,
             RuleCessationDateBeforeStartDateError,
             None),
-          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", startDateLateRequestJson, BAD_REQUEST,
+          (
+            "AA123456A",
+            "2019-20",
+            "78d9f015-a8b4-47a8-8bbc-c253a1e8057e",
+            startDateLateRequestJson,
+            BAD_REQUEST,
             RuleStartDateAfterTaxYearEndError,
             None),
-          ("AA123456A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", cessationDateEarlyRequestJson, BAD_REQUEST,
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            cessationDateEarlyRequestJson,
+            BAD_REQUEST,
             RuleCessationDateBeforeTaxYearStartError,
             None),
-          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", emptyRequestJson, BAD_REQUEST,
-            RuleIncorrectOrEmptyBodyError, None),
-          ("AA123456A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", nonValidRequestBodyJson, BAD_REQUEST, invalidFieldType,
+          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", emptyRequestJson, BAD_REQUEST, RuleIncorrectOrEmptyBodyError, None),
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            nonValidRequestBodyJson,
+            BAD_REQUEST,
+            invalidFieldType,
             Some("(invalid field type)")),
-          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", missingFieldRequestBodyJson, BAD_REQUEST,
+          (
+            "AA123456A",
+            "2019-20",
+            "78d9f015-a8b4-47a8-8bbc-c253a1e8057e",
+            missingFieldRequestBodyJson,
+            BAD_REQUEST,
             missingMandatoryFieldErrors,
             Some("(missing mandatory fields)"))
         )
@@ -348,9 +378,9 @@ class AmendCustomEmploymentControllerISpec extends IntegrationBaseSpec {
                                 scenario: Option[String]): Unit = {
           s"validation fails with ${expectedBody.code} error ${scenario.getOrElse("")}" in new Test {
 
-            override val nino: String = requestNino
-            override val taxYear: String = requestTaxYear
-            override val employmentId: String = requestEmploymentId
+            override val nino: String             = requestNino
+            override val taxYear: String          = requestTaxYear
+            override val employmentId: String     = requestEmploymentId
             override val requestBodyJson: JsValue = requestBody
 
             override def setupStubs(): StubMapping = {
@@ -366,10 +396,13 @@ class AmendCustomEmploymentControllerISpec extends IntegrationBaseSpec {
         }
 
         val input = Seq(
-          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", startDateOutsideAllowedRangeJson, BAD_REQUEST,
-            StartDateFormatError,
-            None),
-          ("AA123456A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", cessationDateOutsideAllowedRangeJson, BAD_REQUEST,
+          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", startDateOutsideAllowedRangeJson, BAD_REQUEST, StartDateFormatError, None),
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            cessationDateOutsideAllowedRangeJson,
+            BAD_REQUEST,
             CessationDateFormatError,
             None)
         )

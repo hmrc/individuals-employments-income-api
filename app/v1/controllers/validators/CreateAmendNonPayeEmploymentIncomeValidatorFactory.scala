@@ -26,10 +26,7 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class CreateAmendNonPayeEmploymentIncomeValidatorFactory @Inject() (appConfig: AppConfig) {
 
-  def validator(nino: String,
-                taxYear: String,
-                body: JsValue,
-                temporalValidationEnabled: Boolean): Validator[CreateAmendNonPayeEmploymentRequest] =
+  def validator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean): Validator[CreateAmendNonPayeEmploymentRequest] =
     new CreateAmendNonPayeEmploymentIncomeValidator(nino, taxYear, body, temporalValidationEnabled, appConfig)
 
 }

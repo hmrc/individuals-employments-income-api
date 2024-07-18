@@ -39,8 +39,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
     with MockAppConfig
     with MockCreateAmendNonPayeEmploymentService
     with MockAuditService
-    with MockCreateAmendNonPayeEmploymentIncomeValidatorFactory
-     {
+    with MockCreateAmendNonPayeEmploymentIncomeValidatorFactory {
 
   val taxYear: String = "2019-20"
 

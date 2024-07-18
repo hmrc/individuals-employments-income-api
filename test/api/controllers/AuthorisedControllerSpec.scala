@@ -30,7 +30,7 @@ import scala.concurrent.Future
 
 class AuthorisedControllerSpec extends ControllerBaseSpec {
 
-  private val nino = "AA123456A"
+  private val nino      = "AA123456A"
   private val mtdId     = "X123567890"
   private val someError = MtdError("SOME_CODE", "A message", IM_A_TEAPOT)
 
@@ -75,6 +75,7 @@ class AuthorisedControllerSpec extends ControllerBaseSpec {
   trait Test extends MockEnrolmentsAuthService with MockMtdIdLookupService {
 
     val hc: HeaderCarrier = HeaderCarrier()
+
     class TestController extends AuthorisedController(cc) {
       override val authService: EnrolmentsAuthService = mockEnrolmentsAuthService
       override val lookupService: MtdIdLookupService  = mockMtdIdLookupService
@@ -82,7 +83,9 @@ class AuthorisedControllerSpec extends ControllerBaseSpec {
       def action(nino: String): Action[AnyContent] = authorisedAction(nino).async {
         Future.successful(Ok(Json.obj()))
       }
+
     }
+
     lazy val target = new TestController()
   }
 

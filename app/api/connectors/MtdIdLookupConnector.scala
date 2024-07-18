@@ -28,6 +28,7 @@ object MtdIdLookupConnector {
   type Outcome = Either[MtdIdLookupConnector.Error, String]
 
 }
+
 @Singleton
 class MtdIdLookupConnector @Inject() (http: HttpClient, appConfig: AppConfig) {
 

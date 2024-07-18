@@ -32,14 +32,14 @@ class VersionRoutingRequestHandler @Inject() (versionRoutingMap: VersionRoutingM
                                               config: AppConfig,
                                               filters: HttpFilters,
                                               action: DefaultActionBuilder)
-  extends DefaultHttpRequestHandler(
-    webCommands = new DefaultWebCommands,
-    optDevContext = None,
-    router = () => versionRoutingMap.defaultRouter,
-    errorHandler = errorHandler,
-    configuration = httpConfiguration,
-    filters = filters.filters
-  ) {
+    extends DefaultHttpRequestHandler(
+      webCommands = new DefaultWebCommands,
+      optDevContext = None,
+      router = () => versionRoutingMap.defaultRouter,
+      errorHandler = errorHandler,
+      configuration = httpConfiguration,
+      filters = filters.filters
+    ) {
 
   private val unsupportedVersionAction = action(Results.NotFound(UnsupportedVersionError.asJson))
   private val invalidAcceptHeaderError = action(Results.NotAcceptable(InvalidAcceptHeaderError.asJson))

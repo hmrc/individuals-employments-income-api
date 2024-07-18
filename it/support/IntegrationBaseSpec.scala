@@ -32,22 +32,22 @@ trait IntegrationBaseSpec extends UnitSpec with WireMockHelper with GuiceOneServ
   lazy val client: WSClient = app.injector.instanceOf[WSClient]
 
   def servicesConfig: Map[String, Any] = Map(
-    "microservice.services.des.host"               -> mockHost,
-    "microservice.services.des.port"               -> mockPort,
-    "microservice.services.ifs.host"               -> mockHost,
-    "microservice.services.ifs.port"               -> mockPort,
-    "microservice.services.tys-ifs.host"           -> mockHost,
-    "microservice.services.tys-ifs.port"           -> mockPort,
-    "microservice.services.release6.host"          -> mockHost,
-    "microservice.services.release6.port"          -> mockPort,
-    "microservice.services.api1661.host"           -> mockHost,
-    "microservice.services.api1661.port"           -> mockPort,
-    "microservice.services.mtd-id-lookup.host"     -> mockHost,
-    "microservice.services.mtd-id-lookup.port"     -> mockPort,
-    "microservice.services.auth.host"              -> mockHost,
-    "microservice.services.auth.port"              -> mockPort,
-    "auditing.consumer.baseUri.port"               -> mockPort,
-    "minimumPermittedTaxYear"                      -> 2020
+    "microservice.services.des.host"           -> mockHost,
+    "microservice.services.des.port"           -> mockPort,
+    "microservice.services.ifs.host"           -> mockHost,
+    "microservice.services.ifs.port"           -> mockPort,
+    "microservice.services.tys-ifs.host"       -> mockHost,
+    "microservice.services.tys-ifs.port"       -> mockPort,
+    "microservice.services.release6.host"      -> mockHost,
+    "microservice.services.release6.port"      -> mockPort,
+    "microservice.services.api1661.host"       -> mockHost,
+    "microservice.services.api1661.port"       -> mockPort,
+    "microservice.services.mtd-id-lookup.host" -> mockHost,
+    "microservice.services.mtd-id-lookup.port" -> mockPort,
+    "microservice.services.auth.host"          -> mockHost,
+    "microservice.services.auth.port"          -> mockPort,
+    "auditing.consumer.baseUri.port"           -> mockPort,
+    "minimumPermittedTaxYear"                  -> 2020
   )
 
   override implicit lazy val app: Application = new GuiceApplicationBuilder()

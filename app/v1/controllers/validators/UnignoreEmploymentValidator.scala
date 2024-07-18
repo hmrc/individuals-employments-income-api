@@ -26,7 +26,7 @@ import v1.controllers.validators.resolvers.ResolveEmploymentId
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 class UnignoreEmploymentValidator(nino: String, taxYear: String, employmentId: String, appConfig: AppConfig)
-  extends Validator[UnignoreEmploymentRequest]
+    extends Validator[UnignoreEmploymentRequest]
     with ResolverSupport {
 
   private val resolveTaxYear =

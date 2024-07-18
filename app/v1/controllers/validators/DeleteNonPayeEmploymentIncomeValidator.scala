@@ -24,8 +24,7 @@ import cats.implicits._
 import config.AppConfig
 import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
-class DeleteNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, appConfig: AppConfig)
-    extends Validator[DeleteNonPayeEmploymentRequest] {
+class DeleteNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, appConfig: AppConfig) extends Validator[DeleteNonPayeEmploymentRequest] {
 
   private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear)
 

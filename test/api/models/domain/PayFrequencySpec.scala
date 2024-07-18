@@ -22,16 +22,16 @@ import utils.enums.EnumJsonSpecSupport
 
 class PayFrequencySpec extends UnitSpec with EnumJsonSpecSupport {
 
-    testSerialization[PayFrequency](
-      `weekly`      -> "weekly",
-      `fortnightly` -> "fortnightly",
-      `four-weekly` -> "four-weekly",
-      `monthly`     -> "monthly",
-      `quarterly`   -> "quarterly",
-      `bi-annually` -> "bi-annually",
-      `one-off`     -> "one-off",
-      `irregular`   -> "irregular",
-      `annually`    -> "annually"
-    )
+  testSerialization[PayFrequency](
+    `weekly`      -> "weekly",
+    `fortnightly` -> "fortnightly",
+    `four-weekly` -> "four-weekly",
+    `monthly`     -> "monthly",
+    `quarterly`   -> "quarterly",
+    `bi-annually` -> "bi-annually",
+    `one-off`     -> "one-off",
+    `irregular`   -> "irregular",
+    `annually`    -> "annually"
+  )
 
 }
