@@ -225,7 +225,7 @@ class AmendOtherEmploymentControllerISpec extends IntegrationBaseSpec {
   private trait NonTysTest extends Test {
     def taxYear: String           = "2019-20"
     def downstreamTaxYear: String = "2019-20"
-    def downstreamUri: String     = s"/income-tax/$downstreamTaxYear/income/other/employments/$nino"
+    def downstreamUri: String     = s"/income-tax/income/other/employments/$nino/$downstreamTaxYear"
   }
 
   private trait TysIfsTest extends Test {
