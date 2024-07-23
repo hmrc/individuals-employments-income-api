@@ -63,7 +63,7 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appCon
 
     import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
-    val path = s"income-tax/income/other/employments/${request.nino}/${request.taxYear.asMtd}"
+    val path = s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}"
 
     val resolvedDownstreamUri = if (request.taxYear.useTaxYearSpecificApi) {
       TaxYearSpecificIfsUri[RetrieveOtherEmploymentResponse](

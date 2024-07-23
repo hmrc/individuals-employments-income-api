@@ -33,7 +33,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
         val outcome          = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
-          url = s"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
+          url = s"$baseUrl/income-tax/2019-20/income/other/employments/$nino",
           body = amendOtherEmploymentRequestBody
         ).returns(Future.successful(outcome))
 
@@ -46,7 +46,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
         val outcome = Left(ResponseWrapper(correlationId, NinoFormatError))
 
         willPut(
-          url = s"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
+          url = s"$baseUrl/income-tax/2019-20/income/other/employments/$nino",
           body = amendOtherEmploymentRequestBody
         ).returns(Future.successful(outcome))
 
@@ -59,7 +59,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
         val outcome = Left(ResponseWrapper(correlationId, Seq(NinoFormatError, InternalError)))
 
         willPut(
-          url = s"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
+          url = s"$baseUrl/income-tax/2019-20/income/other/employments/$nino",
           body = amendOtherEmploymentRequestBody
         ).returns(Future.successful(outcome))
 

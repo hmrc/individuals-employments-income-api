@@ -39,7 +39,7 @@ class AmendOtherEmploymentConnector @Inject() (val http: HttpClient, val appConf
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
       TaxYearSpecificIfsUri[Unit](s"income-tax/income/other/employments/${taxYear.asTysDownstream}/${nino.nino}")
     } else {
-      DesUri[Unit](s"income-tax/income/other/employments/${nino.nino}/${taxYear.asMtd}")
+      DesUri[Unit](s"income-tax/${taxYear.asMtd}/income/other/employments/${nino.nino}")
     }
 
     put(downstreamUri, body)
