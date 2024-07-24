@@ -108,7 +108,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
 
         val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherEmploymentResponse]] = Right(ResponseWrapper(correlationId, retrieveResponse))
 
-        willGet(s"$baseUrl/income-tax/income/other/employments/$nino/2021-22") returns Future.successful(outcome)
+        willGet(s"$baseUrl/income-tax/${taxYear.asMtd}/income/other/employments/$nino") returns Future.successful(outcome)
 
         await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
       }
