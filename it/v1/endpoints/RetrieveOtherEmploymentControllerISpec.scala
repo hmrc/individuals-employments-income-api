@@ -53,7 +53,7 @@ class RetrieveOtherEmploymentControllerISpec extends IntegrationBaseSpec {
   private trait NonTysTest extends Test {
     override def taxYear: String = "2020-21"
 
-    def downstreamUri: String = s"/income-tax/income/other/employments/$nino/$taxYear"
+    def downstreamUri: String = s"/income-tax/$taxYear/income/other/employments/$nino"
   }
 
   private trait TysIfsTest extends Test {

@@ -50,7 +50,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
         val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
         val outcome: Right[Nothing, ResponseWrapper[Unit]]    = Right(ResponseWrapper(correlationId, ()))
 
-        willDelete(s"$baseUrl/income-tax/2017-18/income/other/employments/$nino") returns Future.successful(outcome)
+        willDelete(s"$baseUrl/income-tax/income/other/employments/$nino/2017-18") returns Future.successful(outcome)
 
         await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
       }
@@ -108,7 +108,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
 
         val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherEmploymentResponse]] = Right(ResponseWrapper(correlationId, retrieveResponse))
 
-        willGet(s"$baseUrl/income-tax/income/other/employments/$nino/2021-22") returns Future.successful(outcome)
+        willGet(s"$baseUrl/income-tax/${taxYear.asMtd}/income/other/employments/$nino") returns Future.successful(outcome)
 
         await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
       }
