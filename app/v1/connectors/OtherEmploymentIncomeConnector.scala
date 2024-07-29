@@ -40,15 +40,13 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appCon
 
     implicit val successCode: SuccessCode = SuccessCode(NO_CONTENT)
 
-    val path = s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}"
-
     val downstreamUri =
       if (request.taxYear.useTaxYearSpecificApi) {
         TaxYearSpecificIfsUri[Unit](s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
       } else if (featureSwitches.isDesIf_MigrationEnabled) {
-        IfsUri[Unit](path)
+        IfsUri[Unit](s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}")
       } else {
-        DesUri[Unit](path)
+        DesUri[Unit](s"income-tax/income/other/employments/${request.nino}/${request.taxYear.asMtd}")
       }
 
     delete(
