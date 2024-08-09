@@ -17,7 +17,7 @@
 package v1.endpoints
 
 import api.models.errors._
-import api.stubs.{AuthStub, DownstreamStub, MtdIdLookupStub}
+import api.services.{AuthStub, DownstreamStub, MtdIdLookupStub}
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, JsValue, Json}

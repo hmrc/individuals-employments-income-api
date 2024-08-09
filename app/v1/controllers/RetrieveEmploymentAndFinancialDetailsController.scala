@@ -36,6 +36,8 @@ class RetrieveEmploymentAndFinancialDetailsController @Inject() (val authService
                                                                  val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "retrieve-employment-financial-details"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "RetrieveEmploymentAndFinancialDetailsController",

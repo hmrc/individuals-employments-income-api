@@ -38,6 +38,8 @@ class AmendOtherEmploymentController @Inject() (val authService: EnrolmentsAuthS
                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "amend-other-employment"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "AmendOtherEmploymentController",
