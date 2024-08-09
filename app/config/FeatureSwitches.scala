@@ -31,6 +31,8 @@ trait FeatureSwitches {
   def isTemporalValidationEnabled(implicit request: Request[_]): Boolean
 
   def isDesIf_MigrationEnabled: Boolean
+
+  def supportingAgentsAccessControlEnabled: Boolean
 }
 
 @Singleton
@@ -40,6 +42,7 @@ class FeatureSwitchesImpl(featureSwitchConfig: Configuration) extends FeatureSwi
   def this(appConfig: AppConfig) = this(appConfig.featureSwitches)
 
   val isDesIf_MigrationEnabled: Boolean = isEnabled("desIf_Migration")
+  val supportingAgentsAccessControlEnabled: Boolean = isEnabled("supporting-agents-access-control")
 
   def isTemporalValidationEnabled(implicit request: Request[_]): Boolean = {
     if (isEnabled("allowTemporalValidationSuspension")) {
@@ -56,4 +59,6 @@ class FeatureSwitchesImpl(featureSwitchConfig: Configuration) extends FeatureSwi
 
 object FeatureSwitches {
   def apply(configuration: Configuration): FeatureSwitches = new FeatureSwitchesImpl(configuration)
+
+  def apply(appConfig: AppConfig): FeatureSwitches = new FeatureSwitchesImpl(appConfig)
 }

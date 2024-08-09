@@ -38,6 +38,8 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
                                                  val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "amend-financial-details"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "AmendFinancialDetailsController",

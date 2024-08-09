@@ -36,8 +36,9 @@ class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthSer
                                               cc: ControllerComponents,
                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc)
-    with BaseController
     with Logging {
+
+  val endpointName = "unignore-employment"
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
