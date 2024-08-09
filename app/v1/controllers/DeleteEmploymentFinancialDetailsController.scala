@@ -37,6 +37,8 @@ class DeleteEmploymentFinancialDetailsController @Inject() (val authService: Enr
                                                             val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "delete-employment-financial-details"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "DeleteEmploymentFinancialDetailsController",

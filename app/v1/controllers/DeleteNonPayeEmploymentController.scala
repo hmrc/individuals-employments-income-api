@@ -36,6 +36,8 @@ class DeleteNonPayeEmploymentController @Inject() (val authService: EnrolmentsAu
                                                    val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "delete-non-paye-employment"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "DeleteNonPayeEmploymentController",

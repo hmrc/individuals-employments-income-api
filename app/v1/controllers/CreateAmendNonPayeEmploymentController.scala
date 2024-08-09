@@ -38,6 +38,8 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
                                                         val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "create-amend-non-paye-employment"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "CreateAmendNonPayeEmploymentController",

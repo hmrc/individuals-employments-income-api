@@ -36,6 +36,8 @@ class ListEmploymentsController @Inject() (val authService: EnrolmentsAuthServic
                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "list-employments"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "ListEmploymentsController",

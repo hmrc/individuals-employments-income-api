@@ -36,6 +36,8 @@ class RetrieveNonPayeEmploymentController @Inject() (val authService: Enrolments
                                                      val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "retrieve-non-paye-employment"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "RetrieveNonPayeEmploymentController",
