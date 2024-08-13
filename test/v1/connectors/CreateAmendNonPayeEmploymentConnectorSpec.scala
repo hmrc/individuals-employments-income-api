@@ -16,19 +16,19 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.models.domain.{Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import api.connectors.EmploymentsConnectorSpec
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture._
 import v1.models.request.createAmendNonPayeEmployment._
 
 import scala.concurrent.Future
 
-class CreateAmendNonPayeEmploymentConnectorSpec extends ConnectorSpec {
+class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   private val nino: String = "AA111111A"
 
-  trait Test { _: ConnectorTest =>
+  trait Test extends EmploymentsConnectorTest { _: ConnectorTest =>
     def taxYear: TaxYear
 
     def request = CreateAmendNonPayeEmploymentRequest(
@@ -39,7 +39,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: CreateAmendNonPayeEmploymentConnector = new CreateAmendNonPayeEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
   }
@@ -60,7 +60,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends ConnectorSpec {
         await(connector.createAndAmend(request)) shouldBe outcome
       }
 
-      "a valid request is made for a TYS tax year" in new TysIfsTest with Test {
+      "a valid request is made for a TYS tax year" in new EmploymentsTysIfsTest with Test {
         val taxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))

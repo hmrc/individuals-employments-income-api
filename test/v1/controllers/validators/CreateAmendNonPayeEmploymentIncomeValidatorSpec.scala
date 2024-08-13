@@ -16,16 +16,16 @@
 
 package v1.controllers.validators
 
-import api.models.domain.{Nino, TaxYear}
-import api.models.errors._
-import mocks.MockAppConfig
+import mocks.MockEmploymentsAppConfig
 import play.api.libs.json.{JsObject, JsValue, Json}
-import support.UnitSpec
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.utils.UnitSpec
 import v1.models.request.createAmendNonPayeEmployment.{CreateAmendNonPayeEmploymentRequest, CreateAmendNonPayeEmploymentRequestBody}
 
 import java.time.{Clock, Instant, ZoneOffset}
 
-class CreateAmendNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockAppConfig {
+class CreateAmendNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -49,12 +49,12 @@ class CreateAmendNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with Mock
                  taxYear: String = validTaxYear,
                  body: JsValue = validRequestBodyJson,
                  temporalValidationEnabled: Boolean = true): Either[ErrorWrapper, CreateAmendNonPayeEmploymentRequest] =
-      new CreateAmendNonPayeEmploymentIncomeValidator(nino, taxYear, body, temporalValidationEnabled, mockAppConfig)
+      new CreateAmendNonPayeEmploymentIncomeValidator(nino, taxYear, body, temporalValidationEnabled, mockEmploymentsConfig)
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "validate" should {

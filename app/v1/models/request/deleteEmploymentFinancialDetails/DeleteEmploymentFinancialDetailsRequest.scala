@@ -16,6 +16,7 @@
 
 package v1.models.request.deleteEmploymentFinancialDetails
 
-import api.models.domain.{EmploymentId, Nino, TaxYear}
+import common.models.domain.EmploymentId
+import shared.models.domain.{Nino, TaxYear}
 
 case class DeleteEmploymentFinancialDetailsRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId)

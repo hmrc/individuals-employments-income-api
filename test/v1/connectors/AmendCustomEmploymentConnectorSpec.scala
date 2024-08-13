@@ -16,17 +16,19 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.mocks.MockHttpClient
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import api.connectors.EmploymentsConnectorSpec
+import common.models.domain.EmploymentId
+import shared.config.DownstreamConfig
+import mocks.MockEmploymentsAppConfig
+import shared.mocks.MockHttpClient
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
 import scala.concurrent.Future
 
-class AmendCustomEmploymentConnectorSpec extends ConnectorSpec {
+class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String         = "AA111111A"
   val taxYear: String      = "2021-22"
@@ -48,24 +50,21 @@ class AmendCustomEmploymentConnectorSpec extends ConnectorSpec {
     body = amendCustomEmploymentRequestBody
   )
 
-  class Test extends MockHttpClient with MockAppConfig {
+  class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
-    MockedAppConfig.release6BaseUrl returns baseUrl
-    MockedAppConfig.release6Token returns "release6-token"
-    MockedAppConfig.release6Environment returns "release6-environment"
-    MockedAppConfig.release6EnvironmentHeaders returns Some(allowedIfsHeaders)
+    MockedEmploymentsAppConfig.release6DownstreamConfig returns DownstreamConfig(baseUrl, "release6-environment", "release6-token", Some(allowedIfsHeaders))
   }
 
   "AmendCustomEmploymentConnector" when {
     ".amendEmployment" should {
-      "return a success upon HttpClient success" in new Test {
+      "return a success upon HttpClient success" in new Test with Release6Test {
         val outcome                    = Right(ResponseWrapper(correlationId, ()))
-        implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders ++ Seq("Content-Type" -> "application/json"))
+        override implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders ++ Seq("Content-Type" -> "application/json"))
         val requiredRelease6HeadersPut: Seq[(String, String)] = requiredRelease6Headers ++ Seq("Content-Type" -> "application/json")
 
         MockedHttpClient

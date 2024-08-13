@@ -16,12 +16,13 @@
 
 package v1.controllers
 
-import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.{AppConfig, FeatureSwitches}
+import config.{EmploymentsAppConfig, EmploymentsFeatureSwitches}
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import utils.IdGenerator
+import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.CreateAmendNonPayeEmploymentIncomeValidatorFactory
 import v1.services.CreateAmendNonPayeEmploymentService
 
@@ -35,7 +36,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
                                                         service: CreateAmendNonPayeEmploymentService,
                                                         auditService: AuditService,
                                                         cc: ControllerComponents,
-                                                        val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                                        val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "create-amend-non-paye-employment"
@@ -54,7 +55,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
         nino = nino,
         taxYear = taxYear,
         body = request.body,
-        temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled
+        temporalValidationEnabled = EmploymentsFeatureSwitches(appConfig.featureSwitchConfig).isTemporalValidationEnabled
       )
 
       val requestHandler = RequestHandler
@@ -63,6 +64,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "CreateAmendNonPayeEmploymentIncome",
+          apiVersion = Version(request),
           transactionName = "create-amend-non-paye-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
           requestBody = Some(request.body)

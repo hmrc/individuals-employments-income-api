@@ -17,7 +17,7 @@
 package v1.models.response.retrieveOtherEmployment
 
 import play.api.libs.json.{JsError, JsObject, Json}
-import support.UnitSpec
+import shared.utils.UnitSpec
 
 class RedundancyCompensationPaymentsOverExemptionItemSpec extends UnitSpec {
 

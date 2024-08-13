@@ -16,11 +16,12 @@
 
 package api.models.domain
 
-import api.models.domain.SharesAwardedOrReceivedSchemeType._
-import support.UnitSpec
-import utils.enums.EnumJsonSpecSupport
+import common.models.domain.SharesAwardedOrReceivedSchemeType
+import common.models.domain.SharesAwardedOrReceivedSchemeType._
+import shared.utils.UnitSpec
+import utils.enums.EmploymentsEnumJsonSpecSupport
 
-class SharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
+class SharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EmploymentsEnumJsonSpecSupport {
 
   testSerialization[SharesAwardedOrReceivedSchemeType](
     `sip`   -> "sip",

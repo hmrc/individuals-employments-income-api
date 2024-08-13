@@ -16,15 +16,17 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
+import common.models.domain.EmploymentId
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
+import shared.controllers.ControllerBaseSpec
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockUnignoreEmploymentValidatorFactory
 import v1.mocks.services.MockUnignoreEmploymentService
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
@@ -34,15 +36,16 @@ import scala.concurrent.Future
 
 class UnignoreEmploymentControllerSpec
     extends ControllerBaseSpec
-    with ControllerTestRunner
+      with EmploymentsControllerBaseSpec
+    with EmploymentsControllerTestRunner
     with MockUnignoreEmploymentService
     with MockUnignoreEmploymentValidatorFactory
-    with MockAppConfig {
+    with MockEmploymentsAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends EmploymentsControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     val controller = new UnignoreEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -54,32 +57,35 @@ class UnignoreEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.unignoreEmployment(nino, taxYear, employmentId)(fakeDeleteRequest)
+    protected def callController(): Future[Result] = controller.unignoreEmployment(validNino, taxYear, employmentId)(fakeDeleteRequest)
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
         auditType = "UnignoreEmployment",
         transactionName = "unignore-employment",
-        detail = GenericAuditDetail(
+        detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          request = requestBody,
+versionNumber = apiVersion.name,
+
+          params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 
   }
 
   private val requestData: UnignoreEmploymentRequest = UnignoreEmploymentRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId)
   )

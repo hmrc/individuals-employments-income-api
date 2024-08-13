@@ -16,17 +16,19 @@
 
 package v1.controllers.validators
 
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.errors._
-import api.models.utils.JsonErrorValidators
-import mocks.MockAppConfig
+import common.errors._
+import common.models.domain.EmploymentId
+import mocks.MockEmploymentsAppConfig
 import play.api.libs.json._
-import support.UnitSpec
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.utils.JsonErrorValidators
+import shared.utils.UnitSpec
 import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
 import java.time.{Clock, Instant, ZoneOffset}
 
-class AmendCustomEmploymentValidatorSpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
+class AmendCustomEmploymentValidatorSpec extends UnitSpec with JsonErrorValidators with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -57,12 +59,12 @@ class AmendCustomEmploymentValidatorSpec extends UnitSpec with JsonErrorValidato
                  employmentId: String = validEmploymentId,
                  body: JsValue = validRequestBodyJson,
                  temporalValidationEnabled: Boolean = true): Either[ErrorWrapper, AmendCustomEmploymentRequest] =
-      new AmendCustomEmploymentValidator(nino, taxYear, employmentId, body, temporalValidationEnabled, mockAppConfig)
+      new AmendCustomEmploymentValidator(nino, taxYear, employmentId, body, temporalValidationEnabled, mockEmploymentsConfig)
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "validate" should {

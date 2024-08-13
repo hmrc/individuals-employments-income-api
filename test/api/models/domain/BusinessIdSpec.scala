@@ -16,7 +16,8 @@
 
 package api.models.domain
 
-import support.UnitSpec
+import common.models.domain.BusinessId
+import shared.utils.UnitSpec
 
 class BusinessIdSpec extends UnitSpec {
 

@@ -16,16 +16,17 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
-import api.models.errors.MtdError
+import shared.controllers.validators.Validator
+import shared.controllers.validators.resolvers.{ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
-import config.AppConfig
+import config.EmploymentsAppConfig
+import shared.controllers.validators.resolvers.ResolveNino
 import v1.controllers.validators.resolvers.ResolveEmploymentId
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 
-class RetrieveEmploymentValidator(nino: String, taxYear: String, employmentId: String, appConfig: AppConfig)
+class RetrieveEmploymentValidator(nino: String, taxYear: String, employmentId: String, appConfig: EmploymentsAppConfig)
     extends Validator[RetrieveEmploymentRequest]
     with ResolverSupport {
 

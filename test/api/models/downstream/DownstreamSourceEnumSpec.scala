@@ -16,9 +16,10 @@
 
 package api.models.downstream
 
-import api.models.domain.MtdSourceEnum
-import support.UnitSpec
-import utils.enums.EnumJsonSpecSupport
+import common.models.domain.MtdSourceEnum
+import common.models.downstream.DownstreamSourceEnum
+import shared.utils.UnitSpec
+import shared.utils.enums.EnumJsonSpecSupport
 
 class DownstreamSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 

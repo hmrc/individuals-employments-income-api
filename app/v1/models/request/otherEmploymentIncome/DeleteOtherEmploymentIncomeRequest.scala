@@ -16,6 +16,6 @@
 
 package v1.models.request.otherEmploymentIncome
 
-import api.models.domain.{Nino, TaxYear}
+import shared.models.domain.{Nino, TaxYear}
 
 case class DeleteOtherEmploymentIncomeRequest(nino: Nino, taxYear: TaxYear)

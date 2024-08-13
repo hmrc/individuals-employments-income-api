@@ -17,7 +17,7 @@
 package v1.models.request.amendFinancialDetails.employment.studentLoans
 
 import play.api.libs.json.{JsError, Json}
-import support.UnitSpec
+import shared.utils.UnitSpec
 
 class AmendStudentLoansSpec extends UnitSpec {
 

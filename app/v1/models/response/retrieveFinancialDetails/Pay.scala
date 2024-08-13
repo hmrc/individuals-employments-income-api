@@ -16,8 +16,8 @@
 
 package v1.models.response.retrieveFinancialDetails
 
-import api.models.domain.PayFrequency
-import api.models.downstream.DownstreamPayFrequency
+import common.models.domain.PayFrequency
+import common.models.downstream.DownstreamPayFrequency
 import play.api.libs.json.{Json, OFormat, Reads}
 
 case class Pay(taxablePayToDate: Option[BigDecimal],

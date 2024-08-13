@@ -17,7 +17,7 @@
 package v1.models.request.amendCustomEmployments
 
 import play.api.libs.json.{JsError, JsValue, Json}
-import support.UnitSpec
+import shared.utils.UnitSpec
 import v1.models.request.amendCustomEmployment.AmendCustomEmploymentRequestBody
 
 class AmendCustomEmploymentRequestBodySpec extends UnitSpec {

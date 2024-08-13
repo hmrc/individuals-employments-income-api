@@ -16,7 +16,8 @@
 
 package api.models.domain
 
-import support.UnitSpec
+import common.models.domain.DateRange
+import shared.utils.UnitSpec
 
 import java.time.LocalDate
 

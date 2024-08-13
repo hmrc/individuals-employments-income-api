@@ -19,7 +19,7 @@ package config
 import play.api.Configuration
 import play.api.mvc.Headers
 import play.api.test.FakeRequest
-import support.UnitSpec
+import shared.utils.UnitSpec
 
 class FeatureSwitchesSpec extends UnitSpec {
 
@@ -27,14 +27,14 @@ class FeatureSwitchesSpec extends UnitSpec {
     "be true" when {
       "absent from the config" in {
         val configuration   = Configuration.empty
-        val featureSwitches = FeatureSwitches(configuration)
+        val featureSwitches = EmploymentsFeatureSwitches(configuration)
 
         featureSwitches.isEnabled("some-feature") shouldBe true
       }
 
       "enabled" in {
         val configuration   = Configuration("some-feature.enabled" -> true)
-        val featureSwitches = FeatureSwitches(configuration)
+        val featureSwitches = EmploymentsFeatureSwitches(configuration)
 
         featureSwitches.isEnabled("some-feature") shouldBe true
       }
@@ -43,7 +43,7 @@ class FeatureSwitchesSpec extends UnitSpec {
     "be false" when {
       "disabled" in {
         val configuration   = Configuration("some-feature.enabled" -> false)
-        val featureSwitches = FeatureSwitches(configuration)
+        val featureSwitches = EmploymentsFeatureSwitches(configuration)
 
         featureSwitches.isEnabled("some-feature") shouldBe false
       }
@@ -61,7 +61,7 @@ class FeatureSwitchesSpec extends UnitSpec {
     def headers(suspend: String) = Headers("suspend-temporal-validations" -> suspend)
 
     "the suspension enabling feature switch is false" should {
-      val featureSwitches = FeatureSwitches(configuration(false))
+      val featureSwitches = EmploymentsFeatureSwitches(configuration(false))
 
       "return true even if the suspend header is present and true" in {
         featureSwitches.isTemporalValidationEnabled(requestWith(headers(suspend = "true"))) shouldBe true
@@ -73,7 +73,7 @@ class FeatureSwitchesSpec extends UnitSpec {
     }
 
     "the suspension enabling feature switch is true" should {
-      val featureSwitches = FeatureSwitches(configuration(true))
+      val featureSwitches = EmploymentsFeatureSwitches(configuration(true))
 
       "return false if the suspend header is present and true" in {
         featureSwitches.isTemporalValidationEnabled(requestWith(headers(suspend = "true"))) shouldBe false

@@ -16,15 +16,15 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.models.domain.{Nino, TaxYear}
-import api.models.errors.{InternalError, NinoFormatError}
-import api.models.outcomes.ResponseWrapper
+import api.connectors.EmploymentsConnectorSpec
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors.{InternalError, NinoFormatError}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.amendOtherEmployment._
 
 import scala.concurrent.Future
 
-class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
+class AmendOtherEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "AmendOtherEmploymentConnector" should {
     "return the expected response for a non-TYS request" when {

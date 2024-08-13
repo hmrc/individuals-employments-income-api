@@ -16,15 +16,15 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
-import config.AppConfig
+import shared.controllers.validators.Validator
+import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import v1.models.request.addCustomEmployment.AddCustomEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class AddCustomEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
+class AddCustomEmploymentValidatorFactory @Inject() (appConfig: EmploymentsAppConfig) {
 
   def validator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean): Validator[AddCustomEmploymentRequest] =
     new AddCustomEmploymentValidator(nino, taxYear, body, temporalValidationEnabled, appConfig)

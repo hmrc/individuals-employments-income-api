@@ -16,9 +16,9 @@
 
 package v1.controllers.validators.resolvers
 
-import api.controllers.validators.resolvers.ResolverSupport
-import api.models.domain.ShareOptionSchemeType
-import api.models.errors.MtdError
+import shared.controllers.validators.resolvers.ResolverSupport
+import common.models.domain.ShareOptionSchemeType
+import shared.models.errors.MtdError
 
 object ShareOptionSchemeTypeResolver extends ResolverSupport {
 

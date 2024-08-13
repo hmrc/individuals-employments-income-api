@@ -16,14 +16,15 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import api.connectors.EmploymentsConnectorSpec
+import common.models.domain.EmploymentId
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
 import scala.concurrent.Future
 
-class DeleteEmploymentFinancialDetailsConnectorSpec extends ConnectorSpec {
+class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
   "DeleteEmploymentFinancialDetailsConnector" should {
     "return the expected response for a non-TYS request" when {
@@ -40,7 +41,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends ConnectorSpec {
     }
 
     "return the expected response for a TYS request" when {
-      "a valid request is made" in new TysIfsTest with Test {
+      "a valid request is made" in new EmploymentsTysIfsTest with Test  {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
         val outcome          = Right(ResponseWrapper(correlationId, ()))
 
@@ -54,7 +55,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends ConnectorSpec {
   }
 
   trait Test {
-    _: ConnectorTest =>
+    _: EmploymentsConnectorTest =>
 
     def taxYear: TaxYear
 
@@ -70,7 +71,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends ConnectorSpec {
 
     val connector: DeleteEmploymentFinancialDetailsConnector = new DeleteEmploymentFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
   }

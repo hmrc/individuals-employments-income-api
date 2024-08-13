@@ -16,9 +16,10 @@
 
 package v1.connectors
 
-import api.connectors.{ConnectorSpec, DownstreamOutcome}
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import common.models.domain.EmploymentId
+import shared.connectors.{ConnectorSpec, DownstreamOutcome}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
 import scala.concurrent.Future

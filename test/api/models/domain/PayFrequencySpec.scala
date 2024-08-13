@@ -16,11 +16,12 @@
 
 package api.models.domain
 
-import api.models.domain.PayFrequency._
-import support.UnitSpec
-import utils.enums.EnumJsonSpecSupport
+import common.models.domain.PayFrequency
+import common.models.domain.PayFrequency._
+import shared.utils.UnitSpec
+import utils.enums.EmploymentsEnumJsonSpecSupport
 
-class PayFrequencySpec extends UnitSpec with EnumJsonSpecSupport {
+class PayFrequencySpec extends UnitSpec with EmploymentsEnumJsonSpecSupport {
 
   testSerialization[PayFrequency](
     `weekly`      -> "weekly",

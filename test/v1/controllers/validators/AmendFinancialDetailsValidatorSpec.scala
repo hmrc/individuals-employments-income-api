@@ -16,17 +16,19 @@
 
 package v1.controllers.validators
 
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.errors._
-import api.models.utils.JsonErrorValidators
-import mocks.MockAppConfig
-import play.api.libs.json.{JsArray, JsBoolean, JsNumber, JsObject, JsValue, Json}
-import support.UnitSpec
+import common.errors.{EmploymentIdFormatError, RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
+import common.models.domain.EmploymentId
+import mocks.MockEmploymentsAppConfig
+import play.api.libs.json._
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.utils.JsonErrorValidators
+import shared.utils.UnitSpec
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
 import java.time.{Clock, Instant, ZoneOffset}
 
-class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
+class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidators with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -94,12 +96,12 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidato
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId,
                  body: JsValue = validRequestBodyJson): Either[ErrorWrapper, AmendFinancialDetailsRequest] =
-      new AmendFinancialDetailsValidator(nino, taxYear, employmentId, body, mockAppConfig)
+      new AmendFinancialDetailsValidator(nino, taxYear, employmentId, body, mockEmploymentsConfig)
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   private def update(field: String)(value: JsValue) = validRequestBodyJson.update(field, value)

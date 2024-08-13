@@ -16,18 +16,19 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.mocks.MockHttpClient
-import api.models.domain.{Nino, TaxYear, Timestamp}
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import api.connectors.EmploymentsConnectorSpec
+import mocks.MockEmploymentsAppConfig
+import shared.config.DownstreamConfig
+import shared.mocks.MockHttpClient
+import shared.models.domain.{Nino, TaxYear, Timestamp}
+import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.listEmployments.ListEmploymentsRequest
 import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
 
 import scala.concurrent.Future
 
-class ListEmploymentsConnectorSpec extends ConnectorSpec {
+class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String    = "AA111111A"
   val taxYear: String = "2019-20"
@@ -53,17 +54,14 @@ class ListEmploymentsConnectorSpec extends ConnectorSpec {
       ))
   )
 
-  class Test extends MockHttpClient with MockAppConfig {
+  class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: ListEmploymentsConnector = new ListEmploymentsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
-    MockedAppConfig.release6BaseUrl returns baseUrl
-    MockedAppConfig.release6Token returns "release6-token"
-    MockedAppConfig.release6Environment returns "release6-environment"
-    MockedAppConfig.release6EnvironmentHeaders returns Some(allowedIfsHeaders)
+    MockedEmploymentsAppConfig.release6DownstreamConfig returns DownstreamConfig(baseUrl, "release6-environment", "release6-token", Some(allowedIfsHeaders))
   }
 
   "ListEmploymentsConnector" when {

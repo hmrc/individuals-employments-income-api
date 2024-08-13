@@ -17,7 +17,7 @@
 package v1.models.request.addCustomEmployment
 
 import play.api.libs.json.{JsError, JsValue, Json}
-import support.UnitSpec
+import shared.utils.UnitSpec
 
 class AddCustomEmploymentRequestBodySpec extends UnitSpec {
 

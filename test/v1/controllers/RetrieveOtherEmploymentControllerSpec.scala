@@ -16,13 +16,13 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.domain.{Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockRetrieveOtherEmploymentValidatorFactory
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v1.fixtures.RetrieveOtherEmploymentControllerFixture.mtdResponse
@@ -33,16 +33,16 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RetrieveOtherEmploymentControllerSpec
-    extends ControllerBaseSpec
-    with ControllerTestRunner
+    extends EmploymentsControllerBaseSpec
+    with EmploymentsControllerTestRunner
     with MockRetrieveOtherEmploymentIncomeService
     with MockRetrieveOtherEmploymentValidatorFactory
-    with MockAppConfig {
+    with MockEmploymentsAppConfig {
 
   val taxYear: String = "2019-20"
 
   val requestData: RetrieveOtherEmploymentIncomeRequest = RetrieveOtherEmploymentIncomeRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
 
@@ -78,7 +78,7 @@ class RetrieveOtherEmploymentControllerSpec
     }
   }
 
-  trait Test extends ControllerTest {
+  trait Test extends EmploymentsControllerTest {
 
     val controller = new RetrieveOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -89,13 +89,15 @@ class RetrieveOtherEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.retrieveOther(nino, taxYear)(fakeGetRequest)
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+
+    protected def callController(): Future[Result] = controller.retrieveOther(validNino, taxYear)(fakeGetRequest)
 
   }
 

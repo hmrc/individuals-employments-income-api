@@ -16,18 +16,19 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.mocks.MockHttpClient
-import api.models.domain.{Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import api.connectors.EmploymentsConnectorSpec
+import mocks.MockEmploymentsAppConfig
+import shared.config.DownstreamConfig
+import shared.mocks.MockHttpClient
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
 import scala.concurrent.Future
 
-class AddCustomEmploymentConnectorSpec extends ConnectorSpec {
+class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String    = "AA111111A"
   val taxYear: String = "2021-22"
@@ -49,17 +50,14 @@ class AddCustomEmploymentConnectorSpec extends ConnectorSpec {
 
   val response: AddCustomEmploymentResponse = AddCustomEmploymentResponse("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
 
-  class Test extends MockHttpClient with MockAppConfig {
+  class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
-    MockedAppConfig.api1661BaseUrl returns baseUrl
-    MockedAppConfig.api1661Token returns "api1661-token"
-    MockedAppConfig.api1661Environment returns "api1661-environment"
-    MockedAppConfig.api1661EnvironmentHeaders returns Some(allowedIfsHeaders)
+    MockedEmploymentsAppConfig.api1661DownstreamConfig returns DownstreamConfig(baseUrl, "api1661-environment", "api1661-token", Some(allowedIfsHeaders))
   }
 
   "AddCustomEmploymentConnector" when {

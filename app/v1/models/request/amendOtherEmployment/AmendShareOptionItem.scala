@@ -16,7 +16,7 @@
 
 package v1.models.request.amendOtherEmployment
 
-import api.models.domain.ShareOptionSchemeType
+import common.models.domain.ShareOptionSchemeType
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 

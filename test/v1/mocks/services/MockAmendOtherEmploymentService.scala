@@ -16,10 +16,10 @@
 
 package v1.mocks.services
 
-import api.controllers.RequestContext
-import api.services.ServiceOutcome
+import shared.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import shared.controllers.RequestContext
 import v1.models.request.amendOtherEmployment.AmendOtherEmploymentRequest
 import v1.services.AmendOtherEmploymentService
 

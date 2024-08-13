@@ -16,14 +16,14 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.models.domain.{Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import api.connectors.EmploymentsConnectorSpec
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
 import scala.concurrent.Future
 
-class DeleteNonPayeEmploymentConnectorSpec extends ConnectorSpec {
+class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String = "AA111111A"
 
@@ -43,7 +43,7 @@ class DeleteNonPayeEmploymentConnectorSpec extends ConnectorSpec {
     }
 
     "deleteNonPayeEmployment is called for a TaxYearSpecific tax year" must {
-      "return a 200 for success scenario" in new TysIfsTest with Test {
+      "return a 200 for success scenario" in new EmploymentsTysIfsTest with Test  {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
@@ -57,11 +57,11 @@ class DeleteNonPayeEmploymentConnectorSpec extends ConnectorSpec {
   }
 
   trait Test {
-    _: ConnectorTest =>
+    _: EmploymentsConnectorTest =>
     def taxYear: TaxYear
 
     protected val connector: DeleteNonPayeEmploymentConnector =
-      new DeleteNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockAppConfig)
+      new DeleteNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockEmploymentsConfig)
 
     protected val request: DeleteNonPayeEmploymentRequest =
       DeleteNonPayeEmploymentRequest(Nino("AA111111A"), taxYear = taxYear)

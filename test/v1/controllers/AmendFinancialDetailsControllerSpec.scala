@@ -16,16 +16,18 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.mocks.services.MockAuditService
-import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
+import common.models.domain.EmploymentId
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
+import shared.controllers.ControllerBaseSpec
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
+import shared.services.MockAuditService
 import v1.controllers.validators.MockAmendFinancialDetailsValidatorFactory
 import v1.mocks.services.MockAmendFinancialDetailsService
 import v1.models.request.amendFinancialDetails.employment.studentLoans.AmendStudentLoans
@@ -37,8 +39,9 @@ import scala.concurrent.Future
 
 class AmendFinancialDetailsControllerSpec
     extends ControllerBaseSpec
-    with ControllerTestRunner
-    with MockAppConfig
+      with EmploymentsControllerBaseSpec
+    with EmploymentsControllerTestRunner
+    with MockEmploymentsAppConfig
     with MockAmendFinancialDetailsValidatorFactory
     with MockAmendFinancialDetailsService
     with MockAuditService {
@@ -153,7 +156,7 @@ class AmendFinancialDetailsControllerSpec
   )
 
   val requestData: AmendFinancialDetailsRequest = AmendFinancialDetailsRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId),
     body = amendFinancialDetailsRequestBody
@@ -194,9 +197,9 @@ class AmendFinancialDetailsControllerSpec
     }
   }
 
-  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends EmploymentsControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    MockedAppConfig.featureSwitches
+    MockedEmploymentsAppConfig.featureSwitchConfig
       .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true))
       .anyNumberOfTimes()
 
@@ -214,20 +217,23 @@ class AmendFinancialDetailsControllerSpec
       AuditEvent(
         auditType = "AmendEmploymentFinancialDetails",
         transactionName = "amend-employment-financial-details",
-        detail = GenericAuditDetail(
+        detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          request = requestBody,
+          versionNumber = apiVersion.name,
+          params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+
     protected def callController(): Future[Result] =
-      controller.amendFinancialDetails(nino, taxYear, employmentId)(fakePutRequest(requestBodyJson))
+      controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakePutRequest(requestBodyJson))
 
   }
 

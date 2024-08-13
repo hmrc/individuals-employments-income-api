@@ -16,10 +16,10 @@
 
 package v1.models.response.retrieveOtherEmployment
 
-import api.models.domain.Timestamp
+import common.utils.JsonUtils
+import shared.models.domain.Timestamp
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
-import utils.JsonUtils
 
 case class RetrieveOtherEmploymentResponse(submittedOn: Timestamp,
                                            shareOption: Option[Seq[ShareOptionItem]],

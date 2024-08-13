@@ -16,13 +16,15 @@
 
 package v1.controllers.validators
 
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.errors._
-import mocks.MockAppConfig
-import support.UnitSpec
+import common.errors._
+import common.models.domain.EmploymentId
+import mocks.MockEmploymentsAppConfig
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.utils.UnitSpec
 import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
-class DeleteCustomEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
+class DeleteCustomEmploymentValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -38,11 +40,11 @@ class DeleteCustomEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId): Either[ErrorWrapper, DeleteCustomEmploymentRequest] =
-      new DeleteCustomEmploymentValidator(nino, taxYear, employmentId, mockAppConfig).validateAndWrapResult()
+      new DeleteCustomEmploymentValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "validate" should {

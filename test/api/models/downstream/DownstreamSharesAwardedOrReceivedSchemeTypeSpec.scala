@@ -16,12 +16,13 @@
 
 package api.models.downstream
 
-import api.models.domain.SharesAwardedOrReceivedSchemeType
-import api.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType._
-import support.UnitSpec
-import utils.enums.EnumJsonSpecSupport
+import common.models.domain.SharesAwardedOrReceivedSchemeType
+import common.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType
+import common.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType._
+import shared.utils.UnitSpec
+import utils.enums.EmploymentsEnumJsonSpecSupport
 
-class DownstreamSharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
+class DownstreamSharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EmploymentsEnumJsonSpecSupport {
 
   testDeserialization[DownstreamSharesAwardedOrReceivedSchemeType](
     "SIP"   -> `SIP`,

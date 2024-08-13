@@ -16,10 +16,13 @@
 
 package v1.controllers.validators
 
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
-import api.models.errors._
-import mocks.MockAppConfig
-import support.UnitSpec
+import common.errors.SourceFormatError
+import common.models.domain.MtdSourceEnum
+import mocks.MockEmploymentsAppConfig
+import shared.config.MockAppConfig
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.utils.UnitSpec
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
 class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockAppConfig {
@@ -31,16 +34,16 @@ class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockApp
   private val parsedNino    = Nino(validNino)
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
-  trait Test {
+  trait Test extends MockEmploymentsAppConfig {
 
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  maybeSource: Option[String] = None): Either[ErrorWrapper, RetrieveNonPayeEmploymentIncomeRequest] =
-      new RetrieveNonPayeEmploymentIncomeValidator(nino, taxYear, maybeSource, mockAppConfig).validateAndWrapResult()
+      new RetrieveNonPayeEmploymentIncomeValidator(nino, taxYear, maybeSource, mockEmploymentsConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "validate" should {

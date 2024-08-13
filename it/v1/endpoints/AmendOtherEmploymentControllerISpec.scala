@@ -16,18 +16,19 @@
 
 package v1.endpoints
 
-import api.models.errors._
-import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
+import common.errors.{DateFormatError, ValueFormatError, _}
+import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import support.IntegrationBaseSpec
+import shared.models.errors._
+import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import v1.endpoints.AmendOtherEmploymentControllerISpec._
 
-class AmendOtherEmploymentControllerISpec extends IntegrationBaseSpec {
+class AmendOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   "Calling the 'amend other employment income' endpoint" should {
     "return a 200 status code" when {
@@ -551,7 +552,7 @@ object AmendOtherEmploymentControllerISpec {
         ))
     ),
     DateFormatError.copy(
-      message = "The field should be in the format YYYY-MM-DD",
+      message = "The supplied date format is not valid",
       paths = Some(
         List(
           "/shareOption/0/dateOfOptionGrant",
@@ -753,7 +754,7 @@ object AmendOtherEmploymentControllerISpec {
       |        },
       |        {
       |            "code":"FORMAT_DATE",
-      |            "message":"The field should be in the format YYYY-MM-DD",
+      |            "message":"The supplied date format is not valid",
       |            "paths":[
       |                "/shareOption/0/dateOfOptionGrant",
       |                "/shareOption/0/dateOfEvent",
@@ -1302,7 +1303,7 @@ object AmendOtherEmploymentControllerISpec {
   )
 
   val dateFormatError: MtdError = DateFormatError.copy(
-    message = "The field should be in the format YYYY-MM-DD",
+    message = "The supplied date format is not valid",
     paths = Some(
       Seq(
         "/shareOption/0/dateOfOptionGrant",

@@ -16,14 +16,14 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
-import config.AppConfig
+import shared.controllers.validators.Validator
+import config.EmploymentsAppConfig
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class IgnoreEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
+class IgnoreEmploymentValidatorFactory @Inject() (appConfig: EmploymentsAppConfig) {
 
   def validator(nino: String, taxYear: String, employmentId: String): Validator[IgnoreEmploymentRequest] =
     new IgnoreEmploymentValidator(nino, taxYear, employmentId, appConfig)

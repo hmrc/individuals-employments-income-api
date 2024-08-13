@@ -16,7 +16,8 @@
 
 package api.models.domain
 
-import support.UnitSpec
+import common.models.domain.TransactionId
+import shared.utils.UnitSpec
 
 class TransactionIdSpec extends UnitSpec {
 

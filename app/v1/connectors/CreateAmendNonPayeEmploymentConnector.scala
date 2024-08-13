@@ -16,9 +16,10 @@
 
 package v1.connectors
 
-import api.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import config.AppConfig
+import config.EmploymentsAppConfig
+import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
+import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest
 
@@ -26,24 +27,25 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class CreateAmendNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class CreateAmendNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def createAndAmend(request: CreateAmendNonPayeEmploymentRequest)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
     import request._
 
     val uri = if (taxYear.useTaxYearSpecificApi) {
       TaxYearSpecificIfsUri[Unit](s"income-tax/income/employments/non-paye/${taxYear.asTysDownstream}/${nino.nino}")
     } else {
       // Pre-tys uses MTD tax year format
-      Api1661Uri[Unit](s"income-tax/income/employments/non-paye/${nino.nino}/${taxYear.asMtd}")
+      DownstreamUri[Unit](
+        s"income-tax/income/employments/non-paye/${nino.nino}/${taxYear.asMtd}",
+        DownstreamStrategy.standardStrategy(appConfig.api1661DownstreamConfig))
     }
 
-    put(uri, body)
+    put(body = body, uri = uri)
   }
 
 }

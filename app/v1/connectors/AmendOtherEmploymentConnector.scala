@@ -16,9 +16,10 @@
 
 package v1.connectors
 
-import api.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import config.AppConfig
+import shared.config.AppConfig
+import shared.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
+import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.amendOtherEmployment.AmendOtherEmploymentRequest
 
@@ -33,7 +34,6 @@ class AmendOtherEmploymentConnector @Inject() (val http: HttpClient, val appConf
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
     import request._
 
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
@@ -42,7 +42,7 @@ class AmendOtherEmploymentConnector @Inject() (val http: HttpClient, val appConf
       DesUri[Unit](s"income-tax/income/other/employments/${nino.nino}/${taxYear.asMtd}")
     }
 
-    put(downstreamUri, body)
+    put(body, downstreamUri)
   }
 
 }

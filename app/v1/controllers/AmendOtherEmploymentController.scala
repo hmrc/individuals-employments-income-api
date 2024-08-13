@@ -16,12 +16,13 @@
 
 package v1.controllers
 
-import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
+import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import utils.IdGenerator
+import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.AmendOtherEmploymentValidatorFactory
 import v1.services.AmendOtherEmploymentService
 
@@ -35,7 +36,7 @@ class AmendOtherEmploymentController @Inject() (val authService: EnrolmentsAuthS
                                                 service: AmendOtherEmploymentService,
                                                 auditService: AuditService,
                                                 cc: ControllerComponents,
-                                                val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                                val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "amend-other-employment"
@@ -62,6 +63,7 @@ class AmendOtherEmploymentController @Inject() (val authService: EnrolmentsAuthS
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "CreateAmendOtherEmployment",
+          apiVersion = Version(request),
           transactionName = "create-amend-other-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
           requestBody = Some(request.body)

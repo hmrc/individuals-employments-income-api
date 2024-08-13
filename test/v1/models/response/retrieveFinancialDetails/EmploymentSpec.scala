@@ -16,9 +16,9 @@
 
 package v1.models.response.retrieveFinancialDetails
 
-import api.models.domain.PayFrequency
+import common.models.domain.PayFrequency
 import play.api.libs.json.{JsError, JsValue, Json}
-import support.UnitSpec
+import shared.utils.UnitSpec
 
 class EmploymentSpec extends UnitSpec {
 

@@ -16,13 +16,13 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.domain.{Nino, TaxYear, Timestamp}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.models.domain.{Nino, TaxYear, Timestamp}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockListEmploymentsValidatorFactory
 import v1.fixtures.ListEmploymentsControllerFixture.mtdResponse
 import v1.mocks.services.MockListEmploymentsService
@@ -33,9 +33,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ListEmploymentsControllerSpec
-    extends ControllerBaseSpec
-    with ControllerTestRunner
-    with MockAppConfig
+    extends EmploymentsControllerBaseSpec
+    with EmploymentsControllerTestRunner
+    with MockEmploymentsAppConfig
     with MockListEmploymentsService
     with MockListEmploymentsValidatorFactory {
 
@@ -43,7 +43,7 @@ class ListEmploymentsControllerSpec
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   val requestData: ListEmploymentsRequest = ListEmploymentsRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
 
@@ -98,7 +98,7 @@ class ListEmploymentsControllerSpec
     }
   }
 
-  trait Test extends ControllerTest {
+  trait Test extends EmploymentsControllerTest {
 
     val controller = new ListEmploymentsController(
       authService = mockEnrolmentsAuthService,
@@ -109,13 +109,14 @@ class ListEmploymentsControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.listEmployments(nino, taxYear)(fakeGetRequest)
+    protected def callController(): Future[Result] = controller.listEmployments(validNino, taxYear)(fakeGetRequest)
   }
 
 }

@@ -16,15 +16,16 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import api.connectors.EmploymentsConnectorSpec
+import common.models.domain.MtdSourceEnum
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
 import scala.concurrent.Future
 
-class RetrieveNonPayeEmploymentConnectorSpec extends ConnectorSpec {
+class RetrieveNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String = "AA111111A"
 
@@ -44,7 +45,7 @@ class RetrieveNonPayeEmploymentConnectorSpec extends ConnectorSpec {
     }
 
     "retrieveUkDividendsIncomeAnnualSummary is called for a TaxYearSpecific tax year" must {
-      "return a 200 for success scenario" in new TysIfsTest with Test {
+      "return a 200 for success scenario" in new EmploymentsTysIfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, responseModel))
@@ -57,11 +58,11 @@ class RetrieveNonPayeEmploymentConnectorSpec extends ConnectorSpec {
     }
   }
 
-  trait Test { _: ConnectorTest =>
+  trait Test { _: EmploymentsConnectorTest =>
     def taxYear: TaxYear
 
     protected val connector: RetrieveNonPayeEmploymentConnector =
-      new RetrieveNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockAppConfig)
+      new RetrieveNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockEmploymentsConfig)
 
     protected val request: RetrieveNonPayeEmploymentIncomeRequest =
       RetrieveNonPayeEmploymentIncomeRequest(Nino("AA111111A"), taxYear = taxYear, MtdSourceEnum.latest)

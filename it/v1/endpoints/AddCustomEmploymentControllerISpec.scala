@@ -16,17 +16,20 @@
 
 package v1.endpoints
 
-import api.models.errors._
-import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
+import common.errors._
+import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import support.IntegrationBaseSpec
+import shared.models.errors._
+import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
+import java.time.LocalDate
+
+class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
@@ -296,6 +299,20 @@ class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
             val response: WSResponse = await(request().post(requestBodyJson))
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
+          }
+        }
+
+        def getCurrentTaxYear: String = {
+          val currentDate = LocalDate.now()
+
+          val taxYearStartDate: LocalDate = LocalDate.parse(s"${currentDate.getYear}-04-06")
+
+          def fromDesIntToString(taxYear: Int): String = s"${taxYear - 1}-${taxYear.toString.drop(2)}"
+
+          if (currentDate.isBefore(taxYearStartDate)) {
+            fromDesIntToString(currentDate.getYear)
+          } else {
+            fromDesIntToString(currentDate.getYear + 1)
           }
         }
 

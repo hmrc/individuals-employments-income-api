@@ -16,7 +16,8 @@
 
 package api.models.domain
 
-import support.UnitSpec
+import common.models.domain.CalculationId
+import shared.utils.UnitSpec
 
 class CalculationIdSpec extends UnitSpec {
 
