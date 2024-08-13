@@ -16,7 +16,7 @@
 
 package api.controllers.validators
 
-import api.models.errors.MtdError
+import shared.models.errors.MtdError
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import org.scalamock.handlers.CallHandler

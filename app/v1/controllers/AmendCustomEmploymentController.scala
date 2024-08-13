@@ -18,10 +18,12 @@ package v1.controllers
 
 import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.{AppConfig, FeatureSwitches}
+import config.EmploymentsFeatureSwitches
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import utils.IdGenerator
+import shared.config.AppConfig
+import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.utils.IdGenerator
 import v1.controllers.validators.AmendCustomEmploymentValidatorFactory
 import v1.services.AmendCustomEmploymentService
 
@@ -55,7 +57,7 @@ class AmendCustomEmploymentController @Inject() (val authService: EnrolmentsAuth
         taxYear = taxYear,
         employmentId = employmentId,
         body = request.body,
-        temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled
+        temporalValidationEnabled = EmploymentsFeatureSwitches(appConfig.featureSwitchConfig).isTemporalValidationEnabled
       )
 
       val requestHandler = RequestHandler

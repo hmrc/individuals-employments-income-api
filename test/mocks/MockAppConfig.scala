@@ -16,16 +16,16 @@
 
 package mocks
 
-import api.models.domain.TaxYear
-import config.{AppConfig, ConfidenceLevelConfig}
+import shared.models.domain.TaxYear
+import config.{EmploymentsAppConfig, ConfidenceLevelConfig}
 import org.scalamock.handlers.{CallHandler, CallHandler0}
 import org.scalamock.scalatest.MockFactory
 import play.api.Configuration
-import routing.Version
+import shared.routing.Version
 
 trait MockAppConfig extends MockFactory {
 
-  implicit val mockAppConfig: AppConfig = mock[AppConfig]
+  implicit val mockAppConfig: EmploymentsAppConfig = mock[EmploymentsAppConfig]
 
   object MockedAppConfig {
     // DES Config

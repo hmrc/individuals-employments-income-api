@@ -17,16 +17,17 @@
 package v1.controllers.validators
 
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
-import api.models.errors.MtdError
+import api.controllers.validators.resolvers.ResolveTaxYearMinimum
+import shared.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
-import config.AppConfig
+import config.EmploymentsAppConfig
+import shared.controllers.validators.resolvers.ResolveNino
 import v1.models.request.listEmployments.ListEmploymentsRequest
 
-class ListEmploymentsValidator(nino: String, taxYear: String, appConfig: AppConfig) extends Validator[ListEmploymentsRequest] {
+class ListEmploymentsValidator(nino: String, taxYear: String, appConfig: EmploymentsAppConfig) extends Validator[ListEmploymentsRequest] {
 
-  private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear)
+  private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
 
   override def validate: Validated[Seq[MtdError], ListEmploymentsRequest] =
     (

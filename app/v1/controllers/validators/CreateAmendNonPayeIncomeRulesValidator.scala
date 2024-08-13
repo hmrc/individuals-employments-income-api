@@ -17,7 +17,7 @@
 package v1.controllers.validators
 
 import api.controllers.validators.RulesValidator
-import api.models.errors.MtdError
+import shared.models.errors.MtdError
 import cats.data.Validated
 import v1.models.request.createAmendNonPayeEmployment.{CreateAmendNonPayeEmploymentRequest, CreateAmendNonPayeEmploymentRequestBody}
 import v1.controllers.validators.resolvers.EmploymentsIncomeValidators._

@@ -16,8 +16,8 @@
 
 package api.controllers.validators.resolvers
 
-import api.models.errors.MtdError
 import cats.data.Validated
+import shared.models.errors.MtdError
 
 import scala.util.matching.Regex
 

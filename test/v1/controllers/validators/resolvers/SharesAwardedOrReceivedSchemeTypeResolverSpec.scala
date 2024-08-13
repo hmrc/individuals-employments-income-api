@@ -17,7 +17,7 @@
 package v1.controllers.validators.resolvers
 
 import api.models.domain.SharesAwardedOrReceivedSchemeType
-import api.models.errors.ClassOfSharesAwardedFormatError
+import shared.models.errors.ClassOfSharesAwardedFormatError
 import cats.data.Validated.{Invalid, Valid}
 import support.UnitSpec
 

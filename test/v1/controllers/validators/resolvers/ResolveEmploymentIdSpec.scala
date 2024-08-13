@@ -17,7 +17,7 @@
 package v1.controllers.validators.resolvers
 
 import api.models.domain.EmploymentId
-import api.models.errors.EmploymentIdFormatError
+import shared.models.errors.EmploymentIdFormatError
 import cats.data.Validated.{Invalid, Valid}
 import support.UnitSpec
 

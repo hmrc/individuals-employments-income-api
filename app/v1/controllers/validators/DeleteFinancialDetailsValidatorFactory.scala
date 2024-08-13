@@ -17,13 +17,13 @@
 package v1.controllers.validators
 
 import api.controllers.validators.Validator
-import config.AppConfig
+import config.EmploymentsAppConfig
 import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class DeleteFinancialDetailsValidatorFactory @Inject() (appConfig: AppConfig) {
+class DeleteFinancialDetailsValidatorFactory @Inject() (appConfig: EmploymentsAppConfig) {
 
   def validator(nino: String, taxYear: String, employmentId: String): Validator[DeleteEmploymentFinancialDetailsRequest] =
     new DeleteFinancialDetailsValidator(nino, taxYear, employmentId, appConfig)

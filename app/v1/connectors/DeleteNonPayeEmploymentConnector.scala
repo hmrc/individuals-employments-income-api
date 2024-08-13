@@ -16,10 +16,10 @@
 
 package v1.connectors
 
-import api.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
-import api.connectors.httpparsers.StandardDownstreamHttpParser._
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import config.AppConfig
+import config.EmploymentsAppConfig
+import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
+import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
@@ -27,7 +27,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class DeleteNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def deleteNonPayeEmployment(request: DeleteNonPayeEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -41,8 +41,9 @@ class DeleteNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appC
         s"income-tax/employments/non-paye/${taxYear.asTysDownstream}/${nino.value}"
       )
     } else {
-      Api1661Uri[Unit](
-        s"income-tax/employments/non-paye/${nino.value}/${taxYear.asMtd}"
+      DownstreamUri[Unit](
+        s"income-tax/employments/non-paye/${nino.value}/${taxYear.asMtd}",
+        DownstreamStrategy.standardStrategy(appConfig.api1661DownstreamConfig)
       )
     }
 

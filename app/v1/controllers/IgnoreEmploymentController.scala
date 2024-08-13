@@ -18,9 +18,11 @@ package v1.controllers
 
 import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
+import shared.config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import utils.{IdGenerator, Logging}
+import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.utils.IdGenerator
+import utils.Logging
 import v1.controllers.validators.IgnoreEmploymentValidatorFactory
 import v1.services.IgnoreEmploymentService
 

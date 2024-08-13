@@ -16,7 +16,7 @@
 
 package api.services
 
-import api.controllers.{EndpointLogContext, RequestContext}
+import api.controllers.RequestContext
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import support.UnitSpec
 import uk.gov.hmrc.http.HeaderCarrier

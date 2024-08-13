@@ -17,9 +17,9 @@
 package api.services
 
 import api.models.auth.UserDetails
-import api.models.errors.{ClientOrAgentNotAuthorisedError, InternalError}
-import api.models.outcomes.AuthOutcome
-import api.services.EnrolmentsAuthService.{authorisationDisabledPredicate, authorisationEnabledPredicate, mtdEnrolmentPredicate, supportingAgentAuthPredicate}
+import shared.models.errors.{ClientOrAgentNotAuthorisedError, InternalError}
+import shared.models.outcomes.AuthOutcome
+import shared.services.EnrolmentsAuthService.{authorisationDisabledPredicate, authorisationEnabledPredicate, mtdEnrolmentPredicate, supportingAgentAuthPredicate}
 import config.ConfidenceLevelConfig
 import mocks.MockAppConfig
 import org.scalamock.handlers.CallHandler

@@ -17,7 +17,7 @@
 package api.controllers.validators.resolvers
 
 import api.models.domain.Nino
-import api.models.errors.NinoFormatError
+import shared.models.errors.NinoFormatError
 import cats.data.Validated.{Invalid, Valid}
 import support.UnitSpec
 

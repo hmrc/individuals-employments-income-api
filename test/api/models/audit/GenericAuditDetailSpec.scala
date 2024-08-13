@@ -16,7 +16,7 @@
 
 package api.models.audit
 
-import api.models.errors.TaxYearFormatError
+import shared.models.errors.TaxYearFormatError
 import play.api.http.Status.{BAD_REQUEST, OK}
 import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec

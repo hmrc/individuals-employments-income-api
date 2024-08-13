@@ -17,9 +17,8 @@
 package v1.connectors
 
 import api.connectors.{ConnectorSpec, DownstreamOutcome}
-import api.models.domain.{EmploymentId, MtdSourceEnum, Nino, TaxYear, Timestamp}
-import api.models.errors.{DownstreamErrorCode, DownstreamErrors}
-import api.models.outcomes.ResponseWrapper
+import shared.models.domain.{EmploymentId, MtdSourceEnum, Nino, TaxYear, Timestamp}
+import shared.models.errors}
 import org.scalamock.handlers.CallHandler
 import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 import v1.models.response.retrieveFinancialDetails.{Employer, Employment, RetrieveEmploymentAndFinancialDetailsResponse}

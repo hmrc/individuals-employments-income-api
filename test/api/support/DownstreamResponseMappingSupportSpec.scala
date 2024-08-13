@@ -16,10 +16,8 @@
 
 package api.support
 
-import api.controllers.EndpointLogContext
-import api.models.errors
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
+import shared.models.errors
+import shared.models.errors._
 import play.api.http.Status.BAD_REQUEST
 import play.api.libs.json.{Format, Json}
 import support.UnitSpec

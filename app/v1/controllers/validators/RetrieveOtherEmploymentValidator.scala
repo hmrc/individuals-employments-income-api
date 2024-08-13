@@ -17,14 +17,15 @@
 package v1.controllers.validators
 
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
-import api.models.errors.MtdError
+import api.controllers.validators.resolvers.{ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
-import config.AppConfig
+import config.EmploymentsAppConfig
+import shared.controllers.validators.resolvers.ResolveNino
 import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 
-class RetrieveOtherEmploymentValidator(nino: String, taxYear: String, appConfig: AppConfig)
+class RetrieveOtherEmploymentValidator(nino: String, taxYear: String, appConfig: EmploymentsAppConfig)
     extends Validator[RetrieveOtherEmploymentIncomeRequest]
     with ResolverSupport {
 

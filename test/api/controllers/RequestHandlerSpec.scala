@@ -23,13 +23,12 @@ import api.mocks.hateoas.MockHateoasFactory
 import api.mocks.services.MockAuditService
 import api.models.audit.{AuditError, AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.auth.UserDetails
-import api.models.errors.{ErrorWrapper, MtdError, NinoFormatError}
+import shared.models.errors.{ErrorWrapper, MtdError, NinoFormatError}
 import api.models.hateoas.{HateoasData, HateoasWrapper, Link}
-import api.models.outcomes.ResponseWrapper
 import api.services.ServiceOutcome
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
-import config.AppConfig
+import shared.config.AppConfig
 import mocks.MockAppConfig
 import org.scalamock.handlers.CallHandler
 import play.api.http.{HeaderNames, Status}

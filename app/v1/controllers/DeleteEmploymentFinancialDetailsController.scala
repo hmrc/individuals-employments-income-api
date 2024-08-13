@@ -18,14 +18,15 @@ package v1.controllers
 
 import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
+import shared.config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import utils.IdGenerator
 import v1.controllers.validators.DeleteFinancialDetailsValidatorFactory
 import v1.services.DeleteEmploymentFinancialDetailsService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
+import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.utils.IdGenerator
 
 @Singleton
 class DeleteEmploymentFinancialDetailsController @Inject() (val authService: EnrolmentsAuthService,

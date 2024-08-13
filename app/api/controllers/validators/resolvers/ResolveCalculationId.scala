@@ -17,7 +17,7 @@
 package api.controllers.validators.resolvers
 
 import api.models.domain.CalculationId
-import api.models.errors.{CalculationIdFormatError, MtdError}
+import shared.models.errors.{CalculationIdFormatError, MtdError}
 import cats.data.Validated
 
 object ResolveCalculationId extends ResolverSupport {

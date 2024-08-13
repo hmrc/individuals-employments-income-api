@@ -17,9 +17,8 @@
 package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
+import shared.models.domain.{MtdSourceEnum, Nino, TaxYear}
+import shared.models.errors._
 import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.mvc.Result

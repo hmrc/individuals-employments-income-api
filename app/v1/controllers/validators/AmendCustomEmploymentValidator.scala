@@ -16,14 +16,15 @@
 
 package v1.controllers.validators
 
+import shared.controllers.validators.resolvers.ResolveNino
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
-import api.models.domain.TaxYear
-import api.models.errors.{MtdError, RuleTaxYearNotEndedError}
+import api.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
 import cats.implicits._
-import config.AppConfig
 import play.api.libs.json.JsValue
+import config.EmploymentsAppConfig
+import shared.models.domain.TaxYear
 import v1.controllers.validators.resolvers.ResolveEmploymentId
 import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
@@ -39,7 +40,7 @@ class AmendCustomEmploymentValidator(nino: String,
                                      employmentId: String,
                                      body: JsValue,
                                      temporalValidationEnabled: Boolean,
-                                     appConfig: AppConfig)(implicit clock: Clock = Clock.systemUTC)
+                                     appConfig: EmploymentsAppConfig)(implicit clock: Clock = Clock.systemUTC)
     extends Validator[AmendCustomEmploymentRequest]
     with ResolverSupport {
   import AmendCustomEmploymentValidator._

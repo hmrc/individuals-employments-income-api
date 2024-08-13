@@ -16,9 +16,9 @@
 
 package v1.connectors
 
-import api.connectors.DownstreamUri.Release6Uri
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import config.AppConfig
+import config.EmploymentsAppConfig
+import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.listEmployments.ListEmploymentsRequest
 import v1.models.response.listEmployment.ListEmploymentResponse
@@ -27,20 +27,18 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def listEmployments(request: ListEmploymentsRequest)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[ListEmploymentResponse]] = {
 
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
-
     val nino    = request.nino.nino
     val taxYear = request.taxYear
 
     get(
-      Release6Uri[ListEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}")
+      DownstreamUri[ListEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}", DownstreamStrategy.standardStrategy(appConfig.release6DownstreamConfig))
     )
   }
 

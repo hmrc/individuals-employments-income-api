@@ -17,6 +17,7 @@
 package api.models.errors
 
 import play.api.http.Status._
+import shared.models.errors.MtdError
 
 object EmploymentIdFormatError    extends MtdError("FORMAT_EMPLOYMENT_ID", "The provided employment ID is invalid", BAD_REQUEST)
 object CustomerRefFormatError extends MtdError("FORMAT_CUSTOMER_REF", "The provided customer reference is invalid", BAD_REQUEST)

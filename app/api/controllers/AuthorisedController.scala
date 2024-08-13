@@ -17,10 +17,10 @@
 package api.controllers
 
 import api.models.auth.UserDetails
-import api.models.errors.MtdError
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
-import config.{AppConfig, FeatureSwitches}
+import config.{EmploymentsAppConfig, EmploymentsFeatureSwitches}
 import play.api.mvc._
+import shared.models.errors.MtdError
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
@@ -28,17 +28,14 @@ import scala.concurrent.{ExecutionContext, Future}
 
 case class UserRequest[A](userDetails: UserDetails, request: Request[A]) extends WrappedRequest[A](request)
 
-abstract class AuthorisedController(
-    cc: ControllerComponents
-)(implicit appConfig: AppConfig, ec: ExecutionContext)
-    extends BackendController(cc) {
+abstract class AuthorisedController(cc: ControllerComponents)(implicit appConfig: EmploymentsAppConfig, ec: ExecutionContext) extends BackendController(cc) {
 
   val authService: EnrolmentsAuthService
   val lookupService: MtdIdLookupService
 
   val endpointName: String
 
-  lazy private val supportingAgentsAccessControlEnabled: Boolean = FeatureSwitches(appConfig).supportingAgentsAccessControlEnabled
+  lazy private val supportingAgentsAccessControlEnabled: Boolean = EmploymentsFeatureSwitches(appConfig).supportingAgentsAccessControlEnabled
 
   lazy private val endpointAllowsSupportingAgents: Boolean = {
     supportingAgentsAccessControlEnabled &&

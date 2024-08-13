@@ -16,7 +16,7 @@
 
 package api.controllers.validators.resolvers
 
-import api.models.errors.RuleIncorrectOrEmptyBodyError
+import shared.models.errors.RuleIncorrectOrEmptyBodyError
 import api.models.utils.JsonErrorValidators
 import cats.data.Validated.{Invalid, Valid}
 import play.api.libs.json.{Json, Reads}

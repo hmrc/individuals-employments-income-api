@@ -17,15 +17,16 @@
 package v1.controllers.validators
 
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
-import api.models.errors.MtdError
+import api.controllers.validators.resolvers.{ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
-import config.AppConfig
+import config.EmploymentsAppConfig
+import shared.controllers.validators.resolvers.ResolveNino
 import v1.controllers.validators.resolvers.ResolveEmploymentId
 import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
-class DeleteFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, appConfig: AppConfig)
+class DeleteFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, appConfig: EmploymentsAppConfig)
     extends Validator[DeleteEmploymentFinancialDetailsRequest]
     with ResolverSupport {
 

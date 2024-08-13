@@ -16,7 +16,7 @@
 
 package api.controllers.validators.resolvers
 
-import api.models.errors.{MtdError, StartDateFormatError}
+import shared.models.errors.{MtdError, StartDateFormatError}
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import support.UnitSpec

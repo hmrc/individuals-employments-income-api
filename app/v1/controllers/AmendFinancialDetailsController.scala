@@ -18,15 +18,16 @@ package v1.controllers
 
 import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
+import shared.config.AppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import utils.IdGenerator
 import v1.controllers.validators.AmendFinancialDetailsValidatorFactory
 import v1.services.AmendFinancialDetailsService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
+import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.utils.IdGenerator
 
 @Singleton
 class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuthService,

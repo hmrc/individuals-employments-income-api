@@ -18,18 +18,19 @@ package api.controllers
 
 import api.controllers.validators.Validator
 import api.hateoas.{HateoasFactory, HateoasLinksFactory}
-import api.models.errors.{ErrorWrapper, InternalError, RuleRequestCannotBeFulfilledError}
+import shared.models.errors.{ErrorWrapper, InternalError, RuleRequestCannotBeFulfilledError}
 import api.models.hateoas.{HateoasData, HateoasWrapper}
-import api.models.outcomes.ResponseWrapper
 import api.services.ServiceOutcome
 import cats.data.EitherT
 import cats.implicits._
-import config.AppConfig
 import play.api.http.Status
 import play.api.libs.json.{JsValue, Writes}
 import play.api.mvc.Result
 import play.api.mvc.Results.InternalServerError
-import routing.Version
+import shared.config.AppConfig
+import shared.controllers.{EndpointLogContext, RequestContext, RequestContextImplicits}
+import shared.models.outcomes.ResponseWrapper
+import shared.routing.Version
 import utils.Logging
 
 import scala.concurrent.{ExecutionContext, Future}

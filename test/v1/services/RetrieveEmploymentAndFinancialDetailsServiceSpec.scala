@@ -16,10 +16,8 @@
 
 package v1.services
 
-import api.controllers.EndpointLogContext
 import api.models.domain._
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
+import shared.models.errors._
 import api.services.ServiceSpec
 import mocks.MockAppConfig
 import uk.gov.hmrc.http.HeaderCarrier

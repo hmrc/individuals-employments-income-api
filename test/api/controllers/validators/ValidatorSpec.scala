@@ -17,14 +17,15 @@
 package api.controllers.validators
 
 import cats.implicits._
-import api.controllers.validators.resolvers.{ResolveJsonObject, ResolveNino, ResolveTaxYear}
-import api.models.domain.{Nino, TaxYear}
-import api.models.errors.{BadRequestError, ErrorWrapper, MtdError, NinoFormatError, RuleIncorrectOrEmptyBodyError, TaxYearFormatError}
+import shared.controllers.validators.resolvers.{ResolveJsonObject, ResolveNino, ResolveTaxYear}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors.{BadRequestError, ErrorWrapper, MtdError, NinoFormatError, RuleIncorrectOrEmptyBodyError, TaxYearFormatError}
 import cats.data.Validated
 import cats.data.Validated.Invalid
 import org.scalamock.scalatest.MockFactory
 import play.api.http.Status.BAD_REQUEST
 import play.api.libs.json.{JsValue, Json, Reads}
+import shared.models.errors.MtdError
 import support.UnitSpec
 
 class ValidatorSpec extends UnitSpec with MockFactory {

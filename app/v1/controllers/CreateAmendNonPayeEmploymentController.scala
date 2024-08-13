@@ -18,15 +18,17 @@ package v1.controllers
 
 import api.controllers._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.{AppConfig, FeatureSwitches}
+import config.EmploymentsFeatureSwitches
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import utils.IdGenerator
+import shared.config.AppConfig
 import v1.controllers.validators.CreateAmendNonPayeEmploymentIncomeValidatorFactory
 import v1.services.CreateAmendNonPayeEmploymentService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
+import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.utils.IdGenerator
 
 @Singleton
 class CreateAmendNonPayeEmploymentController @Inject() (val authService: EnrolmentsAuthService,
@@ -54,7 +56,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
         nino = nino,
         taxYear = taxYear,
         body = request.body,
-        temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled
+        temporalValidationEnabled = EmploymentsFeatureSwitches(appConfig.featureSwitchConfig).isTemporalValidationEnabled
       )
 
       val requestHandler = RequestHandler

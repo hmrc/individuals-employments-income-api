@@ -16,6 +16,7 @@
 
 package v1.models.request.amendFinancialDetails
 
-import api.models.domain.{EmploymentId, Nino, TaxYear}
+import api.models.domain.EmploymentId
+import shared.models.domain.{Nino, TaxYear}
 
 case class AmendFinancialDetailsRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId, body: AmendFinancialDetailsRequestBody)

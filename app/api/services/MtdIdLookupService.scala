@@ -16,10 +16,10 @@
 
 package api.services
 
-import api.connectors.MtdIdLookupConnector
-import api.controllers.validators.resolvers.ResolveNino
-import api.models.errors._
 import play.api.http.Status.{FORBIDDEN, UNAUTHORIZED}
+import shared.connectors.MtdIdLookupConnector
+import shared.controllers.validators.resolvers.ResolveNino
+import shared.models.errors.{MtdError, _}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import javax.inject.{Inject, Singleton}

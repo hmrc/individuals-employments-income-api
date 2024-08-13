@@ -17,8 +17,7 @@
 package v1.connectors
 
 import api.connectors.ConnectorSpec
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import shared.models.domain.{EmploymentId, Nino, TaxYear}
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
 

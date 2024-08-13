@@ -17,8 +17,9 @@
 package v1.controllers.validators.resolvers
 
 import api.controllers.validators.resolvers.{ResolveParsedNumber, ResolveStringPattern, ResolverSupport}
-import api.models.errors._
+import api.models.errors.{ValueFormatError, _}
 import cats.data.Validated
+import shared.models.errors._
 
 object EmploymentsIncomeValidators extends ResolverSupport {
 

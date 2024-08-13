@@ -17,7 +17,7 @@
 package api.controllers.validators.resolvers
 
 import api.models.domain.DateRange
-import api.models.errors.{EndDateFormatError, RuleEndBeforeStartDateError, StartDateFormatError}
+import shared.models.errors.{EndDateFormatError, RuleEndBeforeStartDateError, StartDateFormatError}
 import cats.data.Validated.{Invalid, Valid}
 import support.UnitSpec
 

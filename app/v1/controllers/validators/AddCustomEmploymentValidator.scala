@@ -16,14 +16,15 @@
 
 package v1.controllers.validators
 
+import shared.controllers.validators.resolvers.ResolveNino
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
-import api.models.domain.TaxYear
-import api.models.errors.{MtdError, RuleTaxYearNotEndedError}
+import api.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
 import cats.implicits._
-import config.AppConfig
+import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
+import shared.models.domain.TaxYear
 import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 
 import java.time.Clock
@@ -33,7 +34,7 @@ object AddCustomEmploymentValidator {
   private val resolveJson = ResolveNonEmptyJsonObject.resolver[AddCustomEmploymentRequestBody]
 }
 
-class AddCustomEmploymentValidator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean, appConfig: AppConfig)(implicit
+class AddCustomEmploymentValidator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean, appConfig: EmploymentsAppConfig)(implicit
     clock: Clock = Clock.systemUTC)
     extends Validator[AddCustomEmploymentRequest]
     with ResolverSupport {

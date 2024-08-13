@@ -16,10 +16,8 @@
 
 package v1.services
 
-import api.controllers.EndpointLogContext
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
+import shared.models.domain.{EmploymentId, Nino, TaxYear}
+import shared.models.errors._
 import api.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.connectors.MockUnignoreEmploymentConnector

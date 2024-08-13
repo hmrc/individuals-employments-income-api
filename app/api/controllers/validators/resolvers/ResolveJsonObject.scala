@@ -16,7 +16,7 @@
 
 package api.controllers.validators.resolvers
 
-import api.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError}
+import shared.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError}
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import play.api.libs.json._

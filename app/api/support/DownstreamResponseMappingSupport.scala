@@ -16,9 +16,10 @@
 
 package api.support
 
-import api.controllers.EndpointLogContext
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
+import shared.models.errors._
+import shared.controllers.EndpointLogContext
+import shared.models.errors.MtdError
+import shared.models.outcomes.ResponseWrapper
 import utils.Logging
 
 trait DownstreamResponseMappingSupport {

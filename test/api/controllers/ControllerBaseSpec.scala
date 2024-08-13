@@ -20,14 +20,14 @@ import api.controllers.ControllerTestRunner.validNino
 import api.mocks.MockIdGenerator
 import api.mocks.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
 import api.models.audit.{AuditError, AuditEvent, AuditResponse}
-import api.models.errors._
+import shared.models.errors._
 import config.RealAppConfig
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import play.api.libs.json.JsValue
 import play.api.mvc.{AnyContentAsEmpty, ControllerComponents, Result}
 import play.api.test.Helpers.stubControllerComponents
 import play.api.test.{FakeRequest, ResultExtractors}
-import routing.{Version, Version4}
+import shared.routing.{Version, Version4}
 import support.UnitSpec
 import uk.gov.hmrc.http.HeaderCarrier
 

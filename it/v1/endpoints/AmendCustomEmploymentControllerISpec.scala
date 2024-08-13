@@ -16,7 +16,7 @@
 
 package v1.endpoints
 
-import api.models.errors._
+import shared.models.errors._
 import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT

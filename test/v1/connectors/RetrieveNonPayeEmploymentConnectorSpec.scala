@@ -17,8 +17,7 @@
 package v1.connectors
 
 import api.connectors.ConnectorSpec
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import shared.models.domain.{MtdSourceEnum, Nino, TaxYear}
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 

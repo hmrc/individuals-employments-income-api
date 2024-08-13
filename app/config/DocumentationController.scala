@@ -17,7 +17,7 @@
 package config
 
 import controllers.Assets
-import definition.ApiDefinitionFactory
+import shared.definition.ApiDefinitionFactory
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController

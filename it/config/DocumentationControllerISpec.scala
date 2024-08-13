@@ -94,7 +94,7 @@ class DocumentationControllerISpec extends IntegrationBaseSpec {
         if (version == Version1) {
           openAPI.getInfo.getTitle shouldBe "Individuals Employments Income (MTD)"
         } else {
-          openAPI.getInfo.getTitle shouldBe "Individuals Employments Income (MTD) [Test only]"
+          openAPI.getInfo.getTitle shouldBe "Individuals Employments Income (MTD)"
         }
         openAPI.getInfo.getVersion shouldBe version.toString
       }

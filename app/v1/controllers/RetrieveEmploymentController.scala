@@ -18,14 +18,16 @@ package v1.controllers
 
 import api.controllers._
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
+import shared.config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import utils.IdGenerator
 import v1.controllers.validators.RetrieveEmploymentValidatorFactory
 import v1.services.RetrieveEmploymentService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
+import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.utils.IdGenerator
+
 
 @Singleton
 class RetrieveEmploymentController @Inject() (val authService: EnrolmentsAuthService,

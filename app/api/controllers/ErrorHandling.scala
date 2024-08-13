@@ -16,7 +16,7 @@
 
 package api.controllers
 
-import api.models.errors.ErrorWrapper
+import shared.models.errors.ErrorWrapper
 import play.api.libs.json.Json
 import play.api.mvc.Result
 import play.api.mvc.Results.Status

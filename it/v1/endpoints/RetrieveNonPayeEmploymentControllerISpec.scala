@@ -16,15 +16,16 @@
 
 package v1.endpoints
 
-import api.models.errors._
-import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import api.models.errors.SourceFormatError
+import shared.models.errors._
+import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import support.IntegrationBaseSpec
+import shared.support.IntegrationBaseSpec
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture
 
 class RetrieveNonPayeEmploymentControllerISpec extends IntegrationBaseSpec {

@@ -16,6 +16,7 @@
 
 package v1.models.request.retrieveNonPayeEmploymentIncome
 
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
+import api.models.domain.MtdSourceEnum
+import shared.models.domain.{Nino, TaxYear}
 
 case class RetrieveNonPayeEmploymentIncomeRequest(nino: Nino, taxYear: TaxYear, source: MtdSourceEnum)

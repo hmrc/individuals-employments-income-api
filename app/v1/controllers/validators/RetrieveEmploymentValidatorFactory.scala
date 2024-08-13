@@ -17,13 +17,13 @@
 package v1.controllers.validators
 
 import api.controllers.validators.Validator
-import config.AppConfig
+import config.EmploymentsAppConfig
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class RetrieveEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
+class RetrieveEmploymentValidatorFactory @Inject() (appConfig: EmploymentsAppConfig) {
 
   def validator(nino: String, taxYear: String, employmentId: String): Validator[RetrieveEmploymentRequest] =
     new RetrieveEmploymentValidator(nino, taxYear, employmentId, appConfig)

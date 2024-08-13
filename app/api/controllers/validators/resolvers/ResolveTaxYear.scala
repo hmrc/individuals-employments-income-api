@@ -16,17 +16,11 @@
 
 package api.controllers.validators.resolvers
 
-import api.models.domain.TaxYear
-import api.models.errors.{
-  InvalidTaxYearParameterError,
-  MtdError,
-  RuleTaxYearNotEndedError,
-  RuleTaxYearNotSupportedError,
-  RuleTaxYearRangeInvalidError,
-  TaxYearFormatError
-}
+import shared.models.domain.TaxYear
+import shared.models.errors.{InvalidTaxYearParameterError, RuleTaxYearNotEndedError, RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
+import shared.models.errors.MtdError
 
 import java.time.Clock
 import scala.math.Ordered.orderingToOrdered

@@ -18,6 +18,7 @@ package api.models.errors
 
 import api.models.audit.AuditError
 import play.api.libs.json.{JsObject, Json, Writes}
+import shared.models.errors.MtdError
 
 /** If the errors arg is defined, error should be a BadRequest.
   */

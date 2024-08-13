@@ -17,14 +17,14 @@
 package v1.controllers.validators
 
 import api.controllers.validators.Validator
-import config.AppConfig
+import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import v1.models.request.amendCustomEmployment.AmendCustomEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class AmendCustomEmploymentValidatorFactory @Inject() (appConfig: AppConfig) {
+class AmendCustomEmploymentValidatorFactory @Inject() (appConfig: EmploymentsAppConfig) {
 
   def validator(nino: String,
                 taxYear: String,

@@ -16,11 +16,12 @@
 
 package v1.controllers
 
-import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import api.controllers.{AuthorisedController, RequestHandler}
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import utils.IdGenerator
+import shared.config.AppConfig
+import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.utils.IdGenerator
 import v1.controllers.validators.RetrieveFinancialDetailsValidatorFactory
 import v1.services.RetrieveEmploymentAndFinancialDetailsService
 

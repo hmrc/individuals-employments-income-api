@@ -17,9 +17,9 @@
 package api.controllers
 
 import api.mocks.services.{MockEnrolmentsAuthService, MockMtdIdLookupService}
-import api.models.errors.{BadRequestError, MtdError}
+import shared.models.errors._
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
-import mocks.MockAppConfig
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, Result}
@@ -73,7 +73,7 @@ class AuthorisedControllerSpec extends ControllerBaseSpec {
 
   }
 
-  trait Test extends MockEnrolmentsAuthService with MockMtdIdLookupService with MockAppConfig{
+  trait Test extends MockEnrolmentsAuthService with MockMtdIdLookupService with MockEmploymentsAppConfig{
 
     val hc: HeaderCarrier = HeaderCarrier()
 
@@ -95,11 +95,11 @@ class AuthorisedControllerSpec extends ControllerBaseSpec {
 
     protected def endpointAllowsSupportingAgents: Boolean = true
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockEmploymentsAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> supportingAgentsfeatureEnabled
     )
 
-    MockedAppConfig
+    MockEmploymentsAppConfig
       .endpointAllowsSupportingAgents(target.endpointName)
       .anyNumberOfTimes() returns endpointAllowsSupportingAgents
 

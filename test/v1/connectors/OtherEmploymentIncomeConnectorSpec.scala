@@ -17,8 +17,7 @@
 package v1.connectors
 
 import api.connectors.ConnectorSpec
-import api.models.domain.{Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import shared.models.domain.{Nino, TaxYear}
 import mocks.MockFeatureSwitches
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveResponse
 import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
