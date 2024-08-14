@@ -36,6 +36,8 @@ class RetrieveOtherEmploymentController @Inject() (val authService: EnrolmentsAu
                                                    val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
+  val endpointName = "retrieve-other-employment"
+
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
       controllerName = "RetrieveOtherEmploymentController",
