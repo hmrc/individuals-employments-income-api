@@ -36,7 +36,7 @@ class IgnoreEmploymentConnector @Inject() (val http: HttpClient, val appConfig: 
 
     val downstreamUri = TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}/ignore")
 
-    put(request, uri = downstreamUri)
+    put(uri = downstreamUri, body = "")
   }
 
 }
