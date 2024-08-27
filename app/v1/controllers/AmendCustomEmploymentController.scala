@@ -16,14 +16,12 @@
 
 package v1.controllers
 
-import shared.controllers.RequestHandler
-import shared.controllers.AuthorisedController
-import api.controllers._
-import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.{EmploymentsAppConfig, EmploymentsFeatureSwitches}
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
 import v1.controllers.validators.AmendCustomEmploymentValidatorFactory
 import v1.services.AmendCustomEmploymentService
@@ -67,6 +65,7 @@ class AmendCustomEmploymentController @Inject() (val authService: EnrolmentsAuth
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "AmendACustomEmployment",
+          apiVersion = Version(request),
           transactionName = "amend-a-custom-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           requestBody = Some(request.body)

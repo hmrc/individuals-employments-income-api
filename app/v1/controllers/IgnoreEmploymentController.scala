@@ -16,13 +16,11 @@
 
 package v1.controllers
 
-import shared.controllers.RequestHandler
-import shared.controllers.AuthorisedController
-import api.controllers._
-import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.EmploymentsAppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
 import utils.Logging
 import v1.controllers.validators.IgnoreEmploymentValidatorFactory
@@ -66,6 +64,7 @@ class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthServi
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "IgnoreEmployment",
+          apiVersion = Version(request),
           transactionName = "ignore-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
         ))

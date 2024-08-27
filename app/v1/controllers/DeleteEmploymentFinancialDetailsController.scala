@@ -16,19 +16,17 @@
 
 package v1.controllers
 
-import shared.controllers.RequestHandler
-import shared.controllers.AuthorisedController
-import api.controllers._
-import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.EmploymentsAppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.DeleteFinancialDetailsValidatorFactory
 import v1.services.DeleteEmploymentFinancialDetailsService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
-import shared.controllers.{EndpointLogContext, RequestContext}
-import shared.utils.IdGenerator
 
 @Singleton
 class DeleteEmploymentFinancialDetailsController @Inject() (val authService: EnrolmentsAuthService,
@@ -64,6 +62,7 @@ class DeleteEmploymentFinancialDetailsController @Inject() (val authService: Enr
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "DeleteEmploymentFinancialDetails",
+          apiVersion = Version(request),
           transactionName = "delete-employment-financial-details",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
         ))

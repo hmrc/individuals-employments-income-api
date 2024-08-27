@@ -16,13 +16,11 @@
 
 package v1.controllers
 
-import shared.controllers.RequestHandler
-import shared.controllers.AuthorisedController
-import api.controllers._
-import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import config.EmploymentsAppConfig
-import shared.controllers.{EndpointLogContext, RequestContext}
+import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
 import v1.controllers.validators.DeleteCustomEmploymentValidatorFactory
 import v1.services.DeleteCustomEmploymentService
@@ -64,6 +62,7 @@ class DeleteCustomEmploymentController @Inject() (val authService: EnrolmentsAut
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "DeleteACustomEmployment",
+          apiVersion = Version(request),
           transactionName = "delete-a-custom-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
         ))

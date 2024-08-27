@@ -16,21 +16,18 @@
 
 package v1.controllers
 
-import shared.controllers.RequestHandler
-import shared.controllers.AuthorisedController
-import api.controllers._
-import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.EmploymentsFeatureSwitches
+import config.{EmploymentsAppConfig, EmploymentsFeatureSwitches}
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import config.EmploymentsAppConfig
+import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.CreateAmendNonPayeEmploymentIncomeValidatorFactory
 import v1.services.CreateAmendNonPayeEmploymentService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
-import shared.controllers.{EndpointLogContext, RequestContext}
-import shared.utils.IdGenerator
 
 @Singleton
 class CreateAmendNonPayeEmploymentController @Inject() (val authService: EnrolmentsAuthService,
@@ -67,6 +64,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "CreateAmendNonPayeEmploymentIncome",
+          apiVersion = Version(request),
           transactionName = "create-amend-non-paye-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
           requestBody = Some(request.body)

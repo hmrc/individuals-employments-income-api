@@ -16,20 +16,18 @@
 
 package v1.controllers
 
-import shared.controllers.RequestHandler
-import shared.controllers.AuthorisedController
-import api.controllers._
-import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
+import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.AmendFinancialDetailsValidatorFactory
 import v1.services.AmendFinancialDetailsService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
-import shared.controllers.{EndpointLogContext, RequestContext}
-import shared.utils.IdGenerator
 
 @Singleton
 class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuthService,
@@ -66,6 +64,7 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "AmendEmploymentFinancialDetails",
+          apiVersion = Version(request),
           transactionName = "amend-employment-financial-details",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           requestBody = Some(request.body)
