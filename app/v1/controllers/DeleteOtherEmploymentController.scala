@@ -16,9 +16,11 @@
 
 package v1.controllers
 
+import shared.controllers.RequestHandler
+import shared.controllers.AuthorisedController
 import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import shared.config.AppConfig
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import config.EmploymentsAppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import v1.controllers.validators.DeleteOtherEmploymentValidatorFactory
 import v1.services.DeleteOtherEmploymentIncomeService
@@ -35,7 +37,7 @@ class DeleteOtherEmploymentController @Inject() (val authService: EnrolmentsAuth
                                                  service: DeleteOtherEmploymentIncomeService,
                                                  auditService: AuditService,
                                                  cc: ControllerComponents,
-                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "delete-other-employment"

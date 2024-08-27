@@ -16,7 +16,7 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
+import shared.controllers.validators.Validator
 import api.controllers.validators.resolvers.ResolverSupport
 import cats.data.Validated
 import cats.implicits._

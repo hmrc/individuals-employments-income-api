@@ -16,18 +16,20 @@
 
 package v1.controllers
 
+import shared.controllers.RequestHandler
+import shared.controllers.AuthorisedController
 import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import shared.config.AppConfig
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import config.EmploymentsAppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import shared.controllers.{EndpointLogContext, RequestContext}
+import shared.utils.IdGenerator
 import utils.Logging
 import v1.controllers.validators.UnignoreEmploymentValidatorFactory
 import v1.services.UnignoreEmploymentService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
-import shared.controllers.{EndpointLogContext, RequestContext}
-import shared.utils.IdGenerator
 
 @Singleton
 class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthService,
@@ -36,7 +38,7 @@ class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthSer
                                               service: UnignoreEmploymentService,
                                               auditService: AuditService,
                                               cc: ControllerComponents,
-                                              val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                              val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
     extends AuthorisedController(cc)
     with Logging {
 

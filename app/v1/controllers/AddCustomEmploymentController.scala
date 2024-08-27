@@ -16,12 +16,13 @@
 
 package v1.controllers
 
+import shared.controllers.RequestHandler
+import shared.controllers.AuthorisedController
 import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.EmploymentsFeatureSwitches
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import config.{EmploymentsAppConfig, EmploymentsFeatureSwitches}
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import shared.config.AppConfig
 import shared.controllers.{EndpointLogContext, RequestContext}
 import shared.utils.IdGenerator
 import v1.controllers.validators.AddCustomEmploymentValidatorFactory
@@ -37,7 +38,7 @@ class AddCustomEmploymentController @Inject() (val authService: EnrolmentsAuthSe
                                                service: AddCustomEmploymentService,
                                                auditService: AuditService,
                                                cc: ControllerComponents,
-                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "add-custom-employment"

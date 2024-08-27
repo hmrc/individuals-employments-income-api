@@ -16,10 +16,12 @@
 
 package v1.controllers
 
+import shared.controllers.RequestHandler
+import shared.controllers.AuthorisedController
 import api.controllers.{AuthorisedController, RequestHandler}
-import api.services.{EnrolmentsAuthService, MtdIdLookupService}
+import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import shared.config.AppConfig
+import config.EmploymentsAppConfig
 import shared.controllers.{EndpointLogContext, RequestContext}
 import shared.utils.IdGenerator
 import v1.controllers.validators.RetrieveFinancialDetailsValidatorFactory
@@ -34,7 +36,7 @@ class RetrieveEmploymentAndFinancialDetailsController @Inject() (val authService
                                                                  validatorFactory: RetrieveFinancialDetailsValidatorFactory,
                                                                  service: RetrieveEmploymentAndFinancialDetailsService,
                                                                  cc: ControllerComponents,
-                                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "retrieve-employment-financial-details"

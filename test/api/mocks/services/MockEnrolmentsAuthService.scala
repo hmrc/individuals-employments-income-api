@@ -18,7 +18,7 @@ package api.mocks.services
 
 import api.models.auth.UserDetails
 import api.models.outcomes.AuthOutcome
-import api.services.EnrolmentsAuthService
+import shared.services.EnrolmentsAuthService
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier

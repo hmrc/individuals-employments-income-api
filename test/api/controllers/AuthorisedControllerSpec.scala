@@ -16,9 +16,9 @@
 
 package api.controllers
 
-import api.mocks.services.{MockEnrolmentsAuthService, MockMtdIdLookupService}
+import shared.mocks.services.{MockEnrolmentsAuthService, MockMtdIdLookupService}
 import shared.models.errors._
-import api.services.{EnrolmentsAuthService, MtdIdLookupService}
+import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.Json

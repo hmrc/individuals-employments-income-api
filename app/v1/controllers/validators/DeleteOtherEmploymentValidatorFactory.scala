@@ -16,7 +16,7 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
+import shared.controllers.validators.Validator
 import config.EmploymentsAppConfig
 import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 

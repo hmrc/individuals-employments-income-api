@@ -16,9 +16,11 @@
 
 package v1.controllers
 
+import shared.controllers.RequestHandler
+import shared.controllers.AuthorisedController
 import api.controllers._
-import api.services.{EnrolmentsAuthService, MtdIdLookupService}
-import shared.config.AppConfig
+import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
+import config.EmploymentsAppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import v1.controllers.validators.RetrieveEmploymentValidatorFactory
 import v1.services.RetrieveEmploymentService
@@ -35,7 +37,7 @@ class RetrieveEmploymentController @Inject() (val authService: EnrolmentsAuthSer
                                               validatorFactory: RetrieveEmploymentValidatorFactory,
                                               service: RetrieveEmploymentService,
                                               cc: ControllerComponents,
-                                              val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                              val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "retrieve-employment"

@@ -16,7 +16,7 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
+import shared.controllers.validators.Validator
 import api.controllers.validators.resolvers.ResolveTaxYearMinimum
 import api.controllers.validators.resolvers.ResolverSupport._
 import api.models.domain.MtdSourceEnum

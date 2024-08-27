@@ -16,7 +16,7 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
+import shared.controllers.validators.Validator
 import api.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
