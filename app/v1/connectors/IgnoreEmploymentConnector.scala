@@ -18,7 +18,7 @@ package v1.connectors
 
 import shared.config.AppConfig
 import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
-import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
+import shared.connectors.httpparsers.StandardDownstreamHttpParser._
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
