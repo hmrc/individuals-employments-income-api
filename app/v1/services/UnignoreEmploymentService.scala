@@ -21,7 +21,7 @@ import cats.implicits._
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
-import utils.Logging
+import shared.utils.Logging
 import v1.connectors.UnignoreEmploymentConnector
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
