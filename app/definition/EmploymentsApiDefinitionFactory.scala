@@ -23,7 +23,7 @@ import shared.definition.{APIDefinition, APIVersion, ApiDefinitionFactory, Defin
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class EmploymentsApiDefinitionFactory @Inject()(appConfig: AppConfig) extends ApiDefinitionFactory {
+class EmploymentsApiDefinitionFactory @Inject()(protected val appConfig: AppConfig) extends ApiDefinitionFactory {
 
   lazy val definition: Definition =
     Definition(
