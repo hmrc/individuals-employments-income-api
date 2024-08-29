@@ -16,7 +16,6 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
 import shared.models.domain.{EmploymentId, Nino, TaxYear}
 import v1.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}

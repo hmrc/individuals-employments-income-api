@@ -16,14 +16,14 @@
 
 package mocks
 
-import config.FeatureSwitches
+import config.EmploymentsFeatureSwitches
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import play.api.mvc.Request
 
 trait MockFeatureSwitches extends MockFactory {
 
-  implicit val mockFeatureSwitches: FeatureSwitches = mock[FeatureSwitches]
+  implicit val mockFeatureSwitches: EmploymentsFeatureSwitches = mock[EmploymentsFeatureSwitches]
 
   object MockFeatureSwitches {
 

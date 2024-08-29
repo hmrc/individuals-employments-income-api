@@ -18,7 +18,6 @@ package v1.services
 
 import shared.models.domain.{EmploymentId, Nino, TaxYear}
 import shared.models.errors._
-import api.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.connectors.MockRetrieveEmploymentConnector
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest

@@ -16,7 +16,7 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.{MockValidatorFactory, Validator}
+import api.controllers.validators.Validator
 import org.scalamock.handlers.CallHandler
 import play.api.libs.json.JsValue
 import v1.models.request.addCustomEmployment.AddCustomEmploymentRequest

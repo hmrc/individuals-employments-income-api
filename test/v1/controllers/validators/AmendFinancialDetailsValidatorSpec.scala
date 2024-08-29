@@ -18,7 +18,6 @@ package v1.controllers.validators
 
 import shared.models.domain.{EmploymentId, Nino, TaxYear}
 import shared.models.errors._
-import api.models.utils.JsonErrorValidators
 import play.api.libs.json.{JsArray, JsBoolean, JsNumber, JsObject, JsValue, Json}
 import support.UnitSpec
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}

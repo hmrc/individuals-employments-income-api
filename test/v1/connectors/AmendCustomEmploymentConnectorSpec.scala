@@ -16,7 +16,6 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
 import api.mocks.MockHttpClient
 import shared.models.domain.{EmploymentId, Nino, TaxYear}
 import uk.gov.hmrc.http.HeaderCarrier

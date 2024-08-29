@@ -18,7 +18,6 @@ package v1.services
 
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
-import api.services.ServiceSpec
 import v1.mocks.connectors.MockOtherEmploymentIncomeConnector
 import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 

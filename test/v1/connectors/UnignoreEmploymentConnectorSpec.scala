@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import api.connectors.{ConnectorSpec, DownstreamOutcome}
+import api.connectors.DownstreamOutcome
 import shared.models.domain.{EmploymentId, Nino, TaxYear}
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 

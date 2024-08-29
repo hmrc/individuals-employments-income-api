@@ -16,7 +16,6 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
 import api.models.domain.{EmploymentId, MtdSourceEnum}
 import shared.connectors.DownstreamOutcome
 import shared.models.domain.{Nino, TaxYear, Timestamp}

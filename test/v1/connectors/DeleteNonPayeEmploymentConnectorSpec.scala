@@ -16,7 +16,6 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
