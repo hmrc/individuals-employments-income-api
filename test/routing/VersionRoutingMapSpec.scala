@@ -18,6 +18,7 @@ package routing
 
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.routing.Router
+import shared.routing.{Version1, Version2}
 import support.UnitSpec
 
 class VersionRoutingMapSpec extends UnitSpec with GuiceOneAppPerSuite {
@@ -28,7 +29,7 @@ class VersionRoutingMapSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "map" when {
     "routing to v1 or v2" should {
-      val versionRoutingMap: VersionRoutingMapImpl = VersionRoutingMapImpl(
+      val versionRoutingMap: EmploymentsVersionRoutingMap = EmploymentsVersionRoutingMap(
         defaultRouter = defaultRouter,
         v1Router = v1Routes,
         v2Router = v2Routes

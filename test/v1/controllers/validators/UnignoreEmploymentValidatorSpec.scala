@@ -16,7 +16,7 @@
 
 package v1.controllers.validators
 
-import shared.models.domain.{EmploymentId, Nino, TaxYear}
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import support.UnitSpec
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest

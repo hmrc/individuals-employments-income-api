@@ -16,13 +16,13 @@
 
 package definition
 
-import api.mocks.MockHttpClient
 import cats.implicits.catsSyntaxValidatedId
 import mocks.MockEmploymentsAppConfig
-import shared.config.{ConfidenceLevelConfig, MockAppConfig}
 import shared.config.Deprecation.NotDeprecated
+import shared.config.{ConfidenceLevelConfig, MockAppConfig}
 import shared.definition.APIStatus.BETA
 import shared.definition.{APIDefinition, APIVersion, Definition, Scope}
+import shared.mocks.MockHttpClient
 import shared.routing.{Version1, Version2}
 import support.UnitSpec
 import uk.gov.hmrc.auth.core.ConfidenceLevel

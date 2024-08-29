@@ -16,11 +16,11 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.domain.{MtdSourceEnum, Nino, TaxYear}
-import shared.models.errors._
+import shared.controllers.ControllerBaseSpec
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
 import v1.controllers.validators.MockRetrieveNonPayeEmploymentIncomeValidatorFactory
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.mocks.services.MockRetrieveNonPayeEmploymentService

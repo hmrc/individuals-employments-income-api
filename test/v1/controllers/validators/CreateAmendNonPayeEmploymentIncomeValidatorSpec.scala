@@ -16,9 +16,9 @@
 
 package v1.controllers.validators
 
+import play.api.libs.json.{JsObject, JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
-import play.api.libs.json.{JsObject, JsValue, Json}
 import support.UnitSpec
 import v1.models.request.createAmendNonPayeEmployment.{CreateAmendNonPayeEmploymentRequest, CreateAmendNonPayeEmploymentRequestBody}
 
