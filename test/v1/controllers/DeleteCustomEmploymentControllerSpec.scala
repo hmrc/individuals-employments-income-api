@@ -16,6 +16,7 @@
 
 package v1.controllers
 
+import shared.services.MockAuditService
 import shared.config.MockAppConfig
 import shared.controllers.ControllerTestRunner
 import shared.controllers.ControllerBaseSpec

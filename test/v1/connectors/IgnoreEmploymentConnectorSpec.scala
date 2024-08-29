@@ -16,7 +16,8 @@
 
 package v1.connectors
 
-import shared.models.domain.{EmploymentId, Nino, TaxYear}
+import shared.connectors.ConnectorSpec
+import shared.models.domain.{Nino, TaxYear}
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
 import scala.concurrent.Future

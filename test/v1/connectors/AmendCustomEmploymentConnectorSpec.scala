@@ -16,8 +16,8 @@
 
 package v1.connectors
 
-import api.mocks.MockHttpClient
-import shared.models.domain.{EmploymentId, Nino, TaxYear}
+import shared.connectors.ConnectorSpec
+import shared.models.domain.{Nino, TaxYear}
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
