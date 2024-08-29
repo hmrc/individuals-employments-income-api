@@ -19,7 +19,6 @@ package v1.controllers
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{EmploymentId, Nino, TaxYear, Timestamp}
 import shared.models.errors._
-import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
 import v1.controllers.validators.MockRetrieveEmploymentValidatorFactory

@@ -18,7 +18,6 @@ package v1.controllers.validators
 
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
-import mocks.MockAppConfig
 import support.UnitSpec
 import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 

@@ -29,7 +29,6 @@ import api.services.ServiceOutcome
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import shared.config.AppConfig
-import mocks.MockAppConfig
 import org.scalamock.handlers.CallHandler
 import play.api.http.{HeaderNames, Status}
 import play.api.libs.json.{JsString, Json, OWrites}

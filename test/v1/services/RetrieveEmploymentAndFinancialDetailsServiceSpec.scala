@@ -19,7 +19,6 @@ package v1.services
 import api.models.domain._
 import shared.models.errors._
 import api.services.ServiceSpec
-import mocks.MockAppConfig
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.connectors.MockRetrieveEmploymentAndFinancialDetailsConnector
 import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest

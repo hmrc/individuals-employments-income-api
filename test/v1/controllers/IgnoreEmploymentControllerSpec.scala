@@ -20,7 +20,6 @@ import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{EmploymentId, Nino, TaxYear}
 import shared.models.errors._
-import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result

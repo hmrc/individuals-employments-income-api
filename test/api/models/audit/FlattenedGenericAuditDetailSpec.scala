@@ -18,7 +18,6 @@ package api.models.audit
 
 import api.models.auth.UserDetails
 import shared.models.errors.TaxYearFormatError
-import mocks.MockAppConfig
 import play.api.http.Status.{BAD_REQUEST, OK}
 import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec

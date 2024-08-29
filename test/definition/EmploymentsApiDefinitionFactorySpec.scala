@@ -18,16 +18,16 @@ package definition
 
 import api.mocks.MockHttpClient
 import cats.implicits.catsSyntaxValidatedId
-import config.ConfidenceLevelConfig
-import definition.APIStatus.{ALPHA, BETA}
-import mocks.MockAppConfig
-import play.api.Configuration
-import routing.{Version1, Version2}
+import mocks.MockEmploymentsAppConfig
+import shared.config.{ConfidenceLevelConfig, MockAppConfig}
 import shared.config.Deprecation.NotDeprecated
+import shared.definition.APIStatus.BETA
+import shared.definition.{APIDefinition, APIVersion, Definition, Scope}
+import shared.routing.{Version1, Version2}
 import support.UnitSpec
 import uk.gov.hmrc.auth.core.ConfidenceLevel
 
-class EmploymentsApiDefinitionFactorySpec extends UnitSpec {
+class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsAppConfig with MockAppConfig {
 
   private val confidenceLevel: ConfidenceLevel = ConfidenceLevel.L200
 
@@ -44,7 +44,7 @@ class EmploymentsApiDefinitionFactorySpec extends UnitSpec {
           MockedAppConfig.endpointsEnabled(version).returns(true).anyNumberOfTimes()
           MockedAppConfig.deprecationFor(version).returns(NotDeprecated.valid).anyNumberOfTimes()
         }
-        MockedAppConfig.confidenceLevelCheckEnabled
+        MockedAppConfig.confidenceLevelConfig
           .returns(ConfidenceLevelConfig(confidenceLevel = confidenceLevel, definitionEnabled = true, authValidationEnabled = true))
           .anyNumberOfTimes()
 
@@ -99,7 +99,7 @@ class EmploymentsApiDefinitionFactorySpec extends UnitSpec {
     ).foreach { case (definitionEnabled, configCL, expectedDefinitionCL) =>
       s"confidence-level-check.definition.enabled is $definitionEnabled and confidence-level = $configCL" should {
         s"return confidence level $expectedDefinitionCL" in new Test {
-          MockedAppConfig.confidenceLevelCheckEnabled returns ConfidenceLevelConfig(
+          MockedAppConfig.confidenceLevelConfig returns ConfidenceLevelConfig(
             confidenceLevel = configCL,
             definitionEnabled = definitionEnabled,
             authValidationEnabled = true)

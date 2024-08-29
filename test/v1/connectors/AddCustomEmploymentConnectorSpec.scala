@@ -19,7 +19,6 @@ package v1.connectors
 import api.connectors.ConnectorSpec
 import api.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
-import mocks.MockAppConfig
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse

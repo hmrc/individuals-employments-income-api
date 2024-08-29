@@ -19,7 +19,6 @@ package api.connectors
 import api.connectors.DownstreamUri.{DesUri, IfsUri}
 import api.mocks.MockHttpClient
 import shared.config.AppConfig
-import mocks.MockAppConfig
 import uk.gov.hmrc.http.{HttpClient, HttpReads}
 
 import scala.concurrent.Future

@@ -17,7 +17,7 @@
 package api.connectors
 
 import api.mocks.MockHttpClient
-import mocks.{MockAppConfig, MockFeatureSwitches}
+import mocks.MockFeatureSwitches
 import org.scalamock.handlers.CallHandler
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import support.UnitSpec
