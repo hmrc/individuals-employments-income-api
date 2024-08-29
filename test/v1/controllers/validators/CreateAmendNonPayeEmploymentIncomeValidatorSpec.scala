@@ -16,6 +16,7 @@
 
 package v1.controllers.validators
 
+import shared.config.MockAppConfig
 import play.api.libs.json.{JsObject, JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._

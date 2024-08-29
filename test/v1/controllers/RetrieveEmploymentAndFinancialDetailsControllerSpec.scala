@@ -16,6 +16,8 @@
 
 package v1.controllers
 
+import shared.config.MockAppConfig
+import shared.controllers.ControllerTestRunner
 import shared.controllers.ControllerBaseSpec
 import play.api.Configuration
 import play.api.mvc.Result
