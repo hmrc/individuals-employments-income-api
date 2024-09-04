@@ -17,8 +17,8 @@
 package v1.endpoints
 
 import shared.models.errors._
-import api.models.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
-import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, Json}
@@ -58,7 +58,7 @@ class IgnoreEmploymentControllerISpec extends IntegrationBaseSpec {
       "any valid request is made" in new Test {
 
         override def setupStubs(): Unit =
-          DownstreamStub.onSuccessWithNoRequestBody(DownstreamStub.PUT, downstreamUri, status = NO_CONTENT)
+          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, status = NO_CONTENT)
 
         val response: WSResponse = await(request.post(JsObject.empty))
         response.status shouldBe OK

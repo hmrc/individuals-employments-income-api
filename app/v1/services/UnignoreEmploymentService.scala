@@ -16,8 +16,8 @@
 
 package v1.services
 
-import api.models.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import cats.implicits._
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}

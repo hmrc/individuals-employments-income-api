@@ -19,7 +19,8 @@ package v1.controllers
 import shared.config.MockAppConfig
 import shared.controllers.ControllerTestRunner
 import shared.controllers.ControllerBaseSpec
-import api.models.audit.{AuditEvent, GenericAuditDetail}
+import shared.models.audit.{AuditEvent, GenericAuditDetail}
+import api.models.domain.EmploymentId
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result

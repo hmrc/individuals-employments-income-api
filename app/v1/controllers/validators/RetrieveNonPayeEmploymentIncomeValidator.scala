@@ -20,9 +20,9 @@ import shared.controllers.validators.Validator
 import api.controllers.validators.resolvers.ResolveTaxYearMinimum
 import api.controllers.validators.resolvers.ResolverSupport._
 import api.models.domain.MtdSourceEnum
-import api.models.errors.SourceFormatError
 import cats.data.Validated
 import cats.implicits.catsSyntaxTuple3Semigroupal
+import common.errors.SourceFormatError
 import config.EmploymentsAppConfig
 import shared.controllers.validators.resolvers.ResolveNino
 import shared.models.errors.MtdError

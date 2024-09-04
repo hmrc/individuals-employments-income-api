@@ -16,8 +16,9 @@
 
 package v1.models.response.retrieveFinancialDetails
 
-import api.models.domain.{MtdSourceEnum, Timestamp}
+import api.models.domain.MtdSourceEnum
 import api.models.downstream.DownstreamSourceEnum
+import shared.models.domain.Timestamp
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 

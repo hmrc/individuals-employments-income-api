@@ -16,8 +16,13 @@
 
 package v1.services
 
-import shared.models.domain.{EmploymentId, Nino, TaxYear}
+import api.models.domain.EmploymentId
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
+import shared.controllers.EndpointLogContext
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
+import shared.services.ServiceSpec
 import v1.mocks.connectors.MockIgnoreEmploymentConnector
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 

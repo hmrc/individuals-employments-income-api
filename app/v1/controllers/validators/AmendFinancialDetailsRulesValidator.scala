@@ -18,8 +18,8 @@ package v1.controllers.validators
 
 import api.controllers.validators.RulesValidator
 import api.controllers.validators.resolvers._
-import api.models.errors.{RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
 import cats.data.Validated
+import common.errors.{RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
 import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
 import v1.controllers.validators.resolvers.EmploymentsIncomeValidators._

@@ -16,9 +16,9 @@
 
 package v1.services
 
-import api.models.errors.{RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError}
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
+import common.errors.{RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import v1.connectors.AddCustomEmploymentConnector

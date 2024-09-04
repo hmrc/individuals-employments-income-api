@@ -18,6 +18,7 @@ package v1.connectors
 
 import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 

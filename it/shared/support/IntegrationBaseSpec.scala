@@ -24,6 +24,8 @@ import play.api.libs.ws.{WSClient, WSRequest, WSResponse}
 import play.api.{Application, Environment, Mode}
 import shared.utils.UnitSpec
 
+import java.time.LocalDate
+
 trait IntegrationBaseSpec extends UnitSpec with WireMockHelper with GuiceOneServerPerSuite with BeforeAndAfterEach with BeforeAndAfterAll {
   lazy val client: WSClient = app.injector.instanceOf[WSClient]
 
@@ -69,4 +71,19 @@ trait IntegrationBaseSpec extends UnitSpec with WireMockHelper with GuiceOneServ
   def buildRequest(path: String): WSRequest = client.url(s"http://localhost:$port$path").withFollowRedirects(false)
 
   def document(response: WSResponse): JsValue = Json.parse(response.body)
+
+  def getCurrentTaxYear: String = {
+    val currentDate = LocalDate.now()
+
+    val taxYearStartDate: LocalDate = LocalDate.parse(s"${currentDate.getYear}-04-06")
+
+    def fromDesIntToString(taxYear: Int): String = s"${taxYear - 1}-${taxYear.toString.drop(2)}"
+
+    if (currentDate.isBefore(taxYearStartDate)) {
+      fromDesIntToString(currentDate.getYear)
+    } else {
+      fromDesIntToString(currentDate.getYear + 1)
+    }
+  }
+
 }

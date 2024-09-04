@@ -16,11 +16,11 @@
 
 package v1.services
 
-import api.models.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import shared.controllers.RequestContext
 import shared.models.errors._
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import shared.models.errors.MtdError
 import utils.Logging
 import v1.connectors.IgnoreEmploymentConnector

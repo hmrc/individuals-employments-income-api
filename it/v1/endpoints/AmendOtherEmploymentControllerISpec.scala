@@ -17,14 +17,15 @@
 package v1.endpoints
 
 import shared.models.errors._
-import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
+import common.errors.{ClassOfSharesAcquiredFormatError, ClassOfSharesAwardedFormatError, CustomerRefFormatError, EmployerNameFormatError, EmployerRefFormatError, RuleLumpSumsError, SchemePlanTypeFormatError}
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import support.IntegrationBaseSpec
+import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import shared.support.IntegrationBaseSpec
 import v1.endpoints.AmendOtherEmploymentControllerISpec._
 
 class AmendOtherEmploymentControllerISpec extends IntegrationBaseSpec {

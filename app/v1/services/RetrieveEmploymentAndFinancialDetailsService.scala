@@ -16,11 +16,11 @@
 
 package v1.services
 
-import api.models.errors.{EmploymentIdFormatError, SourceFormatError}
 import shared.controllers.RequestContext
 import shared.models.errors._
 import api.services.{BaseService, ServiceOutcome}
 import cats.data.EitherT
+import common.errors.{EmploymentIdFormatError, SourceFormatError}
 import shared.config.AppConfig
 import shared.models.errors.MtdError
 import v1.connectors.RetrieveEmploymentAndFinancialDetailsConnector

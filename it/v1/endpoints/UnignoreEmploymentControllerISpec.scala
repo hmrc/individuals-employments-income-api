@@ -16,11 +16,11 @@
 
 package v1.endpoints
 
-import api.models.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, Json}
