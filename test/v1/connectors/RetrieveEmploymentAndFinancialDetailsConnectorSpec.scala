@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
 import api.models.domain.{EmploymentId, MtdSourceEnum}
 import org.scalamock.handlers.CallHandler
 import shared.connectors.DownstreamOutcome
@@ -28,7 +28,7 @@ import v1.models.response.retrieveFinancialDetails.{Employer, Employment, Retrie
 
 import scala.concurrent.Future
 
-class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends ConnectorSpec {
+class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String          = "AA123456A"
   val employmentId: String  = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -100,7 +100,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends ConnectorSpec {
       RetrieveEmploymentAndFinancialDetailsRequest(Nino(nino), taxYear, EmploymentId(employmentId), source)
 
     val connector: RetrieveEmploymentAndFinancialDetailsConnector =
-      new RetrieveEmploymentAndFinancialDetailsConnector(http = mockHttpClient, appConfig = mockAppConfig)
+      new RetrieveEmploymentAndFinancialDetailsConnector(http = mockHttpClient, appConfig = mockEmploymentsConfig)
 
     protected def stubHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
         : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived = {

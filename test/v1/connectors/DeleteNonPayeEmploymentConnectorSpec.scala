@@ -16,13 +16,14 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
 import scala.concurrent.Future
 
-class DeleteNonPayeEmploymentConnectorSpec extends ConnectorSpec {
+class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String = "AA111111A"
 

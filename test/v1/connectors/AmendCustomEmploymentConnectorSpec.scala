@@ -16,17 +16,19 @@
 
 package v1.connectors
 
+import api.connectors.EmploymentsConnectorSpec
 import api.models.domain.EmploymentId
+import mocks.MockEmploymentsAppConfig
 import shared.config.MockAppConfig
-import shared.connectors.ConnectorSpec
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
 import scala.concurrent.Future
 
-class AmendCustomEmploymentConnectorSpec extends ConnectorSpec {
+class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String         = "AA111111A"
   val taxYear: String      = "2021-22"
@@ -48,17 +50,17 @@ class AmendCustomEmploymentConnectorSpec extends ConnectorSpec {
     body = amendCustomEmploymentRequestBody
   )
 
-  class Test extends MockHttpClient with MockAppConfig {
+  class Test extends MockHttpClient with MockAppConfig with MockEmploymentsAppConfig {
 
     val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
-    MockedAppConfig.release6BaseUrl returns baseUrl
-    MockedAppConfig.release6Token returns "release6-token"
-    MockedAppConfig.release6Environment returns "release6-environment"
-    MockedAppConfig.release6EnvironmentHeaders returns Some(allowedIfsHeaders)
+    MockEmploymentsAppConfig.release6DownstreamConfig.baseUrl shouldBe baseUrl
+    MockEmploymentsAppConfig.release6DownstreamConfig.token shouldBe "release6-token"
+    MockEmploymentsAppConfig.release6DownstreamConfig.env shouldBe "release6-environment"
+    MockEmploymentsAppConfig.release6DownstreamConfig.environmentHeaders shouldBe Some(allowedIfsHeaders)
   }
 
   "AmendCustomEmploymentConnector" when {

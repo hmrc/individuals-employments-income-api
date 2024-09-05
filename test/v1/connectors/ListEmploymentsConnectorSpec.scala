@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.listEmployments.ListEmploymentsRequest
@@ -24,7 +24,7 @@ import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
 
 import scala.concurrent.Future
 
-class ListEmploymentsConnectorSpec extends ConnectorSpec {
+class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String    = "AA111111A"
   val taxYear: String = "2019-20"

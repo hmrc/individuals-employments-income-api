@@ -16,14 +16,16 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
+import api.models.domain.EmploymentId
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
 
 import scala.concurrent.Future
 
-class RetrieveEmploymentConnectorSpec extends ConnectorSpec {
+class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   private val nino: String    = "AA111111A"
   private val taxYear: String = "2019-20"
@@ -42,7 +44,7 @@ class RetrieveEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: RetrieveEmploymentConnector = new RetrieveEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
     val request: RetrieveEmploymentRequest = RetrieveEmploymentRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId))

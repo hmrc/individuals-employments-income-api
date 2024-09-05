@@ -16,13 +16,15 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
+import api.models.domain.EmploymentId
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
 import scala.concurrent.Future
 
-class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
+class IgnoreEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String         = "AA111111A"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"

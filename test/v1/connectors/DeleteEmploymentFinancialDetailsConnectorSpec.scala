@@ -16,13 +16,14 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
 import scala.concurrent.Future
 
-class DeleteEmploymentFinancialDetailsConnectorSpec extends ConnectorSpec {
+class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
   "DeleteEmploymentFinancialDetailsConnector" should {
     "return the expected response for a non-TYS request" when {

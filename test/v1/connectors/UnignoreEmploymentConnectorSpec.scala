@@ -16,13 +16,16 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
+import api.models.domain.EmploymentId
+import shared.connectors.DownstreamOutcome
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 import scala.concurrent.Future
 
-class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
+class UnignoreEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "UnignoreEmploymentConnector" should {
     "return the expected response for a TYS request" when {

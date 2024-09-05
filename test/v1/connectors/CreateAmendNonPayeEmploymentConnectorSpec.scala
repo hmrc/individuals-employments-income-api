@@ -16,14 +16,15 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture._
 import v1.models.request.createAmendNonPayeEmployment._
 
 import scala.concurrent.Future
 
-class CreateAmendNonPayeEmploymentConnectorSpec extends ConnectorSpec {
+class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   private val nino: String = "AA111111A"
 
@@ -38,7 +39,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: CreateAmendNonPayeEmploymentConnector = new CreateAmendNonPayeEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
   }

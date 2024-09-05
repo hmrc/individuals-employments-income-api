@@ -16,6 +16,7 @@
 
 package v1.connectors
 
+import api.connectors.EmploymentsConnectorSpec
 import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -24,7 +25,7 @@ import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, Am
 
 import scala.concurrent.Future
 
-class AmendFinancialDetailsConnectorSpec extends ConnectorSpec {
+class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
   "AmendFinancialDetailsConnector" should {
     "return a 204 status for a success scenario" when {
@@ -67,7 +68,7 @@ class AmendFinancialDetailsConnectorSpec extends ConnectorSpec {
 
     protected val connector: AmendFinancialDetailsConnector = new AmendFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
     protected val payModel = AmendPay(

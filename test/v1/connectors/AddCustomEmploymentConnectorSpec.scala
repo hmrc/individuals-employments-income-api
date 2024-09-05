@@ -16,9 +16,9 @@
 
 package v1.connectors
 
+import api.connectors.EmploymentsConnectorSpec
 import mocks.MockEmploymentsAppConfig
 import shared.config.MockAppConfig
-import shared.connectors.ConnectorSpec
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -28,7 +28,7 @@ import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
 import scala.concurrent.Future
 
-class AddCustomEmploymentConnectorSpec extends ConnectorSpec {
+class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String    = "AA111111A"
   val taxYear: String = "2021-22"
@@ -54,13 +54,14 @@ class AddCustomEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockCalculationsConfig
+      appConfig = mockEmploymentsConfig
     )
 
     MockEmploymentsAppConfig.api1661DownstreamConfig.baseUrl shouldBe baseUrl
     MockEmploymentsAppConfig.api1661DownstreamConfig.token shouldBe "api1661-token"
     MockEmploymentsAppConfig.api1661DownstreamConfig.env shouldBe "api1661-environment"
     MockEmploymentsAppConfig.api1661DownstreamConfig.environmentHeaders shouldBe Some(allowedIfsHeaders)
+
   }
 
   "AddCustomEmploymentConnector" when {

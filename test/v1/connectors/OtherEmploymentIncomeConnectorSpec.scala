@@ -16,16 +16,17 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
 import mocks.MockFeatureSwitches
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveResponse
 import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
 import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
 
 import scala.concurrent.Future
 
-class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureSwitches {
+class OtherEmploymentIncomeConnectorSpec extends EmploymentsConnectorSpec with MockFeatureSwitches {
 
   val nino: String = "AA123456A"
 

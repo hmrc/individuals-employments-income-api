@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors.{InternalError, NinoFormatError}
 import shared.models.outcomes.ResponseWrapper
@@ -24,7 +24,7 @@ import v1.models.request.amendOtherEmployment._
 
 import scala.concurrent.Future
 
-class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
+class AmendOtherEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "AmendOtherEmploymentConnector" should {
     "return the expected response for a non-TYS request" when {
@@ -100,7 +100,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: AmendOtherEmploymentConnector = new AmendOtherEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
   }

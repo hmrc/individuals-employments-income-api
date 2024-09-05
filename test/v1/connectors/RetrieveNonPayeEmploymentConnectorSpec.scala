@@ -16,14 +16,16 @@
 
 package v1.connectors
 
-import shared.connectors.ConnectorSpec
+import api.connectors.EmploymentsConnectorSpec
+import api.models.domain.MtdSourceEnum
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
 import scala.concurrent.Future
 
-class RetrieveNonPayeEmploymentConnectorSpec extends ConnectorSpec {
+class RetrieveNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val nino: String = "AA111111A"
 
@@ -60,7 +62,7 @@ class RetrieveNonPayeEmploymentConnectorSpec extends ConnectorSpec {
     def taxYear: TaxYear
 
     protected val connector: RetrieveNonPayeEmploymentConnector =
-      new RetrieveNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockAppConfig)
+      new RetrieveNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockEmploymentsConfig)
 
     protected val request: RetrieveNonPayeEmploymentIncomeRequest =
       RetrieveNonPayeEmploymentIncomeRequest(Nino("AA111111A"), taxYear = taxYear, MtdSourceEnum.latest)
