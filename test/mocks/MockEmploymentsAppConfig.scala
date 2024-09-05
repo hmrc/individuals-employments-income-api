@@ -18,14 +18,16 @@ package mocks
 
 import config.EmploymentsAppConfig
 import org.scalamock.scalatest.MockFactory
-import shared.config.MockAppConfig
+import shared.config.{DownstreamConfig, MockAppConfig}
 import shared.models.domain.TaxYear
 
 trait MockEmploymentsAppConfig extends MockFactory {
   val mockCalculationsConfig: EmploymentsAppConfig = mock[EmploymentsAppConfig]
 
   object MockEmploymentsAppConfig extends MockAppConfig {
-    val minimumPermittedTaxYear: TaxYear = mockCalculationsConfig.minimumPermittedTaxYear: TaxYear
+    val minimumPermittedTaxYear: TaxYear = mockCalculationsConfig.minimumPermittedTaxYear
+    lazy val release6DownstreamConfig: DownstreamConfig = mockCalculationsConfig.release6DownstreamConfig
+    lazy val api1661DownstreamConfig: DownstreamConfig = mockCalculationsConfig.api1661DownstreamConfig
   }
 
 }
