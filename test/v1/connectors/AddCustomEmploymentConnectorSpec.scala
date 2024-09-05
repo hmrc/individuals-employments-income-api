@@ -16,10 +16,12 @@
 
 package v1.connectors
 
+import mocks.MockEmploymentsAppConfig
 import shared.config.MockAppConfig
 import shared.connectors.ConnectorSpec
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
@@ -48,17 +50,17 @@ class AddCustomEmploymentConnectorSpec extends ConnectorSpec {
 
   val response: AddCustomEmploymentResponse = AddCustomEmploymentResponse("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
 
-  class Test extends MockHttpClient with MockAppConfig {
+  class Test extends MockHttpClient with MockAppConfig with MockEmploymentsAppConfig {
 
     val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockCalculationsConfig
     )
 
-    MockedAppConfig.api1661BaseUrl returns baseUrl
-    MockedAppConfig.api1661Token returns "api1661-token"
-    MockedAppConfig.api1661Environment returns "api1661-environment"
-    MockedAppConfig.api1661EnvironmentHeaders returns Some(allowedIfsHeaders)
+    MockEmploymentsAppConfig.api1661DownstreamConfig.baseUrl shouldBe baseUrl
+    MockEmploymentsAppConfig.api1661DownstreamConfig.token shouldBe "api1661-token"
+    MockEmploymentsAppConfig.api1661DownstreamConfig.env shouldBe "api1661-environment"
+    MockEmploymentsAppConfig.api1661DownstreamConfig.environmentHeaders shouldBe Some(allowedIfsHeaders)
   }
 
   "AddCustomEmploymentConnector" when {
