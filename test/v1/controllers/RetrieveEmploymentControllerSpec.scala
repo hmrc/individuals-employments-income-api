@@ -43,7 +43,7 @@ class RetrieveEmploymentControllerSpec
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   val requestData: RetrieveEmploymentRequest = RetrieveEmploymentRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId)
   )
@@ -150,7 +150,7 @@ class RetrieveEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.retrieveEmployment(nino, taxYear, employmentId)(fakeGetRequest)
+    protected def callController(): Future[Result] = controller.retrieveEmployment(validNino, taxYear, employmentId)(fakeGetRequest)
 
   }
 

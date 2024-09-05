@@ -43,7 +43,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
   val source: String       = "latest"
 
   val requestData: RetrieveEmploymentAndFinancialDetailsRequest = RetrieveEmploymentAndFinancialDetailsRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId),
     source = MtdSourceEnum.latest
@@ -101,7 +101,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.retrieve(nino, taxYear, employmentId, Some(source))(fakeRequest)
+    protected def callController(): Future[Result] = controller.retrieve(validNino, taxYear, employmentId, Some(source))(fakeRequest)
   }
 
 }

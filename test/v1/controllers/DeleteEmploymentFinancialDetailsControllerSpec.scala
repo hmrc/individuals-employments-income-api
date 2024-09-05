@@ -45,7 +45,7 @@ class DeleteEmploymentFinancialDetailsControllerSpec
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   val requestData: DeleteEmploymentFinancialDetailsRequest = DeleteEmploymentFinancialDetailsRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId)
   )
@@ -100,7 +100,7 @@ class DeleteEmploymentFinancialDetailsControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.deleteEmploymentFinancialDetails(nino, taxYear, employmentId)(fakeDeleteRequest)
+    protected def callController(): Future[Result] = controller.deleteEmploymentFinancialDetails(validNino, taxYear, employmentId)(fakeDeleteRequest)
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
@@ -109,7 +109,7 @@ class DeleteEmploymentFinancialDetailsControllerSpec
         detail = GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
+          params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           request = requestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse

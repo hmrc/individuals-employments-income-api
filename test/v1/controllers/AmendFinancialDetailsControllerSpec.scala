@@ -153,7 +153,7 @@ class AmendFinancialDetailsControllerSpec
   )
 
   val requestData: AmendFinancialDetailsRequest = AmendFinancialDetailsRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId),
     body = amendFinancialDetailsRequestBody
@@ -217,7 +217,7 @@ class AmendFinancialDetailsControllerSpec
         detail = GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
+          params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           request = requestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse
@@ -227,7 +227,7 @@ class AmendFinancialDetailsControllerSpec
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] =
-      controller.amendFinancialDetails(nino, taxYear, employmentId)(fakePutRequest(requestBodyJson))
+      controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakePutRequest(requestBodyJson))
 
   }
 

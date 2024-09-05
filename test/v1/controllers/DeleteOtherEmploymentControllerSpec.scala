@@ -45,7 +45,7 @@ class DeleteOtherEmploymentControllerSpec
   val taxYear: String = "2019-20"
 
   private val requestData: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
 
@@ -99,7 +99,7 @@ class DeleteOtherEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.deleteOtherEmployment(nino, taxYear)(fakeDeleteRequest)
+    protected def callController(): Future[Result] = controller.deleteOtherEmployment(validNino, taxYear)(fakeDeleteRequest)
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
@@ -108,7 +108,7 @@ class DeleteOtherEmploymentControllerSpec
         detail = GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
+          params = Map("nino" -> validNino, "taxYear" -> taxYear),
           request = requestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse

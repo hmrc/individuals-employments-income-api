@@ -42,7 +42,7 @@ class RetrieveOtherEmploymentControllerSpec
   val taxYear: String = "2019-20"
 
   val requestData: RetrieveOtherEmploymentIncomeRequest = RetrieveOtherEmploymentIncomeRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
 
@@ -95,7 +95,7 @@ class RetrieveOtherEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.retrieveOther(nino, taxYear)(fakeGetRequest)
+    protected def callController(): Future[Result] = controller.retrieveOther(validNino, taxYear)(fakeGetRequest)
 
   }
 

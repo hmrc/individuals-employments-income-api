@@ -257,7 +257,7 @@ class AmendOtherEmploymentControllerSpec
   )
 
   val requestData: AmendOtherEmploymentRequest = AmendOtherEmploymentRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     body = amendOtherEmploymentRequestBody
   )
@@ -315,7 +315,7 @@ class AmendOtherEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.amendOtherEmployment(nino, taxYear)(fakePutRequest(requestBodyJson))
+    protected def callController(): Future[Result] = controller.amendOtherEmployment(validNino, taxYear)(fakePutRequest(requestBodyJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
@@ -324,7 +324,7 @@ class AmendOtherEmploymentControllerSpec
         detail = GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
+          params = Map("nino" -> validNino, "taxYear" -> taxYear),
           request = requestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse

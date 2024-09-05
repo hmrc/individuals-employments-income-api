@@ -56,7 +56,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
   )
 
   val requestData: CreateAmendNonPayeEmploymentRequest = CreateAmendNonPayeEmploymentRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     body = requestModel
   )
@@ -114,7 +114,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.createAmendNonPayeEmployment(nino, taxYear)(fakePutRequest(validRequestJson))
+    protected def callController(): Future[Result] = controller.createAmendNonPayeEmployment(validNino, taxYear)(fakePutRequest(validRequestJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
@@ -123,7 +123,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
         detail = GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
+          params = Map("nino" -> validNino, "taxYear" -> taxYear),
           request = requestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse

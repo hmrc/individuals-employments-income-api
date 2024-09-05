@@ -43,7 +43,7 @@ class RetrieveNonPayeEmploymentControllerSpec
 
   val requestData: RetrieveNonPayeEmploymentIncomeRequest =
     RetrieveNonPayeEmploymentIncomeRequest(
-      nino = Nino(nino),
+      nino = Nino(validNino),
       taxYear = TaxYear.fromMtd(taxYear),
       source = source
     )
@@ -97,7 +97,7 @@ class RetrieveNonPayeEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.retrieveNonPayeEmployment(nino, taxYear, Some(source.toString))(fakeGetRequest)
+    protected def callController(): Future[Result] = controller.retrieveNonPayeEmployment(validNino, taxYear, Some(source.toString))(fakeGetRequest)
   }
 
 }

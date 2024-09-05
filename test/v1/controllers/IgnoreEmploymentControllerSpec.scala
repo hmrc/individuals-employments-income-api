@@ -60,7 +60,7 @@ class IgnoreEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.ignoreEmployment(nino, taxYear, employmentId)(fakeDeleteRequest)
+    protected def callController(): Future[Result] = controller.ignoreEmployment(validNino, taxYear, employmentId)(fakeDeleteRequest)
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
@@ -69,7 +69,7 @@ class IgnoreEmploymentControllerSpec
         detail = GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
+          params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           request = requestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse
@@ -79,7 +79,7 @@ class IgnoreEmploymentControllerSpec
   }
 
   val requestData: IgnoreEmploymentRequest = IgnoreEmploymentRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId)
   )
