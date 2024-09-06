@@ -16,7 +16,8 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
+import shared.controllers.validators.MockValidatorFactory
+import shared.controllers.validators.Validator
 import org.scalamock.handlers.CallHandler
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 

@@ -16,9 +16,10 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
+import shared.controllers.validators.Validator
 import org.scalamock.handlers.CallHandler
 import play.api.libs.json.JsValue
+import shared.controllers.validators.MockValidatorFactory
 import v1.models.request.amendFinancialDetails.AmendFinancialDetailsRequest
 
 trait MockAmendFinancialDetailsValidatorFactory extends MockValidatorFactory[AmendFinancialDetailsRequest] {

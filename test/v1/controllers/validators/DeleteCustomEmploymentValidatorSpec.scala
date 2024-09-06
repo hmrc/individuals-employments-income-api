@@ -16,6 +16,7 @@
 
 package v1.controllers.validators
 
+import api.models.domain.EmploymentId
 import shared.config.MockAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._

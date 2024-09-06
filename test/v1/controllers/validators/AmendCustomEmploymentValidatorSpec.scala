@@ -16,10 +16,12 @@
 
 package v1.controllers.validators
 
+import api.models.domain.EmploymentId
 import shared.config.MockAppConfig
 import play.api.libs.json._
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.utils.JsonErrorValidators
 import support.UnitSpec
 import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
