@@ -20,12 +20,14 @@ import shared.services.MockAuditService
 import shared.config.MockAppConfig
 import shared.controllers.ControllerTestRunner
 import shared.controllers.ControllerBaseSpec
-import api.models.audit.{AuditEvent, GenericAuditDetail}
+import shared.models.audit.{AuditEvent, GenericAuditDetail}
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
+import shared.models.audit.AuditResponse
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockAddCustomEmploymentValidatorFactory
 import v1.mocks.services.MockAddCustomEmploymentService
 import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}

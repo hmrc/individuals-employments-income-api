@@ -16,6 +16,7 @@
 
 package v1.controllers
 
+import shared.models.outcomes.ResponseWrapper
 import shared.services.MockAuditService
 import shared.config.MockAppConfig
 import shared.controllers.ControllerTestRunner
@@ -24,6 +25,7 @@ import api.models.audit.{AuditEvent, GenericAuditDetail}
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
+import shared.models.audit.AuditResponse
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import v1.controllers.validators.MockDeleteNonPayeEmploymentIncomeValidatorFactory

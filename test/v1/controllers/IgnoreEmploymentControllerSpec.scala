@@ -16,6 +16,8 @@
 
 package v1.controllers
 
+import shared.models.audit.AuditResponse
+import shared.models.outcomes.ResponseWrapper
 import shared.config.MockAppConfig
 import shared.controllers.ControllerTestRunner
 import shared.controllers.ControllerBaseSpec
