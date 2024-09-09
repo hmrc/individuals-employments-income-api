@@ -17,13 +17,14 @@
 package v1.controllers.validators
 
 import api.models.domain.EmploymentId
-import shared.config.MockAppConfig
+import common.errors._
+import mocks.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import support.UnitSpec
 import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
-class DeleteFinancialDetailsValidatorSpec extends UnitSpec with MockAppConfig {
+class DeleteFinancialDetailsValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -39,7 +40,7 @@ class DeleteFinancialDetailsValidatorSpec extends UnitSpec with MockAppConfig {
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId): Either[ErrorWrapper, DeleteEmploymentFinancialDetailsRequest] =
-      new DeleteFinancialDetailsValidator(nino, taxYear, employmentId, mockAppConfig).validateAndWrapResult()
+      new DeleteFinancialDetailsValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 

@@ -16,7 +16,8 @@
 
 package v1.controllers.validators
 
-import shared.config.MockAppConfig
+import common.errors.{DateFormatError, _}
+import mocks.MockEmploymentsAppConfig
 import play.api.libs.json._
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -24,7 +25,7 @@ import shared.models.utils.JsonErrorValidators
 import support.UnitSpec
 import v1.models.request.amendOtherEmployment.{AmendOtherEmploymentRequest, AmendOtherEmploymentRequestBody}
 
-class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
+class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidators with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -121,12 +122,12 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  body: JsValue = validRequestBodyJson): Either[ErrorWrapper, AmendOtherEmploymentRequest] =
-      new AmendOtherEmploymentValidator(nino, taxYear, body, mockAppConfig)
+      new AmendOtherEmploymentValidator(nino, taxYear, body, mockEmploymentsConfig)
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   private def expectValueFormatError(body: JsNumber => JsValue, expectedPath: String): Unit = s"for $expectedPath" when {

@@ -18,13 +18,13 @@ package v1.controllers.validators
 
 import api.models.domain.EmploymentId
 import common.errors.EmploymentIdFormatError
-import shared.config.MockAppConfig
+import mocks.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import support.UnitSpec
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
-class IgnoreEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
+class IgnoreEmploymentValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -40,11 +40,11 @@ class IgnoreEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId): Either[ErrorWrapper, IgnoreEmploymentRequest] =
-      new IgnoreEmploymentValidator(nino, taxYear, employmentId, mockAppConfig).validateAndWrapResult()
+      new IgnoreEmploymentValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "validate" should {

@@ -16,13 +16,13 @@
 
 package v1.controllers.validators
 
-import shared.config.MockAppConfig
+import mocks.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import support.UnitSpec
 import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 
-class DeleteOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
+class DeleteOtherEmploymentValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -34,11 +34,11 @@ class DeleteOtherEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
   trait Test {
 
     def validate(nino: String = validNino, taxYear: String = validTaxYear): Either[ErrorWrapper, DeleteOtherEmploymentIncomeRequest] =
-      new DeleteOtherEmploymentValidator(nino, taxYear, mockAppConfig).validateAndWrapResult()
+      new DeleteOtherEmploymentValidator(nino, taxYear, mockEmploymentsConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "validate" should {

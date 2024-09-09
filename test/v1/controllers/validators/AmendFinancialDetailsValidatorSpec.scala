@@ -18,7 +18,7 @@ package v1.controllers.validators
 
 import api.models.domain.EmploymentId
 import common.errors.{EmploymentIdFormatError, RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
-import shared.config.MockAppConfig
+import mocks.MockEmploymentsAppConfig
 import play.api.libs.json._
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -28,7 +28,7 @@ import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, Am
 
 import java.time.{Clock, Instant, ZoneOffset}
 
-class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
+class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidators with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -96,12 +96,12 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidato
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId,
                  body: JsValue = validRequestBodyJson): Either[ErrorWrapper, AmendFinancialDetailsRequest] =
-      new AmendFinancialDetailsValidator(nino, taxYear, employmentId, body, mockAppConfig)
+      new AmendFinancialDetailsValidator(nino, taxYear, employmentId, body, mockEmploymentsConfig)
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   private def update(field: String)(value: JsValue) = validRequestBodyJson.update(field, value)
