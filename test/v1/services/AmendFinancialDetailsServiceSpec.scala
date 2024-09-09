@@ -16,7 +16,9 @@
 
 package v1.services
 
-import shared.models.domain.{EmploymentId, Nino, TaxYear}
+import api.models.domain.EmploymentId
+import shared.services.ServiceSpec
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import v1.mocks.connectors.MockAmendFinancialDetailsConnector
 import v1.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}

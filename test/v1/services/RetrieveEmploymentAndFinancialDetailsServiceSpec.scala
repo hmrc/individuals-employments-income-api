@@ -21,7 +21,6 @@ import common.errors.{EmploymentIdFormatError, SourceFormatError}
 import shared.config.MockAppConfig
 import shared.controllers.EndpointLogContext
 import shared.models.domain._
-import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec

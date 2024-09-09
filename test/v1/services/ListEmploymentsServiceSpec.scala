@@ -16,8 +16,11 @@
 
 package v1.services
 
+import shared.controllers.EndpointLogContext
+import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.mocks.connectors.MockListEmploymentsConnector
 import v1.models.request.listEmployments.ListEmploymentsRequest
 import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}

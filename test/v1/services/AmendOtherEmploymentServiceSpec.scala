@@ -16,8 +16,10 @@
 
 package v1.services
 
+import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.mocks.connectors.MockAmendOtherEmploymentConnector
 import v1.models.request.amendOtherEmployment._
 

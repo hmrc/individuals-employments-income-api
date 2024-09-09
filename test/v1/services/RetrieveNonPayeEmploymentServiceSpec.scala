@@ -16,8 +16,12 @@
 
 package v1.services
 
-import shared.models.domain.{MtdSourceEnum, Nino, TaxYear}
+import api.models.domain.MtdSourceEnum
+import shared.controllers.EndpointLogContext
+import shared.services.ServiceSpec
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.mocks.connectors.MockRetrieveNonPayeEmploymentConnector
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest

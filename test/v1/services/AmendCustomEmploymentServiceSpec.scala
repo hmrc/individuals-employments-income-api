@@ -16,8 +16,13 @@
 
 package v1.services
 
-import shared.models.domain.{EmploymentId, Nino, TaxYear}
+import api.models.domain.EmploymentId
+import common.errors.{RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
+import shared.controllers.EndpointLogContext
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
+import shared.services.ServiceSpec
 import v1.mocks.connectors.MockAmendCustomEmploymentConnector
 import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
@@ -81,7 +86,7 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
         val input = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
-          ("INVALID_EMPLOYMENT_ID", EmploymentIdFormatError),
+          ("INVALID_EMPLOYMENT_ID", IdFormatError),
           ("NOT_SUPPORTED_TAX_YEAR", RuleTaxYearNotEndedError),
           ("INVALID_DATE_RANGE", RuleStartDateAfterTaxYearEndError),
           ("INVALID_CESSATION_DATE", RuleCessationDateBeforeTaxYearStartError),
