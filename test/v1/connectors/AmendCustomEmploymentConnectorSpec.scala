@@ -56,11 +56,6 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       http = mockHttpClient,
       appConfig = mockEmploymentsConfig
     )
-
-    MockEmploymentsAppConfig.release6DownstreamConfig.baseUrl shouldBe baseUrl
-    MockEmploymentsAppConfig.release6DownstreamConfig.token shouldBe "release6-token"
-    MockEmploymentsAppConfig.release6DownstreamConfig.env shouldBe "release6-environment"
-    MockEmploymentsAppConfig.release6DownstreamConfig.environmentHeaders shouldBe Some(allowedIfsHeaders)
   }
 
   "AmendCustomEmploymentConnector" when {

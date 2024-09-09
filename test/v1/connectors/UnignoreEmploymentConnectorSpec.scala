@@ -29,7 +29,7 @@ class UnignoreEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "UnignoreEmploymentConnector" should {
     "return the expected response for a TYS request" when {
-      "a valid request is made" in new TysIfsTest with Test {
+      "a valid request is made" in new TysIfsTest with Test with EmploymentsConnectorTest {
         def taxYear: TaxYear                                       = TaxYear.fromMtd("2023-24")
         val expectedOutcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
@@ -43,7 +43,7 @@ class UnignoreEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     }
   }
 
-  trait Test { _: ConnectorTest =>
+  trait Test { _: EmploymentsConnectorTest =>
     def taxYear: TaxYear
 
     val nino: String         = "AA111111A"

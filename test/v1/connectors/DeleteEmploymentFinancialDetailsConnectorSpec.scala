@@ -17,6 +17,7 @@
 package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
+import api.models.domain.EmploymentId
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
@@ -40,7 +41,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
     }
 
     "return the expected response for a TYS request" when {
-      "a valid request is made" in new TysIfsTest with Test {
+      "a valid request is made" in new TysIfsTest with Test with EmploymentsConnectorTest  {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
         val outcome          = Right(ResponseWrapper(correlationId, ()))
 
@@ -54,7 +55,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
   }
 
   trait Test {
-    _: ConnectorTest =>
+    _: EmploymentsConnectorTest =>
 
     def taxYear: TaxYear
 
@@ -70,7 +71,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
 
     val connector: DeleteEmploymentFinancialDetailsConnector = new DeleteEmploymentFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
 
   }

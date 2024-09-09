@@ -18,7 +18,6 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import mocks.MockEmploymentsAppConfig
-import shared.config.MockAppConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -50,18 +49,12 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val response: AddCustomEmploymentResponse = AddCustomEmploymentResponse("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
 
-  class Test extends MockHttpClient with MockAppConfig with MockEmploymentsAppConfig {
+  class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(
       http = mockHttpClient,
       appConfig = mockEmploymentsConfig
     )
-
-    MockEmploymentsAppConfig.api1661DownstreamConfig.baseUrl shouldBe baseUrl
-    MockEmploymentsAppConfig.api1661DownstreamConfig.token shouldBe "api1661-token"
-    MockEmploymentsAppConfig.api1661DownstreamConfig.env shouldBe "api1661-environment"
-    MockEmploymentsAppConfig.api1661DownstreamConfig.environmentHeaders shouldBe Some(allowedIfsHeaders)
-
   }
 
   "AddCustomEmploymentConnector" when {

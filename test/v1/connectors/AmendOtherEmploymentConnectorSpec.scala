@@ -100,7 +100,7 @@ class AmendOtherEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
     val connector: AmendOtherEmploymentConnector = new AmendOtherEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockEmploymentsConfig
+      appConfig = mockAppConfig
     )
 
   }

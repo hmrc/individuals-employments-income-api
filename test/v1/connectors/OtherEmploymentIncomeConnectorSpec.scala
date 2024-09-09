@@ -31,7 +31,7 @@ class OtherEmploymentIncomeConnectorSpec extends EmploymentsConnectorSpec with M
   val nino: String = "AA123456A"
 
   trait Test {
-    _: ConnectorTest =>
+    _: EmploymentsConnectorTest =>
     def taxYear: TaxYear
 
     protected val connector: OtherEmploymentIncomeConnector =
@@ -44,7 +44,7 @@ class OtherEmploymentIncomeConnectorSpec extends EmploymentsConnectorSpec with M
 
   "OtherEmploymentIncomeConnector" should {
     "return a 200 result on delete" when {
-      "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest with Test {
+      "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest with Test with EmploymentsConnectorTest  {
         MockFeatureSwitches.isDesIf_MigrationEnabled.returns(false)
         def taxYear: TaxYear                                  = TaxYear.fromMtd("2017-18")
         val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
@@ -55,7 +55,7 @@ class OtherEmploymentIncomeConnectorSpec extends EmploymentsConnectorSpec with M
         await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
       }
 
-      "the downstream call is successful and is tax year specific" in new TysIfsTest with Test {
+      "the downstream call is successful and is tax year specific" in new TysIfsTest with Test with EmploymentsConnectorTest  {
         def taxYear: TaxYear                                  = TaxYear.fromMtd("2023-24")
         val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
         val outcome: Right[Nothing, ResponseWrapper[Unit]]    = Right(ResponseWrapper(correlationId, ()))
@@ -65,7 +65,7 @@ class OtherEmploymentIncomeConnectorSpec extends EmploymentsConnectorSpec with M
         await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
       }
 
-      "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is on" in new IfsTest with Test {
+      "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is on" in new IfsTest with Test with EmploymentsConnectorTest  {
         MockFeatureSwitches.isDesIf_MigrationEnabled.returns(true)
 
         def taxYear: TaxYear = TaxYear.fromMtd("2017-18")
@@ -81,7 +81,7 @@ class OtherEmploymentIncomeConnectorSpec extends EmploymentsConnectorSpec with M
     }
 
     "return a 200 result on retrieve" when {
-      "the downstream call is successful, is not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest with Test {
+      "the downstream call is successful, is not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest with Test with EmploymentsConnectorTest {
         MockFeatureSwitches.isDesIf_MigrationEnabled.returns(false)
         def taxYear: TaxYear = TaxYear.fromMtd("2021-22")
 
@@ -97,7 +97,7 @@ class OtherEmploymentIncomeConnectorSpec extends EmploymentsConnectorSpec with M
         await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
       }
 
-      "the downstream call is successful, is not tax year specific and 'isDesIf_MigrationEnabled' is on" in new IfsTest with Test {
+      "the downstream call is successful, is not tax year specific and 'isDesIf_MigrationEnabled' is on" in new IfsTest with Test with EmploymentsConnectorTest {
         MockFeatureSwitches.isDesIf_MigrationEnabled.returns(true)
         def taxYear: TaxYear = TaxYear.fromMtd("2021-22")
 
@@ -113,7 +113,7 @@ class OtherEmploymentIncomeConnectorSpec extends EmploymentsConnectorSpec with M
         await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
       }
 
-      "the downstream call is successful and is tax year specific" in new TysIfsTest with Test {
+      "the downstream call is successful and is tax year specific" in new TysIfsTest with Test with EmploymentsConnectorTest {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
         val retrieveRequest: RetrieveOtherEmploymentIncomeRequest                     = RetrieveOtherEmploymentIncomeRequest(Nino(nino), taxYear)

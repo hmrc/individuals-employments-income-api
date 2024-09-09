@@ -28,7 +28,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
 
   private val nino: String = "AA111111A"
 
-  trait Test { _: ConnectorTest =>
+  trait Test { _: EmploymentsConnectorTest =>
     def taxYear: TaxYear
 
     def request = CreateAmendNonPayeEmploymentRequest(
@@ -60,7 +60,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
         await(connector.createAndAmend(request)) shouldBe outcome
       }
 
-      "a valid request is made for a TYS tax year" in new TysIfsTest with Test {
+      "a valid request is made for a TYS tax year" in new TysIfsTest with Test with EmploymentsConnectorTest {
         val taxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))

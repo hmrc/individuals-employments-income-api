@@ -17,7 +17,7 @@
 package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
-import shared.connectors.ConnectorSpec
+import api.models.domain.EmploymentId
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v1.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
@@ -44,7 +44,7 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
       }
 
-      "a valid request is submitted for a TYS tax year" in new TysIfsTest with Test {
+      "a valid request is submitted for a TYS tax year" in new TysIfsTest with Test with EmploymentsConnectorTest {
         def taxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
@@ -61,7 +61,7 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
     }
   }
 
-  trait Test { _: ConnectorTest =>
+  trait Test { _: EmploymentsConnectorTest =>
 
     val nino: String = "AA111111A"
     val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"

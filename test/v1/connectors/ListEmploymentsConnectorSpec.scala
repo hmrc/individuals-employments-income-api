@@ -17,7 +17,10 @@
 package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
+import mocks.MockEmploymentsAppConfig
+import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear, Timestamp}
+import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.listEmployments.ListEmploymentsRequest
 import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
@@ -50,17 +53,12 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
       ))
   )
 
-  class Test extends MockHttpClient with MockAppConfig {
+  class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: ListEmploymentsConnector = new ListEmploymentsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockEmploymentsConfig
     )
-
-    MockedAppConfig.release6BaseUrl returns baseUrl
-    MockedAppConfig.release6Token returns "release6-token"
-    MockedAppConfig.release6Environment returns "release6-environment"
-    MockedAppConfig.release6EnvironmentHeaders returns Some(allowedIfsHeaders)
   }
 
   "ListEmploymentsConnector" when {

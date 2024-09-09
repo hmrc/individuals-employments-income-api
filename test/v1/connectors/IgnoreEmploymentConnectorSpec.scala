@@ -29,7 +29,7 @@ class IgnoreEmploymentConnectorSpec extends EmploymentsConnectorSpec {
   val nino: String         = "AA111111A"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  trait Test { _: ConnectorTest =>
+  trait Test { _: EmploymentsConnectorTest =>
     def taxYear: TaxYear = TaxYear.fromMtd("2021-22")
 
     val connector: IgnoreEmploymentConnector = new IgnoreEmploymentConnector(
@@ -48,9 +48,10 @@ class IgnoreEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "IgnoreEmploymentConnector" when {
     "ignoreEmployment" should {
-      "work" in new TysIfsTest with Test {
+      "work" in new TysIfsTest with Test with EmploymentsConnectorTest  {
         willPut(
-          url = s"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore"
+          url = s"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore",
+          body = ""
         ) returns Future.successful(outcome)
 
         private val result = await(connector.ignoreEmployment(request))
