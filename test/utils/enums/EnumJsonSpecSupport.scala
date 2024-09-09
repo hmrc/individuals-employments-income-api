@@ -17,7 +17,7 @@
 package utils.enums
 
 import play.api.libs.json.{Format, JsString, Json, Reads, Writes}
-import support.UnitSpec
+import shared.utils.UnitSpec
 
 trait EnumJsonSpecSupport {
   self: UnitSpec =>
