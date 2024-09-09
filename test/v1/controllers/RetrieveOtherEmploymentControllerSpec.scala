@@ -16,14 +16,13 @@
 
 package v1.controllers
 
-import shared.models.outcomes.ResponseWrapper
-import shared.config.MockAppConfig
-import shared.controllers.ControllerTestRunner
-import shared.controllers.ControllerBaseSpec
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockRetrieveOtherEmploymentValidatorFactory
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v1.fixtures.RetrieveOtherEmploymentControllerFixture.mtdResponse

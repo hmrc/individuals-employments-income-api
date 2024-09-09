@@ -16,7 +16,8 @@
 
 package v1.fixtures
 
-import api.models.domain.{MtdSourceEnum, PayFrequency, Timestamp}
+import api.models.domain.{MtdSourceEnum, PayFrequency}
+import shared.models.domain.Timestamp
 import play.api.libs.json.{JsValue, Json}
 import v1.models.response.retrieveFinancialDetails._
 

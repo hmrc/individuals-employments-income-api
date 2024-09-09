@@ -44,7 +44,7 @@ class DeleteCustomEmploymentValidatorSpec extends UnitSpec with MockEmploymentsA
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "validate" should {

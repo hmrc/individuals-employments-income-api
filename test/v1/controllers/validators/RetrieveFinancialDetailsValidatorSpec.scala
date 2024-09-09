@@ -16,6 +16,9 @@
 
 package v1.controllers.validators
 
+import api.models.domain.{EmploymentId, MtdSourceEnum}
+import common.errors.{EmploymentIdFormatError, SourceFormatError}
+import mocks.MockEmploymentsAppConfig
 import shared.config.MockAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -33,17 +36,17 @@ class RetrieveFinancialDetailsValidatorSpec extends UnitSpec with MockAppConfig 
   private val parsedTaxYear      = TaxYear.fromMtd(validTaxYear)
   private val parsedEmploymentId = EmploymentId(validEmploymentId)
 
-  trait Test {
+  trait Test extends MockEmploymentsAppConfig {
 
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId,
                  maybeSource: Option[String] = None): Either[ErrorWrapper, RetrieveEmploymentAndFinancialDetailsRequest] =
-      new RetrieveFinancialDetailsValidator(nino, taxYear, employmentId, maybeSource, mockAppConfig).validateAndWrapResult()
+      new RetrieveFinancialDetailsValidator(nino, taxYear, employmentId, maybeSource, mockEmploymentsConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
+    MockedEmploymentsAppConfig.minimumPermittedTaxYear returns TaxYear.fromMtd("2020-21")
   }
 
   "validate" should {

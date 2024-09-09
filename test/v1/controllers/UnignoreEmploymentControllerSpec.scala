@@ -16,18 +16,16 @@
 
 package v1.controllers
 
-import shared.models.audit.AuditResponse
-import shared.models.outcomes.ResponseWrapper
-import shared.config.MockAppConfig
-import shared.controllers.ControllerTestRunner
-import shared.controllers.ControllerBaseSpec
-import shared.models.audit.{AuditEvent, GenericAuditDetail}
 import api.models.domain.EmploymentId
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockUnignoreEmploymentValidatorFactory
 import v1.mocks.services.MockUnignoreEmploymentService
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest

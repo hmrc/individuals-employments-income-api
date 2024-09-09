@@ -16,7 +16,8 @@
 
 package v1.fixtures
 
-import api.models.domain.{MtdSourceEnum, Timestamp}
+import api.models.domain.MtdSourceEnum
+import shared.models.domain.Timestamp
 import play.api.libs.json.{JsValue, Json}
 import v1.models.response.retrieveNonPayeEmploymentIncome.{NonPayeIncome, RetrieveNonPayeEmploymentIncomeResponse}
 

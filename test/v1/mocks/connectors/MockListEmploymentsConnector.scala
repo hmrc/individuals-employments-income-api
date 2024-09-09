@@ -16,7 +16,6 @@
 
 package v1.mocks.connectors
 
-import shared.connectors.DownstreamOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import shared.connectors.DownstreamOutcome
