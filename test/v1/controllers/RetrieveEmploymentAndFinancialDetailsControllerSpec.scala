@@ -16,9 +16,10 @@
 
 package v1.controllers
 
+import api.models.domain.{EmploymentId, MtdSourceEnum}
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
-import shared.config.MockAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -36,7 +37,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
     with MockRetrieveFinancialDetailsValidatorFactory
-    with MockAppConfig {
+    with MockEmploymentsAppConfig {
 
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -95,7 +96,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 

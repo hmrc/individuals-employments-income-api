@@ -16,14 +16,13 @@
 
 package v1.controllers
 
-import api.models.audit.{AuditEvent, GenericAuditDetail}
 import api.models.domain.EmploymentId
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import shared.config.MockAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.audit.AuditResponse
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
@@ -40,7 +39,7 @@ import scala.concurrent.Future
 class AmendFinancialDetailsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockAppConfig
+    with MockEmploymentsAppConfig
     with MockAmendFinancialDetailsValidatorFactory
     with MockAmendFinancialDetailsService
     with MockAuditService {
@@ -198,7 +197,7 @@ class AmendFinancialDetailsControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    MockedAppConfig.featureSwitches
+    MockedEmploymentsAppConfig.featureSwitchConfig
       .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true))
       .anyNumberOfTimes()
 
@@ -216,13 +215,14 @@ class AmendFinancialDetailsControllerSpec
       AuditEvent(
         auditType = "AmendEmploymentFinancialDetails",
         transactionName = "amend-employment-financial-details",
-        detail = GenericAuditDetail(
+        detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
+          versionNumber = apiVersion.name,
           params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          request = requestBody,
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 

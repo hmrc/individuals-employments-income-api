@@ -16,13 +16,12 @@
 
 package v1.controllers
 
-import api.models.audit.{AuditEvent, GenericAuditDetail}
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.config.MockAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.audit.AuditResponse
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
@@ -40,7 +39,7 @@ class DeleteNonPayeEmploymentControllerSpec
     with MockDeleteNonPayeEmploymentIncomeValidatorFactory
     with MockDeleteNonPayeEmploymentService
     with MockAuditService
-    with MockAppConfig {
+    with MockEmploymentsAppConfig {
 
   val taxYear: String = "2020-21"
 
@@ -93,7 +92,7 @@ class DeleteNonPayeEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
@@ -105,13 +104,14 @@ class DeleteNonPayeEmploymentControllerSpec
       AuditEvent(
         auditType = "DeleteNonPayeEmploymentIncome",
         transactionName = "delete-non-paye-employment-income",
-        detail = GenericAuditDetail(
+        detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
+          versionNumber = apiVersion.name,
           params = Map("nino" -> validNino, "taxYear" -> taxYear),
-          request = requestBody,
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 

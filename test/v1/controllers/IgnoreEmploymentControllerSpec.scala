@@ -16,13 +16,13 @@
 
 package v1.controllers
 
-import api.models.audit.{AuditEvent, GenericAuditDetail}
+import api.models.domain.EmploymentId
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.config.MockAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.audit.AuditResponse
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
@@ -38,7 +38,7 @@ class IgnoreEmploymentControllerSpec
     with ControllerTestRunner
     with MockIgnoreEmploymentService
     with MockIgnoreEmploymentValidatorFactory
-    with MockAppConfig {
+    with MockEmploymentsAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -55,7 +55,7 @@ class IgnoreEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
@@ -67,13 +67,15 @@ class IgnoreEmploymentControllerSpec
       AuditEvent(
         auditType = "IgnoreEmployment",
         transactionName = "ignore-employment",
-        detail = GenericAuditDetail(
+        detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
+versionNumber = apiVersion.name,
+
           params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          request = requestBody,
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 

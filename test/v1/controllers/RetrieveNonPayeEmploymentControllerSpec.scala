@@ -16,9 +16,10 @@
 
 package v1.controllers
 
+import api.models.domain.MtdSourceEnum
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
-import shared.config.MockAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -36,7 +37,7 @@ class RetrieveNonPayeEmploymentControllerSpec
     with ControllerTestRunner
     with MockRetrieveNonPayeEmploymentService
     with MockRetrieveNonPayeEmploymentIncomeValidatorFactory
-    with MockAppConfig {
+    with MockEmploymentsAppConfig {
 
   val taxYear: String       = "2019-20"
   val source: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
@@ -91,7 +92,7 @@ class RetrieveNonPayeEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 

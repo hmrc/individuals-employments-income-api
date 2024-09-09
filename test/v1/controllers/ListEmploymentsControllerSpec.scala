@@ -16,9 +16,9 @@
 
 package v1.controllers
 
+import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
-import shared.config.MockAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.errors._
@@ -35,7 +35,7 @@ import scala.concurrent.Future
 class ListEmploymentsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockAppConfig
+    with MockEmploymentsAppConfig
     with MockListEmploymentsService
     with MockListEmploymentsValidatorFactory {
 
@@ -109,7 +109,7 @@ class ListEmploymentsControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
