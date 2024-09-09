@@ -16,6 +16,8 @@
 
 package v1.services
 
+import shared.controllers.EndpointLogContext
+import shared.models.outcomes.ResponseWrapper
 import api.models.domain.EmploymentId
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}

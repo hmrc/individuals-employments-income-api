@@ -16,6 +16,7 @@
 
 package v1.services
 
+import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
