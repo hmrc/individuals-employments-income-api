@@ -19,16 +19,20 @@ package mocks
 import config.EmploymentsAppConfig
 import org.scalamock.handlers.CallHandler0
 import org.scalamock.scalatest.MockFactory
+import play.api.Configuration
 import shared.config.{DownstreamConfig, MockAppConfig}
 import shared.models.domain.TaxYear
 
 trait MockEmploymentsAppConfig extends MockFactory with MockAppConfig {
-  val mockEmploymentsConfig: EmploymentsAppConfig = mock[EmploymentsAppConfig]
+  implicit val mockEmploymentsConfig: EmploymentsAppConfig = mock[EmploymentsAppConfig]
 
   object MockedEmploymentsAppConfig {
     def minimumPermittedTaxYear: CallHandler0[TaxYear] = (() => mockEmploymentsConfig.minimumPermittedTaxYear: TaxYear).expects()
     def release6DownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockEmploymentsConfig.release6DownstreamConfig: DownstreamConfig).expects()
     def api1661DownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockEmploymentsConfig.api1661DownstreamConfig: DownstreamConfig).expects()
+
+    def featureSwitchConfig: CallHandler0[Configuration]         = (() => mockAppConfig.featureSwitchConfig: Configuration).expects()
+
   }
 
 }
