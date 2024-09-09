@@ -16,7 +16,7 @@
 
 package api.models.downstream
 
-import support.UnitSpec
+import shared.utils.UnitSpec
 import utils.enums.EnumJsonSpecSupport
 import DownstreamPayFrequency._
 import api.models.domain.PayFrequency

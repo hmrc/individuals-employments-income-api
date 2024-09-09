@@ -24,7 +24,7 @@ import shared.definition.APIStatus.BETA
 import shared.definition.{APIDefinition, APIVersion, Definition, Scope}
 import shared.mocks.MockHttpClient
 import shared.routing.{Version1, Version2}
-import support.UnitSpec
+import shared.utils.UnitSpec
 import uk.gov.hmrc.auth.core.ConfidenceLevel
 
 class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsAppConfig with MockAppConfig {

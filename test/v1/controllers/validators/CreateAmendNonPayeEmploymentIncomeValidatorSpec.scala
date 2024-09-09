@@ -20,7 +20,7 @@ import mocks.MockEmploymentsAppConfig
 import play.api.libs.json.{JsObject, JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
-import support.UnitSpec
+import shared.utils.UnitSpec
 import v1.models.request.createAmendNonPayeEmployment.{CreateAmendNonPayeEmploymentRequest, CreateAmendNonPayeEmploymentRequestBody}
 
 import java.time.{Clock, Instant, ZoneOffset}

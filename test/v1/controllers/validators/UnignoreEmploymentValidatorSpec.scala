@@ -19,7 +19,7 @@ package v1.controllers.validators
 import shared.config.MockAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
-import support.UnitSpec
+import shared.utils.UnitSpec
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 class UnignoreEmploymentValidatorSpec extends UnitSpec with MockAppConfig {

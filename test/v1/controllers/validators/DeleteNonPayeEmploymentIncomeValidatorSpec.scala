@@ -19,7 +19,7 @@ package v1.controllers.validators
 import mocks.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
-import support.UnitSpec
+import shared.utils.UnitSpec
 import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
 class DeleteNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {

@@ -18,7 +18,7 @@ package v1.controllers.validators.resolvers
 
 import shared.models.domain.TaxYear
 import shared.models.errors._
-import support.UnitSpec
+import shared.utils.UnitSpec
 import v1.controllers.validators.resolvers.CustomEmploymentDateValidator.validator
 
 class CustomEmploymentDateValidatorSpec extends UnitSpec {

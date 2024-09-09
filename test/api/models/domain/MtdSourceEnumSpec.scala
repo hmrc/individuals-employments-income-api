@@ -16,7 +16,7 @@
 
 package api.models.domain
 
-import support.UnitSpec
+import shared.utils.UnitSpec
 import utils.enums.EnumJsonSpecSupport
 
 class MtdSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {

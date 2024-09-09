@@ -17,7 +17,7 @@
 package api.models.domain
 
 import api.models.domain.SharesAwardedOrReceivedSchemeType._
-import support.UnitSpec
+import shared.utils.UnitSpec
 import utils.enums.EnumJsonSpecSupport
 
 class SharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {

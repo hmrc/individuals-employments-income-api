@@ -22,7 +22,7 @@ import play.api.libs.json._
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.utils.JsonErrorValidators
-import support.UnitSpec
+import shared.utils.UnitSpec
 import v1.models.request.amendOtherEmployment.{AmendOtherEmploymentRequest, AmendOtherEmploymentRequestBody}
 
 class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidators with MockEmploymentsAppConfig {

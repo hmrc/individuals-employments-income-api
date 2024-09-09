@@ -18,7 +18,7 @@ package v1.models.response.retrieveOtherEmployment
 
 import api.models.domain.SharesAwardedOrReceivedSchemeType
 import play.api.libs.json.{JsError, JsObject, Json}
-import support.UnitSpec
+import shared.utils.UnitSpec
 
 class SharesAwardedOrReceivedItemSpec extends UnitSpec {
 
