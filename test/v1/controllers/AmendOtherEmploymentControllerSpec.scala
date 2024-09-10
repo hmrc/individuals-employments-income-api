@@ -315,7 +315,7 @@ class AmendOtherEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.amendOtherEmployment(validNino, taxYear)(fakePutRequest(requestBodyJson))
+    protected def callController(): Future[Result] = controller.amendOtherEmployment(validNino, taxYear)(fakeRequest.withBody(requestBodyJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(

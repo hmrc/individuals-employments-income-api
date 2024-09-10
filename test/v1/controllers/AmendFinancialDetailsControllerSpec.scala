@@ -229,7 +229,7 @@ class AmendFinancialDetailsControllerSpec
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] =
-      controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakePutRequest(requestBodyJson))
+      controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakeRequest.withBody(requestBodyJson))
 
   }
 
