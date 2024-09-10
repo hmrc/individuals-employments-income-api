@@ -19,13 +19,12 @@ package v1.controllers.validators
 import api.models.domain.EmploymentId
 import common.errors.EmploymentIdFormatError
 import mocks.MockEmploymentsAppConfig
-import shared.config.MockAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.utils.UnitSpec
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
-class UnignoreEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
+class UnignoreEmploymentValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -36,7 +35,7 @@ class UnignoreEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
   private val parsedTaxYear      = TaxYear.fromMtd(validTaxYear)
   private val parsedEmploymentId = EmploymentId(validEmploymentId)
 
-  trait Test extends MockEmploymentsAppConfig{
+  trait Test {
 
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,

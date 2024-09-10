@@ -19,6 +19,7 @@ package v1.endpoints
 import shared.models.errors._
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.{CessationDateFormatError, EmployerNameFormatError, EmployerRefFormatError, EmploymentIdFormatError, PayrollIdFormatError, RuleCessationDateBeforeStartDateError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
+import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, JsValue, Json}
@@ -27,7 +28,7 @@ import play.api.test.Helpers.AUTHORIZATION
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import shared.support.IntegrationBaseSpec
 
-class AmendCustomEmploymentControllerISpec extends IntegrationBaseSpec {
+class AmendCustomEmploymentControllerISpec extends IntegrationBaseSpec with EmploymentsIBaseSpec{
 
   private trait Test {
 

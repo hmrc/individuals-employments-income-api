@@ -18,6 +18,7 @@ package v1.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors._
+import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, JsValue, Json}
@@ -27,7 +28,7 @@ import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import shared.support.IntegrationBaseSpec
 
-class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
+class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec with EmploymentsIBaseSpec {
 
   private trait Test {
 

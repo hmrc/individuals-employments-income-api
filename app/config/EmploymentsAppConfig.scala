@@ -28,12 +28,12 @@ class EmploymentsAppConfig @Inject() (config: ServicesConfig, configuration: Con
 
   def featureSwitches: EmploymentsFeatureSwitches = EmploymentsFeatureSwitches(featureSwitchConfig)
 
-  val minimumPermittedTaxYear: TaxYear = TaxYear.ending(config.getInt("minimumPermittedTaxYear"))
+  def minimumPermittedTaxYear: TaxYear = TaxYear.ending(config.getInt("minimumPermittedTaxYear"))
 
-  lazy val release6DownstreamConfig: DownstreamConfig =
+  def release6DownstreamConfig: DownstreamConfig =
     downstreamConfig("release6")
 
-  lazy val api1661DownstreamConfig: DownstreamConfig =
+  def api1661DownstreamConfig: DownstreamConfig =
     downstreamConfig("api1661")
 }
 
