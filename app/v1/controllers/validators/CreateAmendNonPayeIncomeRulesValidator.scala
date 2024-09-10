@@ -16,7 +16,7 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.RulesValidator
+import shared.controllers.validators.RulesValidator
 import cats.data.Validated
 import shared.models.errors.MtdError
 import v1.controllers.validators.resolvers.EmploymentsIncomeValidators._

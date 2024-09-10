@@ -16,7 +16,7 @@
 
 package v1.controllers.validators.resolvers
 
-import api.controllers.validators.resolvers.{ResolveParsedNumber, ResolveStringPattern, ResolverSupport}
+import api.controllers.validators.resolvers.{ResolveStringPattern, ResolverSupport}
 import api.models.errors.ValueFormatError
 import cats.data.Validated
 import common.errors.{CustomerRefFormatError, EmployerNameFormatError, EmployerRefFormatError, PayrollIdFormatError}

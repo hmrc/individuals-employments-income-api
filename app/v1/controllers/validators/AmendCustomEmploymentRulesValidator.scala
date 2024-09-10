@@ -16,7 +16,7 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.RulesValidator
+import shared.controllers.validators.RulesValidator
 import api.controllers.validators.resolvers._
 import cats.data.Validated
 import shared.models.domain.TaxYear

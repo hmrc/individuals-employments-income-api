@@ -141,7 +141,7 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
 
   private def expectValueFormatErrorNonNegInt(body: JsNumber => JsValue, expectedPath: String): Unit = s"for $expectedPath" when {
     def doTest(value: JsNumber): Unit = new Test {
-      validate(body = body(value)) shouldBe singleError(ValueFormatError.forPathAndMin(expectedPath, "0"))
+      validate(body = body(value)) shouldBe singleError(ValueFormatError.copy(paths = Some(Seq(expectedPath)), message = s"The value must be 0 or more"))
     }
 
     "value is negative" in doTest(JsNumber(-1))
