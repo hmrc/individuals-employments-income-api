@@ -16,11 +16,10 @@
 
 package v1.services
 
-import shared.controllers.RequestContext
-import shared.models.errors._
-import api.services.{BaseService, ServiceOutcome}
 import cats.syntax.either._
-import shared.models.errors.MtdError
+import shared.controllers.RequestContext
+import shared.models.errors.{MtdError, _}
+import shared.services.{BaseService, ServiceOutcome}
 import v1.connectors.CreateAmendNonPayeEmploymentConnector
 import v1.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest
 
