@@ -21,7 +21,7 @@ import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
-import utils.Logging
+import shared.utils.Logging
 import v1.connectors.IgnoreEmploymentConnector
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 

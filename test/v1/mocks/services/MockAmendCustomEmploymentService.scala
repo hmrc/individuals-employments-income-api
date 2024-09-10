@@ -17,7 +17,7 @@
 package v1.mocks.services
 
 import shared.controllers.RequestContext
-import api.services.ServiceOutcome
+import shared.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import v1.models.request.amendCustomEmployment.AmendCustomEmploymentRequest

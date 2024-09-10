@@ -22,7 +22,7 @@ import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContex
 import shared.routing.Version
 import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
-import utils.Logging
+import shared.utils.Logging
 import v1.controllers.validators.IgnoreEmploymentValidatorFactory
 import v1.services.IgnoreEmploymentService
 

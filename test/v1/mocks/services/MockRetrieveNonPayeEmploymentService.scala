@@ -16,7 +16,7 @@
 
 package v1.mocks.services
 
-import api.services.ServiceOutcome
+import shared.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import shared.controllers.RequestContext

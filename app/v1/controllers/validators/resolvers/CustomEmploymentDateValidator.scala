@@ -16,11 +16,12 @@
 
 package v1.controllers.validators.resolvers
 
-import api.controllers.validators.resolvers.{ResolveIsoDate, ResolverSupport}
+import api.controllers.validators.resolvers.ResolverSupport
 import shared.models.domain.TaxYear
 import shared.models.errors._
 import cats.data.Validated.{Invalid, Valid}
 import common.errors.{CessationDateFormatError, RuleCessationDateBeforeStartDateError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError}
+import shared.controllers.validators.resolvers.ResolveIsoDate
 import shared.models.errors.MtdError
 
 import java.time.LocalDate
