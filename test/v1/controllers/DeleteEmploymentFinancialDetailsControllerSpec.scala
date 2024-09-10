@@ -17,6 +17,7 @@
 package v1.controllers
 
 import api.models.domain.EmploymentId
+import common.controllers.EmploymentsControllerBaseSpec
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
@@ -39,6 +40,7 @@ class DeleteEmploymentFinancialDetailsControllerSpec
     with ControllerTestRunner
     with MockDeleteEmploymentFinancialDetailsService
     with MockAuditService
+      with EmploymentsControllerBaseSpec
     with MockDeleteFinancialDetailsValidatorFactory
     with MockEmploymentsAppConfig {
 

@@ -17,6 +17,7 @@
 package v1.controllers
 
 import api.models.domain.EmploymentId
+import common.controllers.EmploymentsControllerBaseSpec
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
@@ -36,6 +37,7 @@ import scala.concurrent.Future
 
 class AmendCustomEmploymentControllerSpec
     extends ControllerBaseSpec
+      with EmploymentsControllerBaseSpec
     with ControllerTestRunner
     with MockEmploymentsAppConfig
     with MockAuditService
@@ -126,7 +128,7 @@ class AmendCustomEmploymentControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.amendEmployment(validNino, taxYear, employmentId)(fakeRequest.withBody(requestBodyJson))
+    protected def callController(): Future[Result] = controller.amendEmployment(validNino, taxYear, employmentId)(fakePutRequest(requestBodyJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(

@@ -17,6 +17,7 @@
 package v1.controllers
 
 import api.models.domain.EmploymentId
+import common.controllers.EmploymentsControllerBaseSpec
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
@@ -38,6 +39,7 @@ import scala.concurrent.Future
 
 class AmendFinancialDetailsControllerSpec
     extends ControllerBaseSpec
+      with EmploymentsControllerBaseSpec
     with ControllerTestRunner
     with MockEmploymentsAppConfig
     with MockAmendFinancialDetailsValidatorFactory
@@ -229,7 +231,7 @@ class AmendFinancialDetailsControllerSpec
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] =
-      controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakeRequest.withBody(requestBodyJson))
+      controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakePutRequest(requestBodyJson))
 
   }
 

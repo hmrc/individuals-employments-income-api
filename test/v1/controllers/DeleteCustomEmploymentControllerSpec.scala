@@ -17,6 +17,7 @@
 package v1.controllers
 
 import api.models.domain.EmploymentId
+import common.controllers.EmploymentsControllerBaseSpec
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
@@ -36,6 +37,7 @@ import scala.concurrent.Future
 
 class DeleteCustomEmploymentControllerSpec
     extends ControllerBaseSpec
+      with EmploymentsControllerBaseSpec
     with ControllerTestRunner
     with MockDeleteCustomEmploymentService
     with MockAuditService

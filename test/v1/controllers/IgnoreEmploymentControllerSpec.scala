@@ -17,6 +17,7 @@
 package v1.controllers
 
 import api.models.domain.EmploymentId
+import common.controllers.EmploymentsControllerBaseSpec
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
@@ -36,6 +37,7 @@ import scala.concurrent.Future
 class IgnoreEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
+      with EmploymentsControllerBaseSpec
     with MockIgnoreEmploymentService
     with MockIgnoreEmploymentValidatorFactory
     with MockEmploymentsAppConfig {

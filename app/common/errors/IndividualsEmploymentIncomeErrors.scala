@@ -73,6 +73,9 @@ object RuleRequestCannotBeFulfilled
 
 object ValueFormatError extends MtdError("FORMAT_VALUE", "The value must be between 0 and 99999999999.99", BAD_REQUEST) {
 
+  def forPathAndRange(path: String, min: String, max: String): MtdError =
+    ValueFormatError.copy(paths = Some(Seq(path)), message = s"The value must be between $min and $max")
+
   def forPathAndMin(path: String, min: String): MtdError =
     ValueFormatError.copy(paths = Some(Seq(path)), message = s"The value must be $min or more")
 
