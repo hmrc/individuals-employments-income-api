@@ -16,12 +16,11 @@
 
 package v1.controllers
 
-import common.controllers.EmploymentsControllerBaseSpec
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -35,9 +34,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DeleteNonPayeEmploymentControllerSpec
-    extends ControllerBaseSpec
-    with ControllerTestRunner
-      with EmploymentsControllerBaseSpec
+    extends EmploymentsControllerBaseSpec
+    with EmploymentsControllerTestRunner
     with MockDeleteNonPayeEmploymentIncomeValidatorFactory
     with MockDeleteNonPayeEmploymentService
     with MockAuditService
@@ -82,7 +80,7 @@ class DeleteNonPayeEmploymentControllerSpec
     }
   }
 
-  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends EmploymentsControllerTest with EmploymentsAuditEventChecking[GenericAuditDetail] {
 
     val controller = new DeleteNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -97,6 +95,12 @@ class DeleteNonPayeEmploymentControllerSpec
     MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
+
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+      "supporting-agents-access-control.enabled" -> true
+    )
+
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 

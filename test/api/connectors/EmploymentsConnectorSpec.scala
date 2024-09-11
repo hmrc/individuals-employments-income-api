@@ -37,15 +37,6 @@ trait EmploymentsConnectorSpec extends ConnectorSpec with MockFeatureSwitches {
       Some("individuals-employments-income-api")
     )
 
-  val allowedIfsHeaders: Seq[String] = List(
-    "Accept",
-    "Gov-Test-Scenario",
-    "Content-Type",
-    "Location",
-    "X-Request-Timestamp",
-    "X-Session-Id"
-  )
-
   val requiredRelease6Headers: Seq[(String, String)] = List(
     "Environment"   -> "release6-environment",
     "Authorization" -> s"Bearer release6-token",

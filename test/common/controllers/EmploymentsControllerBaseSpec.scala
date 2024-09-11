@@ -16,17 +16,46 @@
 
 package common.controllers
 
+import cats.implicits.catsSyntaxValidatedId
+import mocks.MockEmploymentsAppConfig
 import play.api.http.HeaderNames
-import play.api.mvc.AnyContentAsEmpty
+import play.api.libs.json.JsValue
+import play.api.mvc.{AnyContentAsEmpty, Result}
 import play.api.test.FakeRequest
-import shared.controllers.ControllerBaseSpec
+import shared.config.Deprecation.NotDeprecated
+import shared.controllers.{AuthorisedController, ControllerBaseSpec, ControllerTestRunner}
+import shared.models.audit.{AuditEvent, AuditResponse}
 
-trait EmploymentsControllerBaseSpec extends ControllerBaseSpec {
+import scala.concurrent.Future
+
+trait EmploymentsControllerBaseSpec extends ControllerBaseSpec with MockEmploymentsAppConfig {
 
   lazy val fakeDeleteRequest: FakeRequest[AnyContentAsEmpty.type] = fakeRequest.withHeaders(
     HeaderNames.AUTHORIZATION -> "Bearer Token"
   )
 
   def fakePutRequest[T](body: T): FakeRequest[T] = fakeRequest.withBody(body)
+
+}
+
+trait EmploymentsControllerTestRunner extends ControllerTestRunner {
+  _: EmploymentsControllerBaseSpec =>
+
+  trait EmploymentsControllerTest extends ControllerTest {
+
+    protected val controller: AuthorisedController
+
+    protected def callController(): Future[Result]
+
+    MockedEmploymentsAppConfig
+      .deprecationFor(apiVersion)
+      .returns(NotDeprecated.valid)
+      .anyNumberOfTimes()
+  }
+
+  trait EmploymentsAuditEventChecking[DETAIL] extends AuditEventChecking[DETAIL] {
+    _: EmploymentsControllerTest =>
+    protected def event(auditResponse: AuditResponse, maybeRequestBody: Option[JsValue]): AuditEvent[DETAIL]
+  }
 
 }
