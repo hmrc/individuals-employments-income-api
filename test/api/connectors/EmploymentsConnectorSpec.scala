@@ -16,11 +16,14 @@
 
 package api.connectors
 
+import com.google.common.base.Charsets
 import mocks.{MockEmploymentsAppConfig, MockFeatureSwitches}
 import org.scalamock.handlers.CallHandler
+import shared.config.BasicAuthDownstreamConfig
 import shared.connectors.ConnectorSpec
 import uk.gov.hmrc.http.HeaderCarrier
 
+import java.util.Base64
 import scala.concurrent.Future
 
 trait EmploymentsConnectorSpec extends ConnectorSpec with MockFeatureSwitches {
@@ -76,6 +79,46 @@ trait EmploymentsConnectorSpec extends ConnectorSpec with MockFeatureSwitches {
     val name = "api1661"
 
     MockedEmploymentsAppConfig.api1661DownstreamConfig.anyNumberOfTimes() returns config
+  }
+
+  protected trait EmploymentsDesTest extends EmploymentsConnectorTest {
+    val name = "des"
+
+    MockedEmploymentsAppConfig.desDownstreamConfig.anyNumberOfTimes() returns config
+  }
+
+  protected trait EmploymentsIfsTest extends EmploymentsConnectorTest {
+    override val name = "ifs"
+
+    MockedEmploymentsAppConfig.ifsDownstreamConfig.anyNumberOfTimes() returns config
+  }
+
+  protected trait EmploymentsTysIfsTest extends EmploymentsConnectorTest {
+    override val name = "tys-ifs"
+
+    MockedEmploymentsAppConfig.tysIfsDownstreamConfig.anyNumberOfTimes() returns config
+  }
+
+  protected trait EmploymentsHipTest extends ConnectorTest with MockEmploymentsAppConfig {
+    private val clientId     = "clientId"
+    private val clientSecret = "clientSecret"
+
+    private val token =
+      Base64.getEncoder.encodeToString(s"$clientId:$clientSecret".getBytes(Charsets.UTF_8))
+
+    private val environment = "hip-environment"
+
+    protected final lazy val requiredHeaders: Seq[(String, String)] = List(
+      "Authorization"        -> s"Basic $token",
+      "Environment"          -> environment,
+      "User-Agent"           -> "this-api",
+      "CorrelationId"        -> correlationId,
+      "Gov-Test-Scenario"    -> "DEFAULT"
+    ) ++ intent.map("intent" -> _)
+
+    MockedEmploymentsAppConfig.hipDownstreamConfig
+      .anyNumberOfTimes() returns BasicAuthDownstreamConfig(this.baseUrl, environment, clientId, clientSecret, Some(allowedHeaders))
+
   }
 
 }

@@ -44,7 +44,7 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
       }
 
-      "a valid request is submitted for a TYS tax year" in new TysIfsTest with Test with EmploymentsConnectorTest {
+      "a valid request is submitted for a TYS tax year" in new EmploymentsTysIfsTest with Test {
         def taxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))

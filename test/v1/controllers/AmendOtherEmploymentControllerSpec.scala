@@ -16,12 +16,12 @@
 
 package v1.controllers
 
-import common.controllers.EmploymentsControllerBaseSpec
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.controllers.ControllerBaseSpec
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class AmendOtherEmploymentControllerSpec
     extends ControllerBaseSpec
       with EmploymentsControllerBaseSpec
-    with ControllerTestRunner
+    with EmploymentsControllerTestRunner
     with MockAmendOtherEmploymentValidatorFactory
     with MockAuditService
     with MockAmendOtherEmploymentService
@@ -299,7 +299,7 @@ class AmendOtherEmploymentControllerSpec
     }
   }
 
-  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends EmploymentsControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     val controller = new AmendOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -316,6 +316,8 @@ class AmendOtherEmploymentControllerSpec
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.amendOtherEmployment(validNino, taxYear)(fakePutRequest(requestBodyJson))
 

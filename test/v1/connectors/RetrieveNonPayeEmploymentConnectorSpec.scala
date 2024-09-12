@@ -45,7 +45,7 @@ class RetrieveNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     }
 
     "retrieveUkDividendsIncomeAnnualSummary is called for a TaxYearSpecific tax year" must {
-      "return a 200 for success scenario" in new TysIfsTest with Test with EmploymentsConnectorTest {
+      "return a 200 for success scenario" in new EmploymentsTysIfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, responseModel))

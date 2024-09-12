@@ -19,7 +19,6 @@ package v1.connectors
 import api.connectors.EmploymentsConnectorSpec
 import api.models.domain.EmploymentId
 import mocks.MockEmploymentsAppConfig
-import shared.config.MockAppConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -50,7 +49,7 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     body = amendCustomEmploymentRequestBody
   )
 
-  class Test extends MockHttpClient with MockAppConfig with MockEmploymentsAppConfig {
+  class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(
       http = mockHttpClient,

@@ -16,10 +16,10 @@
 
 package v1.controllers
 
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
@@ -33,8 +33,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RetrieveOtherEmploymentControllerSpec
-    extends ControllerBaseSpec
-    with ControllerTestRunner
+    extends EmploymentsControllerBaseSpec
+    with EmploymentsControllerTestRunner
     with MockRetrieveOtherEmploymentIncomeService
     with MockRetrieveOtherEmploymentValidatorFactory
     with MockEmploymentsAppConfig {
@@ -78,7 +78,7 @@ class RetrieveOtherEmploymentControllerSpec
     }
   }
 
-  trait Test extends ControllerTest {
+  trait Test extends EmploymentsControllerTest {
 
     val controller = new RetrieveOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -94,6 +94,8 @@ class RetrieveOtherEmploymentControllerSpec
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.retrieveOther(validNino, taxYear)(fakeGetRequest)
 

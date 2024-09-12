@@ -78,7 +78,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
     "return the expected response for a TYS request" when {
 
       "downstream returns OK" when {
-        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year" in new TysIfsTest with Test with EmploymentsConnectorTest {
+        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year" in new EmploymentsTysIfsTest with Test {
           override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
           val expected                  = Right(ResponseWrapper(correlationId, response))
 

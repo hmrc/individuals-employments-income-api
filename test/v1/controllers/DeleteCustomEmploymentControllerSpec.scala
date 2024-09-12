@@ -17,12 +17,12 @@
 package v1.controllers
 
 import api.models.domain.EmploymentId
-import common.controllers.EmploymentsControllerBaseSpec
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.controllers.ControllerBaseSpec
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -38,7 +38,7 @@ import scala.concurrent.Future
 class DeleteCustomEmploymentControllerSpec
     extends ControllerBaseSpec
       with EmploymentsControllerBaseSpec
-    with ControllerTestRunner
+    with EmploymentsControllerTestRunner
     with MockDeleteCustomEmploymentService
     with MockAuditService
     with MockDeleteCustomEmploymentValidatorFactory
@@ -85,7 +85,7 @@ class DeleteCustomEmploymentControllerSpec
     }
   }
 
-  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends EmploymentsControllerTest with EmploymentsAuditEventChecking[GenericAuditDetail] {
 
     val controller = new DeleteCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -102,6 +102,8 @@ class DeleteCustomEmploymentControllerSpec
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.deleteCustomEmployment(validNino, taxYear, employmentId)(fakeDeleteRequest)
 

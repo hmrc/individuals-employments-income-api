@@ -17,12 +17,12 @@
 package v1.controllers
 
 import api.models.domain.EmploymentId
-import common.controllers.EmploymentsControllerBaseSpec
+import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.controllers.ControllerBaseSpec
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class UnignoreEmploymentControllerSpec
     extends ControllerBaseSpec
       with EmploymentsControllerBaseSpec
-    with ControllerTestRunner
+    with EmploymentsControllerTestRunner
     with MockUnignoreEmploymentService
     with MockUnignoreEmploymentValidatorFactory
     with MockEmploymentsAppConfig {
@@ -45,7 +45,7 @@ class UnignoreEmploymentControllerSpec
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends EmploymentsControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     val controller = new UnignoreEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -62,6 +62,7 @@ class UnignoreEmploymentControllerSpec
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.unignoreEmployment(validNino, taxYear, employmentId)(fakeDeleteRequest)
 

@@ -41,7 +41,7 @@ class AmendFinancialDetailsConnector @Inject() (val http: HttpClient, val appCon
       if (taxYear.useTaxYearSpecificApi) {
         TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}")
       } else {
-          DownstreamUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}",
+          DownstreamUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/${employmentId.value}",
             DownstreamStrategy.standardStrategy(appConfig.release6DownstreamConfig)
           )
       }
