@@ -23,7 +23,7 @@ import shared.config.{AppConfig, FeatureSwitches}
 
 import javax.inject.Inject
 
-case class EmploymentsFeatureSwitches @Inject() (protected val featureSwitchConfig: Configuration) extends FeatureSwitches {
+case class EmploymentsFeatureSwitches (protected val featureSwitchConfig: Configuration) extends FeatureSwitches {
 
   @Inject
   def this(appConfig: AppConfig) = this(appConfig.featureSwitchConfig)
