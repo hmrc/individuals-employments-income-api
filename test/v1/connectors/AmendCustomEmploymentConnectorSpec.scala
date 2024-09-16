@@ -18,6 +18,7 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import api.models.domain.EmploymentId
+import shared.config.DownstreamConfig
 import mocks.MockEmploymentsAppConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
@@ -55,13 +56,15 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       http = mockHttpClient,
       appConfig = mockEmploymentsConfig
     )
+
+    MockedEmploymentsAppConfig.release6DownstreamConfig returns DownstreamConfig(baseUrl, "release6-environment", "release6-token", Some(allowedIfsHeaders))
   }
 
   "AmendCustomEmploymentConnector" when {
     ".amendEmployment" should {
-      "return a success upon HttpClient success" in new Test {
+      "return a success upon HttpClient success" in new Test with Release6Test {
         val outcome                    = Right(ResponseWrapper(correlationId, ()))
-        implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders ++ Seq("Content-Type" -> "application/json"))
+        override implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders ++ Seq("Content-Type" -> "application/json"))
         val requiredRelease6HeadersPut: Seq[(String, String)] = requiredRelease6Headers ++ Seq("Content-Type" -> "application/json")
 
         MockedHttpClient

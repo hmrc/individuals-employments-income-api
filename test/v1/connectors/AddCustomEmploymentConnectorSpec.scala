@@ -18,6 +18,7 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import mocks.MockEmploymentsAppConfig
+import shared.config.DownstreamConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -55,6 +56,8 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       http = mockHttpClient,
       appConfig = mockEmploymentsConfig
     )
+
+    MockedEmploymentsAppConfig.api1661DownstreamConfig returns DownstreamConfig(baseUrl, "api1661-environment", "api1661-token", Some(allowedIfsHeaders))
   }
 
   "AddCustomEmploymentConnector" when {

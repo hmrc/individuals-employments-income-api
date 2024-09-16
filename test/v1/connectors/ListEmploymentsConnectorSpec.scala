@@ -18,6 +18,7 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import mocks.MockEmploymentsAppConfig
+import shared.config.DownstreamConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.outcomes.ResponseWrapper
@@ -59,6 +60,8 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
       http = mockHttpClient,
       appConfig = mockEmploymentsConfig
     )
+
+    MockedEmploymentsAppConfig.release6DownstreamConfig returns DownstreamConfig(baseUrl, "release6-environment", "release6-token", Some(allowedIfsHeaders))
   }
 
   "ListEmploymentsConnector" when {
