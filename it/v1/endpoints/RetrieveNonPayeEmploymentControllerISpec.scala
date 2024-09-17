@@ -16,19 +16,19 @@
 
 package v1.endpoints
 
-import shared.models.errors._
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.SourceFormatError
+import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import shared.support.IntegrationBaseSpec
+import shared.models.errors._
+import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture
 
-class RetrieveNonPayeEmploymentControllerISpec extends IntegrationBaseSpec {
+class RetrieveNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   "Calling the 'retrieve non-paye' endpoint" should {
     "return a 200 status code" when {

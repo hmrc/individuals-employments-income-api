@@ -45,7 +45,7 @@ class CreateAmendNonPayeEmploymentConnector @Inject() (val http: HttpClient, val
         DownstreamStrategy.standardStrategy(appConfig.api1661DownstreamConfig))
     }
 
-    put(body, uri)
+    put(body = body, uri = uri)
   }
 
 }

@@ -16,6 +16,7 @@
 
 package v1.endpoints
 
+import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, JsValue, Json}
@@ -23,9 +24,8 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuthStub, DownstreamStub, MtdIdLookupStub}
-import shared.support.IntegrationBaseSpec
 
-class CreateAmendNonPayeEmploymentControllerISpec extends IntegrationBaseSpec {
+class CreateAmendNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   val validRequestBodyJson: JsValue = Json.parse(
     """
