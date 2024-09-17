@@ -16,13 +16,14 @@
 
 package auth
 
+import common.support.EmploymentsIBaseSpec
 import play.api.http.Status.NO_CONTENT
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import shared.auth.AuthMainAgentsOnlyISpec
 import shared.services.DownstreamStub
 
-class EmploymentsIncomeAuthMainAgentsOnlyISpec extends AuthMainAgentsOnlyISpec {
+class EmploymentsIncomeAuthMainAgentsOnlyISpec extends AuthMainAgentsOnlyISpec with EmploymentsIBaseSpec {
 
   val callingApiVersion = "1.0"
 
