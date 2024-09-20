@@ -21,7 +21,7 @@ import mocks.MockEmploymentsAppConfig
 import shared.config.Deprecation.NotDeprecated
 import shared.config.{ConfidenceLevelConfig, MockAppConfig}
 import shared.definition.APIStatus.BETA
-import shared.definition.{APIDefinition, APIVersion, Definition, Scope}
+import shared.definition.{APIDefinition, APIVersion, Definition}
 import shared.mocks.MockHttpClient
 import shared.routing.{Version1, Version2}
 import shared.utils.UnitSpec
@@ -70,24 +70,6 @@ class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsA
               requiresTrust = None
             )
           )
-      }
-    }
-  }
-
-  "confidenceLevel" when {
-    Seq(
-      (true, ConfidenceLevel.L250, ConfidenceLevel.L250),
-      (true, ConfidenceLevel.L200, ConfidenceLevel.L200),
-      (false, ConfidenceLevel.L200, ConfidenceLevel.L50)
-    ).foreach { case (definitionEnabled, configCL, expectedDefinitionCL) =>
-      s"confidence-level-check.definition.enabled is $definitionEnabled and confidence-level = $configCL" should {
-        s"return confidence level $expectedDefinitionCL" in new Test {
-          MockedAppConfig.confidenceLevelConfig returns ConfidenceLevelConfig(
-            confidenceLevel = configCL,
-            definitionEnabled = definitionEnabled,
-            authValidationEnabled = true)
-          apiDefinitionFactory.confidenceLevel shouldBe expectedDefinitionCL
-        }
       }
     }
   }

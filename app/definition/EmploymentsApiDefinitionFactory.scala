@@ -18,7 +18,7 @@ package definition
 
 import shared.config.AppConfig
 import shared.routing._
-import shared.definition.{APIDefinition, APIVersion, ApiDefinitionFactory, Definition, Scope}
+import shared.definition.{APIDefinition, APIVersion, ApiDefinitionFactory, Definition}
 
 import javax.inject.{Inject, Singleton}
 

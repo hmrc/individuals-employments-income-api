@@ -20,14 +20,6 @@ import play.api.libs.json.{Format, Json, OFormat}
 import shared.routing.Version
 import shared.utils.enums.Enums
 
-case class Parameter(name: String, required: Boolean = false)
-
-object Parameter {
-  implicit val formatParameter: OFormat[Parameter] = Json.format[Parameter]
-}
-
-case class PublishingException(message: String) extends Exception(message)
-
 sealed trait APIStatus
 
 object APIStatus {
@@ -74,10 +66,4 @@ case class APIDefinition(name: String,
 
 object APIDefinition {
   implicit val formatAPIDefinition: OFormat[APIDefinition] = Json.format[APIDefinition]
-}
-
-case class Definition(api: APIDefinition)
-
-object Definition {
-  implicit val formatDefinition: OFormat[Definition] = Json.format[Definition]
 }
