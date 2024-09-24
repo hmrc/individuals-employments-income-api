@@ -43,5 +43,5 @@ case class EmploymentsFeatureSwitches (protected val featureSwitchConfig: Config
 object EmploymentsFeatureSwitches {
   def apply(configuration: Configuration): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(configuration)
 
-  def apply(appConfig: AppConfig): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(appConfig)
+  def apply()(implicit appConfig: AppConfig): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(appConfig)
 }
