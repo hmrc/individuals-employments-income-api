@@ -18,11 +18,9 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import mocks.MockEmploymentsAppConfig
-import shared.config.DownstreamConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
-import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
@@ -57,25 +55,17 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       appConfig = mockEmploymentsConfig
     )
 
-    MockedEmploymentsAppConfig.api1661DownstreamConfig returns DownstreamConfig(baseUrl, "api1661-environment", "api1661-token", Some(allowedIfsHeaders))
   }
 
   "AddCustomEmploymentConnector" when {
     ".addEmployment" should {
-      "return a success upon HttpClient success" in new Test {
-        val outcome                    = Right(ResponseWrapper(correlationId, response))
-        implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders ++ Seq("Content-Type" -> "application/json"))
-        val requiredApi1661HeadersPost: Seq[(String, String)] = requiredApi1661Headers ++ Seq("Content-Type" -> "application/json")
+      "return a success upon HttpClient success" in new Test with Api1661Test {
+        val outcome = Right(ResponseWrapper(correlationId, response))
 
-        MockedHttpClient
-          .post(
-            url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom",
-            config = dummyIfsHeaderCarrierConfig,
-            body = addCustomEmploymentRequestBody,
-            requiredHeaders = requiredApi1661HeadersPost,
-            excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
-          )
-          .returns(Future.successful(outcome))
+        willPost(
+          url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom",
+          body = addCustomEmploymentRequestBody
+        ).returns(Future.successful(outcome))
 
         await(connector.addEmployment(request)) shouldBe outcome
       }

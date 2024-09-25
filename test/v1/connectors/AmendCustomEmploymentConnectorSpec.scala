@@ -18,12 +18,10 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
-import shared.config.DownstreamConfig
 import mocks.MockEmploymentsAppConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
-import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
 import scala.concurrent.Future
@@ -57,25 +55,18 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       appConfig = mockEmploymentsConfig
     )
 
-    MockedEmploymentsAppConfig.release6DownstreamConfig returns DownstreamConfig(baseUrl, "release6-environment", "release6-token", Some(allowedIfsHeaders))
   }
 
   "AmendCustomEmploymentConnector" when {
     ".amendEmployment" should {
       "return a success upon HttpClient success" in new Test with Release6Test {
-        val outcome                    = Right(ResponseWrapper(correlationId, ()))
-        override implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders ++ Seq("Content-Type" -> "application/json"))
-        val requiredRelease6HeadersPut: Seq[(String, String)] = requiredRelease6Headers ++ Seq("Content-Type" -> "application/json")
 
-        MockedHttpClient
-          .put(
-            url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId",
-            config = dummyIfsHeaderCarrierConfig,
-            body = amendCustomEmploymentRequestBody,
-            requiredHeaders = requiredRelease6HeadersPut,
-            excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
-          )
-          .returns(Future.successful(outcome))
+        val outcome = Right(ResponseWrapper(correlationId, ()))
+
+        willPut(
+          url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId",
+          body = amendCustomEmploymentRequestBody
+        ).returns(Future.successful(outcome))
 
         await(connector.amendEmployment(request)) shouldBe outcome
       }

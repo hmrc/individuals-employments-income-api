@@ -18,11 +18,9 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import mocks.MockEmploymentsAppConfig
-import shared.config.DownstreamConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.outcomes.ResponseWrapper
-import uk.gov.hmrc.http.HeaderCarrier
 import v1.models.request.listEmployments.ListEmploymentsRequest
 import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
 
@@ -61,23 +59,16 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
       appConfig = mockEmploymentsConfig
     )
 
-    MockedEmploymentsAppConfig.release6DownstreamConfig returns DownstreamConfig(baseUrl, "release6-environment", "release6-token", Some(allowedIfsHeaders))
   }
 
   "ListEmploymentsConnector" when {
     "listEmployments" must {
-      "return a 200 status for a success scenario" in new Test {
+      "return a 200 status for a success scenario" in new Test with Release6Test {
         val outcome                    = Right(ResponseWrapper(correlationId, validResponse))
-        implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders)
 
-        MockedHttpClient
-          .get(
-            url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear",
-            config = dummyIfsHeaderCarrierConfig,
-            requiredHeaders = requiredRelease6Headers,
-            excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
-          )
-          .returns(Future.successful(outcome))
+        willGet(
+          url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear"
+        ).returns(Future.successful(outcome))
 
         await(connector.listEmployments(request)) shouldBe outcome
       }
