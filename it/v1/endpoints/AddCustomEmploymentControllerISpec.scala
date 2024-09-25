@@ -24,10 +24,9 @@ import play.api.http.Status._
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
+import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-
-import java.time.LocalDate
 
 class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
@@ -302,19 +301,7 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
           }
         }
 
-        def getCurrentTaxYear: String = {
-          val currentDate = LocalDate.now()
-
-          val taxYearStartDate: LocalDate = LocalDate.parse(s"${currentDate.getYear}-04-06")
-
-          def fromDesIntToString(taxYear: Int): String = s"${taxYear - 1}-${taxYear.toString.drop(2)}"
-
-          if (currentDate.isBefore(taxYearStartDate)) {
-            fromDesIntToString(currentDate.getYear)
-          } else {
-            fromDesIntToString(currentDate.getYear + 1)
-          }
-        }
+        def getCurrentTaxYear: String = TaxYear.currentTaxYear.asMtd
 
         val input = Seq(
           ("AA1123A", "2019-20", validRequestJson, BAD_REQUEST, NinoFormatError, None),
