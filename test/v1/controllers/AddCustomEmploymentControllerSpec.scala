@@ -16,11 +16,11 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -35,8 +35,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AddCustomEmploymentControllerSpec
-    extends EmploymentsControllerBaseSpec
-    with EmploymentsControllerTestRunner
+    extends ControllerBaseSpec
+    with ControllerTestRunner
     with MockEmploymentsAppConfig
     with MockAddCustomEmploymentService
     with MockAuditService
@@ -122,7 +122,7 @@ class AddCustomEmploymentControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest with EmploymentsAuditEventChecking[GenericAuditDetail] {
+  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     val controller = new AddCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -137,8 +137,6 @@ class AddCustomEmploymentControllerSpec
     protected def callController(): Future[Result] = controller.addEmployment(validNino, taxYear)(fakePostRequest(requestBodyJson))
 
     MockedEmploymentsAppConfig.featureSwitchConfig.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
-
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
