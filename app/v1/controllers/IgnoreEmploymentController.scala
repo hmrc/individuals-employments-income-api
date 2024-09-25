@@ -16,13 +16,12 @@
 
 package v1.controllers
 
-import config.EmploymentsAppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import shared.controllers.{AuditHandler, AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.config.AppConfig
+import shared.controllers._
 import shared.routing.Version
 import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import shared.utils.IdGenerator
-import shared.utils.Logging
+import shared.utils.{IdGenerator, Logging}
 import v1.controllers.validators.IgnoreEmploymentValidatorFactory
 import v1.services.IgnoreEmploymentService
 
@@ -36,7 +35,7 @@ class IgnoreEmploymentController @Inject() (val authService: EnrolmentsAuthServi
                                             service: IgnoreEmploymentService,
                                             auditService: AuditService,
                                             cc: ControllerComponents,
-                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
+                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc)
     with Logging {
 

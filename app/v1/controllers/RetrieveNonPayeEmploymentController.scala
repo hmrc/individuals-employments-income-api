@@ -16,8 +16,8 @@
 
 package v1.controllers
 
-import config.EmploymentsAppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import shared.config.AppConfig
 import shared.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
 import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
@@ -33,7 +33,7 @@ class RetrieveNonPayeEmploymentController @Inject() (val authService: Enrolments
                                                      validatorFactory: RetrieveNonPayeEmploymentIncomeValidatorFactory,
                                                      service: RetrieveNonPayeEmploymentService,
                                                      cc: ControllerComponents,
-                                                     val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: EmploymentsAppConfig)
+                                                     val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "retrieve-non-paye-employment"
