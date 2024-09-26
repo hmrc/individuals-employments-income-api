@@ -16,11 +16,11 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import common.models.domain.{EmploymentId, MtdSourceEnum}
-import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
@@ -33,11 +33,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RetrieveEmploymentAndFinancialDetailsControllerSpec
-    extends EmploymentsControllerBaseSpec
-    with EmploymentsControllerTestRunner
+    extends ControllerBaseSpec
+    with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
     with MockRetrieveFinancialDetailsValidatorFactory
-    with MockEmploymentsAppConfig {
+    with MockAppConfig {
 
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -85,7 +85,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest {
+  trait Test extends ControllerTest {
 
     val controller = new RetrieveEmploymentAndFinancialDetailsController(
       authService = mockEnrolmentsAuthService,
@@ -96,13 +96,11 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
-
-    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.retrieve(validNino, taxYear, employmentId, Some(source))(fakeRequest)
   }

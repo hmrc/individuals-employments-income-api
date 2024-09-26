@@ -16,10 +16,10 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
-import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
@@ -33,9 +33,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ListEmploymentsControllerSpec
-    extends EmploymentsControllerBaseSpec
-    with EmploymentsControllerTestRunner
-    with MockEmploymentsAppConfig
+    extends ControllerBaseSpec
+    with ControllerTestRunner
+    with MockAppConfig
     with MockListEmploymentsService
     with MockListEmploymentsValidatorFactory {
 
@@ -98,7 +98,7 @@ class ListEmploymentsControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest {
+  trait Test extends ControllerTest {
 
     val controller = new ListEmploymentsController(
       authService = mockEnrolmentsAuthService,
@@ -109,12 +109,11 @@ class ListEmploymentsControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
-    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.listEmployments(validNino, taxYear)(fakeGetRequest)
   }

@@ -16,11 +16,11 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import common.models.domain.EmploymentId
-import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
@@ -34,11 +34,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RetrieveEmploymentControllerSpec
-    extends EmploymentsControllerBaseSpec
-    with EmploymentsControllerTestRunner
+    extends ControllerBaseSpec
+    with ControllerTestRunner
     with MockRetrieveEmploymentService
     with MockRetrieveEmploymentValidatorFactory
-    with MockEmploymentsAppConfig {
+    with MockAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -134,7 +134,7 @@ class RetrieveEmploymentControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest {
+  trait Test extends ControllerTest {
 
     val controller = new RetrieveEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -145,13 +145,11 @@ class RetrieveEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
-
-    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.retrieveEmployment(validNino, taxYear, employmentId)(fakeGetRequest)
 

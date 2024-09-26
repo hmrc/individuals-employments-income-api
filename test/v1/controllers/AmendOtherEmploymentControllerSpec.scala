@@ -16,12 +16,11 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
-import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import shared.controllers.ControllerBaseSpec
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -36,12 +35,11 @@ import scala.concurrent.Future
 
 class AmendOtherEmploymentControllerSpec
     extends ControllerBaseSpec
-      with EmploymentsControllerBaseSpec
-    with EmploymentsControllerTestRunner
+      with ControllerTestRunner
     with MockAmendOtherEmploymentValidatorFactory
     with MockAuditService
     with MockAmendOtherEmploymentService
-    with MockEmploymentsAppConfig {
+    with MockAppConfig {
 
   val taxYear: String = "2019-20"
 
@@ -299,7 +297,7 @@ class AmendOtherEmploymentControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     val controller = new AmendOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -311,15 +309,13 @@ class AmendOtherEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
-
-    protected def callController(): Future[Result] = controller.amendOtherEmployment(validNino, taxYear)(fakePutRequest(requestBodyJson))
+    protected def callController(): Future[Result] = controller.amendOtherEmployment(validNino, taxYear)(fakeRequest.withBody(requestBodyJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(

@@ -16,11 +16,11 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import common.models.domain.MtdSourceEnum
-import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
@@ -33,11 +33,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RetrieveNonPayeEmploymentControllerSpec
-    extends EmploymentsControllerBaseSpec
-    with EmploymentsControllerTestRunner
+    extends ControllerBaseSpec
+    with ControllerTestRunner
     with MockRetrieveNonPayeEmploymentService
     with MockRetrieveNonPayeEmploymentIncomeValidatorFactory
-    with MockEmploymentsAppConfig {
+    with MockAppConfig {
 
   val taxYear: String       = "2019-20"
   val source: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
@@ -81,7 +81,7 @@ class RetrieveNonPayeEmploymentControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest {
+  trait Test extends ControllerTest {
 
     val controller = new RetrieveNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -92,13 +92,11 @@ class RetrieveNonPayeEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
-
-    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.retrieveNonPayeEmployment(validNino, taxYear, Some(source.toString))(fakeGetRequest)
   }

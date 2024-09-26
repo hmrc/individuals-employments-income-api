@@ -16,11 +16,11 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
-import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -34,9 +34,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class CreateAmendNonPayeEmploymentControllerSpec
-    extends EmploymentsControllerBaseSpec
-    with EmploymentsControllerTestRunner
-    with MockEmploymentsAppConfig
+    extends ControllerBaseSpec
+    with ControllerTestRunner
+    with MockAppConfig
     with MockCreateAmendNonPayeEmploymentService
     with MockAuditService
     with MockCreateAmendNonPayeEmploymentIncomeValidatorFactory {
@@ -96,7 +96,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     val controller = new CreateAmendNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -108,13 +108,11 @@ class CreateAmendNonPayeEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
-
-    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.createAmendNonPayeEmployment(validNino, taxYear)(fakeRequest.withBody(validRequestJson))
 
@@ -133,7 +131,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
         )
       )
 
-    MockedEmploymentsAppConfig.featureSwitchConfig.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
+    MockedAppConfig.featureSwitchConfig.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
   }
 
 }

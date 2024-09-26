@@ -16,13 +16,12 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
 import common.models.domain.EmploymentId
-import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import shared.controllers.ControllerBaseSpec
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -39,9 +38,8 @@ import scala.concurrent.Future
 
 class AmendFinancialDetailsControllerSpec
     extends ControllerBaseSpec
-      with EmploymentsControllerBaseSpec
-    with EmploymentsControllerTestRunner
-    with MockEmploymentsAppConfig
+    with ControllerTestRunner
+    with MockAppConfig
     with MockAmendFinancialDetailsValidatorFactory
     with MockAmendFinancialDetailsService
     with MockAuditService {
@@ -197,9 +195,9 @@ class AmendFinancialDetailsControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest with AuditEventChecking[GenericAuditDetail] {
+  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    MockedEmploymentsAppConfig.featureSwitchConfig
+    MockedAppConfig.featureSwitchConfig
       .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true))
       .anyNumberOfTimes()
 
@@ -230,10 +228,8 @@ class AmendFinancialDetailsControllerSpec
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
-
     protected def callController(): Future[Result] =
-      controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakePutRequest(requestBodyJson))
+      controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakeRequest.withBody(requestBodyJson))
 
   }
 

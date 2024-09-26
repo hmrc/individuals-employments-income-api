@@ -16,12 +16,12 @@
 
 package v1.controllers
 
-import common.controllers.{EmploymentsControllerBaseSpec, EmploymentsControllerTestRunner}
-import mocks.MockEmploymentsAppConfig
 import play.api.Configuration
+import play.api.http.HeaderNames
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.controllers.ControllerBaseSpec
+import shared.config.MockAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -36,12 +36,11 @@ import scala.concurrent.Future
 
 class DeleteOtherEmploymentControllerSpec
     extends ControllerBaseSpec
-    with EmploymentsControllerTestRunner
-      with EmploymentsControllerBaseSpec
+    with ControllerTestRunner
     with MockDeleteOtherEmploymentValidatorFactory
     with MockDeleteOtherEmploymentIncomeService
     with MockAuditService
-    with MockEmploymentsAppConfig {
+    with MockAppConfig {
 
   val taxYear: String = "2019-20"
 
@@ -82,7 +81,7 @@ class DeleteOtherEmploymentControllerSpec
     }
   }
 
-  trait Test extends EmploymentsControllerTest with EmploymentsAuditEventChecking[GenericAuditDetail] {
+  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     val controller = new DeleteOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
@@ -94,15 +93,15 @@ class DeleteOtherEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedEmploymentsAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
     MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    MockedEmploymentsAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
-
-    protected def callController(): Future[Result] = controller.deleteOtherEmployment(validNino, taxYear)(fakeDeleteRequest)
+    protected def callController(): Future[Result] = controller.deleteOtherEmployment(validNino, taxYear)(fakeRequest.withHeaders(
+    HeaderNames.AUTHORIZATION -> "Bearer Token"
+  ))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
