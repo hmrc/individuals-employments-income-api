@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import api.connectors.EmploymentsConnectorSpec
+import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.{EmploymentId, MtdSourceEnum}
 import config.MockEmploymentsAppConfig
 import org.scalamock.handlers.CallHandler

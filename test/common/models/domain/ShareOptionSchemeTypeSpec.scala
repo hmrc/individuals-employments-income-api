@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package api.models.domain
+package common.models.domain
 
-import shared.utils.enums.EnumJsonSpecSupport
-import common.models.domain.ShareOptionSchemeType
 import common.models.domain.ShareOptionSchemeType._
 import shared.utils.UnitSpec
+import shared.utils.enums.EnumJsonSpecSupport
 
 class ShareOptionSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package api.models.domain
+package common.models.domain
 
-import common.models.domain.MtdSourceEnum
+import common.models.domain.SharesAwardedOrReceivedSchemeType._
 import shared.utils.UnitSpec
 import shared.utils.enums.EnumJsonSpecSupport
 
-class MtdSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
+class SharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 
-  testRoundTrip[MtdSourceEnum](
-    ("hmrc-held", MtdSourceEnum.`hmrc-held`),
-    ("user", MtdSourceEnum.user),
-    ("latest", MtdSourceEnum.latest)
+  testSerialization[SharesAwardedOrReceivedSchemeType](
+    `sip`   -> "sip",
+    `other` -> "other"
   )
 
-  "toDesViewString" must {
-    "return the expected string" in {
-      MtdSourceEnum.`hmrc-held`.toDesViewString shouldBe "HMRC-HELD"
-      MtdSourceEnum.latest.toDesViewString shouldBe "LATEST"
-      MtdSourceEnum.user.toDesViewString shouldBe "CUSTOMER"
+  "SharesAwardedOrReceivedSchemeType" must {
+    "convert to downstream string correctly" in {
+      `sip`.toDownstreamString shouldBe "SIP"
+      `other`.toDownstreamString shouldBe "Other"
     }
   }
 

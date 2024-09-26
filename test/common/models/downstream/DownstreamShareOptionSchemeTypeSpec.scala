@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.models.downstream
+package common.models.downstream
 
 import shared.utils.enums.EnumJsonSpecSupport
 import common.models.domain.ShareOptionSchemeType

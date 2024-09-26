@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package api.models.downstream
+package common.models.domain
 
-import common.models.domain.MtdSourceEnum
-import common.models.downstream.DownstreamSourceEnum
 import shared.utils.UnitSpec
 import shared.utils.enums.EnumJsonSpecSupport
 
-class DownstreamSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
+class MtdSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 
-  testRoundTrip[DownstreamSourceEnum](
-    ("HMRC HELD", DownstreamSourceEnum.`HMRC HELD`),
-    ("CUSTOMER", DownstreamSourceEnum.CUSTOMER),
-    ("LATEST", DownstreamSourceEnum.LATEST)
+  testRoundTrip[MtdSourceEnum](
+    ("hmrc-held", MtdSourceEnum.`hmrc-held`),
+    ("user", MtdSourceEnum.user),
+    ("latest", MtdSourceEnum.latest)
   )
 
-  "toMtdEnum" must {
-    "return the expected 'MtdSourceEnum' object" in {
-      DownstreamSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.`hmrc-held`
-      DownstreamSourceEnum.CUSTOMER.toMtdEnum shouldBe MtdSourceEnum.user
-      DownstreamSourceEnum.LATEST.toMtdEnum shouldBe MtdSourceEnum.latest
+  "toDesViewString" must {
+    "return the expected string" in {
+      MtdSourceEnum.`hmrc-held`.toDesViewString shouldBe "HMRC-HELD"
+      MtdSourceEnum.latest.toDesViewString shouldBe "LATEST"
+      MtdSourceEnum.user.toDesViewString shouldBe "CUSTOMER"
     }
   }
 

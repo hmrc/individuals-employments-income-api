@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.connectors
+package common.connectors
 
 import config.{MockEmploymentsAppConfig, MockFeatureSwitches}
 import shared.connectors.ConnectorSpec

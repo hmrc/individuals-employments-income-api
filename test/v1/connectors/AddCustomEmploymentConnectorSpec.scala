@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import api.connectors.EmploymentsConnectorSpec
+import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
 import shared.mocks.MockHttpClient
 import shared.models.domain.{ Nino, TaxYear }

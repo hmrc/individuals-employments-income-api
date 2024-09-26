@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package api.models.domain
+package common.models.domain
 
-import shared.utils.enums.EnumJsonSpecSupport
-import common.models.domain.PayFrequency
 import common.models.domain.PayFrequency._
 import shared.utils.UnitSpec
+import shared.utils.enums.EnumJsonSpecSupport
 
 class PayFrequencySpec extends UnitSpec with EnumJsonSpecSupport {
 

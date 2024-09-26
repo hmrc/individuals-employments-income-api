@@ -14,24 +14,25 @@
  * limitations under the License.
  */
 
-package api.models.domain
+package common.models.downstream
 
 import shared.utils.enums.EnumJsonSpecSupport
 import common.models.domain.SharesAwardedOrReceivedSchemeType
-import common.models.domain.SharesAwardedOrReceivedSchemeType._
+import common.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType
+import common.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType._
 import shared.utils.UnitSpec
 
-class SharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
+class DownstreamSharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 
-  testSerialization[SharesAwardedOrReceivedSchemeType](
-    `sip`   -> "sip",
-    `other` -> "other"
+  testDeserialization[DownstreamSharesAwardedOrReceivedSchemeType](
+    "SIP"   -> `SIP`,
+    "Other" -> `Other`
   )
 
-  "SharesAwardedOrReceivedSchemeType" must {
-    "convert to downstream string correctly" in {
-      `sip`.toDownstreamString shouldBe "SIP"
-      `other`.toDownstreamString shouldBe "Other"
+  "DownstreamPayFrequency" must {
+    "convert to MTD values correctly" in {
+      `SIP`.toMtd shouldBe SharesAwardedOrReceivedSchemeType.sip
+      `Other`.toMtd shouldBe SharesAwardedOrReceivedSchemeType.`other`
     }
   }
 
