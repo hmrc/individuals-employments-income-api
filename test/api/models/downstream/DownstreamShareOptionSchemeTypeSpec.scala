@@ -16,13 +16,13 @@
 
 package api.models.downstream
 
+import shared.utils.enums.EnumJsonSpecSupport
 import common.models.domain.ShareOptionSchemeType
 import common.models.downstream.DownstreamShareOptionSchemeType
 import common.models.downstream.DownstreamShareOptionSchemeType._
 import shared.utils.UnitSpec
-import utils.enums.EmploymentsEnumJsonSpecSupport
 
-class DownstreamShareOptionSchemeTypeSpec extends UnitSpec with EmploymentsEnumJsonSpecSupport {
+class DownstreamShareOptionSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 
   testDeserialization[DownstreamShareOptionSchemeType](
     "EMI"   -> `EMI`,

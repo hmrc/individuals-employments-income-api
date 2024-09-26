@@ -72,7 +72,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
 
     val connector: DeleteEmploymentFinancialDetailsConnector = new DeleteEmploymentFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig,
+      appConfig = mockSharedAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 

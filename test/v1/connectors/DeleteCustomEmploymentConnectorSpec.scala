@@ -49,7 +49,7 @@ class DeleteCustomEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: DeleteCustomEmploymentConnector = new DeleteCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig
     )
 
     protected val request: DeleteCustomEmploymentRequest =

@@ -19,13 +19,13 @@ package v1.controllers.validators
 import common.errors.SourceFormatError
 import common.models.domain.MtdSourceEnum
 import config.MockEmploymentsAppConfig
-import shared.config.MockAppConfig
+import shared.config.MockSharedAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.utils.UnitSpec
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
-class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockAppConfig {
+class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockSharedAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"

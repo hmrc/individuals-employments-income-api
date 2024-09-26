@@ -18,7 +18,7 @@ package shared.connectors
 
 import org.scalatest.Assertion
 import play.api.http.{HeaderNames, MimeTypes, Status}
-import shared.config.{AppConfig, MockAppConfig}
+import shared.config.{SharedAppConfig, MockSharedAppConfig}
 import shared.mocks.MockHttpClient
 import shared.models.outcomes.ResponseWrapper
 import shared.utils.UnitSpec
@@ -27,7 +27,7 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
-class BaseDownstreamConnectorSpec extends UnitSpec with MockHttpClient with MockAppConfig with Status with MimeTypes with HeaderNames {
+class BaseDownstreamConnectorSpec extends UnitSpec with MockHttpClient with MockSharedAppConfig with Status with MimeTypes with HeaderNames {
   self =>
 
   case class Result(value: Int)
@@ -66,7 +66,7 @@ class BaseDownstreamConnectorSpec extends UnitSpec with MockHttpClient with Mock
 
   val connector: BaseDownstreamConnector = new BaseDownstreamConnector {
     val http: HttpClient     = mockHttpClient
-    val appConfig: AppConfig = mockAppConfig
+    val appConfig: SharedAppConfig = mockSharedAppConfig
   }
 
   private def uri(apiContractHeaders: Seq[(String, String)] = standardContractHeaders, passThroughHeaderNames: Seq[String] = Nil) =

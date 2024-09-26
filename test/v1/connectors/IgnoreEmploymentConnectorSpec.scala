@@ -34,7 +34,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: IgnoreEmploymentConnector = new IgnoreEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig
     )
 
     val request: IgnoreEmploymentRequest = IgnoreEmploymentRequest(

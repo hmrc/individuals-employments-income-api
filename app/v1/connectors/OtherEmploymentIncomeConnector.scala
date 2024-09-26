@@ -18,7 +18,7 @@ package v1.connectors
 
 import config.EmploymentsFeatureSwitches
 import play.api.http.Status.NO_CONTENT
-import shared.config.AppConfig
+import shared.config.SharedAppConfig
 import shared.connectors.DownstreamUri.{DesUri, IfsUri, TaxYearSpecificIfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.{SuccessCode, reads, readsEmpty}
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
@@ -30,7 +30,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appConfig: AppConfig)(implicit featureSwitches: EmploymentsFeatureSwitches)
+class OtherEmploymentIncomeConnector @Inject()(val http: HttpClient, val appConfig: SharedAppConfig)(implicit featureSwitches: EmploymentsFeatureSwitches)
     extends BaseDownstreamConnector {
 
   def deleteOtherEmploymentIncome(request: DeleteOtherEmploymentIncomeRequest)(implicit

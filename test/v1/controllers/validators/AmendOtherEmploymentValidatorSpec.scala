@@ -20,7 +20,7 @@ import common.errors._
 import config.MockEmploymentsAppConfig
 import play.api.libs.json._
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.{BadRequestError, DateFormatError, ErrorWrapper, MtdError, NinoFormatError, RuleIncorrectOrEmptyBodyError, RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
+import shared.models.errors.{BadRequestError, DateFormatError, ErrorWrapper, MtdError, NinoFormatError, RuleIncorrectOrEmptyBodyError, RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError, TaxYearFormatError, ValueFormatError}
 import shared.models.utils.JsonErrorValidators
 import shared.utils.UnitSpec
 import v1.models.request.amendOtherEmployment.{AmendOtherEmploymentRequest, AmendOtherEmploymentRequestBody}

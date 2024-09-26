@@ -40,7 +40,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
 
     val connector: CreateAmendNonPayeEmploymentConnector = new CreateAmendNonPayeEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig,
+      appConfig = mockSharedAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 

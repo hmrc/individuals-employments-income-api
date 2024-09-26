@@ -69,7 +69,7 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
     protected val connector: AmendFinancialDetailsConnector = new AmendFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig,
+      appConfig = mockSharedAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 

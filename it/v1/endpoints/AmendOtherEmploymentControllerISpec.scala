@@ -17,7 +17,7 @@
 package v1.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{DateFormatError, ValueFormatError, _}
+import common.errors.{DateFormatError, _}
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._

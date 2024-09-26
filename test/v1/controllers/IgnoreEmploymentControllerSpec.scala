@@ -21,7 +21,7 @@ import play.api.Configuration
 import play.api.http.HeaderNames
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.config.MockAppConfig
+import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
@@ -39,7 +39,7 @@ class IgnoreEmploymentControllerSpec
     with ControllerTestRunner
     with MockIgnoreEmploymentService
     with MockIgnoreEmploymentValidatorFactory
-    with MockAppConfig {
+    with MockSharedAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -56,11 +56,11 @@ class IgnoreEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.ignoreEmployment(validNino, taxYear, employmentId)(fakeRequest.withHeaders(
     HeaderNames.AUTHORIZATION -> "Bearer Token"

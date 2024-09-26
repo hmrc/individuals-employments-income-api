@@ -19,7 +19,7 @@ package v1.controllers
 import config.EmploymentsFeatureSwitches
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import shared.config.AppConfig
+import shared.config.SharedAppConfig
 import shared.controllers._
 import shared.routing.Version
 import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
@@ -37,7 +37,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
                                                         service: CreateAmendNonPayeEmploymentService,
                                                         auditService: AuditService,
                                                         cc: ControllerComponents,
-                                                        val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                                        val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "create-amend-non-paye-employment"

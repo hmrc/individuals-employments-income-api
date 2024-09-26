@@ -65,7 +65,7 @@ class RetrieveNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     protected val connector: RetrieveNonPayeEmploymentConnector =
       new RetrieveNonPayeEmploymentConnector(
         http = mockHttpClient,
-        appConfig = mockAppConfig,
+        appConfig = mockSharedAppConfig,
         employmentsAppConfig = mockEmploymentsConfig)
 
     protected val request: RetrieveNonPayeEmploymentIncomeRequest =

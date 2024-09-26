@@ -19,7 +19,7 @@ package definition
 import cats.implicits.catsSyntaxValidatedId
 import config.MockEmploymentsAppConfig
 import shared.config.Deprecation.NotDeprecated
-import shared.config.{ConfidenceLevelConfig, MockAppConfig}
+import shared.config.{ConfidenceLevelConfig, MockSharedAppConfig}
 import shared.definition.APIStatus.BETA
 import shared.definition.{APIDefinition, APIVersion, Definition}
 import shared.mocks.MockHttpClient
@@ -27,24 +27,24 @@ import shared.routing.{Version1, Version2}
 import shared.utils.UnitSpec
 import uk.gov.hmrc.auth.core.ConfidenceLevel
 
-class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsAppConfig with MockAppConfig {
+class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsAppConfig with MockSharedAppConfig {
 
   private val confidenceLevel: ConfidenceLevel = ConfidenceLevel.L200
 
-  class Test extends MockHttpClient with MockAppConfig {
-    val apiDefinitionFactory = new EmploymentsApiDefinitionFactory(mockAppConfig)
-    MockedAppConfig.apiGatewayContext returns "individuals/employments-income"
+  class Test extends MockHttpClient with MockSharedAppConfig {
+    val apiDefinitionFactory = new EmploymentsApiDefinitionFactory(mockSharedAppConfig)
+    MockedSharedAppConfig.apiGatewayContext returns "individuals/employments-income"
   }
 
   "definition" when {
     "called" should {
       "return a valid Definition case class" in new Test {
         List(Version1, Version2).foreach { version =>
-          MockedAppConfig.apiStatus(version) returns "BETA"
-          MockedAppConfig.endpointsEnabled(version).returns(true).anyNumberOfTimes()
-          MockedAppConfig.deprecationFor(version).returns(NotDeprecated.valid).anyNumberOfTimes()
+          MockedSharedAppConfig.apiStatus(version) returns "BETA"
+          MockedSharedAppConfig.endpointsEnabled(version).returns(true).anyNumberOfTimes()
+          MockedSharedAppConfig.deprecationFor(version).returns(NotDeprecated.valid).anyNumberOfTimes()
         }
-        MockedAppConfig.confidenceLevelConfig
+        MockedSharedAppConfig.confidenceLevelConfig
           .returns(ConfidenceLevelConfig(confidenceLevel = confidenceLevel, definitionEnabled = true, authValidationEnabled = true))
           .anyNumberOfTimes()
 

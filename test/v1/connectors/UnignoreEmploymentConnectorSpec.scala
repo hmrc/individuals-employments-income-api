@@ -56,7 +56,7 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: UnignoreEmploymentConnector = new UnignoreEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig
     )
 
   }

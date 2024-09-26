@@ -16,13 +16,13 @@
 
 package api.models.downstream
 
+import shared.utils.enums.EnumJsonSpecSupport
 import common.models.domain.PayFrequency
 import common.models.downstream.DownstreamPayFrequency
 import common.models.downstream.DownstreamPayFrequency._
 import shared.utils.UnitSpec
-import utils.enums.EmploymentsEnumJsonSpecSupport
 
-class DownstreamPayFrequencySpec extends UnitSpec with EmploymentsEnumJsonSpecSupport {
+class DownstreamPayFrequencySpec extends UnitSpec with EnumJsonSpecSupport {
 
   testDeserialization[DownstreamPayFrequency](
     "WEEKLY"           -> `WEEKLY`,

@@ -18,7 +18,7 @@ package v1.controllers
 
 import play.api.Configuration
 import play.api.mvc.Result
-import shared.config.MockAppConfig
+import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -37,7 +37,7 @@ class RetrieveOtherEmploymentControllerSpec
     with ControllerTestRunner
     with MockRetrieveOtherEmploymentIncomeService
     with MockRetrieveOtherEmploymentValidatorFactory
-    with MockAppConfig {
+    with MockSharedAppConfig {
 
   val taxYear: String = "2019-20"
 
@@ -89,11 +89,11 @@ class RetrieveOtherEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.retrieveOther(validNino, taxYear)(fakeGetRequest)
 

@@ -45,7 +45,7 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
     val connector: RetrieveEmploymentConnector = new RetrieveEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig,
+      appConfig = mockSharedAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 

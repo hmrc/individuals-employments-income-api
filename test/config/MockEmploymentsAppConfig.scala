@@ -21,7 +21,7 @@ import org.scalamock.scalatest.MockFactory
 import shared.config._
 import shared.models.domain.TaxYear
 
-trait MockEmploymentsAppConfig extends MockFactory with MockAppConfig {
+trait MockEmploymentsAppConfig extends MockFactory with MockSharedAppConfig {
   implicit val mockEmploymentsConfig: EmploymentsAppConfig = mock[EmploymentsAppConfig]
 
   object MockedEmploymentsAppConfig {

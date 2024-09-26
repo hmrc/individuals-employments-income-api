@@ -56,7 +56,7 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
     val connector: ListEmploymentsConnector = new ListEmploymentsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig,
+      appConfig = mockSharedAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 

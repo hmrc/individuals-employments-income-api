@@ -19,7 +19,7 @@ package v1.controllers
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import shared.config.MockAppConfig
+import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
@@ -39,7 +39,7 @@ class AmendOtherEmploymentControllerSpec
     with MockAmendOtherEmploymentValidatorFactory
     with MockAuditService
     with MockAmendOtherEmploymentService
-    with MockAppConfig {
+    with MockSharedAppConfig {
 
   val taxYear: String = "2019-20"
 
@@ -309,11 +309,11 @@ class AmendOtherEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.amendOtherEmployment(validNino, taxYear)(fakeRequest.withBody(requestBodyJson))
 

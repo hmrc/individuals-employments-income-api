@@ -17,7 +17,7 @@
 package v1.connectors
 
 import config.EmploymentsAppConfig
-import shared.config.AppConfig
+import shared.config.SharedAppConfig
 import shared.connectors.httpparsers.StandardDownstreamHttpParser._
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
@@ -28,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AddCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, val employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AddCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig, val employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def addEmployment(request: AddCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,

@@ -20,7 +20,7 @@ import common.models.domain.EmploymentId
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import shared.config.MockAppConfig
+import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
@@ -39,7 +39,7 @@ import scala.concurrent.Future
 class AmendFinancialDetailsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockAppConfig
+    with MockSharedAppConfig
     with MockAmendFinancialDetailsValidatorFactory
     with MockAmendFinancialDetailsService
     with MockAuditService {
@@ -197,7 +197,7 @@ class AmendFinancialDetailsControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    MockedAppConfig.featureSwitchConfig
+    MockedSharedAppConfig.featureSwitchConfig
       .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true))
       .anyNumberOfTimes()
 
@@ -226,7 +226,7 @@ class AmendFinancialDetailsControllerSpec
         )
       )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] =
       controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakeRequest.withBody(requestBodyJson))

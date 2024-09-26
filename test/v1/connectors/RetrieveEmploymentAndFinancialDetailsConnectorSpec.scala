@@ -104,7 +104,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
     val connector: RetrieveEmploymentAndFinancialDetailsConnector =
       new RetrieveEmploymentAndFinancialDetailsConnector(
         http = mockHttpClient,
-        appConfig = mockAppConfig,
+        appConfig = mockSharedAppConfig,
         employmentsAppConfig = mockEmploymentsConfig)
 
     protected def stubHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])

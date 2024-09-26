@@ -16,12 +16,12 @@
 
 package api.models.domain
 
+import shared.utils.enums.EnumJsonSpecSupport
 import common.models.domain.ShareOptionSchemeType
 import common.models.domain.ShareOptionSchemeType._
 import shared.utils.UnitSpec
-import utils.enums.EmploymentsEnumJsonSpecSupport
 
-class ShareOptionSchemeTypeSpec extends UnitSpec with EmploymentsEnumJsonSpecSupport {
+class ShareOptionSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 
   testSerialization[ShareOptionSchemeType](
     `emi`   -> "emi",

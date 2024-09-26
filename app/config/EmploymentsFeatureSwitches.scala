@@ -19,14 +19,14 @@ package config
 import org.apache.commons.lang3.BooleanUtils
 import play.api.Configuration
 import play.api.mvc.Request
-import shared.config.{AppConfig, FeatureSwitches}
+import shared.config.{SharedAppConfig, FeatureSwitches}
 
 import javax.inject.Inject
 
 case class EmploymentsFeatureSwitches (protected val featureSwitchConfig: Configuration) extends FeatureSwitches {
 
   @Inject
-  def this(appConfig: AppConfig) = this(appConfig.featureSwitchConfig)
+  def this(appConfig: SharedAppConfig) = this(appConfig.featureSwitchConfig)
 
   def isDesIf_MigrationEnabled: Boolean = isEnabled("desIf_Migration")
 
@@ -43,5 +43,5 @@ case class EmploymentsFeatureSwitches (protected val featureSwitchConfig: Config
 object EmploymentsFeatureSwitches {
   def apply(configuration: Configuration): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(configuration)
 
-  def apply()(implicit appConfig: AppConfig): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(appConfig)
+  def apply()(implicit appConfig: SharedAppConfig): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(appConfig)
 }

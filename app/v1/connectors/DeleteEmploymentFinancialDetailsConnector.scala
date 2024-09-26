@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import shared.config.AppConfig
+import shared.config.SharedAppConfig
 import config.EmploymentsAppConfig
 import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
@@ -28,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteEmploymentFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class DeleteEmploymentFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def deleteEmploymentFinancialDetails(request: DeleteEmploymentFinancialDetailsRequest)(implicit
       hc: HeaderCarrier,

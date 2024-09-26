@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import shared.config.AppConfig
+import shared.config.SharedAppConfig
 import config.EmploymentsAppConfig
 import play.api.libs.json.Format.GenericFormat
 import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
@@ -29,7 +29,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AmendFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def amendFinancialDetails(request: AmendFinancialDetailsRequest)(implicit
       hc: HeaderCarrier,

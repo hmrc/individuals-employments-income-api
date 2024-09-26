@@ -18,7 +18,7 @@ package shared.connectors
 
 import play.api.http.{HeaderNames, MimeTypes}
 import play.api.libs.json.Writes
-import shared.config.AppConfig
+import shared.config.SharedAppConfig
 import shared.utils.Logging
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads}
 
@@ -26,11 +26,11 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait BaseDownstreamConnector extends Logging {
   val http: HttpClient
-  val appConfig: AppConfig
+  val appConfig: SharedAppConfig
 
   // This is to provide an implicit AppConfig in existing connector implementations (which
   // typically declare the abstract `appConfig` field non-implicitly) without having to change them.
-  implicit protected val _appConfig: AppConfig = appConfig
+  implicit protected val _appConfig: SharedAppConfig = appConfig
 
   private val jsonContentTypeHeader = Seq(HeaderNames.CONTENT_TYPE -> MimeTypes.JSON)
 

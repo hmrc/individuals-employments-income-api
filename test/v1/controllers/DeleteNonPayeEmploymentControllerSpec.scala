@@ -20,7 +20,7 @@ import play.api.Configuration
 import play.api.http.HeaderNames
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.config.MockAppConfig
+import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
@@ -40,7 +40,7 @@ class DeleteNonPayeEmploymentControllerSpec
     with MockDeleteNonPayeEmploymentIncomeValidatorFactory
     with MockDeleteNonPayeEmploymentService
     with MockAuditService
-    with MockAppConfig {
+    with MockSharedAppConfig {
 
   val taxYear: String = "2020-21"
 
@@ -93,11 +93,11 @@ class DeleteNonPayeEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.delete(validNino, taxYear)(fakeRequest.withHeaders(
     HeaderNames.AUTHORIZATION -> "Bearer Token"

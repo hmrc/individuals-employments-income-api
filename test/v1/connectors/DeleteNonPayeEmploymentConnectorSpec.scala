@@ -64,7 +64,7 @@ class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     protected val connector: DeleteNonPayeEmploymentConnector =
       new DeleteNonPayeEmploymentConnector(
         http = mockHttpClient,
-        appConfig = mockAppConfig,
+        appConfig = mockSharedAppConfig,
         employmentsAppConfig = mockEmploymentsConfig)
 
     protected val request: DeleteNonPayeEmploymentRequest =

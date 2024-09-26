@@ -37,7 +37,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
     protected val connector: OtherEmploymentIncomeConnector =
       new OtherEmploymentIncomeConnector(
         http = mockHttpClient,
-        appConfig = mockAppConfig
+        appConfig = mockSharedAppConfig
       )
 
   }

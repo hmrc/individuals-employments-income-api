@@ -52,7 +52,7 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
     val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig,
+      appConfig = mockSharedAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 
