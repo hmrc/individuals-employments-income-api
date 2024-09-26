@@ -17,7 +17,7 @@
 package definition
 
 import cats.implicits.catsSyntaxValidatedId
-import mocks.MockEmploymentsAppConfig
+import config.MockEmploymentsAppConfig
 import shared.config.Deprecation.NotDeprecated
 import shared.config.{ConfidenceLevelConfig, MockAppConfig}
 import shared.definition.APIStatus.BETA

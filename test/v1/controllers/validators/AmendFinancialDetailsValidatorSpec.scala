@@ -18,7 +18,7 @@ package v1.controllers.validators
 
 import common.errors.{EmploymentIdFormatError, RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
 import common.models.domain.EmploymentId
-import mocks.MockEmploymentsAppConfig
+import config.MockEmploymentsAppConfig
 import play.api.libs.json._
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._

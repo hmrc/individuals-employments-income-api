@@ -16,7 +16,7 @@
 
 package api.connectors
 
-import mocks.{MockEmploymentsAppConfig, MockFeatureSwitches}
+import config.{MockEmploymentsAppConfig, MockFeatureSwitches}
 import shared.connectors.ConnectorSpec
 
 trait EmploymentsConnectorSpec extends ConnectorSpec with MockFeatureSwitches {

@@ -17,7 +17,7 @@
 package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
-import mocks.MockFeatureSwitches
+import config.MockFeatureSwitches
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveResponse

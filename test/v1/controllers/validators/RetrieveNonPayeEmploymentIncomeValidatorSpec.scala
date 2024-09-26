@@ -18,7 +18,7 @@ package v1.controllers.validators
 
 import common.errors.SourceFormatError
 import common.models.domain.MtdSourceEnum
-import mocks.MockEmploymentsAppConfig
+import config.MockEmploymentsAppConfig
 import shared.config.MockAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
