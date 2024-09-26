@@ -28,7 +28,6 @@ trait MockEmploymentsAppConfig extends MockFactory with MockAppConfig {
     def minimumPermittedTaxYear: CallHandler0[TaxYear] = (() => mockEmploymentsConfig.minimumPermittedTaxYear: TaxYear).expects()
     def release6DownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockEmploymentsConfig.release6DownstreamConfig: DownstreamConfig).expects()
     def api1661DownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockEmploymentsConfig.api1661DownstreamConfig: DownstreamConfig).expects()
-    def tysIfsDownstreamConfig: CallHandler0[DownstreamConfig] = (() => mockEmploymentsConfig.tysIfsDownstreamConfig: DownstreamConfig).expects()
   }
 
 }

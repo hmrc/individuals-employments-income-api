@@ -16,6 +16,7 @@
 
 package v1.connectors
 
+import shared.config.AppConfig
 import config.EmploymentsAppConfig
 import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
@@ -28,7 +29,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def retrieveNonPayeEmployment(request: RetrieveNonPayeEmploymentIncomeRequest)(implicit
       hc: HeaderCarrier,
@@ -44,7 +45,7 @@ class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClient, val ap
     } else {
       DownstreamUri[RetrieveNonPayeEmploymentIncomeResponse](
         s"income-tax/income/employments/non-paye/${nino.value}/${taxYear.asMtd}?view=${source.toDesViewString}",
-        DownstreamStrategy.standardStrategy(appConfig.api1661DownstreamConfig)
+        DownstreamStrategy.standardStrategy(employmentsAppConfig.api1661DownstreamConfig)
       )
     }
 

@@ -16,6 +16,7 @@
 
 package v1.connectors
 
+import shared.config.AppConfig
 import config.EmploymentsAppConfig
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
@@ -27,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def listEmployments(request: ListEmploymentsRequest)(implicit
       hc: HeaderCarrier,
@@ -38,7 +39,7 @@ class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: E
     val taxYear = request.taxYear
 
     get(
-      DownstreamUri[ListEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}", DownstreamStrategy.standardStrategy(appConfig.release6DownstreamConfig))
+      DownstreamUri[ListEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}", DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig))
     )
   }
 

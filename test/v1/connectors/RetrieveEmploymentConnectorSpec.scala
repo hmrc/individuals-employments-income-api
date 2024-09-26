@@ -18,7 +18,7 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
-import shared.models.domain.{Nino, TaxYear}
+import shared.models.domain.{ Nino, TaxYear }
 import shared.models.outcomes.ResponseWrapper
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
@@ -27,14 +27,15 @@ import scala.concurrent.Future
 
 class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
-  private val nino: String    = "AA111111A"
+  private val nino: String = "AA111111A"
   private val taxYear: String = "2019-20"
-  private val employmentId    = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   "RetrieveEmploymentConnector" should {
     "return a 200 status and expected response for a success scenario" in new Release6Test with Test {
 
-      willGet(url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear?employmentId=$employmentId").returns(Future.successful(outcome))
+      willGet(url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear?employmentId=$employmentId")
+        .returns(Future.successful(outcome))
 
       await(connector.retrieve(request)) shouldBe outcome
     }
@@ -44,10 +45,12 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
     val connector: RetrieveEmploymentConnector = new RetrieveEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockEmploymentsConfig
+      appConfig = mockAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
-    val request: RetrieveEmploymentRequest = RetrieveEmploymentRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId))
+    val request: RetrieveEmploymentRequest =
+      RetrieveEmploymentRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId))
 
     val responseModel: RetrieveEmploymentResponse = RetrieveEmploymentResponse(
       employerRef = Some("123/AB56797"),
@@ -60,7 +63,8 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       submittedOn = None
     )
 
-    val outcome: Right[Nothing, ResponseWrapper[RetrieveEmploymentResponse]] = Right(ResponseWrapper(correlationId, responseModel))
+    val outcome: Right[Nothing, ResponseWrapper[RetrieveEmploymentResponse]] = Right(
+      ResponseWrapper(correlationId, responseModel))
   }
 
 }

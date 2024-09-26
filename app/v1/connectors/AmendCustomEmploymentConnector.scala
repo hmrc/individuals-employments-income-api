@@ -16,6 +16,7 @@
 
 package v1.connectors
 
+import shared.config.AppConfig
 import config.EmploymentsAppConfig
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
@@ -25,7 +26,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AmendCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def amendEmployment(request: AmendCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -37,7 +38,7 @@ class AmendCustomEmploymentConnector @Inject() (val http: HttpClient, val appCon
     val nino         = request.nino.nino
     val taxYear      = request.taxYear
     val employmentId = request.employmentId
-    put(request.body, DownstreamUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}", DownstreamStrategy.standardStrategy(appConfig.release6DownstreamConfig)))
+    put(request.body, DownstreamUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}", DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)))
   }
 
 }

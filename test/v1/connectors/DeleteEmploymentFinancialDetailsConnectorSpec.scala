@@ -18,6 +18,7 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
+import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
@@ -30,7 +31,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
     "return the expected response for a non-TYS request" when {
       "a valid request is made" in new Release6Test with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2019-20")
-        val outcome          = Right(ResponseWrapper(correlationId, ()))
+        val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willDelete(
           url = s"$baseUrl/income-tax/income/employments/$nino/2019-20/$employmentId"
@@ -41,9 +42,9 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
     }
 
     "return the expected response for a TYS request" when {
-      "a valid request is made" in new EmploymentsTysIfsTest with Test  {
+      "a valid request is made" in new MockEmploymentsAppConfig with TysIfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-        val outcome          = Right(ResponseWrapper(correlationId, ()))
+        val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willDelete(
           url = s"$baseUrl/income-tax/23-24/income/employments/$nino/$employmentId"
@@ -55,11 +56,11 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
   }
 
   trait Test {
-    _: EmploymentsConnectorTest =>
+    _: ConnectorTest with MockEmploymentsAppConfig =>
 
     def taxYear: TaxYear
 
-    protected val nino: String         = "AA111111A"
+    protected val nino: String = "AA111111A"
     protected val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     protected val request: DeleteEmploymentFinancialDetailsRequest =
@@ -71,7 +72,8 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
 
     val connector: DeleteEmploymentFinancialDetailsConnector = new DeleteEmploymentFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockEmploymentsConfig
+      appConfig = mockAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
   }

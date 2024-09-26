@@ -17,6 +17,7 @@
 package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
+import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v1.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture._
@@ -28,7 +29,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
 
   private val nino: String = "AA111111A"
 
-  trait Test extends EmploymentsConnectorTest { _: ConnectorTest =>
+  trait Test extends EmploymentsConnectorTest { _: ConnectorTest with MockEmploymentsAppConfig =>
     def taxYear: TaxYear
 
     def request = CreateAmendNonPayeEmploymentRequest(
@@ -39,7 +40,8 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
 
     val connector: CreateAmendNonPayeEmploymentConnector = new CreateAmendNonPayeEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockEmploymentsConfig
+      appConfig = mockAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
   }
@@ -47,29 +49,27 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
   "createAndAmend" should {
     "return a 204 status" when {
       "a valid request is made" in new Api1661Test with Test {
-        lazy val taxYear = TaxYear.fromMtd("2019-20")
+        lazy val taxYear: TaxYear = TaxYear.fromMtd("2019-20")
 
-        val outcome = Right(ResponseWrapper(correlationId, ()))
+        val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
           url = s"$baseUrl/income-tax/income/employments/non-paye/$nino/2019-20",
           body = requestBodyModel
-        )
-          .returns(Future.successful(outcome))
+        ).returns(Future.successful(outcome))
 
         await(connector.createAndAmend(request)) shouldBe outcome
       }
 
-      "a valid request is made for a TYS tax year" in new EmploymentsTysIfsTest with Test {
-        val taxYear = TaxYear.fromMtd("2023-24")
+      "a valid request is made for a TYS tax year" in new MockEmploymentsAppConfig with TysIfsTest with Test {
+        val taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
-        val outcome = Right(ResponseWrapper(correlationId, ()))
+        val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
           url = s"$baseUrl/income-tax/income/employments/non-paye/23-24/$nino",
           body = requestBodyModel
-        )
-          .returns(Future.successful(outcome))
+        ).returns(Future.successful(outcome))
 
         await(connector.createAndAmend(request)) shouldBe outcome
       }

@@ -16,6 +16,7 @@
 
 package v1.connectors
 
+import shared.config.AppConfig
 import config.EmploymentsAppConfig
 import play.api.libs.json.Format.GenericFormat
 import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
@@ -28,7 +29,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AmendFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def amendFinancialDetails(request: AmendFinancialDetailsRequest)(implicit
       hc: HeaderCarrier,
@@ -42,7 +43,7 @@ class AmendFinancialDetailsConnector @Inject() (val http: HttpClient, val appCon
         TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}")
       } else {
           DownstreamUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/${employmentId.value}",
-            DownstreamStrategy.standardStrategy(appConfig.release6DownstreamConfig)
+            DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
           )
       }
 

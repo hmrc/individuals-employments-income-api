@@ -20,16 +20,16 @@ import api.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
 import shared.mocks.MockHttpClient
-import shared.models.domain.{Nino, TaxYear}
+import shared.models.domain.{ Nino, TaxYear }
 import shared.models.outcomes.ResponseWrapper
-import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
+import v1.models.request.amendCustomEmployment.{ AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody }
 
 import scala.concurrent.Future
 
 class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String         = "AA111111A"
-  val taxYear: String      = "2021-22"
+  val nino: String = "AA111111A"
+  val taxYear: String = "2021-22"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   val amendCustomEmploymentRequestBody: AmendCustomEmploymentRequestBody = AmendCustomEmploymentRequestBody(
@@ -52,7 +52,8 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
     val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockEmploymentsConfig
+      appConfig = mockAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
   }

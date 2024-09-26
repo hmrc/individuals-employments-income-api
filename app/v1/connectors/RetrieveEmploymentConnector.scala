@@ -16,6 +16,7 @@
 
 package v1.connectors
 
+import shared.config.AppConfig
 import config.EmploymentsAppConfig
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
@@ -27,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveEmploymentConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class RetrieveEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def retrieve(request: RetrieveEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -38,7 +39,7 @@ class RetrieveEmploymentConnector @Inject() (val http: HttpClient, val appConfig
 
     val downstreamUri = DownstreamUri[RetrieveEmploymentResponse](
       s"income-tax/income/employments/$nino/${taxYear.asMtd}?employmentId=${employmentId.value}",
-      DownstreamStrategy.standardStrategy(appConfig.release6DownstreamConfig)
+      DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
     )
 
     get(uri = downstreamUri)

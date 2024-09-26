@@ -16,6 +16,7 @@
 
 package v1.connectors
 
+import shared.config.AppConfig
 import config.EmploymentsAppConfig
 import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
@@ -27,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class CreateAmendNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class CreateAmendNonPayeEmploymentConnector @Inject() (val http: HttpClient, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def createAndAmend(request: CreateAmendNonPayeEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -42,7 +43,7 @@ class CreateAmendNonPayeEmploymentConnector @Inject() (val http: HttpClient, val
       // Pre-tys uses MTD tax year format
       DownstreamUri[Unit](
         s"income-tax/income/employments/non-paye/${nino.nino}/${taxYear.asMtd}",
-        DownstreamStrategy.standardStrategy(appConfig.api1661DownstreamConfig))
+        DownstreamStrategy.standardStrategy(employmentsAppConfig.api1661DownstreamConfig))
     }
 
     put(body = body, uri = uri)

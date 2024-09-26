@@ -34,10 +34,4 @@ trait EmploymentsConnectorSpec extends ConnectorSpec with MockFeatureSwitches {
 
     MockedEmploymentsAppConfig.api1661DownstreamConfig.anyNumberOfTimes() returns config
   }
-
-  protected trait EmploymentsTysIfsTest extends EmploymentsConnectorTest {
-    override val name = "tys-ifs"
-
-    MockedEmploymentsAppConfig.tysIfsDownstreamConfig.anyNumberOfTimes() returns config
-  }
 }

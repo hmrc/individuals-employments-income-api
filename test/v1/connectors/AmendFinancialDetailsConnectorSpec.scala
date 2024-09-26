@@ -18,6 +18,7 @@ package v1.connectors
 
 import api.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
+import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v1.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
@@ -44,7 +45,7 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
       }
 
-      "a valid request is submitted for a TYS tax year" in new EmploymentsTysIfsTest with Test {
+      "a valid request is submitted for a TYS tax year" in new TysIfsTest with MockEmploymentsAppConfig with Test {
         def taxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
@@ -61,14 +62,15 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
     }
   }
 
-  trait Test { _: EmploymentsConnectorTest =>
+  trait Test { _: ConnectorTest with MockEmploymentsAppConfig =>
 
     val nino: String = "AA111111A"
     val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     protected val connector: AmendFinancialDetailsConnector = new AmendFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockEmploymentsConfig
+      appConfig = mockAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
     protected val payModel = AmendPay(

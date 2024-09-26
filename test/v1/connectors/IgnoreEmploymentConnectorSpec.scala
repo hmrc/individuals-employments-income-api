@@ -16,20 +16,20 @@
 
 package v1.connectors
 
-import api.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
+import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
 import scala.concurrent.Future
 
-class IgnoreEmploymentConnectorSpec extends EmploymentsConnectorSpec {
+class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
-  val nino: String         = "AA111111A"
+  val nino: String = "AA111111A"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  trait Test { _: EmploymentsConnectorTest =>
+  trait Test { _: ConnectorTest =>
     def taxYear: TaxYear = TaxYear.fromMtd("2021-22")
 
     val connector: IgnoreEmploymentConnector = new IgnoreEmploymentConnector(
@@ -48,7 +48,7 @@ class IgnoreEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "IgnoreEmploymentConnector" when {
     "ignoreEmployment" should {
-      "work" in new TysIfsTest with Test with EmploymentsConnectorTest  {
+      "work" in new TysIfsTest with Test with ConnectorTest {
         willPut(
           url = s"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore",
           body = ""

@@ -19,16 +19,16 @@ package v1.connectors
 import api.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
 import shared.mocks.MockHttpClient
-import shared.models.domain.{Nino, TaxYear}
+import shared.models.domain.{ Nino, TaxYear }
 import shared.models.outcomes.ResponseWrapper
-import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
+import v1.models.request.addCustomEmployment.{ AddCustomEmploymentRequest, AddCustomEmploymentRequestBody }
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
 import scala.concurrent.Future
 
 class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String    = "AA111111A"
+  val nino: String = "AA111111A"
   val taxYear: String = "2021-22"
 
   val addCustomEmploymentRequestBody: AddCustomEmploymentRequestBody = AddCustomEmploymentRequestBody(
@@ -52,7 +52,8 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
     val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockEmploymentsConfig
+      appConfig = mockAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
   }

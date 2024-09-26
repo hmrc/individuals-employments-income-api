@@ -19,16 +19,16 @@ package v1.connectors
 import api.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
 import shared.mocks.MockHttpClient
-import shared.models.domain.{Nino, TaxYear, Timestamp}
+import shared.models.domain.{ Nino, TaxYear, Timestamp }
 import shared.models.outcomes.ResponseWrapper
 import v1.models.request.listEmployments.ListEmploymentsRequest
-import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
+import v1.models.response.listEmployment.{ Employment, ListEmploymentResponse }
 
 import scala.concurrent.Future
 
 class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String    = "AA111111A"
+  val nino: String = "AA111111A"
   val taxYear: String = "2019-20"
 
   val request: ListEmploymentsRequest = ListEmploymentsRequest(Nino(nino), TaxYear.fromMtd(taxYear))
@@ -56,7 +56,8 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
     val connector: ListEmploymentsConnector = new ListEmploymentsConnector(
       http = mockHttpClient,
-      appConfig = mockEmploymentsConfig
+      appConfig = mockAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
   }
@@ -64,7 +65,7 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
   "ListEmploymentsConnector" when {
     "listEmployments" must {
       "return a 200 status for a success scenario" in new Test with Release6Test {
-        val outcome                    = Right(ResponseWrapper(correlationId, validResponse))
+        val outcome = Right(ResponseWrapper(correlationId, validResponse))
 
         willGet(
           url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear"

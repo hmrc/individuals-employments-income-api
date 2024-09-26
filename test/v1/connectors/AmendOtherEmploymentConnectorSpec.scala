@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import api.connectors.EmploymentsConnectorSpec
+import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors.{InternalError, NinoFormatError}
 import shared.models.outcomes.ResponseWrapper
@@ -24,13 +24,13 @@ import v1.models.request.amendOtherEmployment._
 
 import scala.concurrent.Future
 
-class AmendOtherEmploymentConnectorSpec extends EmploymentsConnectorSpec {
+class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
 
   "AmendOtherEmploymentConnector" should {
     "return the expected response for a non-TYS request" when {
       "a valid request is made" in new DesTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2019-20")
-        val outcome          = Right(ResponseWrapper(correlationId, ()))
+        val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
           url = s"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
@@ -69,7 +69,7 @@ class AmendOtherEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     "return the expected response for a TYS request" when {
       "a valid request is made" in new TysIfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-        val outcome          = Right(ResponseWrapper(correlationId, ()))
+        val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
           url = s"$baseUrl/income-tax/income/other/employments/23-24/$nino",
