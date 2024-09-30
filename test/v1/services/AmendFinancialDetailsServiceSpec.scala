@@ -16,11 +16,13 @@
 
 package v1.services
 
-import api.controllers.EndpointLogContext
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import api.services.ServiceSpec
+import shared.models.outcomes.ResponseWrapper
+import common.errors.RuleInvalidSubmissionPensionSchemeError
+import common.models.domain.EmploymentId
+import shared.controllers.EndpointLogContext
+import shared.services.ServiceSpec
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
 import v1.mocks.connectors.MockAmendFinancialDetailsConnector
 import v1.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}

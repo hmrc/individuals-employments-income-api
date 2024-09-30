@@ -16,16 +16,17 @@
 
 package v1.endpoints
 
-import api.models.errors._
-import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
+import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import support.IntegrationBaseSpec
+import shared.models.errors._
+import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class IgnoreEmploymentControllerISpec extends IntegrationBaseSpec {
+class IgnoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
@@ -57,7 +58,7 @@ class IgnoreEmploymentControllerISpec extends IntegrationBaseSpec {
       "any valid request is made" in new Test {
 
         override def setupStubs(): Unit =
-          DownstreamStub.onSuccessWithNoRequestBody(DownstreamStub.PUT, downstreamUri, status = NO_CONTENT)
+          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, status = NO_CONTENT)
 
         val response: WSResponse = await(request.post(JsObject.empty))
         response.status shouldBe OK

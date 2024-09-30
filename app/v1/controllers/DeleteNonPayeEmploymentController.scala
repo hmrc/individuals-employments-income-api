@@ -16,11 +16,12 @@
 
 package v1.controllers
 
-import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import utils.IdGenerator
+import shared.config.SharedAppConfig
+import shared.controllers._
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.DeleteNonPayeEmploymentIncomeValidatorFactory
 import v1.services.DeleteNonPayeEmploymentService
 
@@ -33,7 +34,7 @@ class DeleteNonPayeEmploymentController @Inject() (val authService: EnrolmentsAu
                                                    service: DeleteNonPayeEmploymentService,
                                                    auditService: AuditService,
                                                    cc: ControllerComponents,
-                                                   val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                                   val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "delete-non-paye-employment"
@@ -59,6 +60,7 @@ class DeleteNonPayeEmploymentController @Inject() (val authService: EnrolmentsAu
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "DeleteNonPayeEmploymentIncome",
+          apiVersion = Version(request),
           transactionName = "delete-non-paye-employment-income",
           params = Map("nino" -> nino, "taxYear" -> taxYear)
         ))

@@ -16,11 +16,11 @@
 
 package v1.controllers
 
-import api.controllers._
-import api.services.{EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import utils.IdGenerator
+import shared.config.SharedAppConfig
+import shared.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.ListEmploymentsValidatorFactory
 import v1.services.ListEmploymentsService
 
@@ -33,7 +33,7 @@ class ListEmploymentsController @Inject() (val authService: EnrolmentsAuthServic
                                            validatorFactory: ListEmploymentsValidatorFactory,
                                            service: ListEmploymentsService,
                                            cc: ControllerComponents,
-                                           val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                           val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "list-employments"

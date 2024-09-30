@@ -16,14 +16,14 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
-import config.AppConfig
+import shared.controllers.validators.Validator
+import config.EmploymentsAppConfig
 import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class DeleteNonPayeEmploymentIncomeValidatorFactory @Inject() (appConfig: AppConfig) {
+class DeleteNonPayeEmploymentIncomeValidatorFactory @Inject() (appConfig: EmploymentsAppConfig) {
 
   def validator(nino: String, taxYear: String): Validator[DeleteNonPayeEmploymentRequest] =
     new DeleteNonPayeEmploymentIncomeValidator(nino, taxYear, appConfig)

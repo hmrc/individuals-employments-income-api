@@ -16,14 +16,16 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.ResolverSupport._
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
-import api.models.domain.MtdSourceEnum
-import api.models.errors.{MtdError, SourceFormatError}
+import shared.controllers.validators.Validator
+import shared.controllers.validators.resolvers.ResolveTaxYearMinimum
+import shared.controllers.validators.resolvers.ResolverSupport._
 import cats.data.Validated
-import cats.implicits._
-import config.AppConfig
+import cats.implicits.catsSyntaxTuple3Semigroupal
+import common.errors.SourceFormatError
+import common.models.domain.MtdSourceEnum
+import config.EmploymentsAppConfig
+import shared.controllers.validators.resolvers.ResolveNino
+import shared.models.errors.MtdError
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
 object RetrieveNonPayeEmploymentIncomeValidator {
@@ -33,11 +35,11 @@ object RetrieveNonPayeEmploymentIncomeValidator {
 
 }
 
-class RetrieveNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, maybeSource: Option[String], appConfig: AppConfig)
+class RetrieveNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, maybeSource: Option[String], appConfig: EmploymentsAppConfig)
     extends Validator[RetrieveNonPayeEmploymentIncomeRequest] {
   import RetrieveNonPayeEmploymentIncomeValidator._
 
-  private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear)
+  private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
 
   override def validate: Validated[Seq[MtdError], RetrieveNonPayeEmploymentIncomeRequest] =
     (

@@ -16,10 +16,11 @@
 
 package v1.services
 
-import api.controllers.RequestContext
-import api.models.errors._
-import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
+import common.errors.{EmploymentIdFormatError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
+import shared.controllers.RequestContext
+import shared.models.errors.{MtdError, _}
+import shared.services.{BaseService, ServiceOutcome}
 import v1.connectors.AmendCustomEmploymentConnector
 import v1.models.request.amendCustomEmployment.AmendCustomEmploymentRequest
 

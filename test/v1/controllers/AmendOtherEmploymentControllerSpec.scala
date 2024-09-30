@@ -16,16 +16,16 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.mocks.services.MockAuditService
-import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
+import shared.config.MockSharedAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
+import shared.services.MockAuditService
 import v1.controllers.validators.MockAmendOtherEmploymentValidatorFactory
 import v1.mocks.services.MockAmendOtherEmploymentService
 import v1.models.request.amendOtherEmployment._
@@ -35,11 +35,11 @@ import scala.concurrent.Future
 
 class AmendOtherEmploymentControllerSpec
     extends ControllerBaseSpec
-    with ControllerTestRunner
+      with ControllerTestRunner
     with MockAmendOtherEmploymentValidatorFactory
     with MockAuditService
     with MockAmendOtherEmploymentService
-    with MockAppConfig {
+    with MockSharedAppConfig {
 
   val taxYear: String = "2019-20"
 
@@ -257,7 +257,7 @@ class AmendOtherEmploymentControllerSpec
   )
 
   val requestData: AmendOtherEmploymentRequest = AmendOtherEmploymentRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     body = amendOtherEmploymentRequestBody
   )
@@ -309,25 +309,26 @@ class AmendOtherEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.amendOtherEmployment(nino, taxYear)(fakePutRequest(requestBodyJson))
+    protected def callController(): Future[Result] = controller.amendOtherEmployment(validNino, taxYear)(fakeRequest.withBody(requestBodyJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
         auditType = "CreateAmendOtherEmployment",
         transactionName = "create-amend-other-employment",
-        detail = GenericAuditDetail(
+        detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
-          request = requestBody,
+          versionNumber = apiVersion.name,
+          params = Map("nino" -> validNino, "taxYear" -> taxYear),
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 

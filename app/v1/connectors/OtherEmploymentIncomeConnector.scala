@@ -16,10 +16,12 @@
 
 package v1.connectors
 
-import api.connectors.DownstreamUri.{DesUri, IfsUri, TaxYearSpecificIfsUri}
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import config.{AppConfig, FeatureSwitches}
+import config.EmploymentsFeatureSwitches
 import play.api.http.Status.NO_CONTENT
+import shared.config.SharedAppConfig
+import shared.connectors.DownstreamUri.{DesUri, IfsUri, TaxYearSpecificIfsUri}
+import shared.connectors.httpparsers.StandardDownstreamHttpParser.{SuccessCode, reads, readsEmpty}
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
 import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
@@ -28,15 +30,13 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appConfig: AppConfig)(implicit featureSwitches: FeatureSwitches)
+class OtherEmploymentIncomeConnector @Inject()(val http: HttpClient, val appConfig: SharedAppConfig)(implicit featureSwitches: EmploymentsFeatureSwitches)
     extends BaseDownstreamConnector {
 
   def deleteOtherEmploymentIncome(request: DeleteOtherEmploymentIncomeRequest)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[Unit]] = {
-
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
     implicit val successCode: SuccessCode = SuccessCode(NO_CONTENT)
 
@@ -58,8 +58,6 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClient, val appCon
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[RetrieveOtherEmploymentResponse]] = {
-
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
     val resolvedDownstreamUri = if (request.taxYear.useTaxYearSpecificApi) {
       TaxYearSpecificIfsUri[RetrieveOtherEmploymentResponse](

@@ -16,6 +16,7 @@
 
 package v1.models.request.amendCustomEmployment
 
-import api.models.domain.{EmploymentId, Nino, TaxYear}
+import common.models.domain.EmploymentId
+import shared.models.domain.{Nino, TaxYear}
 
 case class AmendCustomEmploymentRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId, body: AmendCustomEmploymentRequestBody)

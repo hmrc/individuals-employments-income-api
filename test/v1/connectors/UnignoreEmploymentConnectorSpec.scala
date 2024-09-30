@@ -16,9 +16,10 @@
 
 package v1.connectors
 
-import api.connectors.{ConnectorSpec, DownstreamOutcome}
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import common.models.domain.EmploymentId
+import shared.connectors.{ConnectorSpec, DownstreamOutcome}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 import scala.concurrent.Future
@@ -27,8 +28,8 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
 
   "UnignoreEmploymentConnector" should {
     "return the expected response for a TYS request" when {
-      "a valid request is made" in new TysIfsTest with Test {
-        def taxYear: TaxYear                                       = TaxYear.fromMtd("2023-24")
+      "a valid request is made" in new TysIfsTest with Test with ConnectorTest {
+        def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
         val expectedOutcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
         willDelete(
@@ -44,7 +45,7 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
   trait Test { _: ConnectorTest =>
     def taxYear: TaxYear
 
-    val nino: String         = "AA111111A"
+    val nino: String = "AA111111A"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     val request: UnignoreEmploymentRequest = UnignoreEmploymentRequest(
@@ -55,7 +56,7 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: UnignoreEmploymentConnector = new UnignoreEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig
     )
 
   }

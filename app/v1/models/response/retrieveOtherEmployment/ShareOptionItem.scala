@@ -16,8 +16,8 @@
 
 package v1.models.response.retrieveOtherEmployment
 
-import api.models.domain.ShareOptionSchemeType
-import api.models.downstream.DownstreamShareOptionSchemeType
+import common.models.domain.ShareOptionSchemeType
+import common.models.downstream.DownstreamShareOptionSchemeType
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 

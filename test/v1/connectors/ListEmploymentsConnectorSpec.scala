@@ -16,20 +16,19 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.mocks.MockHttpClient
-import api.models.domain.{Nino, TaxYear, Timestamp}
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
-import uk.gov.hmrc.http.HeaderCarrier
+import common.connectors.EmploymentsConnectorSpec
+import config.MockEmploymentsAppConfig
+import shared.mocks.MockHttpClient
+import shared.models.domain.{ Nino, TaxYear, Timestamp }
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.listEmployments.ListEmploymentsRequest
-import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
+import v1.models.response.listEmployment.{ Employment, ListEmploymentResponse }
 
 import scala.concurrent.Future
 
-class ListEmploymentsConnectorSpec extends ConnectorSpec {
+class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String    = "AA111111A"
+  val nino: String = "AA111111A"
   val taxYear: String = "2019-20"
 
   val request: ListEmploymentsRequest = ListEmploymentsRequest(Nino(nino), TaxYear.fromMtd(taxYear))
@@ -53,33 +52,24 @@ class ListEmploymentsConnectorSpec extends ConnectorSpec {
       ))
   )
 
-  class Test extends MockHttpClient with MockAppConfig {
+  class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: ListEmploymentsConnector = new ListEmploymentsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
-    MockedAppConfig.release6BaseUrl returns baseUrl
-    MockedAppConfig.release6Token returns "release6-token"
-    MockedAppConfig.release6Environment returns "release6-environment"
-    MockedAppConfig.release6EnvironmentHeaders returns Some(allowedIfsHeaders)
   }
 
   "ListEmploymentsConnector" when {
     "listEmployments" must {
-      "return a 200 status for a success scenario" in new Test {
-        val outcome                    = Right(ResponseWrapper(correlationId, validResponse))
-        implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders)
+      "return a 200 status for a success scenario" in new Test with Release6Test {
+        val outcome = Right(ResponseWrapper(correlationId, validResponse))
 
-        MockedHttpClient
-          .get(
-            url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear",
-            config = dummyIfsHeaderCarrierConfig,
-            requiredHeaders = requiredRelease6Headers,
-            excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
-          )
-          .returns(Future.successful(outcome))
+        willGet(
+          url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear"
+        ).returns(Future.successful(outcome))
 
         await(connector.listEmployments(request)) shouldBe outcome
       }

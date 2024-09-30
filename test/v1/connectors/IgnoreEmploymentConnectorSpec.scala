@@ -16,16 +16,17 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import common.models.domain.EmploymentId
+import shared.connectors.ConnectorSpec
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
 import scala.concurrent.Future
 
 class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
-  val nino: String         = "AA111111A"
+  val nino: String = "AA111111A"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   trait Test { _: ConnectorTest =>
@@ -33,7 +34,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: IgnoreEmploymentConnector = new IgnoreEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig
     )
 
     val request: IgnoreEmploymentRequest = IgnoreEmploymentRequest(
@@ -47,9 +48,10 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
   "IgnoreEmploymentConnector" when {
     "ignoreEmployment" should {
-      "work" in new TysIfsTest with Test {
+      "work" in new TysIfsTest with Test with ConnectorTest {
         willPut(
-          url = s"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore"
+          url = s"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore",
+          body = ""
         ) returns Future.successful(outcome)
 
         private val result = await(connector.ignoreEmployment(request))

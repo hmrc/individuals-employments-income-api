@@ -16,14 +16,16 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.ResolverSupport._
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
-import api.models.domain.MtdSourceEnum
-import api.models.errors.{MtdError, SourceFormatError}
+import shared.controllers.validators.Validator
+import shared.controllers.validators.resolvers.ResolverSupport._
+import shared.controllers.validators.resolvers.{ResolveTaxYearMinimum, ResolverSupport}
 import cats.data.Validated
 import cats.implicits._
-import config.AppConfig
+import common.errors.SourceFormatError
+import common.models.domain.MtdSourceEnum
+import config.EmploymentsAppConfig
+import shared.controllers.validators.resolvers.ResolveNino
+import shared.models.errors.MtdError
 import v1.controllers.validators.resolvers.ResolveEmploymentId
 import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 
@@ -34,7 +36,7 @@ object RetrieveFinancialDetailsValidator {
 
 }
 
-class RetrieveFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, maybeSource: Option[String], appConfig: AppConfig)
+class RetrieveFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, maybeSource: Option[String], appConfig: EmploymentsAppConfig)
     extends Validator[RetrieveEmploymentAndFinancialDetailsRequest]
     with ResolverSupport {
   import RetrieveFinancialDetailsValidator._

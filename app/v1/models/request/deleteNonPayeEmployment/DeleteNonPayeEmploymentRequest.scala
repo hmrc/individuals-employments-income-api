@@ -16,6 +16,6 @@
 
 package v1.models.request.deleteNonPayeEmployment
 
-import api.models.domain.{Nino, TaxYear}
+import shared.models.domain.{Nino, TaxYear}
 
 case class DeleteNonPayeEmploymentRequest(nino: Nino, taxYear: TaxYear)

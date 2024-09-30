@@ -16,12 +16,14 @@
 
 package v1.controllers
 
-import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.{AppConfig, FeatureSwitches}
+import config.EmploymentsFeatureSwitches
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import utils.IdGenerator
+import shared.config.SharedAppConfig
+import shared.controllers._
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.AmendCustomEmploymentValidatorFactory
 import v1.services.AmendCustomEmploymentService
 
@@ -35,7 +37,7 @@ class AmendCustomEmploymentController @Inject() (val authService: EnrolmentsAuth
                                                  service: AmendCustomEmploymentService,
                                                  auditService: AuditService,
                                                  cc: ControllerComponents,
-                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "amend-custom-employment"
@@ -55,7 +57,7 @@ class AmendCustomEmploymentController @Inject() (val authService: EnrolmentsAuth
         taxYear = taxYear,
         employmentId = employmentId,
         body = request.body,
-        temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled
+        temporalValidationEnabled = EmploymentsFeatureSwitches(appConfig.featureSwitchConfig).isTemporalValidationEnabled
       )
 
       val requestHandler = RequestHandler
@@ -64,6 +66,7 @@ class AmendCustomEmploymentController @Inject() (val authService: EnrolmentsAuth
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "AmendACustomEmployment",
+          apiVersion = Version(request),
           transactionName = "amend-a-custom-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           requestBody = Some(request.body)

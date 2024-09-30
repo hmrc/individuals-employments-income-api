@@ -16,13 +16,14 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import common.models.domain.MtdSourceEnum
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.config.MockSharedAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockRetrieveNonPayeEmploymentIncomeValidatorFactory
 import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v1.mocks.services.MockRetrieveNonPayeEmploymentService
@@ -36,14 +37,14 @@ class RetrieveNonPayeEmploymentControllerSpec
     with ControllerTestRunner
     with MockRetrieveNonPayeEmploymentService
     with MockRetrieveNonPayeEmploymentIncomeValidatorFactory
-    with MockAppConfig {
+    with MockSharedAppConfig {
 
   val taxYear: String       = "2019-20"
   val source: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
 
   val requestData: RetrieveNonPayeEmploymentIncomeRequest =
     RetrieveNonPayeEmploymentIncomeRequest(
-      nino = Nino(nino),
+      nino = Nino(validNino),
       taxYear = TaxYear.fromMtd(taxYear),
       source = source
     )
@@ -91,13 +92,13 @@ class RetrieveNonPayeEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.retrieveNonPayeEmployment(nino, taxYear, Some(source.toString))(fakeGetRequest)
+    protected def callController(): Future[Result] = controller.retrieveNonPayeEmployment(validNino, taxYear, Some(source.toString))(fakeGetRequest)
   }
 
 }

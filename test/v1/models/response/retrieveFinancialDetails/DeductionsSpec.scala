@@ -17,7 +17,7 @@
 package v1.models.response.retrieveFinancialDetails
 
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
-import support.UnitSpec
+import shared.utils.UnitSpec
 
 class DeductionsSpec extends UnitSpec {
 

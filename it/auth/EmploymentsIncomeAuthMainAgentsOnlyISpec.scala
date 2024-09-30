@@ -16,14 +16,15 @@
 
 package auth
 
-import api.services.DownstreamStub
 import play.api.http.Status.NO_CONTENT
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
+import shared.auth.AuthMainAgentsOnlyISpec
+import shared.services.DownstreamStub
 
 class EmploymentsIncomeAuthMainAgentsOnlyISpec extends AuthMainAgentsOnlyISpec {
 
-  val callingApiVersion = "1.0"
+  val callingApiVersion = "2.0"
 
   val supportingAgentsNotAllowedEndpoint = "amend-custom-employment"
 
@@ -42,6 +43,12 @@ class EmploymentsIncomeAuthMainAgentsOnlyISpec extends AuthMainAgentsOnlyISpec {
   override val downstreamHttpMethod: DownstreamStub.HTTPMethod = DownstreamStub.PUT
 
   override protected val downstreamSuccessStatus: Int = NO_CONTENT
+
+  override def servicesConfig: Map[String, Any] =
+    Map[String, Any](
+      "microservice.services.release6.host" -> mockHost,
+      "microservice.services.release6.port" -> mockPort
+    ) ++ super.servicesConfig
 
   private val requestJson = Json.parse(
     """

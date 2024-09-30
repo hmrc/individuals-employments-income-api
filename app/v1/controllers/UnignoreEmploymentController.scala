@@ -16,11 +16,12 @@
 
 package v1.controllers
 
-import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import utils.{IdGenerator, Logging}
+import shared.config.SharedAppConfig
+import shared.controllers._
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.{IdGenerator, Logging}
 import v1.controllers.validators.UnignoreEmploymentValidatorFactory
 import v1.services.UnignoreEmploymentService
 
@@ -34,7 +35,7 @@ class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthSer
                                               service: UnignoreEmploymentService,
                                               auditService: AuditService,
                                               cc: ControllerComponents,
-                                              val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                              val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc)
     with Logging {
 
@@ -61,6 +62,7 @@ class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthSer
         .withService(service.unignoreEmployment)
         .withAuditing(AuditHandler(
           auditService = auditService,
+          apiVersion = Version(request),
           auditType = "UnignoreEmployment",
           transactionName = "unignore-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)

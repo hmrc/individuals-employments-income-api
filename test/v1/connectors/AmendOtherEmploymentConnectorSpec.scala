@@ -16,10 +16,10 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.models.domain.{Nino, TaxYear}
-import api.models.errors.{InternalError, NinoFormatError}
-import api.models.outcomes.ResponseWrapper
+import shared.connectors.ConnectorSpec
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors.{InternalError, NinoFormatError}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.amendOtherEmployment._
 
 import scala.concurrent.Future
@@ -30,7 +30,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
     "return the expected response for a non-TYS request" when {
       "a valid request is made" in new DesTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2019-20")
-        val outcome          = Right(ResponseWrapper(correlationId, ()))
+        val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
           url = s"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
@@ -69,7 +69,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
     "return the expected response for a TYS request" when {
       "a valid request is made" in new TysIfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-        val outcome          = Right(ResponseWrapper(correlationId, ()))
+        val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
           url = s"$baseUrl/income-tax/income/other/employments/23-24/$nino",
@@ -100,7 +100,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: AmendOtherEmploymentConnector = new AmendOtherEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig
     )
 
   }

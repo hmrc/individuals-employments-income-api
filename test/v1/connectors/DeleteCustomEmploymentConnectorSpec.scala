@@ -16,24 +16,26 @@
 
 package v1.connectors
 
-import api.connectors.{ConnectorSpec, DownstreamOutcome}
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import common.models.domain.EmploymentId
+import shared.connectors.{ ConnectorSpec, DownstreamOutcome }
+import shared.models.domain.{ Nino, TaxYear }
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
 import scala.concurrent.Future
 
 class DeleteCustomEmploymentConnectorSpec extends ConnectorSpec {
 
-  private val nino: String    = "AA111111A"
+  private val nino: String = "AA111111A"
   private val taxYear: String = "2019-20"
-  private val employmentId    = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   "DeleteCustomEmploymentConnector" should {
     "return a 200 result on delete" when {
       "the downstream call is successful" in new IfsTest with Test {
 
-        willDelete(s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId") returns Future.successful(outcome)
+        willDelete(s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId") returns Future
+          .successful(outcome)
 
         val result: DownstreamOutcome[Unit] = await(connector.delete(request))
         result shouldBe outcome
@@ -47,7 +49,7 @@ class DeleteCustomEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: DeleteCustomEmploymentConnector = new DeleteCustomEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig
     )
 
     protected val request: DeleteCustomEmploymentRequest =

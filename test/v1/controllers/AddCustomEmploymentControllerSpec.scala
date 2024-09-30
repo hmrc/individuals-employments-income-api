@@ -16,16 +16,16 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.mocks.services.MockAuditService
-import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
+import shared.config.MockSharedAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
+import shared.services.MockAuditService
 import v1.controllers.validators.MockAddCustomEmploymentValidatorFactory
 import v1.mocks.services.MockAddCustomEmploymentService
 import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class AddCustomEmploymentControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockAppConfig
+    with MockSharedAppConfig
     with MockAddCustomEmploymentService
     with MockAuditService
     with MockAddCustomEmploymentValidatorFactory {
@@ -68,7 +68,7 @@ class AddCustomEmploymentControllerSpec
   )
 
   val requestData: AddCustomEmploymentRequest = AddCustomEmploymentRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     body = addCustomEmploymentRequestBody
   )
@@ -134,23 +134,23 @@ class AddCustomEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    protected def callController(): Future[Result] = controller.addEmployment(nino, taxYear)(fakePostRequest(requestBodyJson))
+    protected def callController(): Future[Result] = controller.addEmployment(validNino, taxYear)(fakePostRequest(requestBodyJson))
 
-    MockedAppConfig.featureSwitches.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
-
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
         auditType = "AddACustomEmployment",
         transactionName = "add-a-custom-employment",
-        detail = GenericAuditDetail(
+        detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
-          request = requestBody,
+          versionNumber = apiVersion.name,
+          params = Map("nino" -> validNino, "taxYear" -> taxYear),
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 

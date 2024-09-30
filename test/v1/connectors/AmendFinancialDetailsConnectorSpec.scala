@@ -16,15 +16,17 @@
 
 package v1.connectors
 
-import api.connectors.ConnectorSpec
-import api.models.domain.{EmploymentId, Nino, TaxYear}
-import api.models.outcomes.ResponseWrapper
+import common.connectors.EmploymentsConnectorSpec
+import common.models.domain.EmploymentId
+import config.MockEmploymentsAppConfig
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.outcomes.ResponseWrapper
 import v1.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
 import scala.concurrent.Future
 
-class AmendFinancialDetailsConnectorSpec extends ConnectorSpec {
+class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
   "AmendFinancialDetailsConnector" should {
     "return a 204 status for a success scenario" when {
@@ -43,7 +45,7 @@ class AmendFinancialDetailsConnectorSpec extends ConnectorSpec {
 
       }
 
-      "a valid request is submitted for a TYS tax year" in new TysIfsTest with Test {
+      "a valid request is submitted for a TYS tax year" in new TysIfsTest with MockEmploymentsAppConfig with Test {
         def taxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
@@ -60,14 +62,15 @@ class AmendFinancialDetailsConnectorSpec extends ConnectorSpec {
     }
   }
 
-  trait Test { _: ConnectorTest =>
+  trait Test { _: ConnectorTest with MockEmploymentsAppConfig =>
 
     val nino: String = "AA111111A"
     val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     protected val connector: AmendFinancialDetailsConnector = new AmendFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockAppConfig
+      appConfig = mockSharedAppConfig,
+      employmentsAppConfig = mockEmploymentsConfig
     )
 
     protected val payModel = AmendPay(

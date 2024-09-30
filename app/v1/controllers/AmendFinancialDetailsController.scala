@@ -16,12 +16,13 @@
 
 package v1.controllers
 
-import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.AppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import utils.IdGenerator
+import shared.config.SharedAppConfig
+import shared.controllers._
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.AmendFinancialDetailsValidatorFactory
 import v1.services.AmendFinancialDetailsService
 
@@ -35,7 +36,7 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
                                                  service: AmendFinancialDetailsService,
                                                  auditService: AuditService,
                                                  cc: ControllerComponents,
-                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "amend-financial-details"
@@ -63,6 +64,7 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "AmendEmploymentFinancialDetails",
+          apiVersion = Version(request),
           transactionName = "amend-employment-financial-details",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           requestBody = Some(request.body)

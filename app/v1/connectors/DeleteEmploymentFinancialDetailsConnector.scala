@@ -16,10 +16,11 @@
 
 package v1.connectors
 
-import api.connectors.DownstreamUri.{Release6Uri, TaxYearSpecificIfsUri}
-import api.connectors.httpparsers.StandardDownstreamHttpParser._
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import config.AppConfig
+import shared.config.SharedAppConfig
+import config.EmploymentsAppConfig
+import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
+import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
@@ -27,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteEmploymentFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class DeleteEmploymentFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def deleteEmploymentFinancialDetails(request: DeleteEmploymentFinancialDetailsRequest)(implicit
       hc: HeaderCarrier,
@@ -41,8 +42,9 @@ class DeleteEmploymentFinancialDetailsConnector @Inject() (val http: HttpClient,
         s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}"
       )
     } else {
-      Release6Uri[Unit](
-        s"income-tax/income/employments/$nino/${taxYear.asMtd}/${employmentId.value}"
+      DownstreamUri[Unit](
+        s"income-tax/income/employments/$nino/${taxYear.asMtd}/${employmentId.value}",
+        DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
       )
     }
 

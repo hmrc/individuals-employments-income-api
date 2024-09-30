@@ -16,10 +16,10 @@
 
 package v1.controllers.validators.resolvers
 
-import api.models.domain.EmploymentId
-import api.models.errors.EmploymentIdFormatError
 import cats.data.Validated.{Invalid, Valid}
-import support.UnitSpec
+import common.errors.EmploymentIdFormatError
+import common.models.domain.EmploymentId
+import shared.utils.UnitSpec
 
 class ResolveEmploymentIdSpec extends UnitSpec {
 

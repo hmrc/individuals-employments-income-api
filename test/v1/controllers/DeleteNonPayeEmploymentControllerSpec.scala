@@ -16,16 +16,17 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.mocks.services.MockAuditService
-import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
 import play.api.Configuration
+import play.api.http.HeaderNames
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
+import shared.config.MockSharedAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
+import shared.services.MockAuditService
 import v1.controllers.validators.MockDeleteNonPayeEmploymentIncomeValidatorFactory
 import v1.mocks.services.MockDeleteNonPayeEmploymentService
 import v1.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
@@ -39,12 +40,12 @@ class DeleteNonPayeEmploymentControllerSpec
     with MockDeleteNonPayeEmploymentIncomeValidatorFactory
     with MockDeleteNonPayeEmploymentService
     with MockAuditService
-    with MockAppConfig {
+    with MockSharedAppConfig {
 
   val taxYear: String = "2020-21"
 
   val requestData: DeleteNonPayeEmploymentRequest = DeleteNonPayeEmploymentRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
 
@@ -92,25 +93,28 @@ class DeleteNonPayeEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.delete(nino, taxYear)(fakeDeleteRequest)
+    protected def callController(): Future[Result] = controller.delete(validNino, taxYear)(fakeRequest.withHeaders(
+    HeaderNames.AUTHORIZATION -> "Bearer Token"
+  ))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
         auditType = "DeleteNonPayeEmploymentIncome",
         transactionName = "delete-non-paye-employment-income",
-        detail = GenericAuditDetail(
+        detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
-          request = requestBody,
+          versionNumber = apiVersion.name,
+          params = Map("nino" -> validNino, "taxYear" -> taxYear),
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 

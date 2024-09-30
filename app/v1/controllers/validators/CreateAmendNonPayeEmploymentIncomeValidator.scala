@@ -16,14 +16,15 @@
 
 package v1.controllers.validators
 
-import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
-import api.models.domain.TaxYear
-import api.models.errors.{MtdError, RuleTaxYearNotEndedError}
+import shared.controllers.validators.Validator
+import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
 import cats.implicits._
-import config.AppConfig
+import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
+import shared.controllers.validators.resolvers.ResolveNino
+import shared.models.domain.TaxYear
 import v1.models.request.createAmendNonPayeEmployment.{CreateAmendNonPayeEmploymentRequest, CreateAmendNonPayeEmploymentRequestBody}
 
 import java.time.Clock
@@ -38,7 +39,7 @@ class CreateAmendNonPayeEmploymentIncomeValidator(nino: String,
                                                   taxYear: String,
                                                   body: JsValue,
                                                   temporalValidationEnabled: Boolean,
-                                                  appConfig: AppConfig)(implicit clock: Clock = Clock.systemUTC)
+                                                  appConfig: EmploymentsAppConfig)(implicit clock: Clock = Clock.systemUTC)
     extends Validator[CreateAmendNonPayeEmploymentRequest]
     with ResolverSupport {
   import CreateAmendNonPayeEmploymentIncomeValidator._

@@ -17,7 +17,7 @@
 package v1.models.response.retrieveFinancialDetails
 
 import play.api.libs.json.{JsError, JsObject, Json}
-import support.UnitSpec
+import shared.utils.UnitSpec
 import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
 
 class RetrieveEmploymentAndFinancialDetailsResponseSpec extends UnitSpec {

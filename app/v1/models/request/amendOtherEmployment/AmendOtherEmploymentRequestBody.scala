@@ -16,9 +16,9 @@
 
 package v1.models.request.amendOtherEmployment
 
+import common.utils.JsonUtils
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, OWrites, Reads}
-import utils.JsonUtils
 
 case class AmendOtherEmploymentRequestBody(shareOption: Option[Seq[AmendShareOptionItem]],
                                            sharesAwardedOrReceived: Option[Seq[AmendSharesAwardedOrReceivedItem]],

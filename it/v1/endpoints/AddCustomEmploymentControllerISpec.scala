@@ -16,17 +16,19 @@
 
 package v1.endpoints
 
-import api.models.errors._
-import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
+import common.errors._
+import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import support.IntegrationBaseSpec
+import shared.models.domain.TaxYear
+import shared.models.errors._
+import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
+class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
@@ -298,6 +300,8 @@ class AddCustomEmploymentControllerISpec extends IntegrationBaseSpec {
             response.json shouldBe Json.toJson(expectedBody)
           }
         }
+
+        def getCurrentTaxYear: String = TaxYear.currentTaxYear.asMtd
 
         val input = Seq(
           ("AA1123A", "2019-20", validRequestJson, BAD_REQUEST, NinoFormatError, None),

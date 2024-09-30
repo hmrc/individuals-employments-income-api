@@ -16,12 +16,14 @@
 
 package v1.services
 
-import api.controllers.EndpointLogContext
-import api.models.domain._
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import api.services.ServiceSpec
-import mocks.MockAppConfig
+import common.errors.{EmploymentIdFormatError, SourceFormatError}
+import common.models.domain.{EmploymentId, MtdSourceEnum}
+import shared.config.MockSharedAppConfig
+import shared.controllers.EndpointLogContext
+import shared.models.domain._
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
+import shared.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.connectors.MockRetrieveEmploymentAndFinancialDetailsConnector
 import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
@@ -58,11 +60,11 @@ class RetrieveEmploymentAndFinancialDetailsServiceSpec extends ServiceSpec {
     employment = employment
   )
 
-  trait Test extends MockRetrieveEmploymentAndFinancialDetailsConnector with MockAppConfig {
+  trait Test extends MockRetrieveEmploymentAndFinancialDetailsConnector with MockSharedAppConfig {
     implicit val hc: HeaderCarrier              = HeaderCarrier()
     implicit val logContext: EndpointLogContext = EndpointLogContext("controller", "retrieveEmploymentAndFinancialDetails")
 
-    val service = new RetrieveEmploymentAndFinancialDetailsService(mockConnector, mockAppConfig)
+    val service = new RetrieveEmploymentAndFinancialDetailsService(mockConnector, mockSharedAppConfig)
   }
 
   "RetrieveEmploymentAndFinancialDetailsService" should {

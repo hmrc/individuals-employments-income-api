@@ -16,13 +16,14 @@
 
 package v1.controllers
 
-import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import api.models.domain.{EmploymentId, MtdSourceEnum, Nino, TaxYear}
-import api.models.errors._
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import common.models.domain.{EmploymentId, MtdSourceEnum}
 import play.api.Configuration
 import play.api.mvc.Result
+import shared.config.MockSharedAppConfig
+import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import shared.models.domain.{Nino, TaxYear}
+import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockRetrieveFinancialDetailsValidatorFactory
 import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
 import v1.mocks.services.MockRetrieveEmploymentAndFinancialDetailsService
@@ -36,14 +37,14 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
     with MockRetrieveFinancialDetailsValidatorFactory
-    with MockAppConfig {
+    with MockSharedAppConfig {
 
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
   val source: String       = "latest"
 
   val requestData: RetrieveEmploymentAndFinancialDetailsRequest = RetrieveEmploymentAndFinancialDetailsRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId),
     source = MtdSourceEnum.latest
@@ -95,13 +96,13 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedAppConfig.featureSwitches.anyNumberOfTimes() returns Configuration(
+    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.retrieve(nino, taxYear, employmentId, Some(source))(fakeRequest)
+    protected def callController(): Future[Result] = controller.retrieve(validNino, taxYear, employmentId, Some(source))(fakeRequest)
   }
 
 }

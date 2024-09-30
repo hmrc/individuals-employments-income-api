@@ -16,12 +16,14 @@
 
 package v1.controllers
 
-import api.controllers._
-import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import config.{AppConfig, FeatureSwitches}
+import config.EmploymentsFeatureSwitches
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
-import utils.IdGenerator
+import shared.config.SharedAppConfig
+import shared.controllers._
+import shared.routing.Version
+import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.utils.IdGenerator
 import v1.controllers.validators.AddCustomEmploymentValidatorFactory
 import v1.services.AddCustomEmploymentService
 
@@ -35,7 +37,7 @@ class AddCustomEmploymentController @Inject() (val authService: EnrolmentsAuthSe
                                                service: AddCustomEmploymentService,
                                                auditService: AuditService,
                                                cc: ControllerComponents,
-                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "add-custom-employment"
@@ -54,7 +56,7 @@ class AddCustomEmploymentController @Inject() (val authService: EnrolmentsAuthSe
         nino = nino,
         taxYear = taxYear,
         body = request.body,
-        temporalValidationEnabled = FeatureSwitches(appConfig.featureSwitches).isTemporalValidationEnabled)
+        temporalValidationEnabled = EmploymentsFeatureSwitches(appConfig.featureSwitchConfig).isTemporalValidationEnabled)
 
       val requestHandler = RequestHandler
         .withValidator(validator)
@@ -62,6 +64,7 @@ class AddCustomEmploymentController @Inject() (val authService: EnrolmentsAuthSe
         .withAuditing(AuditHandler(
           auditService = auditService,
           auditType = "AddACustomEmployment",
+          apiVersion = Version(request),
           transactionName = "add-a-custom-employment",
           params = Map("nino" -> nino, "taxYear" -> taxYear),
           requestBody = Some(request.body),
