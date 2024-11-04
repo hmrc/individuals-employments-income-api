@@ -4,6 +4,20 @@ info:
   version: "2.0"
   title: "Individuals Employments Income (MTD)"
   description: |
+    The following groups of endpoints are stateful in the Sandbox:
+      * [Non-PAYE Employment Income](#tag/Non-PAYE-Employment-Income)
+      * [Other Employment Income](#tag/Other-Employment-Income)
+    
+    The following endpoints are stateful in the Sandbox:
+      * List Employments
+      * Add a Custom Employment
+      * Retrieve an Employment
+      * Amend a Custom Employment
+      * Delete a Custom Employment
+      * Retrieve an Employment and its Financial Details
+      * Create and Amend Employment Financial Details
+      * Delete Employment Financial Details
+    
     # Send fraud prevention data
     HMRC monitors transactions to help protect your customers' confidential data from criminals and fraudsters. 
     
