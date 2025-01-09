@@ -46,7 +46,7 @@ class IgnoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
       setupStubs()
       buildRequest(s"/$nino/$taxYear/$employmentId/ignore")
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.1.0+json"),
+          (ACCEPT, "application/vnd.hmrc.2.0+json"),
           (AUTHORIZATION, "Bearer 123")
         )
     }
