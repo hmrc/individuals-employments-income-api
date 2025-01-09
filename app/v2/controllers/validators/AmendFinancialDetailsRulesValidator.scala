@@ -16,10 +16,10 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.RulesValidator
-import shared.controllers.validators.resolvers._
 import cats.data.Validated
 import common.errors.{RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
+import shared.controllers.validators.RulesValidator
+import shared.controllers.validators.resolvers._
 import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.EmploymentsIncomeValidators._

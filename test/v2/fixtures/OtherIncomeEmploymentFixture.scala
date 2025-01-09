@@ -18,7 +18,7 @@ package v2.fixtures
 
 import common.models.domain.{ShareOptionSchemeType, SharesAwardedOrReceivedSchemeType}
 import shared.models.domain.Timestamp
-import v2.models.response.retrieveOtherEmployment._
+import v1.models.response.retrieveOtherEmployment._
 
 object OtherIncomeEmploymentFixture {
 

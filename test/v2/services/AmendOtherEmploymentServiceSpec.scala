@@ -17,10 +17,10 @@
 package v2.services
 
 import shared.controllers.EndpointLogContext
-import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
+import shared.services.ServiceSpec
 import v2.mocks.connectors.MockAmendOtherEmploymentConnector
 import v2.models.request.amendOtherEmployment._
 

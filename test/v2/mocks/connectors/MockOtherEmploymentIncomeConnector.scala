@@ -21,8 +21,9 @@ import org.scalamock.scalatest.MockFactory
 import shared.connectors.DownstreamOutcome
 import uk.gov.hmrc.http.HeaderCarrier
 import v2.connectors.OtherEmploymentIncomeConnector
-import v2.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
-import v2.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
+import v2.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
+import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
+import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
 
 import scala.concurrent.{ExecutionContext, Future}
 

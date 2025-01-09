@@ -20,9 +20,10 @@ import config.MockFeatureSwitches
 import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
+import v1.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest
 import v2.fixtures.OtherIncomeEmploymentFixture.retrieveResponse
-import v2.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
-import v2.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
+import v2.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
+import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
 
 import scala.concurrent.Future
 

@@ -16,13 +16,12 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.ResolveTaxYearMinimum
-import shared.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
 import config.EmploymentsAppConfig
-import shared.controllers.validators.resolvers.ResolveNino
+import shared.controllers.validators.Validator
+import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
+import shared.models.errors.MtdError
 import v2.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
 class DeleteNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, appConfig: EmploymentsAppConfig) extends Validator[DeleteNonPayeEmploymentRequest] {

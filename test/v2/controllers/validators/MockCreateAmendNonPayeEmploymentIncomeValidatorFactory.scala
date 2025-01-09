@@ -16,10 +16,9 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.MockValidatorFactory
-import shared.controllers.validators.Validator
 import org.scalamock.handlers.CallHandler
 import play.api.libs.json.JsValue
+import shared.controllers.validators.{MockValidatorFactory, Validator}
 import v2.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest
 
 trait MockCreateAmendNonPayeEmploymentIncomeValidatorFactory extends MockValidatorFactory[CreateAmendNonPayeEmploymentRequest] {

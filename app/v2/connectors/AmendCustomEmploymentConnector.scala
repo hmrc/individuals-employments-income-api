@@ -16,8 +16,8 @@
 
 package v2.connectors
 
-import shared.config.SharedAppConfig
 import config.EmploymentsAppConfig
+import shared.config.SharedAppConfig
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v2.models.request.amendCustomEmployment.AmendCustomEmploymentRequest

@@ -16,15 +16,14 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
-import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
 import cats.implicits._
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
-import shared.controllers.validators.resolvers.ResolveNino
+import shared.controllers.validators.Validator
+import shared.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.domain.TaxYear
+import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import v2.models.request.createAmendNonPayeEmployment.{CreateAmendNonPayeEmploymentRequest, CreateAmendNonPayeEmploymentRequestBody}
 
 import java.time.Clock

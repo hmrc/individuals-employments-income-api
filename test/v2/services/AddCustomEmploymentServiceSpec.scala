@@ -18,10 +18,10 @@ package v2.services
 
 import common.errors.{RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError}
 import shared.controllers.EndpointLogContext
-import shared.models.outcomes.ResponseWrapper
-import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
+import shared.models.outcomes.ResponseWrapper
+import shared.services.ServiceSpec
 import v2.mocks.connectors.MockAddCustomEmploymentConnector
 import v2.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v2.models.response.addCustomEmployment.AddCustomEmploymentResponse

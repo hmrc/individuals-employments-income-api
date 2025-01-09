@@ -17,8 +17,8 @@
 package v2.connectors
 
 import common.models.domain.EmploymentId
-import shared.connectors.{ ConnectorSpec, DownstreamOutcome }
-import shared.models.domain.{ Nino, TaxYear }
+import shared.connectors.{ConnectorSpec, DownstreamOutcome}
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v2.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 

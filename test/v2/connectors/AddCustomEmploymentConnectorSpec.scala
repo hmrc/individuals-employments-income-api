@@ -19,9 +19,9 @@ package v2.connectors
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
 import shared.mocks.MockHttpClient
-import shared.models.domain.{ Nino, TaxYear }
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
-import v2.models.request.addCustomEmployment.{ AddCustomEmploymentRequest, AddCustomEmploymentRequestBody }
+import v2.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v2.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
 import scala.concurrent.Future

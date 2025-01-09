@@ -16,10 +16,10 @@
 
 package v2.mocks.services
 
-import shared.controllers.RequestContext
-import shared.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import shared.controllers.RequestContext
+import shared.services.ServiceOutcome
 import v2.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 import v2.services.DeleteNonPayeEmploymentService
 

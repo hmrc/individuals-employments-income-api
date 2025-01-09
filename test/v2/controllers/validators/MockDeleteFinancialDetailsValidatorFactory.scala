@@ -16,9 +16,8 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.MockValidatorFactory
-import shared.controllers.validators.Validator
 import org.scalamock.handlers.CallHandler
+import shared.controllers.validators.{MockValidatorFactory, Validator}
 import v2.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
 trait MockDeleteFinancialDetailsValidatorFactory extends MockValidatorFactory[DeleteEmploymentFinancialDetailsRequest] {

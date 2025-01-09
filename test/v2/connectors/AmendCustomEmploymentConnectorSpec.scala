@@ -20,9 +20,9 @@ import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
 import shared.mocks.MockHttpClient
-import shared.models.domain.{ Nino, TaxYear }
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
-import v2.models.request.amendCustomEmployment.{ AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody }
+import v2.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
 import scala.concurrent.Future
 

@@ -16,14 +16,13 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.resolvers.ResolveNino
-import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
-import shared.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
+import shared.controllers.validators.Validator
+import shared.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 

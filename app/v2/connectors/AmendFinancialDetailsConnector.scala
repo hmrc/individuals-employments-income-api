@@ -16,9 +16,9 @@
 
 package v2.connectors
 
-import shared.config.SharedAppConfig
 import config.EmploymentsAppConfig
 import play.api.libs.json.Format.GenericFormat
+import shared.config.SharedAppConfig
 import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}

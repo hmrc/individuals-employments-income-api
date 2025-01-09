@@ -16,9 +16,9 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.Validator
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
+import shared.controllers.validators.Validator
 import v2.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest
 
 import javax.inject.{Inject, Singleton}

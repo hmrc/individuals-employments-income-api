@@ -19,10 +19,10 @@ package v2.services
 import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
-import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
+import shared.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier
 import v2.mocks.connectors.MockUnignoreEmploymentConnector
 import v2.models.request.unignoreEmployment.UnignoreEmploymentRequest

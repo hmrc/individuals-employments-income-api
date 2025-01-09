@@ -16,9 +16,9 @@
 
 package v2.controllers.validators
 
+import cats.data.Validated
 import shared.controllers.validators.RulesValidator
 import shared.controllers.validators.resolvers._
-import cats.data.Validated
 import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.CustomEmploymentDateValidator

@@ -16,8 +16,8 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.Validator
 import config.EmploymentsAppConfig
+import shared.controllers.validators.Validator
 import v2.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 
 import javax.inject.{Inject, Singleton}
