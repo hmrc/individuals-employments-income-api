@@ -10,7 +10,7 @@ GET        /other/:nino/:taxYear                                v1.controllers.R
 # Employment endpoints
 PUT        /:nino/:taxYear/:employmentId                        v1.controllers.AmendCustomEmploymentController.amendEmployment(nino: String, taxYear: String, employmentId: String)
 DELETE     /:nino/:taxYear/:employmentId                        v1.controllers.DeleteCustomEmploymentController.deleteCustomEmployment(nino: String, taxYear: String, employmentId: String)
-# move to v1
+
 POST       /:nino/:taxYear                                      v1.controllers.AddCustomEmploymentController.addEmployment(nino: String, taxYear: String)
 GET        /:nino/:taxYear                                      v1.controllers.ListEmploymentsController.listEmployments(nino: String, taxYear: String)
 GET        /:nino/:taxYear/:employmentId                        v1.controllers.RetrieveEmploymentController.retrieveEmployment(nino: String, taxYear: String, employmentId: String)
