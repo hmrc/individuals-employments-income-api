@@ -25,7 +25,7 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import v1.fixtures.ListEmploymentsControllerFixture
+import v2.fixtures.ListEmploymentsControllerFixture
 
 class ListEmploymentsControllerISpec extends EmploymentsIBaseSpec  {
 

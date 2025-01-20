@@ -1,22 +1,22 @@
 # Non-PAYE endpoints
-GET        /non-paye/:nino/:taxYear                             v1.controllers.RetrieveNonPayeEmploymentController.retrieveNonPayeEmployment(nino: String, taxYear: String, source: Option[String])
-PUT        /non-paye/:nino/:taxYear                             v1.controllers.CreateAmendNonPayeEmploymentController.createAmendNonPayeEmployment(nino: String, taxYear: String)
-DELETE     /non-paye/:nino/:taxYear                             v1.controllers.DeleteNonPayeEmploymentController.delete(nino: String, taxYear: String)
+GET        /non-paye/:nino/:taxYear                             v2.controllers.RetrieveNonPayeEmploymentController.retrieveNonPayeEmployment(nino: String, taxYear: String, source: Option[String])
+PUT        /non-paye/:nino/:taxYear                             v2.controllers.CreateAmendNonPayeEmploymentController.createAmendNonPayeEmployment(nino: String, taxYear: String)
+DELETE     /non-paye/:nino/:taxYear                             v2.controllers.DeleteNonPayeEmploymentController.delete(nino: String, taxYear: String)
 
-PUT        /other/:nino/:taxYear                                v1.controllers.AmendOtherEmploymentController.amendOtherEmployment(nino: String, taxYear: String)
-DELETE     /other/:nino/:taxYear                                v1.controllers.DeleteOtherEmploymentController.deleteOtherEmployment(nino: String, taxYear: String)
-GET        /other/:nino/:taxYear                                v1.controllers.RetrieveOtherEmploymentController.retrieveOther(nino: String, taxYear: String)
+PUT        /other/:nino/:taxYear                                v2.controllers.AmendOtherEmploymentController.amendOtherEmployment(nino: String, taxYear: String)
+DELETE     /other/:nino/:taxYear                                v2.controllers.DeleteOtherEmploymentController.deleteOtherEmployment(nino: String, taxYear: String)
+GET        /other/:nino/:taxYear                                v2.controllers.RetrieveOtherEmploymentController.retrieveOther(nino: String, taxYear: String)
 
 # Employment endpoints
-PUT        /:nino/:taxYear/:employmentId                        v1.controllers.AmendCustomEmploymentController.amendEmployment(nino: String, taxYear: String, employmentId: String)
-DELETE     /:nino/:taxYear/:employmentId                        v1.controllers.DeleteCustomEmploymentController.deleteCustomEmployment(nino: String, taxYear: String, employmentId: String)
+PUT        /:nino/:taxYear/:employmentId                        v2.controllers.AmendCustomEmploymentController.amendEmployment(nino: String, taxYear: String, employmentId: String)
+DELETE     /:nino/:taxYear/:employmentId                        v2.controllers.DeleteCustomEmploymentController.deleteCustomEmployment(nino: String, taxYear: String, employmentId: String)
 
-POST       /:nino/:taxYear                                      v1.controllers.AddCustomEmploymentController.addEmployment(nino: String, taxYear: String)
-GET        /:nino/:taxYear                                      v1.controllers.ListEmploymentsController.listEmployments(nino: String, taxYear: String)
-GET        /:nino/:taxYear/:employmentId                        v1.controllers.RetrieveEmploymentController.retrieveEmployment(nino: String, taxYear: String, employmentId: String)
-POST       /:nino/:taxYear/:employmentId/ignore                 v1.controllers.IgnoreEmploymentController.ignoreEmployment(nino: String, taxYear: String, employmentId: String)
-POST       /:nino/:taxYear/:employmentId/unignore               v1.controllers.UnignoreEmploymentController.unignoreEmployment(nino: String, taxYear: String, employmentId: String)
+POST       /:nino/:taxYear                                      v2.controllers.AddCustomEmploymentController.addEmployment(nino: String, taxYear: String)
+GET        /:nino/:taxYear                                      v2.controllers.ListEmploymentsController.listEmployments(nino: String, taxYear: String)
+GET        /:nino/:taxYear/:employmentId                        v2.controllers.RetrieveEmploymentController.retrieveEmployment(nino: String, taxYear: String, employmentId: String)
+POST       /:nino/:taxYear/:employmentId/ignore                 v2.controllers.IgnoreEmploymentController.ignoreEmployment(nino: String, taxYear: String, employmentId: String)
+POST       /:nino/:taxYear/:employmentId/unignore               v2.controllers.UnignoreEmploymentController.unignoreEmployment(nino: String, taxYear: String, employmentId: String)
 
-PUT        /:nino/:taxYear/:employmentId/financial-details      v1.controllers.AmendFinancialDetailsController.amendFinancialDetails(nino: String, taxYear: String, employmentId: String)
-DELETE     /:nino/:taxYear/:employmentId/financial-details      v1.controllers.DeleteEmploymentFinancialDetailsController.deleteEmploymentFinancialDetails(nino: String, taxYear: String, employmentId: String)
-GET        /:nino/:taxYear/:employmentId/financial-details      v1.controllers.RetrieveEmploymentAndFinancialDetailsController.retrieve(nino: String, taxYear: String, employmentId: String, source: Option[String])
+PUT        /:nino/:taxYear/:employmentId/financial-details      v2.controllers.AmendFinancialDetailsController.amendFinancialDetails(nino: String, taxYear: String, employmentId: String)
+DELETE     /:nino/:taxYear/:employmentId/financial-details      v2.controllers.DeleteEmploymentFinancialDetailsController.deleteEmploymentFinancialDetails(nino: String, taxYear: String, employmentId: String)
+GET        /:nino/:taxYear/:employmentId/financial-details      v2.controllers.RetrieveEmploymentAndFinancialDetailsController.retrieve(nino: String, taxYear: String, employmentId: String, source: Option[String])

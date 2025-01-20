@@ -26,7 +26,7 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
+import v2.fixtures.RetrieveFinancialDetailsControllerFixture._
 
 class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
 
