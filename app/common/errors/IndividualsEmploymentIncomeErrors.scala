@@ -25,6 +25,7 @@ object EmployerNameFormatError extends MtdError("FORMAT_EMPLOYER_NAME", "The pro
 object EmployerRefFormatError  extends MtdError("FORMAT_EMPLOYER_REF", "The provided employer ref is invalid", BAD_REQUEST)
 object DateFormatError         extends MtdError("FORMAT_DATE", "The field should be in the format YYYY-MM-DD", BAD_REQUEST)
 
+
 object ClassOfSharesAwardedFormatError
     extends MtdError("FORMAT_CLASS_OF_SHARES_AWARDED", "The provided class of shares awarded is invalid", BAD_REQUEST)
 
@@ -68,3 +69,4 @@ object RuleNotAllowedOffPayrollWorker
 
 object RuleMissingOffPayrollWorker extends MtdError("MISSING_OFF_PAYROLL_WORKER", "The offPayrollWorker field was not provided", BAD_REQUEST)
 
+object RuleOutsideAmendmentWindow extends MtdError("RULE_OUTSIDE_AMENDMENT_WINDOW", "You are outside the amendment window", BAD_REQUEST)
