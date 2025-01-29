@@ -16,7 +16,7 @@
 
 package v2.services
 
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOutsideAmendmentWindow}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
@@ -82,7 +82,8 @@ class IgnoreEmploymentServiceSpec extends ServiceSpec {
           ("NO_DATA_FOUND", NotFoundError),
           ("INVALID_CORRELATIONID", InternalError),
           ("SERVER_ERROR", InternalError),
-          ("SERVICE_UNAVAILABLE", InternalError)
+          ("SERVICE_UNAVAILABLE", InternalError),
+          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindow)
         )
 
         val extraTysErrors = List(
