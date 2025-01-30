@@ -218,6 +218,12 @@ components:
         code: RULE_LOSSES_GREATER_THAN_GAIN
         message: The total losses from this year or the previous year must not be greater than the gain
 
+    ruleOutsideAmendmentWindow:
+      description: The request cannot be completed as you are outside the amendment window.
+      value:
+        code: RULE_OUTSIDE_AMENDMENT_WINDOW
+        message: You are outside the amendment window
+
     formatSource:
       description: The format of the supplied source is not valid.
       value:
