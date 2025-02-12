@@ -17,7 +17,7 @@
 package v2.services
 
 import cats.implicits._
-import common.errors.RuleInvalidSubmissionPensionSchemeError
+import common.errors.{RuleInvalidSubmissionPensionSchemeError, RuleOutsideAmendmentWindowError}
 import shared.controllers.RequestContext
 import shared.models.errors.{InternalError, MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -49,6 +49,7 @@ class AmendFinancialDetailsService @Inject() (connector: AmendFinancialDetailsCo
       "INCOME_SOURCE_NOT_FOUND"           -> NotFoundError,
       "INVALID_CORRELATION_ID"            -> InternalError,
       "TAX_YEAR_NOT_SUPPORTED"            -> RuleTaxYearNotSupportedError,
+      "OUTSIDE_AMENDMENT_WINDOW"          -> RuleOutsideAmendmentWindowError,
       "INVALID_SUBMISSION_PENSION_SCHEME" -> RuleInvalidSubmissionPensionSchemeError
     )
     errors ++ extraTysErrors

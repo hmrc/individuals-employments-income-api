@@ -17,6 +17,7 @@
 package v2.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
+import common.errors.RuleOutsideAmendmentWindowError
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
@@ -153,6 +154,7 @@ class DeleteOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
         )
 
         val extraTysErrors = Seq(
+          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
 

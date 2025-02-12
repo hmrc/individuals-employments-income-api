@@ -16,7 +16,7 @@
 
 package v2.services
 
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
@@ -73,6 +73,7 @@ class UnignoreEmploymentServiceSpec extends ServiceSpec {
 
         val extraTysErrors = List(
           ("INVALID_CORRELATION_ID", InternalError),
+          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError),
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
 

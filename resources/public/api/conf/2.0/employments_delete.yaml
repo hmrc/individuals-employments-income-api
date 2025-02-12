@@ -13,6 +13,7 @@ description: |
   | DELETE_FORBIDDEN                 | Simulates the scenario where the deletion is not permitted. |
   | STATEFUL                         | Performs a stateful delete.                                 |
   | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+  | OUTSIDE_AMENDMENT_WINDOW         | Simulates the scenario where request cannot be completed as it is outside the amendment window. |
 
 
 tags:
@@ -56,6 +57,8 @@ responses:
             $ref: './common/errors.yaml#/components/examples/ruleTaxYearNotSupported'
           RULE_DELETE_FORBIDDEN:
             $ref: './common/errors.yaml#/components/examples/ruleDeleteForbidden'
+          RULE_OUTSIDE_AMENDMENT_WINDOW:
+            $ref: './common/errors.yaml#/components/examples/ruleOutsideAmendmentWindow'
           RULE_INCORRECT_GOV_TEST_SCENARIO:
             $ref: './common/errors.yaml#/components/examples/ruleIncorrectGovTestScenario'
 

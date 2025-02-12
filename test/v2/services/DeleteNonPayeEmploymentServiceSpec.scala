@@ -16,6 +16,7 @@
 
 package v2.services
 
+import common.errors.RuleOutsideAmendmentWindowError
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
@@ -76,9 +77,10 @@ class DeleteNonPayeEmploymentServiceSpec extends ServiceSpec {
         )
 
         val extraTysErrors = List(
-          "INVALID_CORRELATION_ID" -> InternalError,
-          "NOT_FOUND"              -> NotFoundError,
-          "TAX_YEAR_NOT_SUPPORTED" -> RuleTaxYearNotSupportedError
+          "INVALID_CORRELATION_ID"    -> InternalError,
+          "NOT_FOUND"                 -> NotFoundError,
+          "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
+          "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
         )
 
         (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))

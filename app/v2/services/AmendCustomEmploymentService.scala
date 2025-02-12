@@ -17,7 +17,7 @@
 package v2.services
 
 import cats.implicits._
-import common.errors.{EmploymentIdFormatError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
+import common.errors.{EmploymentIdFormatError, RuleCessationDateBeforeTaxYearStartError, RuleOutsideAmendmentWindowError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -42,6 +42,7 @@ class AmendCustomEmploymentService @Inject() (connector: AmendCustomEmploymentCo
       "INVALID_DATE_RANGE"        -> RuleStartDateAfterTaxYearEndError,
       "INVALID_CESSATION_DATE"    -> RuleCessationDateBeforeTaxYearStartError,
       "CANNOT_UPDATE"             -> RuleUpdateForbiddenError,
+      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
       "NO_DATA_FOUND"             -> NotFoundError,
       "INVALID_PAYLOAD"           -> InternalError,
       "INVALID_CORRELATIONID"     -> InternalError,

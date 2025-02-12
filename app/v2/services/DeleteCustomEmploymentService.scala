@@ -17,7 +17,7 @@
 package v2.services
 
 import cats.implicits._
-import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError}
+import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError, RuleOutsideAmendmentWindowError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -44,6 +44,7 @@ class DeleteCustomEmploymentService @Inject() (connector: DeleteCustomEmployment
       "INVALID_CORRELATIONID"     -> InternalError,
       "NO_DATA_FOUND"             -> NotFoundError,
       "CANNOT_DELETE"             -> RuleDeleteForbiddenError,
+      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
       "SERVER_ERROR"              -> InternalError,
       "SERVICE_UNAVAILABLE"       -> InternalError
     )

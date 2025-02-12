@@ -12,8 +12,9 @@ description: |
   |----------------------------------|------------------------------------------------------------------------------------------------------------------------------|
   | N/A - DEFAULT                    | Simulates success response.                                                                                                  |
   | NOT_FOUND                        | Simulates the scenario where no data is found.                                                                               |
-  | STATEFUL                         | Performs a stateful create.|
+  | STATEFUL                         | Performs a stateful create.                                                                                                  |
   | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+  | OUTSIDE_AMENDMENT_WINDOW         | Simulates the scenario where request cannot be completed as it is outside the amendment window.                              |
 
 
 tags:
@@ -97,6 +98,8 @@ responses:
             $ref: './common/errors.yaml#/components/examples/ruleCessationDateBeforeStartDate'
           RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED:
             $ref: './common/errors.yaml#/components/examples/ruleIncorrectOrEmptyBody'
+          RULE_OUTSIDE_AMENDMENT_WINDOW:
+            $ref: './common/errors.yaml#/components/examples/ruleOutsideAmendmentWindow'
           RULE_INCORRECT_GOV_TEST_SCENARIO:
             $ref: './common/errors.yaml#/components/examples/ruleIncorrectGovTestScenario'
 

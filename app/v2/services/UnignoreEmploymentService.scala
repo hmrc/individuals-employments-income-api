@@ -17,7 +17,7 @@
 package v2.services
 
 import cats.implicits._
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -51,8 +51,9 @@ class UnignoreEmploymentService @Inject() (connector: UnignoreEmploymentConnecto
     )
 
     val extraTysErrors = Map(
-      "INVALID_CORRELATION_ID" -> InternalError,
-      "TAX_YEAR_NOT_SUPPORTED" -> RuleTaxYearNotSupportedError
+      "INVALID_CORRELATION_ID"    -> InternalError,
+      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
+      "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
     )
 
     errors ++ extraTysErrors

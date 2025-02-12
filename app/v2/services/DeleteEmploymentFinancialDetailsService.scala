@@ -17,7 +17,7 @@
 package v2.services
 
 import cats.implicits._
-import common.errors.EmploymentIdFormatError
+import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -45,8 +45,9 @@ class DeleteEmploymentFinancialDetailsService @Inject() (connector: DeleteEmploy
     )
 
     val extraTysErrors = Map(
-      "INVALID_CORRELATION_ID" -> InternalError,
-      "TAX_YEAR_NOT_SUPPORTED" -> RuleTaxYearNotSupportedError
+      "INVALID_CORRELATION_ID"    -> InternalError,
+      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
+      "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
     )
 
     errors ++ extraTysErrors
