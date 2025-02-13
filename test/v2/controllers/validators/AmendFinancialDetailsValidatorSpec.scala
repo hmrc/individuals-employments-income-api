@@ -26,8 +26,6 @@ import shared.models.utils.JsonErrorValidators
 import shared.utils.UnitSpec
 import v2.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
-import java.time.{Clock, Instant, ZoneOffset}
-
 class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidators with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
@@ -90,13 +88,13 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidato
   )
 
   trait Test {
-    implicit val clock: Clock = Clock.fixed(Instant.parse("2022-06-01T00:00:00Z"), ZoneOffset.UTC)
 
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId,
-                 body: JsValue = validRequestBodyJson): Either[ErrorWrapper, AmendFinancialDetailsRequest] =
-      new AmendFinancialDetailsValidator(nino, taxYear, employmentId, body, mockEmploymentsConfig)
+                 body: JsValue = validRequestBodyJson,
+                 temporalValidationEnabled: Boolean = true): Either[ErrorWrapper, AmendFinancialDetailsRequest] =
+      new AmendFinancialDetailsValidator(nino, taxYear, employmentId, body, temporalValidationEnabled, mockEmploymentsConfig)
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
@@ -171,6 +169,29 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidato
     "return RuleTaxYearNotSupportedError error" when {
       "an unsupported tax year is supplied" in new Test {
         validate(taxYear = "2018-19") shouldBe singleError(RuleTaxYearNotSupportedError)
+      }
+    }
+
+    "return RuleTaxYearNotEnded error" when {
+      "a tax year in the current year is supplied" in new Test {
+        val ty = TaxYear.currentTaxYear
+        validate(taxYear = ty.asMtd, temporalValidationEnabled = true) shouldBe singleError(RuleTaxYearNotEndedError)
+      }
+    }
+
+    "not return RuleTaxYearNotEnded error" when {
+      "a tax year in the current year is supplied if temporal validation is not enabled" in new Test {
+        val ty = TaxYear.currentTaxYear
+        val body: JsValue = validRequestBodyJson
+          .update("startDate", Json.toJson(ty.startDate))
+          .update("cessationDate", Json.toJson(ty.endDate))
+
+        validate(
+          taxYear = ty.asMtd,
+          body = body,
+          temporalValidationEnabled = false
+        ) shouldBe
+          Right(AmendFinancialDetailsRequest(parsedNino, ty, parsedEmploymentId, body.as[AmendFinancialDetailsRequestBody]))
       }
     }
 

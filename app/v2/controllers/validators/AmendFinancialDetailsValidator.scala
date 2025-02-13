@@ -19,25 +19,29 @@ package v2.controllers.validators
 import shared.controllers.validators.resolvers.ResolveNino
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
-import shared.models.errors.MtdError
+import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
 import cats.implicits._
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
+import shared.models.domain.TaxYear
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
+
+import scala.math.Ordered.orderingToOrdered
 
 object AmendFinancialDetailsValidator {
   private val resolveJson = ResolveNonEmptyJsonObject.resolver[AmendFinancialDetailsRequestBody]
 }
 
-class AmendFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, body: JsValue, appConfig: EmploymentsAppConfig)
+class AmendFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, body: JsValue, temporalValidationEnabled: Boolean, appConfig: EmploymentsAppConfig)
     extends Validator[AmendFinancialDetailsRequest]
     with ResolverSupport {
   import AmendFinancialDetailsValidator._
 
   private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver thenValidate
+      satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear)
 
   override def validate: Validated[Seq[MtdError], AmendFinancialDetailsRequest] =
     (

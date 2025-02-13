@@ -28,7 +28,7 @@ trait MockAmendFinancialDetailsValidatorFactory extends MockValidatorFactory[Ame
 
   def validator(): CallHandler[Validator[AmendFinancialDetailsRequest]] =
     (mockAmendFinancialDetailsValidatorFactory
-      .validator(_: String, _: String, _: String, _: JsValue))
-      .expects(*, *, *, *)
+      .validator(_: String, _: String, _: String, _: JsValue, _: Boolean))
+      .expects(*, *, *, *, *)
 
 }

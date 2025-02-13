@@ -26,7 +26,7 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class AmendFinancialDetailsValidatorFactory @Inject() (appConfig: EmploymentsAppConfig) {
 
-  def validator(nino: String, taxYear: String, employmentId: String, body: JsValue): Validator[AmendFinancialDetailsRequest] =
-    new AmendFinancialDetailsValidator(nino, taxYear, employmentId, body, appConfig)
+  def validator(nino: String, taxYear: String, employmentId: String, body: JsValue, temporalValidationEnabled: Boolean): Validator[AmendFinancialDetailsRequest] =
+    new AmendFinancialDetailsValidator(nino, taxYear, employmentId, body, temporalValidationEnabled, appConfig)
 
 }
