@@ -16,6 +16,7 @@
 
 package v2.controllers
 
+import config.EmploymentsFeatureSwitches
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, ControllerComponents}
 import shared.config.SharedAppConfig
@@ -55,7 +56,8 @@ class AmendFinancialDetailsController @Inject() (val authService: EnrolmentsAuth
         nino = nino,
         taxYear = taxYear,
         employmentId = employmentId,
-        body = request.body
+        body = request.body,
+        temporalValidationEnabled = EmploymentsFeatureSwitches(appConfig.featureSwitchConfig).isTemporalValidationEnabled
       )
 
       val requestHandler = RequestHandler
