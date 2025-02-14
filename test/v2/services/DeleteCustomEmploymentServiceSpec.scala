@@ -16,6 +16,7 @@
 
 package v2.services
 
+import common.errors.RuleOutsideAmendmentWindowError
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.outcomes.ResponseWrapper
@@ -65,6 +66,7 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
         val input = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
+          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError),
           ("INVALID_CORRELATIONID", InternalError),
           ("NO_DATA_FOUND", NotFoundError),
           ("SERVER_ERROR", InternalError),

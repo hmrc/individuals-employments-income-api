@@ -16,7 +16,7 @@
 
 package v2.services
 
-import common.errors.EmploymentIdFormatError
+import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
@@ -65,6 +65,7 @@ class DeleteEmploymentFinancialDetailsServiceSpec extends ServiceSpec {
 
         val extraTysErrors = List(
           ("INVALID_CORRELATION_ID", InternalError),
+          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError),
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
 

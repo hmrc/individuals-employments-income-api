@@ -17,7 +17,7 @@
 package v2.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{EmploymentIdFormatError, RuleInvalidSubmissionPensionSchemeError, RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
+import common.errors.{EmploymentIdFormatError, RuleInvalidSubmissionPensionSchemeError, RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker, RuleOutsideAmendmentWindowError}
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
@@ -609,6 +609,7 @@ class AmendFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "INCOME_SOURCE_NOT_FOUND", NOT_FOUND, NotFoundError),
           (BAD_REQUEST, "INVALID_CORRELATION_ID", INTERNAL_SERVER_ERROR, InternalError),
           (BAD_REQUEST, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError),
+          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (BAD_REQUEST, "INVALID_SUBMISSION_PENSION_SCHEME", BAD_REQUEST, RuleInvalidSubmissionPensionSchemeError)
         )
 

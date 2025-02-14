@@ -17,7 +17,7 @@
 package v2.services
 
 import cats.implicits._
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOutsideAmendmentWindow}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOutsideAmendmentWindowError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -47,7 +47,7 @@ class IgnoreEmploymentService @Inject() (connector: IgnoreEmploymentConnector) e
       "INVALID_CORRELATIONID"           -> InternalError,
       "SERVER_ERROR"                    -> InternalError,
       "SERVICE_UNAVAILABLE"             -> InternalError,
-      "OUTSIDE_AMENDMENT_WINDOW"        -> RuleOutsideAmendmentWindow
+      "OUTSIDE_AMENDMENT_WINDOW"        -> RuleOutsideAmendmentWindowError
     )
 
     val extraTysErrors = Map(

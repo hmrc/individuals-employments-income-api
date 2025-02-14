@@ -13,7 +13,8 @@ description: |
   | TAX_YEAR_NOT_ENDED                | Simulates the scenario where the tax year provided has not ended.                                                                                                                                                                                                                                                                                                                                                              |
   | INVALID_SUBMISSION_PENSION_SCHEME | Simulates the scenario where customer with single employment source that has "occupational pension" indicator cannot submit benefit in kind if it contains anything other than medical insurance.                                                                                                                                                                                                                              |
   | STATEFUL                          | Performs a stateful create or update. <br><br> Note: this endpoint relies on the prior creation of a STATEFUL custom employment. If a relevant STATEFUL custom employment has not been created, a 404 MATCHING_RESOURCE_NOT_FOUND error is returned. <br><br> A custom employment with ‘occupationalPension = false’ must be created before you can submit deductions or benefitsInKind for the given National insurance number (nino), taxYear and employmentId. |
-  | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+  | REQUEST_CANNOT_BE_FULFILLED       | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.                                                                                                                                                                                                                                                                                                  |
+  | OUTSIDE_AMENDMENT_WINDOW          | Simulates the scenario where request cannot be completed as it is outside the amendment window.                                                                                                                                                                                                                                                                                                                            |
 
 
 tags:
@@ -77,11 +78,12 @@ responses:
             $ref: './common/errors.yaml#/components/examples/missingOffPayrollWorker'
           NOT_ALLOWED_OFF_PAYROLL_WORKER:
             $ref: './common/errors.yaml#/components/examples/notAllowedOffPayrollWorker'
-          RULE_INCORRECT_GOV_TEST_SCENARIO:
-            $ref: './common/errors.yaml#/components/examples/ruleIncorrectGovTestScenario'
           RULE_INVALID_SUBMISSION_PENSION_SCHEME:
             $ref: './common/errors.yaml#/components/examples/ruleInvalidSubmissionPensionScheme'
-
+          RULE_OUTSIDE_AMENDMENT_WINDOW:
+            $ref: './common/errors.yaml#/components/examples/ruleOutsideAmendmentWindow'
+          RULE_INCORRECT_GOV_TEST_SCENARIO:
+            $ref: './common/errors.yaml#/components/examples/ruleIncorrectGovTestScenario'
   "403":
     description: Forbidden
     content:
@@ -101,7 +103,6 @@ responses:
         examples:
           MATCHING_RESOURCE_NOT_FOUND:
             $ref: './common/errors.yaml#/components/examples/notFound'
-
 
   "422":
     description: Unprocessable Entity

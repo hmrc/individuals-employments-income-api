@@ -16,7 +16,7 @@
 
 package v2.services
 
-import common.errors.{RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError}
+import common.errors.{RuleCessationDateBeforeTaxYearStartError, RuleOutsideAmendmentWindowError, RuleStartDateAfterTaxYearEndError}
 import shared.controllers.EndpointLogContext
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
@@ -89,6 +89,7 @@ class AddCustomEmploymentServiceSpec extends ServiceSpec {
           ("NOT_SUPPORTED_TAX_YEAR", RuleTaxYearNotEndedError),
           ("INVALID_DATE_RANGE", RuleStartDateAfterTaxYearEndError),
           ("INVALID_CESSATION_DATE", RuleCessationDateBeforeTaxYearStartError),
+          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError),
           ("INVALID_PAYLOAD", InternalError),
           ("INVALID_CORRELATIONID", InternalError),
           ("SERVER_ERROR", InternalError),

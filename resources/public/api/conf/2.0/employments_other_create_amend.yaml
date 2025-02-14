@@ -12,6 +12,7 @@ description: |
   | N/A - DEFAULT                    | Simulates success response.           |
   | STATEFUL                         | Performs a stateful create or update. |
   | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
+  | OUTSIDE_AMENDMENT_WINDOW         | Simulates the scenario where request cannot be completed as it is outside the amendment window. |
 
 
 tags:
@@ -85,7 +86,9 @@ responses:
           RULE_INCORRECT_GOV_TEST_SCENARIO:
             $ref: './common/errors.yaml#/components/examples/ruleIncorrectGovTestScenario'
           RULE_DATE_RANGE_INVALID:
-                $ref: './common/errors.yaml#/components/examples/ruleDateRangeInvalid'
+            $ref: './common/errors.yaml#/components/examples/ruleDateRangeInvalid'
+          RULE_OUTSIDE_AMENDMENT_WINDOW:
+            $ref: './common/errors.yaml#/components/examples/ruleOutsideAmendmentWindow'
 
   "403":
     description: Forbidden

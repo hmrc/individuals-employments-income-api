@@ -17,6 +17,7 @@
 package v2.services
 
 import cats.implicits._
+import common.errors.RuleOutsideAmendmentWindowError
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -45,7 +46,8 @@ class DeleteOtherEmploymentIncomeService @Inject() (connector: OtherEmploymentIn
     )
 
     val extraTysErrors = Map(
-      "TAX_YEAR_NOT_SUPPORTED" -> RuleTaxYearNotSupportedError
+      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
+      "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
     )
     errors ++ extraTysErrors
   }

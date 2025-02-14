@@ -17,7 +17,7 @@
 package v2.services
 
 import shared.models.outcomes.ResponseWrapper
-import common.errors.RuleInvalidSubmissionPensionSchemeError
+import common.errors.{RuleInvalidSubmissionPensionSchemeError, RuleOutsideAmendmentWindowError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
@@ -92,6 +92,7 @@ class AmendFinancialDetailsServiceSpec extends ServiceSpec {
           ("INCOME_SOURCE_NOT_FOUND", NotFoundError),
           ("INVALID_CORRELATION_ID", InternalError),
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError),
+          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError),
           ("INVALID_SUBMISSION_PENSION_SCHEME", RuleInvalidSubmissionPensionSchemeError)
         )
 
