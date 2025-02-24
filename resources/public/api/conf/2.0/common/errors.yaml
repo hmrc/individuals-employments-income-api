@@ -366,6 +366,11 @@ components:
         code: RULE_INVALID_SUBMISSION_PENSION_SCHEME
         message: Data item submitted is invalid for a customer with an occupational pension and no other employment source - for example, employment expenses or benefit in kind (apart from medical insurance) are not valid.
 
+    ruleDateRangeInvalid:
+      description: The date provide is outside of the range 1900-01-01 to 2100-01-01
+      value:
+        code: RULE_DATE_RANGE_INVALID
+        message: The specified date range is invalid
 
     # 403
 
