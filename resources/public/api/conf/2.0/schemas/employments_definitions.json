@@ -36,13 +36,13 @@
     },
     "dateIgnored": {
       "type": "string",
-      "description": "The date the HMRC provided employment instance was set to be ignored. It must be provided in the format YYYY-MM-DDThh:mm:ssZ",
-      "example": "2021-04-06T09:37:17Z"
+      "description": "The date the HMRC provided employment instance was set to be ignored. It must be provided in the format YYYY-MM-DDThh:mm:ss.SSSZ",
+      "example": "2021-04-06T09:37:17.542Z"
     },
     "submittedOn": {
       "type": "string",
-      "description": "The date the custom employment was added. It must be provided in the format YYYY-MM-DDThh:mm:ssZ",
-      "example": "2021-04-06T09:37:17Z"
+      "description": "The date the custom employment was added. It must be provided in the format YYYY-MM-DDThh:mm:ss.SSSZ",
+      "example": "2021-04-06T09:37:17.542Z"
     },
     "ignoreEmployment": {
       "type": "boolean",
