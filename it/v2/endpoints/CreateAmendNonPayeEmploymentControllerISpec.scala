@@ -108,15 +108,15 @@ class CreateAmendNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   }
 
-  "Calling Create and amend Non-PAYE employment income endpoint" should {
-    "return a 200 status code" when {
+  "Calling create and amend Non-PAYE employment income endpoint" should {
+    "return a 204 status code" when {
       "any valid request is made" in new Test with NonTysTest {
 
         override def setupStubs(): Unit =
           DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, NO_CONTENT)
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
         response.header("Content-Type") shouldBe None
       }
 
@@ -126,7 +126,7 @@ class CreateAmendNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
           DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, NO_CONTENT)
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
         response.header("Content-Type") shouldBe None
       }
     }

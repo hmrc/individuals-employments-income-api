@@ -62,7 +62,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
   )
 
   "CreateAmendNonPayeEmploymentController" should {
-    "return a successful response with status 200 (OK)" when {
+    "return a successful response with status 204 (NO_CONTENT)" when {
       "the request received is valid" in new Test {
         willUseValidator(returningSuccess(requestData))
 
@@ -71,7 +71,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
         runOkTestWithAudit(
-          expectedStatus = OK,
+          expectedStatus = NO_CONTENT,
           maybeAuditRequestBody = Some(validRequestJson)
         )
       }

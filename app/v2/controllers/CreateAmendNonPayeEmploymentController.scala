@@ -70,7 +70,7 @@ class CreateAmendNonPayeEmploymentController @Inject() (val authService: Enrolme
           params = Map("nino" -> nino, "taxYear" -> taxYear),
           requestBody = Some(request.body)
         ))
-        .withNoContentResult(successStatus = OK)
+        .withNoContentResult(successStatus = NO_CONTENT)
 
       requestHandler.handleRequest()
     }
