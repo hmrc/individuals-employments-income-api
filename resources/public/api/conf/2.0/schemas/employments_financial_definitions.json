@@ -2,8 +2,8 @@
   "definitions": {
     "submittedOn": {
       "type": "string",
-      "description": "The date the Employment data was added. Must conform to the format YYYY-MM-DDThh:mm:ssZ",
-      "example": "2020-07-06T09:37:23Z"
+      "description": "The date the Employment data was added. Must conform to the format YYYY-MM-DDThh:mm:ss.SSSZ",
+      "example": "2020-07-06T09:37:23.542Z"
     },
     "source": {
       "type": "string",
@@ -12,13 +12,13 @@
     },
     "customerAdded": {
       "type": "string",
-      "description": "The date the employment data was added by the customer. Must conform to the format YYYY-MM-DDThh:mm:ssZ",
-      "example": "2020-07-06T09:37:23Z"
+      "description": "The date the employment data was added by the customer. Must conform to the format YYYY-MM-DDThh:mm:ss.SSSZ",
+      "example": "2020-07-06T09:37:23.542Z"
     },
     "dateIgnored": {
       "type": "string",
-      "description": "The date the employment was ignored. Must conform to the format YYYY-MM-DDThh:mm:ssZ",
-      "example": "2020-07-06T09:37:23Z"
+      "description": "The date the employment was ignored. Must conform to the format YYYY-MM-DDThh:mm:ss.SSSZ",
+      "example": "2020-07-06T09:37:23.542Z"
     },
     "retrieveEmployment": {
       "type": "object",
