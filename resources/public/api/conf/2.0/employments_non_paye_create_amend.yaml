@@ -42,14 +42,14 @@ requestBody:
             $ref: './examples/nonPayeEmployments/create_amend_request.json'
 
 responses:
-  "200":
-    description: Success
+  "204":
+    description: Success(No Content)
     headers:
       X-CorrelationId:
         $ref: './common/headers.yaml#/components/parameters/correlationId'
 
   "400":
-    description: Bad request
+    description: Bad Request
     headers:
       X-CorrelationId:
         $ref: './common/headers.yaml#/components/parameters/correlationId'
