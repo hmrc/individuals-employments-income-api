@@ -62,7 +62,7 @@ responses:
               $ref: './examples/employments/add_response.json'
 
   "400":
-    description: Bad Request
+    description: Bad request
     headers:
       X-CorrelationId:
         $ref: './common/headers.yaml#/components/parameters/correlationId'
