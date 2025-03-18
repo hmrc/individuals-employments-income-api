@@ -11,7 +11,6 @@ description: |
   | Header Value (Gov-Test-Scenario) | Scenario                                                                                                                     |
   |----------------------------------|------------------------------------------------------------------------------------------------------------------------------|
   | N/A - DEFAULT                    | Simulates success response.                                                                                                  |
-  | NOT_FOUND                        | Simulates the scenario where no data is found.                                                                               |
   | STATEFUL                         | Performs a stateful create.|
   | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors.|
 
@@ -115,19 +114,6 @@ responses:
         examples:
           CLIENT_OR_AGENT_NOT_AUTHORISED:
             $ref: './common/errors.yaml#/components/examples/clientOrAgentNotAuthorised'
-
-  "404":
-    description: Not Found
-    headers:
-      X-CorrelationId:
-        $ref: './common/headers.yaml#/components/parameters/correlationId'
-    content:
-      application/json:
-        schema:
-          $ref: './schemas/error_response.yaml'
-        examples:
-          MATCHING_RESOURCE_NOT_FOUND:
-            $ref: './common/errors.yaml#/components/examples/notFound'
 
   "422":
     description: Unprocessable Entity
