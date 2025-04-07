@@ -80,11 +80,20 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
     "return the expected response for a TYS request" when {
 
       "downstream returns OK" when {
-        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year" in new MockEmploymentsAppConfig with TysIfsTest with Test {
+        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on IFS" in new MockEmploymentsAppConfig with TysIfsTest with Test {
           override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
           val expected = Right(ResponseWrapper(correlationId, response))
 
-          stubTysHttpResponse(expected)
+          stubIfsHttpResponse(expected)
+
+          await(connector.retrieve(request)) shouldBe expected
+        }
+
+        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on HIP" in new MockEmploymentsAppConfig with HipTest with Test {
+          override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
+          val expected = Right(ResponseWrapper(correlationId, response))
+
+          stubHipHttpResponse(expected)
 
           await(connector.retrieve(request)) shouldBe expected
         }
@@ -114,10 +123,17 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
         queryParams
       ).returns(Future.successful(outcome))
 
-    protected def stubTysHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
+    protected def stubIfsHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
       : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
       willGet(
         url = s"$baseUrl/income-tax/income/employments/${taxYear.asTysDownstream}/$nino/$employmentId",
+        queryParams
+      ).returns(Future.successful(outcome))
+
+    protected def stubHipHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
+    : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
+      willGet(
+        url = s"$baseUrl/itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/$nino/$employmentId",
         queryParams
       ).returns(Future.successful(outcome))
 

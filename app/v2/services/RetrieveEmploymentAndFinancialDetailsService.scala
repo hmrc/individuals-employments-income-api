@@ -49,9 +49,9 @@ class RetrieveEmploymentAndFinancialDetailsService @Inject() (connector: Retriev
     "INVALID_VIEW"              -> SourceFormatError,
     "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError,
     "INVALID_CORRELATIONID"     -> InternalError,
+    "INVALID_CORRELATION_ID"    -> InternalError,
     "NO_DATA_FOUND"             -> NotFoundError,
     "SERVER_ERROR"              -> InternalError,
     "SERVICE_UNAVAILABLE"       -> InternalError
   )
-
 }

@@ -16,9 +16,9 @@
 
 package v2.connectors
 
-import shared.config.SharedAppConfig
 import config.EmploymentsAppConfig
-import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.connectors.DownstreamUri.{HipUri, TaxYearSpecificIfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
@@ -43,9 +43,15 @@ class RetrieveEmploymentAndFinancialDetailsConnector @Inject() (val http: HttpCl
 
     val downstreamUri =
       if (taxYear.useTaxYearSpecificApi) {
-        TaxYearSpecificIfsUri[RetrieveEmploymentAndFinancialDetailsResponse](
-          s"income-tax/income/employments/${taxYear.asTysDownstream}/${nino.value}/${employmentId.value}"
-        )
+        if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1877")) {
+          HipUri[RetrieveEmploymentAndFinancialDetailsResponse](
+            s"itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/${nino.value}/${employmentId.value}"
+          )
+        } else {
+          TaxYearSpecificIfsUri[RetrieveEmploymentAndFinancialDetailsResponse](
+            s"income-tax/income/employments/${taxYear.asTysDownstream}/${nino.value}/${employmentId.value}"
+          )
+        }
       } else {
         DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse](
           s"income-tax/income/employments/${nino.value}/${taxYear.asMtd}/${employmentId.value}",

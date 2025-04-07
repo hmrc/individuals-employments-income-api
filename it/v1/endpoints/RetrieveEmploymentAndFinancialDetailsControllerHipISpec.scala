@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v2.endpoints
+package v1.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.{EmploymentIdFormatError, SourceFormatError}
@@ -26,9 +26,9 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import v2.fixtures.RetrieveFinancialDetailsControllerFixture._
+import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
 
-class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
+class RetrieveEmploymentAndFinancialDetailsControllerHipISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
@@ -56,7 +56,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
       buildRequest(mtdUri)
         .addQueryStringParameters(mtdQueryParams: _*)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.2.0+json"),
+          (ACCEPT, "application/vnd.hmrc.1.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
@@ -64,28 +64,31 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
     def errorBody(code: String): String =
       s"""
          |{
-         |   "code": "$code",
-         |   "reason": "downstream message"
+         |  "response": {
+         |    "failures": [
+         |      {
+         |        "type": "$code",
+         |        "reason": "message"
+         |      }
+         |    ]
+         |  }
          |}
-            """.stripMargin
+      """.stripMargin
 
   }
 
-  private trait NonTysTest extends Test {
-    def taxYear: String           = "2019-20"
-    def downstreamTaxYear: String = "2019-20"
-    def downstreamUri: String     = s"/income-tax/income/employments/$nino/$downstreamTaxYear/$employmentId"
-  }
-
-  private trait TysIfsTest extends Test {
+  private trait HipTest extends Test {
     def taxYear: String           = "2023-24"
     def downstreamTaxYear: String = "23-24"
-    def downstreamUri: String     = s"/income-tax/income/employments/$downstreamTaxYear/$nino/$employmentId"
+    def downstreamUri: String     = s"/itsa/income-tax/v1/$downstreamTaxYear/income/employments/$nino/$employmentId"
   }
+
+  override def servicesConfig: Map[String, Any] =
+    Map("feature-switch.ifs_hip_migration_1877.enabled" -> true) ++ super.servicesConfig
 
   "Calling retrieve employment and financial details endpoint" should {
     "return 200 status code" when {
-      "a valid request with all parameters is made" in new NonTysTest {
+      "a valid request with all parameters is made" in new HipTest {
 
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
@@ -100,22 +103,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
         response.header("Content-Type") shouldBe Some("application/json")
       }
 
-      "a valid request with all parameters and a Tax Year Specific (TYS) tax year is made" in new TysIfsTest {
-
-        override def setupStubs(): StubMapping = {
-          AuditStub.audit()
-          AuthStub.authorised()
-          MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, Map("view" -> "HMRC-HELD"), OK, downstreamJson)
-        }
-
-        val response: WSResponse = await(request.get())
-        response.status shouldBe OK
-        response.json shouldBe mtdJson
-        response.header("Content-Type") shouldBe Some("application/json")
-      }
-
-      "a valid request without employment source is made" in new NonTysTest {
+      "a valid request without employment source is made" in new HipTest {
 
         override val source: Option[String] = None
 
@@ -142,7 +130,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
                                 empSource: Option[String],
                                 expectedStatus: Int,
                                 expectedBody: MtdError): Unit = {
-          s"validation fails with ${expectedBody.code} error" in new NonTysTest {
+          s"validation fails with ${expectedBody.code} error" in new HipTest {
 
             override val nino: String           = requestNino
             override val taxYear: String        = requestTaxYear
@@ -175,7 +163,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
 
       "downstream service error" when {
         def serviceErrorTest(downstreamStatus: Int, downstreamCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"downstream returns an $downstreamCode error and status $downstreamStatus" in new NonTysTest {
+          s"downstream returns an $downstreamCode error and status $downstreamStatus" in new HipTest {
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
@@ -197,7 +185,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
           (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
           (BAD_REQUEST, "INVALID_VIEW", BAD_REQUEST, SourceFormatError),
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError),
-          (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
+          (BAD_REQUEST, "INVALID_CORRELATION_ID", INTERNAL_SERVER_ERROR, InternalError),
           (NOT_FOUND, "NO_DATA_FOUND", NOT_FOUND, NotFoundError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
