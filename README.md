@@ -9,7 +9,7 @@ The Individuals Employments Income API allows a developer to create, amend, retr
 
 Run the microservice from the console using: `sbt run` (starts on port 7765 by default)
 
-Start the service manager profile: `sm2 --start MTDFB_INDIVIDUALS_EMPLOYMENTS_INCOME`
+Start the service manager profile: `sm --start MTDFB_INDIVIDUALS_EMPLOYMENTS_INCOME`
 
 ## Run Tests
 
