@@ -18,7 +18,6 @@ package shared.connectors
 
 import com.google.common.base.Charsets
 import org.scalamock.handlers.CallHandler
-import play.api.Configuration
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import shared.config.{BasicAuthDownstreamConfig, DownstreamConfig, MockSharedAppConfig}
 import shared.mocks.MockHttpClient
@@ -135,7 +134,6 @@ trait ConnectorSpec extends UnitSpec with Status with MimeTypes with HeaderNames
     override val name = "tys-ifs"
 
     MockedSharedAppConfig.tysIfsDownstreamConfig.anyNumberOfTimes() returns config
-    MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> false)).anyNumberOfTimes()
   }
 
   protected trait HipTest extends ConnectorTest {
@@ -157,7 +155,6 @@ trait ConnectorSpec extends UnitSpec with Status with MimeTypes with HeaderNames
 
     MockedSharedAppConfig.hipDownstreamConfig
       .anyNumberOfTimes() returns BasicAuthDownstreamConfig(this.baseUrl, environment, clientId, clientSecret, Some(allowedHeaders))
-    MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> true)).anyNumberOfTimes()
   }
 
 }

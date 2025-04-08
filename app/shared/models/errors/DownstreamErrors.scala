@@ -16,7 +16,7 @@
 
 package shared.models.errors
 
-import play.api.libs.json.{Json, Reads, __}
+import play.api.libs.json.{Json, Reads}
 
 case class DownstreamErrorCode(code: String) {
   def toMtd(httpStatus: Int): MtdError = MtdError(code = code, message = "", httpStatus = httpStatus)
@@ -24,15 +24,6 @@ case class DownstreamErrorCode(code: String) {
 
 object DownstreamErrorCode {
   implicit val reads: Reads[DownstreamErrorCode] = Json.reads[DownstreamErrorCode]
-}
-
-case class HipDownstreamErrorCode(code: String) {
-  def toMtd(httpStatus: Int): MtdError           = MtdError(code = code, message = "", httpStatus = httpStatus)
-  def toDownstreamErrorCode: DownstreamErrorCode = DownstreamErrorCode(code)
-}
-
-object HipDownstreamErrorCode {
-  implicit val reads: Reads[HipDownstreamErrorCode] = (__ \ "type").read[String].map(HipDownstreamErrorCode(_))
 }
 
 sealed trait DownstreamError

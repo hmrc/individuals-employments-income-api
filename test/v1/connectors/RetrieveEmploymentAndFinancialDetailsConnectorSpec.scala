@@ -20,6 +20,7 @@ import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.{EmploymentId, MtdSourceEnum}
 import config.MockEmploymentsAppConfig
 import org.scalamock.handlers.CallHandler
+import play.api.Configuration
 import shared.connectors.DownstreamOutcome
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.errors.{DownstreamErrorCode, DownstreamErrors}
@@ -81,6 +82,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
 
       "downstream returns OK" when {
         "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on IFS" in new MockEmploymentsAppConfig with TysIfsTest with Test {
+          MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> false)).anyNumberOfTimes()
           override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
           val expected = Right(ResponseWrapper(correlationId, response))
 
@@ -90,6 +92,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
         }
 
         "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on HIP" in new MockEmploymentsAppConfig with HipTest with Test {
+          MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> true)).anyNumberOfTimes()
           override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
           val expected = Right(ResponseWrapper(correlationId, response))
 

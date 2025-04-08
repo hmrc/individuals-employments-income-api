@@ -41,23 +41,25 @@ class RetrieveEmploymentAndFinancialDetailsConnector @Inject() (val http: HttpCl
     val view        = source.toDesViewString
     val queryParams = Seq(("view", view))
 
-    val downstreamUri =
-      if (taxYear.useTaxYearSpecificApi) {
-        if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1877")) {
-          HipUri[RetrieveEmploymentAndFinancialDetailsResponse](
-            s"itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/${nino.value}/${employmentId.value}"
-          )
-        } else {
-          TaxYearSpecificIfsUri[RetrieveEmploymentAndFinancialDetailsResponse](
-            s"income-tax/income/employments/${taxYear.asTysDownstream}/${nino.value}/${employmentId.value}"
-          )
-        }
+    lazy val downstreamUri1877: DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse] = {
+      if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1877")) {
+        HipUri[RetrieveEmploymentAndFinancialDetailsResponse](
+          s"itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/${nino.value}/${employmentId.value}"
+        )
       } else {
-        DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse](
-          s"income-tax/income/employments/${nino.value}/${taxYear.asMtd}/${employmentId.value}",
-          DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
+        TaxYearSpecificIfsUri[RetrieveEmploymentAndFinancialDetailsResponse](
+          s"income-tax/income/employments/${taxYear.asTysDownstream}/${nino.value}/${employmentId.value}"
         )
       }
+    }
+
+    lazy val downstreamUri1647: DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse] = {
+      DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse](
+        s"income-tax/income/employments/${nino.value}/${taxYear.asMtd}/${employmentId.value}",
+        DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
+      )
+    }
+    val downstreamUri = if (taxYear.useTaxYearSpecificApi) downstreamUri1877 else downstreamUri1647
 
     get(downstreamUri, queryParams)
 
