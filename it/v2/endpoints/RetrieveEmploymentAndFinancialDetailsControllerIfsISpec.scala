@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.endpoints
+package v2.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.{EmploymentIdFormatError, SourceFormatError}
@@ -26,9 +26,9 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
+import v2.fixtures.RetrieveFinancialDetailsControllerFixture._
 
-class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
+class RetrieveEmploymentAndFinancialDetailsControllerIfsISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
@@ -56,7 +56,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
       buildRequest(mtdUri)
         .addQueryStringParameters(mtdQueryParams: _*)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.1.0+json"),
+          (ACCEPT, "application/vnd.hmrc.2.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
@@ -82,6 +82,9 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
     def downstreamTaxYear: String = "23-24"
     def downstreamUri: String     = s"/income-tax/income/employments/$downstreamTaxYear/$nino/$employmentId"
   }
+
+  override def servicesConfig: Map[String, Any] =
+    Map("feature-switch.ifs_hip_migration_1877.enabled" -> false) ++ super.servicesConfig
 
   "Calling retrieve employment and financial details endpoint" should {
     "return 200 status code" when {

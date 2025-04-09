@@ -155,7 +155,6 @@ trait ConnectorSpec extends UnitSpec with Status with MimeTypes with HeaderNames
 
     MockedSharedAppConfig.hipDownstreamConfig
       .anyNumberOfTimes() returns BasicAuthDownstreamConfig(this.baseUrl, environment, clientId, clientSecret, Some(allowedHeaders))
-
   }
 
 }
