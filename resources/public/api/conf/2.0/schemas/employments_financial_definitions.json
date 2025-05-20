@@ -38,17 +38,17 @@
         },
         "companyDirector": {
           "type": "boolean",
-          "description": "Identifies the employee as a director when set to True.",
+          "description": "Identifies the employee as a director when set to True. This field will not be applicable for tax years 2025-26 onwards.",
           "example": "false"
         },
         "closeCompany": {
           "type": "boolean",
-          "description": "Identifies if the employer is a close company.",
+          "description": "Identifies if the employer is a close company. This field will not be applicable for tax years 2025-26 onwards.",
           "example": "false"
         },
         "directorshipCeasedDate": {
           "type": "string",
-          "description": "The date the directorship ended. Must conform to the format YYYY-MM-DD",
+          "description": "The date the directorship ended. This field will not be applicable for tax years 2025-26 onwards. Must conform to the format YYYY-MM-DD",
           "example": "2020-07-01"
         },
         "startDate": {
