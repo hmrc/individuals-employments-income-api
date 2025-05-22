@@ -34,7 +34,7 @@ class AmendRedundancyCompensationPaymentsOverExemptionItemSpec extends UnitSpec 
   private val model = AmendRedundancyCompensationPaymentsOverExemptionItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   "AmendRedundancyCompensationPaymentsOverExemptionItem" when {

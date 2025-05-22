@@ -34,7 +34,7 @@ class TaxableLumpSumsAndCertainIncomeItemSpec extends UnitSpec {
   private val model = TaxableLumpSumsAndCertainIncomeItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   "AmendTaxableLumpSumsAndCertainIncomeItem" when {

@@ -70,7 +70,7 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
     combine(
       validateOtherEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/shareOption/$arrayIndex/employerName")),
       validateOptionalEmployerRef(item.employerRef, EmployerRefFormatError.withPath(s"/shareOption/$arrayIndex/employerRef")),
-      validateClassOfShares(item.classOfSharesAcquired, ClassOfSharesAcquiredFormatError.withPath(s"/shareOption/$arrayIndex/classOfSharesAcquired")),
+      optionalValidateClassOfShares(item.classOfSharesAcquired, ClassOfSharesAcquiredFormatError.withPath(s"/shareOption/$arrayIndex/classOfSharesAcquired")),
       validateSchemeType,
       validateDate(s"/shareOption/$arrayIndex/dateOfOptionGrant")(item.dateOfOptionGrant),
       validateDate(s"/shareOption/$arrayIndex/dateOfEvent")(item.dateOfEvent),
