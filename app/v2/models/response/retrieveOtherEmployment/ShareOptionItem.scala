@@ -26,10 +26,10 @@ case class ShareOptionItem(employerName: String,
                            schemePlanType: ShareOptionSchemeType,
                            dateOfOptionGrant: String,
                            dateOfEvent: String,
-                           optionNotExercisedButConsiderationReceived: Boolean,
+                           optionNotExercisedButConsiderationReceived: Option[Boolean],
                            amountOfConsiderationReceived: BigDecimal,
                            noOfSharesAcquired: BigInt,
-                           classOfSharesAcquired: String,
+                           classOfSharesAcquired: Option[String],
                            exercisePrice: BigDecimal,
                            amountPaidForOption: BigDecimal,
                            marketValueOfSharesOnExcise: BigDecimal,
@@ -45,10 +45,10 @@ object ShareOptionItem {
       (JsPath \ "schemePlanType").read[DownstreamShareOptionSchemeType].map(_.toMtd) and
       (JsPath \ "dateOfOptionGrant").read[String] and
       (JsPath \ "dateOfEvent").read[String] and
-      (JsPath \ "optionNotExercisedButConsiderationReceived").read[Boolean] and
+      (JsPath \ "optionNotExercisedButConsiderationReceived").readNullable[Boolean] and
       (JsPath \ "amountOfConsiderationReceived").read[BigDecimal] and
       (JsPath \ "noOfSharesAcquired").read[BigInt] and
-      (JsPath \ "classOfSharesAcquired").read[String] and
+      (JsPath \ "classOfSharesAcquired").readNullable[String] and
       (JsPath \ "exercisePrice").read[BigDecimal] and
       (JsPath \ "amountPaidForOption").read[BigDecimal] and
       (JsPath \ "marketValueOfSharesOnExcise").read[BigDecimal] and

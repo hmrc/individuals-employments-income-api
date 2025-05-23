@@ -56,24 +56,24 @@ class LumpSumsSpec extends UnitSpec {
   private val taxableLumpSumsAndCertainIncome = TaxableLumpSumsAndCertainIncomeItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val benefitFromEmployerFinancedRetirementScheme = BenefitFromEmployerFinancedRetirementSchemeItem(
     amount = 5000.99,
     exemptAmount = Some(2345.99),
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val redundancyCompensationPaymentsOverExemption = RedundancyCompensationPaymentsOverExemptionItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val redundancyCompensationPaymentsUnderExemption = RedundancyCompensationPaymentsUnderExemptionItem(
-    amount = Some(5000.99)
+    amount = 5000.99
   )
 
   private val model = LumpSums(

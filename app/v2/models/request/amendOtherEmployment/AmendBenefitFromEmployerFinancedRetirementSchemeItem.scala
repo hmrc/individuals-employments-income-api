@@ -22,7 +22,7 @@ import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 case class AmendBenefitFromEmployerFinancedRetirementSchemeItem(amount: BigDecimal,
                                                                 exemptAmount: Option[BigDecimal],
                                                                 taxPaid: Option[BigDecimal],
-                                                                taxTakenOffInEmployment: Boolean)
+                                                                taxTakenOffInEmployment: Option[Boolean])
 
 object AmendBenefitFromEmployerFinancedRetirementSchemeItem {
   implicit val reads: Reads[AmendBenefitFromEmployerFinancedRetirementSchemeItem] = Json.reads[AmendBenefitFromEmployerFinancedRetirementSchemeItem]
@@ -31,7 +31,7 @@ object AmendBenefitFromEmployerFinancedRetirementSchemeItem {
     (JsPath \ "amount").write[BigDecimal] and
       (JsPath \ "exemptAmount").writeNullable[BigDecimal] and
       (JsPath \ "taxPaid").writeNullable[BigDecimal] and
-      (JsPath \ "taxTakenOffInEmployment").write[Boolean]
+      (JsPath \ "taxTakenOffInEmployment").writeNullable[Boolean]
   )(unlift(AmendBenefitFromEmployerFinancedRetirementSchemeItem.unapply))
 
 }

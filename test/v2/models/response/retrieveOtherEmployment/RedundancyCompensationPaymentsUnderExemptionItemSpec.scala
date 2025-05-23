@@ -30,7 +30,7 @@ class RedundancyCompensationPaymentsUnderExemptionItemSpec extends UnitSpec {
   )
 
   private val model = RedundancyCompensationPaymentsUnderExemptionItem(
-    amount = Some(5000.99)
+    amount = 5000.99
   )
 
   "RedundancyCompensationPaymentsOverExemptionItem" when {

@@ -137,10 +137,10 @@ class AmendOtherEmploymentControllerSpec
       schemePlanType = "emi",
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-11-20",
-      optionNotExercisedButConsiderationReceived = true,
+      optionNotExercisedButConsiderationReceived = Some(true),
       amountOfConsiderationReceived = 23122.22,
       noOfSharesAcquired = 1,
-      classOfSharesAcquired = "FIRST",
+      classOfSharesAcquired = Some("FIRST"),
       exercisePrice = 12.22,
       amountPaidForOption = 123.22,
       marketValueOfSharesOnExcise = 1232.22,
@@ -154,10 +154,10 @@ class AmendOtherEmploymentControllerSpec
       schemePlanType = "csop",
       dateOfOptionGrant = "2020-09-12",
       dateOfEvent = "2020-09-12",
-      optionNotExercisedButConsiderationReceived = false,
+      optionNotExercisedButConsiderationReceived = Some(false),
       amountOfConsiderationReceived = 5000.99,
       noOfSharesAcquired = 200,
-      classOfSharesAcquired = "Ordinary shares",
+      classOfSharesAcquired = Some("Ordinary shares"),
       exercisePrice = 1000.99,
       amountPaidForOption = 5000.99,
       marketValueOfSharesOnExcise = 5500.99,
@@ -217,20 +217,20 @@ class AmendOtherEmploymentControllerSpec
   private val taxableLumpSumsAndCertainIncome = AmendTaxableLumpSumsAndCertainIncomeItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val benefitFromEmployerFinancedRetirementScheme = AmendBenefitFromEmployerFinancedRetirementSchemeItem(
     amount = 5000.99,
     exemptAmount = Some(2345.99),
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val redundancyCompensationPaymentsOverExemption = AmendRedundancyCompensationPaymentsOverExemptionItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val redundancyCompensationPaymentsUnderExemption = AmendRedundancyCompensationPaymentsUnderExemptionItem(
