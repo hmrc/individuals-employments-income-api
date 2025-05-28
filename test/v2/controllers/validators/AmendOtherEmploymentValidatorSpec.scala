@@ -191,7 +191,6 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
         val paths = List(
           "/shareOption/0/amountOfConsiderationReceived",
           "/shareOption/0/amountPaidForOption",
-          "/shareOption/0/classOfSharesAcquired",
           "/shareOption/0/dateOfEvent",
           "/shareOption/0/dateOfOptionGrant",
           "/shareOption/0/employerName",
@@ -199,7 +198,6 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
           "/shareOption/0/exercisePrice",
           "/shareOption/0/marketValueOfSharesOnExcise",
           "/shareOption/0/noOfSharesAcquired",
-          "/shareOption/0/optionNotExercisedButConsiderationReceived",
           "/shareOption/0/profitOnOptionExercised",
           "/shareOption/0/schemePlanType",
           "/shareOption/0/taxableAmount"

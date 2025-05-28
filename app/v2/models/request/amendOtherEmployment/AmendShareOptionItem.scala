@@ -25,10 +25,10 @@ case class AmendShareOptionItem(employerName: String,
                                 schemePlanType: String,
                                 dateOfOptionGrant: String,
                                 dateOfEvent: String,
-                                optionNotExercisedButConsiderationReceived: Boolean,
+                                optionNotExercisedButConsiderationReceived: Option[Boolean],
                                 amountOfConsiderationReceived: BigDecimal,
                                 noOfSharesAcquired: BigInt,
-                                classOfSharesAcquired: String,
+                                classOfSharesAcquired: Option[String],
                                 exercisePrice: BigDecimal,
                                 amountPaidForOption: BigDecimal,
                                 marketValueOfSharesOnExcise: BigDecimal,
@@ -48,10 +48,10 @@ object AmendShareOptionItem {
       (JsPath \ "schemePlanType").write[String].contramap(schemeTypeToDownstream) and
       (JsPath \ "dateOfOptionGrant").write[String] and
       (JsPath \ "dateOfEvent").write[String] and
-      (JsPath \ "optionNotExercisedButConsiderationReceived").write[Boolean] and
+      (JsPath \ "optionNotExercisedButConsiderationReceived").writeNullable[Boolean] and
       (JsPath \ "amountOfConsiderationReceived").write[BigDecimal] and
       (JsPath \ "noOfSharesAcquired").write[BigInt] and
-      (JsPath \ "classOfSharesAcquired").write[String] and
+      (JsPath \ "classOfSharesAcquired").writeNullable[String] and
       (JsPath \ "exercisePrice").write[BigDecimal] and
       (JsPath \ "amountPaidForOption").write[BigDecimal] and
       (JsPath \ "marketValueOfSharesOnExcise").write[BigDecimal] and

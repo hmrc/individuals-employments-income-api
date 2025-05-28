@@ -28,10 +28,10 @@ object OtherIncomeEmploymentFixture {
     schemePlanType = ShareOptionSchemeType.`emi`,
     dateOfOptionGrant = "2019-11-20",
     dateOfEvent = "2019-12-22",
-    optionNotExercisedButConsiderationReceived = true,
+    optionNotExercisedButConsiderationReceived = Some(true),
     amountOfConsiderationReceived = 23122.22,
     noOfSharesAcquired = 1,
-    classOfSharesAcquired = "FIRST",
+    classOfSharesAcquired = Some("FIRST"),
     exercisePrice = 12.22,
     amountPaidForOption = 123.22,
     marketValueOfSharesOnExcise = 1232.22,
@@ -66,24 +66,24 @@ object OtherIncomeEmploymentFixture {
     amount = 5000.99,
     exemptAmount = Some(2345.99),
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   val taxableLumpSumsAndCertainIncome: TaxableLumpSumsAndCertainIncomeItem = TaxableLumpSumsAndCertainIncomeItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   val redundancyCompensationPaymentsOverExemption: RedundancyCompensationPaymentsOverExemptionItem = RedundancyCompensationPaymentsOverExemptionItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   val redundancyCompensationPaymentsUnderExemption: RedundancyCompensationPaymentsUnderExemptionItem =
     RedundancyCompensationPaymentsUnderExemptionItem(
-      amount = Some(5000.99)
+      amount = 5000.99
     )
 
   val lumpSums: LumpSums = LumpSums(

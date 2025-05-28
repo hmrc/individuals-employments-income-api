@@ -118,10 +118,8 @@
           "schemePlanType",
           "dateOfOptionGrant",
           "dateOfEvent",
-          "optionNotExercisedButConsiderationReceived",
           "amountOfConsiderationReceived",
           "noOfSharesAcquired",
-          "classOfSharesAcquired",
           "exercisePrice",
           "amountPaidForOption",
           "marketValueOfSharesOnExcise",
@@ -331,10 +329,7 @@
                 "example": "false"
               }
             },
-            "required": [
-              "amount",
-              "taxTakenOffInEmployment"
-            ]
+            "required": ["amount"]
           },
           "benefitFromEmployerFinancedRetirementScheme": {
             "type": "object",
@@ -370,10 +365,7 @@
                 "example": "false"
               }
             },
-            "required": [
-              "amount",
-              "taxTakenOffInEmployment"
-            ]
+            "required": ["amount"]
           },
           "redundancyCompensationPaymentsOverExemption": {
             "type": "object",
@@ -401,10 +393,7 @@
                 "example": "false"
               }
             },
-            "required": [
-              "amount",
-              "taxTakenOffInEmployment"
-            ]
+            "required": ["amount"]
           },
           "redundancyCompensationPaymentsUnderExemption": {
             "type": "object",

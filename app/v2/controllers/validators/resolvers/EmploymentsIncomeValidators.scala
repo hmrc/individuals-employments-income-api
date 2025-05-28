@@ -46,6 +46,9 @@ object EmploymentsIncomeValidators extends ResolverSupport {
   def validateClassOfShares(value: String, error: => MtdError): Validated[Seq[MtdError], String] =
     ResolveStringPattern(classOfSharesRegex, error)(value)
 
+  def optionalValidateClassOfShares(value: Option[String], error: => MtdError): Validated[Seq[MtdError], Option[String]] =
+    ResolveStringPattern(classOfSharesRegex, error).resolver.resolveOptionally(value)
+
   private val customerReferenceRegex = "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,90}$".r
 
   def validateCustomerRef(value: Option[String], error: => MtdError = CustomerRefFormatError): Validated[Seq[MtdError], Option[String]] =

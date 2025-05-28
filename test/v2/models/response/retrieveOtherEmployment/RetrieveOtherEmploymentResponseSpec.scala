@@ -30,10 +30,10 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
       schemePlanType = ShareOptionSchemeType.`emi`,
       dateOfOptionGrant = "2019-11-20",
       dateOfEvent = "2019-12-22",
-      optionNotExercisedButConsiderationReceived = true,
+      optionNotExercisedButConsiderationReceived = Some(true),
       amountOfConsiderationReceived = 23122.22,
       noOfSharesAcquired = 1,
-      classOfSharesAcquired = "FIRST",
+      classOfSharesAcquired = Some("FIRST"),
       exercisePrice = 12.22,
       amountPaidForOption = 123.22,
       marketValueOfSharesOnExcise = 1232.22,
@@ -47,10 +47,10 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
       schemePlanType = ShareOptionSchemeType.`csop`,
       dateOfOptionGrant = "2019-09-10",
       dateOfEvent = "2019-07-29",
-      optionNotExercisedButConsiderationReceived = false,
+      optionNotExercisedButConsiderationReceived = Some(false),
       amountOfConsiderationReceived = 30000.22,
       noOfSharesAcquired = 5,
-      classOfSharesAcquired = "SECOND",
+      classOfSharesAcquired = Some("SECOND"),
       exercisePrice = 10.50,
       amountPaidForOption = 150.50,
       marketValueOfSharesOnExcise = 2250.22,
@@ -108,24 +108,24 @@ class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
   private val taxableLumpSumsAndCertainIncome = TaxableLumpSumsAndCertainIncomeItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val benefitFromEmployerFinancedRetirementScheme = BenefitFromEmployerFinancedRetirementSchemeItem(
     amount = 5000.99,
     exemptAmount = Some(2345.99),
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val redundancyCompensationPaymentsOverExemption = RedundancyCompensationPaymentsOverExemptionItem(
     amount = 5000.99,
     taxPaid = Some(3333.33),
-    taxTakenOffInEmployment = true
+    taxTakenOffInEmployment = Some(true)
   )
 
   private val redundancyCompensationPaymentsUnderExemption = RedundancyCompensationPaymentsUnderExemptionItem(
-    amount = Some(5000.99)
+    amount = 5000.99
   )
 
   private val lumpSumsModel = Seq(

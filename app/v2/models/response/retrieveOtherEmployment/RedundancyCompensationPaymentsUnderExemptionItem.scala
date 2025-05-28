@@ -18,12 +18,12 @@ package v2.models.response.retrieveOtherEmployment
 
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
-case class RedundancyCompensationPaymentsUnderExemptionItem(amount: Option[BigDecimal])
+case class RedundancyCompensationPaymentsUnderExemptionItem(amount: BigDecimal)
 
 object RedundancyCompensationPaymentsUnderExemptionItem {
 
   implicit val reads: Reads[RedundancyCompensationPaymentsUnderExemptionItem] =
-    (JsPath \ "amount").readNullable[BigDecimal].map(RedundancyCompensationPaymentsUnderExemptionItem(_))
+    (JsPath \ "amount").read[BigDecimal].map(RedundancyCompensationPaymentsUnderExemptionItem(_))
 
   implicit val writes: OWrites[RedundancyCompensationPaymentsUnderExemptionItem] = Json.writes[RedundancyCompensationPaymentsUnderExemptionItem]
 }
