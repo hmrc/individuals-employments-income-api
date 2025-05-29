@@ -1,4 +1,4 @@
-summary: Amend a Custom Employment [Test only]
+summary: Amend a Custom Employment
 description: |
   This endpoint allows the developer to provide or update a custom employment from the list of employments for this user.
   <strong>This endpoint can only be used after the tax year has ended.</strong>
