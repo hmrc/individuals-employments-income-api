@@ -34,9 +34,9 @@ class EmploymentsIncomeAuthMainAgentsOnlyISpec extends AuthMainAgentsOnlyISpec {
 
   val mtdUrl = s"/$nino/$taxYear/$employmentId"
 
-  def sendMtdRequest(request: WSRequest): WSResponse = await(request.put(requestJson))
+  def sendMtdRequest(request: WSRequest): WSResponse = await(request.withQueryStringParameters("taxYear" -> taxYear).put(requestJson))
 
-  val downstreamUri: String = s"/income-tax/income/employments/$nino/$taxYear/custom/$employmentId"
+  val downstreamUri: String = s"/itsd/income/employments/$nino/custom/$employmentId"
 
   val maybeDownstreamResponseJson: Option[JsValue] = None
 

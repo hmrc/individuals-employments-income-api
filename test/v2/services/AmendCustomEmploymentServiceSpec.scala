@@ -96,7 +96,17 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
           ("INVALID_PAYLOAD", InternalError),
           ("INVALID_CORRELATIONID", InternalError),
           ("SERVER_ERROR", InternalError),
-          ("SERVICE_UNAVAILABLE", InternalError)
+          ("SERVICE_UNAVAILABLE", InternalError),
+          ("1000", InternalError),
+          ("1115", RuleTaxYearNotEndedError),
+          ("1116", RuleStartDateAfterTaxYearEndError),
+          ("1117", TaxYearFormatError),
+          ("1118", RuleCessationDateBeforeTaxYearStartError),
+          ("1215", NinoFormatError),
+          ("1217", EmploymentIdFormatError),
+          ("1221", RuleUpdateForbiddenError),
+          ("4200", RuleOutsideAmendmentWindowError),
+          ("5010", NotFoundError)
         )
 
         input.foreach(args => (serviceError _).tupled(args))
