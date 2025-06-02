@@ -140,6 +140,17 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
     """.stripMargin
   )
 
+  val mulitpleErrorCodesJson: JsValue = Json.parse(
+    """
+      |[
+      |  {
+      |    "errorCode": "Error Code",
+      |    "errorDescription": "Error Description"
+      |  }
+      |]
+      |""".stripMargin
+  )
+
   val malformedErrorJson: JsValue = Json.parse(
     """
       |{
@@ -172,6 +183,13 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
 
           val result = httpReads.read(method, url, httpResponse)
           result shouldBe Left(ResponseWrapper(correlationId, OutboundError(InternalError)))
+        }
+
+        "be able to parse multiple errorCode Json" in {
+          val httpResponse = HttpResponse(responseCode, mulitpleErrorCodesJson.toString(), Map("CorrelationId" -> List(correlationId)))
+
+          val result = httpReads.read(method, url, httpResponse)
+          result shouldBe Left(ResponseWrapper(correlationId, DownstreamErrors(List(DownstreamErrorCode("Error Code")))))
         }
       })
 
