@@ -38,7 +38,7 @@ class UnignoreEmploymentService @Inject() (connector: UnignoreEmploymentConnecto
   }
 
   private val downstreamErrorMap: Map[String, MtdError] = {
-    val errors = Map(
+    val ifsErrors = Map(
       "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
       "INVALID_TAX_YEAR"          -> TaxYearFormatError,
       "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
@@ -50,13 +50,24 @@ class UnignoreEmploymentService @Inject() (connector: UnignoreEmploymentConnecto
       "SERVICE_UNAVAILABLE"       -> InternalError
     )
 
-    val extraTysErrors = Map(
+    val extraIfsTysErrors = Map(
       "INVALID_CORRELATION_ID"    -> InternalError,
       "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
       "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
     )
 
-    errors ++ extraTysErrors
+    val hipErrors = Map(
+      "1215" -> NinoFormatError,
+      "1117" -> TaxYearFormatError,
+      "1217" -> EmploymentIdFormatError,
+      "1119" -> InternalError,
+      "1223" -> RuleCustomEmploymentUnignoreError,
+      "5010" -> NotFoundError,
+      "1115" -> RuleTaxYearNotEndedError,
+      "4200" -> RuleOutsideAmendmentWindowError
+    )
+
+    ifsErrors ++ extraIfsTysErrors ++ hipErrors
   }
 
 }

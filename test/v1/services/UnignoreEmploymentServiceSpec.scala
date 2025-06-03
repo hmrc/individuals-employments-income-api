@@ -16,7 +16,7 @@
 
 package v1.services
 
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
@@ -59,7 +59,7 @@ class UnignoreEmploymentServiceSpec extends ServiceSpec {
             result shouldBe expectedOutcome
           }
 
-        val errors = List(
+        val ifsErrors = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
           ("INVALID_EMPLOYMENT_ID", EmploymentIdFormatError),
@@ -71,12 +71,23 @@ class UnignoreEmploymentServiceSpec extends ServiceSpec {
           ("SERVICE_UNAVAILABLE", InternalError)
         )
 
-        val extraTysErrors = List(
+        val extraTysIfsErrors = List(
           ("INVALID_CORRELATION_ID", InternalError),
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))
+        val hipErrors = List(
+          ("1215", NinoFormatError),
+          ("1117", TaxYearFormatError),
+          ("1217", EmploymentIdFormatError),
+          ("1119", InternalError),
+          ("1223", RuleCustomEmploymentUnignoreError),
+          ("5010", NotFoundError),
+          ("1115", RuleTaxYearNotEndedError),
+          ("4200", RuleOutsideAmendmentWindowError)
+        )
+
+        (ifsErrors ++ extraTysIfsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }

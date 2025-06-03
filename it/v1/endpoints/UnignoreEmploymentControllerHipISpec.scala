@@ -1,37 +1,17 @@
-/*
- * Copyright 2023 HM Revenue & Customs
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package v1.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
-
-  override def servicesConfig: Map[String, Any] =
-    Map("feature-switch.ifs_hip_migration_1800.enabled" -> false) ++ super.servicesConfig
+class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
@@ -39,9 +19,11 @@ class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
     val taxYear: String      = "2023-24"
 
+    val downstreamQueryParam: Map[String, String] = Map("taxYear" -> "23-24")
+
     def mtdUri: String = s"/$nino/$taxYear/$employmentId/unignore"
 
-    def downstreamUri: String = s"/income-tax/${TaxYear.fromMtd(taxYear).asTysDownstream}/employments/$nino/ignore/$employmentId"
+    def downstreamUri: String = s"/itsd/income/ignore/employments/$nino/$employmentId"
 
     def setupStubs(): StubMapping
 
@@ -57,32 +39,23 @@ class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
     def errorBody(code: String): String =
       s"""
          |{
-         |   "code": "$code",
-         |   "reason": "error message"
+         |    "origin": "HIP",
+         |    "response": {
+         |        "failures": [
+         |            {
+         |                "type": "$code",
+         |                "reason": "error message"
+         |            }
+         |        ]
+         |    }
          |}
-            """.stripMargin
+      """.stripMargin
 
   }
 
   "Calling the 'unignore employment' endpoint" should {
     "return a 200 status code" when {
       "any valid request is made" in new Test {
-
-        override val taxYear: String = "2021-22"
-
-        override def setupStubs(): StubMapping = {
-          AuditStub.audit()
-          AuthStub.authorised()
-          MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.DELETE, downstreamUri, NO_CONTENT)
-        }
-
-        val response: WSResponse = await(request().post(JsObject.empty))
-        response.status shouldBe OK
-        response.header("Content-Type") shouldBe None
-      }
-
-      "any valid request with a Tax Year Specific (TYS) tax year is made" in new Test {
 
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
@@ -141,7 +114,7 @@ class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
             AuditStub.audit()
             AuthStub.authorised()
             MtdIdLookupStub.ninoFound(nino)
-            DownstreamStub.onError(DownstreamStub.DELETE, downstreamUri, downstreamStatus, errorBody(downstreamErrorCode))
+            DownstreamStub.onError(DownstreamStub.DELETE, downstreamUri, downstreamQueryParam, downstreamStatus, errorBody(downstreamErrorCode))
           }
 
           val response: WSResponse = await(request().post(JsObject.empty))
@@ -151,23 +124,18 @@ class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
       }
 
       val errors = List(
-        (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
-        (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
-        (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
-        (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
-        (FORBIDDEN, "CUSTOMER_ADDED", BAD_REQUEST, RuleCustomEmploymentUnignoreError),
-        (NOT_FOUND, "NO_DATA_FOUND", NOT_FOUND, NotFoundError),
-        (UNPROCESSABLE_ENTITY, "BEFORE_TAX_YEAR_ENDED", BAD_REQUEST, RuleTaxYearNotEndedError),
-        (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
-        (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
+        (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
+        (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
+        (BAD_REQUEST, "1217", BAD_REQUEST, EmploymentIdFormatError),
+        (BAD_REQUEST, "1119", INTERNAL_SERVER_ERROR, InternalError),
+        (UNPROCESSABLE_ENTITY, "1223", BAD_REQUEST, RuleCustomEmploymentUnignoreError),
+        (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
+        (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
+        (NOT_IMPLEMENTED, "5000", INTERNAL_SERVER_ERROR, InternalError),
+        (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError)
       )
 
-      val extraTysErrors = List(
-        (BAD_REQUEST, "INVALID_CORRELATION_ID", INTERNAL_SERVER_ERROR, InternalError),
-        (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
-      )
-
-      (errors ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+      errors.foreach(args => (serviceErrorTest _).tupled(args))
     }
 
   }
