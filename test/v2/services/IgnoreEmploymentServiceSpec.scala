@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,8 +90,18 @@ class IgnoreEmploymentServiceSpec extends ServiceSpec {
           ("INVALID_CORRELATION_ID", InternalError),
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
+        val hipErrors: Seq[(String, MtdError)] = List(
+          ("1117", TaxYearFormatError),
+          ("1119", InternalError),
+          ("1215", NinoFormatError),
+          ("1217", EmploymentIdFormatError),
+          ("1115", RuleTaxYearNotEndedError),
+          ("5000", RuleTaxYearNotSupportedError),
+          ("1224", RuleCustomEmploymentError),
+          ("5010", NotFoundError)
+        )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))
+        (errors ++ extraTysErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }

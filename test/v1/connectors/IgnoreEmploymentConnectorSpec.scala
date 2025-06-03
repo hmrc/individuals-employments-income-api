@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package v1.connectors
 
 import common.models.domain.EmploymentId
+import play.api.Configuration
 import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -46,11 +47,23 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
     val outcome = Right(ResponseWrapper(correlationId, ()))
   }
 
-  "IgnoreEmploymentConnector" when {
-    "ignoreEmployment" should {
-      "work" in new TysIfsTest with Test with ConnectorTest {
+  "ignoreEmployment" when {
+    "given a valid request" should {
+      "return a success response when feature switch is disabled(IFS enabled)" in new TysIfsTest with Test with ConnectorTest {
+        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1940.enabled" -> false)
         willPut(
           url = s"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore",
+          body = ""
+        ) returns Future.successful(outcome)
+
+        private val result = await(connector.ignoreEmployment(request))
+        result shouldBe outcome
+      }
+
+      "return a success response when feature switch is enabled (HIP enabled)" in new HipTest with Test with ConnectorTest {
+        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1940.enabled" -> true)
+        willPut(
+          url = s"$baseUrl/itsd/income/ignore/employments/$nino/$employmentId?taxYear=${taxYear.asTysDownstream}",
           body = ""
         ) returns Future.successful(outcome)
 

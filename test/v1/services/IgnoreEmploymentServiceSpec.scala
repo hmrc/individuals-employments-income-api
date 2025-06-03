@@ -90,7 +90,18 @@ class IgnoreEmploymentServiceSpec extends ServiceSpec {
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))
+        val hipErrors: Seq[(String, MtdError)] = List(
+          ("1117", TaxYearFormatError),
+          ("1119", InternalError),
+          ("1215", NinoFormatError),
+          ("1217", EmploymentIdFormatError),
+          ("1115", RuleTaxYearNotEndedError),
+          ("5000", RuleTaxYearNotSupportedError),
+          ("1224", RuleCustomEmploymentError),
+          ("5010", NotFoundError)
+        )
+
+        (errors ++ extraTysErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }
