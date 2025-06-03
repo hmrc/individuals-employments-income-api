@@ -31,8 +31,8 @@ class ListEmploymentsControllerHipISpec extends IntegrationBaseSpec {
 
   private trait Test {
 
-    val nino: String = "AA123456A"
-    val taxYear: String = "2019-20"
+    val nino: String         = "AA123456A"
+    val taxYear: String      = "2019-20"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     val downstreamQueryParam: Map[String, String] = Map("taxYear" -> "19-20")
@@ -127,7 +127,7 @@ class ListEmploymentsControllerHipISpec extends IntegrationBaseSpec {
         def validationErrorTest(requestNino: String, requestTaxYear: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
           s"validation fails with ${expectedBody.code} error" in new Test {
 
-            override val nino: String = requestNino
+            override val nino: String    = requestNino
             override val taxYear: String = requestTaxYear
 
             override def setupStubs(): StubMapping = {
@@ -170,26 +170,21 @@ class ListEmploymentsControllerHipISpec extends IntegrationBaseSpec {
           }
         }
 
-        def errorBody(`type`: String): String =
+        def errorBody(code: String): String =
           s"""
-             |{
-             |    "origin": "HIP",
-             |    "response": {
-             |        "failures": [
-             |            {
-             |                "type": "${`type`}",
-             |                "reason": "downstream message"
-             |            }
-             |        ]
-             |    }
-             |}
-      """.stripMargin
+             |[
+             |  {
+             |    "errorCode": "$code",
+             |    "errorDescription": "downstream message"
+             |  }
+             |]
+          """.stripMargin
 
         val input = Seq(
           (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
           (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
           (BAD_REQUEST, "1217", INTERNAL_SERVER_ERROR, InternalError),
-          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
         input.foreach(args => (serviceErrorTest _).tupled(args))
       }
