@@ -113,13 +113,11 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
         def errorBody(code: String): String =
           s"""
-             |[
-             |    {
-             |        "errorCode": "$code",
-             |        "errorDescription": "error description"
-             |    }
-             |]
-          """.stripMargin
+             |{
+             |   "code": "$code",
+             |   "reason": "message"
+             |}
+            """.stripMargin
 
         val errors = Seq(
           (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
@@ -128,7 +126,7 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "1119", INTERNAL_SERVER_ERROR, InternalError),
           (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
           (UNPROCESSABLE_ENTITY, "1224", BAD_REQUEST, RuleCustomEmploymentError),
-          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
         errors.foreach(args => (serviceErrorTest _).tupled(args))
       }
