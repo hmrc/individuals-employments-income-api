@@ -28,7 +28,7 @@ import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
+class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec{
 
   private trait Test {
 
@@ -65,6 +65,9 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
     }
 
   }
+
+  override def servicesConfig: Map[String, Any] =
+    Map("feature-switch.ifs_hip_migration_1662.enabled" -> false) ++ super.servicesConfig
 
   "Calling the amend custom employment endpoint" should {
     "return a 200 status code" when {

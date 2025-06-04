@@ -42,7 +42,7 @@ class AmendCustomEmploymentConnector @Inject() (val http: HttpClient, val appCon
 
     lazy val downstreamUri1662: DownstreamUri[Unit] =
       if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1662")) {
-        HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asMtd}")
+        HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
       } else {
         DownstreamUri[Unit](
           s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}",
