@@ -110,20 +110,15 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           }
         }
 
-        def errorBody(`type`: String): String =
+        def errorBody(code: String): String =
           s"""
-             |{
-             |    "origin": "HIP",
-             |    "response": {
-             |        "failures": [
-             |            {
-             |                "type": "${`type`}",
-             |                "reason": "downstream message"
-             |            }
-             |        ]
+             |[
+             |    {
+             |        "errorCode": "$code",
+             |        "errorDescription": "error description"
              |    }
-             |}
-       """.stripMargin
+             |]
+          """.stripMargin
 
         val errors = Seq(
           (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
