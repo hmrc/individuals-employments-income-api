@@ -131,7 +131,7 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
         (UNPROCESSABLE_ENTITY, "1223", BAD_REQUEST, RuleCustomEmploymentUnignoreError),
         (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
         (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
-        (NOT_IMPLEMENTED, "5000", INTERNAL_SERVER_ERROR, InternalError),
+        (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError),
         (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError)
       )
 

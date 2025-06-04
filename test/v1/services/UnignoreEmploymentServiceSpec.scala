@@ -84,6 +84,7 @@ class UnignoreEmploymentServiceSpec extends ServiceSpec {
           ("1223", RuleCustomEmploymentUnignoreError),
           ("5010", NotFoundError),
           ("1115", RuleTaxYearNotEndedError),
+          ("5000", RuleTaxYearNotSupportedError),
           ("4200", RuleOutsideAmendmentWindowError)
         )
 
