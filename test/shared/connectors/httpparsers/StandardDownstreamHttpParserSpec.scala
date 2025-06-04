@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,15 +142,6 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
     """.stripMargin
   )
 
-  val malformedErrorJson: JsValue = Json.parse(
-    """
-      |{
-      |   "coed": "CODE",
-      |   "resaon": "MESSAGE"
-      |}
-    """.stripMargin
-  )
-
   val multipleTopLevelErrorCodesJson: JsValue = Json.parse(
     """
       |[
@@ -163,8 +154,12 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
       |        "errorDescription": "Error 2 description"
       |    },
       |    {
-      |        "errorCode": "1217",
+      |        "errorCode": "1216",
       |        "errorDescription": "Error 3 description"
+      |    },
+      |    {
+      |        "errorCode": "1217",
+      |        "errorDescription": "Error 4 description"
       |    }
       |]
     """.stripMargin
@@ -184,10 +179,23 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
       |            "errorDescription": "Error 2 description"
       |        },
       |        {
+      |            "errorCode": "1216",
+      |            "errorDescription": "Error 3 description"
+      |        },
+      |        {
       |        "errorCode": "1217",
       |        "errorDescription": "Error 4 description"
       |        }
       |    ]
+      |}
+    """.stripMargin
+  )
+
+  val malformedErrorJson: JsValue = Json.parse(
+    """
+      |{
+      |   "coed": "CODE",
+      |   "resaon": "MESSAGE"
       |}
     """.stripMargin
   )
@@ -296,15 +304,11 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
     "receiving a response with multiple HIP errors containing top level error codes" should {
       "return a Left ResponseWrapper containing the extracted error codes" in {
         val httpResponse = HttpResponse(
-          UNPROCESSABLE_ENTITY,
-          multipleTopLevelErrorCodesJson,
-          Map("CorrelationId" -> List(correlationId))
+          UNPROCESSABLE_ENTITY, multipleTopLevelErrorCodesJson, Map("CorrelationId" -> List(correlationId))
         )
 
         httpReads.read(method, url, httpResponse) shouldBe Left(
-          ResponseWrapper(
-            correlationId,
-            DownstreamErrors(List(DownstreamErrorCode("1117"), DownstreamErrorCode("1215"), DownstreamErrorCode("1217"))))
+          ResponseWrapper(correlationId, DownstreamErrors(List(DownstreamErrorCode("1117"), DownstreamErrorCode("1215"), DownstreamErrorCode("1216"), DownstreamErrorCode("1217"))))
         )
       }
     }
@@ -312,15 +316,11 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
     "receiving a response with multiple HIP errors containing error codes in response array" should {
       "return a Left ResponseWrapper containing the extracted error codes" in {
         val httpResponse = HttpResponse(
-          BAD_REQUEST,
-          multipleErrorCodesInResponseJson,
-          Map("CorrelationId" -> List(correlationId))
+          BAD_REQUEST, multipleErrorCodesInResponseJson, Map("CorrelationId" -> List(correlationId))
         )
 
         httpReads.read(method, url, httpResponse) shouldBe Left(
-          ResponseWrapper(
-            correlationId,
-            DownstreamErrors(List(DownstreamErrorCode("1117"), DownstreamErrorCode("1215"), DownstreamErrorCode("1217"))))
+          ResponseWrapper(correlationId, DownstreamErrors(List(DownstreamErrorCode("1117"), DownstreamErrorCode("1215"), DownstreamErrorCode("1216"), DownstreamErrorCode("1217"))))
         )
       }
     }
