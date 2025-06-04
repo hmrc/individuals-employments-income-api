@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,11 @@
 
 package v2.connectors
 
-import shared.config.SharedAppConfig
 import config.EmploymentsAppConfig
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.connectors.DownstreamUri.HipUri
+import shared.connectors._
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v2.models.request.listEmployments.ListEmploymentsRequest
 import v2.models.response.listEmployment.ListEmploymentResponse
@@ -38,9 +39,15 @@ class ListEmploymentsConnector @Inject() (val http: HttpClient, val appConfig: S
     val nino    = request.nino.nino
     val taxYear = request.taxYear
 
-    get(
+    val downstreamUri: DownstreamUri[ListEmploymentResponse] = if(ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1645")){
+      HipUri[ListEmploymentResponse](
+        s"itsd/income/employments/$nino?taxYear=${taxYear.asTysDownstream}"
+      )
+    } else {
       DownstreamUri[ListEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}", DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig))
-    )
+    }
+
+    get(downstreamUri)
   }
 
 }

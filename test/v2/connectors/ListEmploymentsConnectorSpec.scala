@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,12 @@ package v2.connectors
 
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
+import play.api.Configuration
 import shared.mocks.MockHttpClient
-import shared.models.domain.{ Nino, TaxYear, Timestamp }
+import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.outcomes.ResponseWrapper
 import v2.models.request.listEmployments.ListEmploymentsRequest
-import v2.models.response.listEmployment.{ Employment, ListEmploymentResponse }
+import v2.models.response.listEmployment.{Employment, ListEmploymentResponse}
 
 import scala.concurrent.Future
 
@@ -62,13 +63,27 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
   }
 
-  "ListEmploymentsConnector" when {
-    "listEmployments" must {
-      "return a 200 status for a success scenario" in new Test with Release6Test {
+  "listEmployments" when {
+    "given a valid request" must {
+      "return a success response when feature switch is disabled (IFS 'release6' enabled)" in new Test with Release6Test {
         val outcome = Right(ResponseWrapper(correlationId, validResponse))
+
+        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> false)
 
         willGet(
           url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear"
+        ).returns(Future.successful(outcome))
+
+        await(connector.listEmployments(request)) shouldBe outcome
+      }
+
+      "return a success response when feature switch is enabled (HIP enabled)" in new Test with HipTest {
+        val outcome = Right(ResponseWrapper(correlationId, validResponse))
+
+        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> true)
+
+        willGet(
+          url = s"$baseUrl/itsd/income/employments/$nino?taxYear=19-20"
         ).returns(Future.successful(outcome))
 
         await(connector.listEmployments(request)) shouldBe outcome

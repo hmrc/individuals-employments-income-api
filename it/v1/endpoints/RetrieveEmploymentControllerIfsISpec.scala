@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v2.endpoints
+package v1.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.EmploymentIdFormatError
@@ -25,10 +25,13 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import v2.fixtures.RetrieveEmploymentControllerFixture._
+import shared.services._
+import v1.fixtures.RetrieveEmploymentControllerFixture._
 
-class RetrieveEmploymentControllerISpec extends EmploymentsIBaseSpec {
+class RetrieveEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
+
+  override def servicesConfig: Map[String, Any] =
+    Map("feature-switch.ifs_hip_migration_1645.enabled" -> false) ++ super.servicesConfig
 
   private trait Test {
 
@@ -51,7 +54,7 @@ class RetrieveEmploymentControllerISpec extends EmploymentsIBaseSpec {
       setupStubs()
       buildRequest(uri)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.2.0+json"),
+          (ACCEPT, "application/vnd.hmrc.1.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
