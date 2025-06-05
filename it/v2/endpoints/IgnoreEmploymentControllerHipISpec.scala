@@ -18,11 +18,9 @@ package v2.endpoints
 
 import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import common.support.EmploymentsIBaseSpec
-import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status._
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers.AUTHORIZATION
+import play.api.test.Helpers._
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 

@@ -60,7 +60,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
         result shouldBe outcome
       }
 
-      "return a success response when feature switch is enabled (HIP enabled)" in new HipTest with Test with ConnectorTest {
+      "return a success response when feature switch is enabled (HIP enabled)" in new HipTest with Test {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1940.enabled" -> true)
         willPut(
           url = s"$baseUrl/itsd/income/ignore/employments/$nino/$employmentId?taxYear=${taxYear.asTysDownstream}",
