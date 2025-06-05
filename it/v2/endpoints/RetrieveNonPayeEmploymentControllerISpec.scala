@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v2
+package v2.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.SourceFormatError
