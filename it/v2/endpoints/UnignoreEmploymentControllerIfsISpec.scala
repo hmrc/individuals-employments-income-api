@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package v1.endpoints
+package v2.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
@@ -28,7 +28,7 @@ import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
+class UnignoreEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
 
   override def servicesConfig: Map[String, Any] =
     Map("feature-switch.ifs_hip_migration_1800.enabled" -> false) ++ super.servicesConfig
@@ -49,7 +49,7 @@ class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
       setupStubs()
       buildRequest(mtdUri)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.1.0+json"),
+          (ACCEPT, "application/vnd.hmrc.2.0+json"),
           (AUTHORIZATION, "Bearer 123")
         )
     }
@@ -164,6 +164,7 @@ class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
       val extraTysErrors = List(
         (BAD_REQUEST, "INVALID_CORRELATION_ID", INTERNAL_SERVER_ERROR, InternalError),
+        (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
         (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
       )
 
