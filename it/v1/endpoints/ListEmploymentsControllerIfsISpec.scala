@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package v1.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.EmploymentIdFormatError
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
@@ -26,22 +25,69 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import v1.fixtures.RetrieveEmploymentControllerFixture._
+import v1.fixtures.ListEmploymentsControllerFixture
 
-class RetrieveEmploymentControllerISpec extends EmploymentsIBaseSpec {
+class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
+
+  override def servicesConfig: Map[String, Any] =
+    Map("feature-switch.ifs_hip_migration_1645.enabled" -> false) ++ super.servicesConfig
 
   private trait Test {
 
-    val nino: String                    = "AA123456A"
-    val taxYear: String                 = "2019-20"
-    val employmentId: String            = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
-    val ifsEmploymentId: Option[String] = Some("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
+    val nino: String         = "AA123456A"
+    val taxYear: String      = "2019-20"
+    val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-    val ifsHmrcEnteredResponseWithoutDateIgnored: JsValue = hmrcEnteredResponseWithoutDateIgnored
-    val ifsHmrcEnteredResponseWithDateIgnored: JsValue    = hmrcEnteredResponseWithDateIgnored
-    val ifsCustomEnteredResponse: JsValue                 = customEnteredResponse
+    val ifsResponse: JsValue = Json.parse(
+      """
+        |{
+        |   "employments": [
+        |      {
+        |         "employmentId": "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+        |         "employerName": "Vera Lynn",
+        |         "employerRef": "123/AZ12334",
+        |         "payrollId": "123345657",
+        |         "startDate": "2019-01-01",
+        |         "cessationDate": "2020-06-01",
+        |         "dateIgnored": "2020-06-17T10:53:38Z"
+        |      },
+        |      {
+        |         "employmentId": "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+        |         "employerName": "Vera Lynn",
+        |         "employerRef": "123/AZ12334",
+        |         "payrollId": "123345657",
+        |         "startDate": "2019-01-01",
+        |         "cessationDate": "2020-06-01",
+        |         "dateIgnored": "2020-06-17T10:53:38Z"
+        |      }
+        |   ],
+        |   "customerDeclaredEmployments": [
+        |      {
+        |         "employmentId": "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+        |         "employerName": "Vera Lynn",
+        |         "employerRef": "123/AZ12334",
+        |         "payrollId": "123345657",
+        |         "startDate": "2019-01-01",
+        |         "cessationDate": "2020-06-01",
+        |         "submittedOn": "2020-06-17T10:53:38Z"
+        |      },
+        |      {
+        |         "employmentId": "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+        |         "employerName": "Vera Lynn",
+        |         "employerRef": "123/AZ12334",
+        |         "payrollId": "123345657",
+        |         "startDate": "2019-01-01",
+        |         "cessationDate": "2020-06-01",
+        |         "submittedOn": "2020-06-17T10:53:38Z"
+        |      }
+        |   ]
+        |}
+    """.stripMargin
+    )
 
-    def uri: String = s"/$nino/$taxYear/$employmentId"
+    val mtdResponse: JsValue = ListEmploymentsControllerFixture.mtdResponse(employmentId)
+
+    def uri: String = s"/$nino/$taxYear"
 
     def ifsUri: String = s"/income-tax/income/employments/$nino/$taxYear"
 
@@ -58,60 +104,20 @@ class RetrieveEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   }
 
-  "Calling the 'retrieve employment' endpoint" should {
+  "Calling the 'list employments' endpoint" should {
     "return a 200 status code" when {
-      "any valid request is made to retrieve hmrc entered employment with no date ignored present" in new Test {
-
-        val ifsQueryParam: Map[String, String] = Map("employmentId" -> ifsEmploymentId.get)
+      "any valid request is made" in new Test {
 
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, ifsUri, ifsQueryParam, OK, ifsHmrcEnteredResponseWithoutDateIgnored)
+          DownstreamStub.onSuccess(DownstreamStub.GET, ifsUri, OK, ifsResponse)
         }
 
         val response: WSResponse = await(request.get())
         response.status shouldBe OK
-        response.json shouldBe mtdHmrcEnteredResponseWithNoDateIgnored
-        response.header("Content-Type") shouldBe Some("application/json")
-      }
-    }
-
-    "return a 200 status code" when {
-      "any valid request is made to retrieve hmrc entered employment with date ignored present" in new Test {
-
-        val ifsQueryParam: Map[String, String] = Map("employmentId" -> ifsEmploymentId.get)
-
-        override def setupStubs(): StubMapping = {
-          AuditStub.audit()
-          AuthStub.authorised()
-          MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, ifsUri, ifsQueryParam, OK, ifsHmrcEnteredResponseWithDateIgnored)
-        }
-
-        val response: WSResponse = await(request.get())
-        response.status shouldBe OK
-        response.json shouldBe mtdHmrcEnteredResponseWithDateIgnored
-        response.header("Content-Type") shouldBe Some("application/json")
-      }
-    }
-
-    "return a 200 status code" when {
-      "any valid request is made to retrieve custom entered employment" in new Test {
-
-        val ifsQueryParam: Map[String, String] = Map("employmentId" -> ifsEmploymentId.get)
-
-        override def setupStubs(): StubMapping = {
-          AuditStub.audit()
-          AuthStub.authorised()
-          MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, ifsUri, ifsQueryParam, OK, ifsCustomEnteredResponse)
-        }
-
-        val response: WSResponse = await(request.get())
-        response.status shouldBe OK
-        response.json shouldBe mtdCustomEnteredResponse
+        response.json shouldBe mtdResponse
         response.header("Content-Type") shouldBe Some("application/json")
       }
     }
@@ -119,16 +125,11 @@ class RetrieveEmploymentControllerISpec extends EmploymentsIBaseSpec {
     "return error according to spec" when {
 
       "validation error" when {
-        def validationErrorTest(requestNino: String,
-                                requestTaxYear: String,
-                                requestEmploymentId: String,
-                                expectedStatus: Int,
-                                expectedBody: MtdError): Unit = {
+        def validationErrorTest(requestNino: String, requestTaxYear: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
           s"validation fails with ${expectedBody.code} error" in new Test {
 
-            override val nino: String         = requestNino
-            override val taxYear: String      = requestTaxYear
-            override val employmentId: String = requestEmploymentId
+            override val nino: String    = requestNino
+            override val taxYear: String = requestTaxYear
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
@@ -144,11 +145,10 @@ class RetrieveEmploymentControllerISpec extends EmploymentsIBaseSpec {
         }
 
         val input = Seq(
-          ("AA1123A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, NinoFormatError),
-          ("AA123456A", "20199", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, TaxYearFormatError),
-          ("AA123456A", "2019-20", "ABCDE12345FG", BAD_REQUEST, EmploymentIdFormatError),
-          ("AA123456A", "2018-19", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
-          ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
+          ("AA1123A", "2019-20", BAD_REQUEST, NinoFormatError),
+          ("AA123456A", "20199", BAD_REQUEST, TaxYearFormatError),
+          ("AA123456A", "2018-19", BAD_REQUEST, RuleTaxYearNotSupportedError),
+          ("AA123456A", "2019-21", BAD_REQUEST, RuleTaxYearRangeInvalidError)
         )
         input.foreach(args => (validationErrorTest _).tupled(args))
       }
@@ -182,7 +182,7 @@ class RetrieveEmploymentControllerISpec extends EmploymentsIBaseSpec {
         val input = Seq(
           (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
           (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
-          (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
+          (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", INTERNAL_SERVER_ERROR, InternalError),
           (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
           (NOT_FOUND, "NO_DATA_FOUND", NOT_FOUND, NotFoundError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),

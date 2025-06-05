@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,10 @@ package v1.connectors
 
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
-import shared.models.domain.{ Nino, TaxYear }
+import config.MockEmploymentsAppConfig
+import play.api.Configuration
+import shared.mocks.MockHttpClient
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
@@ -27,21 +30,36 @@ import scala.concurrent.Future
 
 class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
-  private val nino: String = "AA111111A"
+  private val nino: String    = "AA111111A"
   private val taxYear: String = "2019-20"
-  private val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val employmentId    = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  "RetrieveEmploymentConnector" should {
-    "return a 200 status and expected response for a success scenario" in new Release6Test with Test {
+  "retrieve" when {
+    "given a valid request" must {
+      "return a success response when feature switch is disabled (IFS 'release6' enabled)" in new Test with Release6Test {
 
-      willGet(url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear?employmentId=$employmentId")
-        .returns(Future.successful(outcome))
+        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> false)
 
-      await(connector.retrieve(request)) shouldBe outcome
+        willGet(url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear?employmentId=$employmentId")
+          .returns(Future.successful(outcome))
+
+        await(connector.retrieve(request)) shouldBe outcome
+      }
+
+      "return a success response when feature switch is enabled (HIP enabled)" in new Test with HipTest {
+
+        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> true)
+
+        willGet(
+          url = s"$baseUrl/itsd/income/employments/$nino?taxYear=19-20&employmentId=$employmentId"
+        ).returns(Future.successful(outcome))
+
+        await(connector.retrieve(request)) shouldBe outcome
+      }
     }
   }
 
-  trait Test { _: EmploymentsConnectorTest =>
+  trait Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: RetrieveEmploymentConnector = new RetrieveEmploymentConnector(
       http = mockHttpClient,
@@ -63,8 +81,7 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       submittedOn = None
     )
 
-    val outcome: Right[Nothing, ResponseWrapper[RetrieveEmploymentResponse]] = Right(
-      ResponseWrapper(correlationId, responseModel))
+    val outcome: Right[Nothing, ResponseWrapper[RetrieveEmploymentResponse]] = Right(ResponseWrapper(correlationId, responseModel))
   }
 
 }
