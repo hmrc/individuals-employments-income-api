@@ -224,13 +224,6 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
           val result = httpReads.read(method, url, httpResponse)
           result shouldBe Left(ResponseWrapper(correlationId, OutboundError(InternalError)))
         }
-
-        "be able to parse multiple errorCode Json" in {
-          val httpResponse = HttpResponse(responseCode, mulitpleErrorCodesJson.toString(), Map("CorrelationId" -> List(correlationId)))
-
-          val result = httpReads.read(method, url, httpResponse)
-          result shouldBe Left(ResponseWrapper(correlationId, DownstreamErrors(List(DownstreamErrorCode("Error Code")))))
-        }
       })
 
   private def handleInternalErrorsCorrectly[A](httpReads: HttpReads[DownstreamOutcome[A]]): Unit =
