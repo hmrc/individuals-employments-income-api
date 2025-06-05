@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.endpoints
+package v2.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors._
@@ -28,7 +28,11 @@ import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
+class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
+
+  override def servicesConfig: Map[String, Any] = {
+    Map("feature-switch.ifs_hip_migration_1662.enabled" -> false) ++ super.servicesConfig
+  }
 
   private trait Test {
 
@@ -59,7 +63,7 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
       setupStubs()
       buildRequest(uri)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.1.0+json"),
+          (ACCEPT, "application/vnd.hmrc.2.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
@@ -445,6 +449,7 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
           (UNPROCESSABLE_ENTITY, "INVALID_DATE_RANGE", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
           (UNPROCESSABLE_ENTITY, "INVALID_CESSATION_DATE", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
           (UNPROCESSABLE_ENTITY, "CANNOT_UPDATE", BAD_REQUEST, RuleUpdateForbiddenError),
+          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
           (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
           (BAD_REQUEST, "INVALID_PAYLOAD", INTERNAL_SERVER_ERROR, InternalError),

@@ -1,3 +1,5 @@
+package v2.endpoints
+
 /*
  * Copyright 2023 HM Revenue & Customs
  *
@@ -28,7 +30,7 @@ import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
+class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
@@ -51,7 +53,7 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
 
     def uri: String = s"/$nino/$taxYear/$employmentId"
 
-    def ifsUri: String = s"/income-tax/income/employments/$nino/$taxYear/custom/$employmentId"
+    def hipUri: String = s"/itsd/income/employments/$nino/custom/$employmentId"
 
     def setupStubs(): StubMapping
 
@@ -74,10 +76,10 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.PUT, ifsUri, NO_CONTENT)
+          DownstreamStub.onSuccess(DownstreamStub.PUT, hipUri, NO_CONTENT)
         }
 
-        val response: WSResponse = await(request().put(requestBodyJson))
+        val response: WSResponse = await(request().withQueryStringParameters("taxYear" -> taxYear).put(requestBodyJson))
         response.status shouldBe OK
         response.header("Content-Type") shouldBe None
       }
@@ -293,7 +295,7 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
               MtdIdLookupStub.ninoFound(nino)
             }
 
-            val response: WSResponse = await(request().put(requestBodyJson))
+            val response: WSResponse = await(request().withQueryStringParameters("taxYear" -> taxYear).put(requestBodyJson))
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
           }
@@ -393,7 +395,7 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
               MtdIdLookupStub.ninoFound(nino)
             }
 
-            val response: WSResponse = await(request().put(requestBodyJson))
+            val response: WSResponse = await(request().withQueryStringParameters("taxYear" -> taxYear).put(requestBodyJson))
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
           }
@@ -413,18 +415,18 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
         input.foreach(args => (validationErrorTest _).tupled(args))
       }
 
-      "ifs service error" when {
-        def serviceErrorTest(ifsStatus: Int, ifsCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"ifs returns an $ifsCode error and status $ifsStatus" in new Test {
+      "hip service error" when {
+        def serviceErrorTest(hipStatus: Int, hipCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
+          s"hip returns an $hipCode error and status $hipStatus" in new Test {
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DownstreamStub.onError(DownstreamStub.PUT, ifsUri, ifsStatus, errorBody(ifsCode))
+              DownstreamStub.onError(DownstreamStub.PUT, hipUri, hipStatus, errorBody(hipCode))
             }
 
-            val response: WSResponse = await(request().put(requestBodyJson))
+            val response: WSResponse = await(request().withQueryStringParameters("taxYear" -> taxYear).put(requestBodyJson))
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
           }
@@ -432,26 +434,26 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
 
         def errorBody(code: String): String =
           s"""
-             |{
-             |   "code": "$code",
-             |   "reason": "ifs message"
-             |}
+             |[
+             |  {
+             |    "errorCode": "$code",
+             |    "errorDescription": "string"
+             |  }
+             |]
             """.stripMargin
 
         val input = Seq(
-          (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
-          (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
-          (UNPROCESSABLE_ENTITY, "NOT_SUPPORTED_TAX_YEAR", BAD_REQUEST, RuleTaxYearNotEndedError),
-          (UNPROCESSABLE_ENTITY, "INVALID_DATE_RANGE", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
-          (UNPROCESSABLE_ENTITY, "INVALID_CESSATION_DATE", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
-          (UNPROCESSABLE_ENTITY, "CANNOT_UPDATE", BAD_REQUEST, RuleUpdateForbiddenError),
-          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
-          (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
-          (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
-          (BAD_REQUEST, "INVALID_PAYLOAD", INTERNAL_SERVER_ERROR, InternalError),
-          (NOT_FOUND, "NO_DATA_FOUND", NOT_FOUND, NotFoundError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError),
-          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError)
+          (BAD_REQUEST, "1000", INTERNAL_SERVER_ERROR, InternalError),
+          (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
+          (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
+          (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
+          (UNPROCESSABLE_ENTITY, "1116", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
+          (UNPROCESSABLE_ENTITY, "1118", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
+          (UNPROCESSABLE_ENTITY, "1221", BAD_REQUEST, RuleUpdateForbiddenError),
+          (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError),
+          (BAD_REQUEST, "1217", BAD_REQUEST, EmploymentIdFormatError),
+          (FORBIDDEN, "1221", BAD_REQUEST, RuleUpdateForbiddenError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
         input.foreach(args => (serviceErrorTest _).tupled(args))
       }
@@ -459,3 +461,4 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec{
   }
 
 }
+

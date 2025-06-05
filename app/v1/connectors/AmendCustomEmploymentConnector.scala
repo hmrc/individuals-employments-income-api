@@ -16,8 +16,9 @@
 
 package v1.connectors
 
-import shared.config.SharedAppConfig
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
 import config.EmploymentsAppConfig
+import shared.connectors.DownstreamUri.HipUri
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.amendCustomEmployment.AmendCustomEmploymentRequest
@@ -38,7 +39,18 @@ class AmendCustomEmploymentConnector @Inject() (val http: HttpClient, val appCon
     val nino         = request.nino.nino
     val taxYear      = request.taxYear
     val employmentId = request.employmentId
-    put(request.body, DownstreamUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}", DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)))
+
+    lazy val downstreamUri1662: DownstreamUri[Unit] =
+      if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1662")) {
+        HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
+      } else {
+        DownstreamUri[Unit](
+          s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}",
+          DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
+        )
+      }
+
+    put(request.body, downstreamUri1662)
   }
 
 }

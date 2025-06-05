@@ -19,10 +19,11 @@ package v1.connectors
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
+import play.api.Configuration
 import shared.mocks.MockHttpClient
-import shared.models.domain.{ Nino, TaxYear }
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
-import v1.models.request.amendCustomEmployment.{ AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody }
+import v1.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
 import scala.concurrent.Future
 
@@ -64,8 +65,24 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
+        MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1662.enabled" -> false)).once()
+
         willPut(
           url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId",
+          body = amendCustomEmploymentRequestBody
+        ).returns(Future.successful(outcome))
+
+        await(connector.amendEmployment(request)) shouldBe outcome
+      }
+
+      "return a success upon HttpClient success with hip feature switch enabled" in new Test with HipTest {
+
+        val outcome = Right(ResponseWrapper(correlationId, ()))
+
+        MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1662.enabled" -> true)).once()
+
+        willPut(
+          url = s"$baseUrl/itsd/income/employments/$nino/custom/$employmentId?taxYear=${TaxYear("2022").asTysDownstream}",
           body = amendCustomEmploymentRequestBody
         ).returns(Future.successful(outcome))
 
