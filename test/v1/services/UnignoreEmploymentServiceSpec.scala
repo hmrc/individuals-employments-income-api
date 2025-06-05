@@ -16,13 +16,13 @@
 
 package v1.services
 
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
-import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
+import shared.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.connectors.MockUnignoreEmploymentConnector
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
@@ -84,8 +84,7 @@ class UnignoreEmploymentServiceSpec extends ServiceSpec {
           ("1223", RuleCustomEmploymentUnignoreError),
           ("5010", NotFoundError),
           ("1115", RuleTaxYearNotEndedError),
-          ("5000", RuleTaxYearNotSupportedError),
-          ("4200", RuleOutsideAmendmentWindowError)
+          ("5000", RuleTaxYearNotSupportedError)
         )
 
         (ifsErrors ++ extraTysIfsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))

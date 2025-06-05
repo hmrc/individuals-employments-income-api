@@ -17,7 +17,7 @@
 package v1.services
 
 import cats.implicits._
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -63,8 +63,7 @@ class UnignoreEmploymentService @Inject() (connector: UnignoreEmploymentConnecto
       "1223" -> RuleCustomEmploymentUnignoreError,
       "5010" -> NotFoundError,
       "1115" -> RuleTaxYearNotEndedError,
-      "5000" -> RuleTaxYearNotSupportedError,
-      "4200" -> RuleOutsideAmendmentWindowError
+      "5000" -> RuleTaxYearNotSupportedError
     )
 
     ifsErrors ++ extraIfsTysErrors ++ hipErrors

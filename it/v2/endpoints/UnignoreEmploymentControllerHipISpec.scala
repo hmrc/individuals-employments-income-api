@@ -3,11 +3,9 @@ package v2.endpoints
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
 import common.support.EmploymentsIBaseSpec
-import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status._
+import play.api.test.Helpers._
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
@@ -21,7 +19,7 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
     val downstreamQueryParam: Map[String, String] = Map("taxYear" -> "23-24")
 
-    def mtdUri: String = s"/$nino/$taxYear/$employmentId/unignore"
+    private def mtdUri: String = s"/$nino/$taxYear/$employmentId/unignore"
 
     def downstreamUri: String = s"/itsd/income/ignore/employments/$nino/$employmentId"
 
@@ -38,17 +36,12 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
     def errorBody(code: String): String =
       s"""
-         |{
-         |    "origin": "HIP",
-         |    "response": {
-         |        "failures": [
-         |            {
-         |                "type": "$code",
-         |                "reason": "error message"
-         |            }
-         |        ]
-         |    }
-         |}
+         |[
+         |  {
+         |    "errorCode": "$code",
+         |    "errorDescription": "error message"
+         |  }
+         |]
       """.stripMargin
 
   }
@@ -75,9 +68,8 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
                               requestTaxYear: String,
                               requestEmploymentId: String,
                               expectedStatus: Int,
-                              expectedBody: MtdError,
-                              scenario: Option[String]): Unit = {
-        s"validation fails with ${expectedBody.code} error ${scenario.getOrElse("")}" in new Test {
+                              expectedBody: MtdError): Unit = {
+        s"validation fails with ${expectedBody.code} error" in new Test {
 
           override val nino: String         = requestNino
           override val taxYear: String      = requestTaxYear
@@ -96,11 +88,11 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
       }
 
       val input = List(
-        ("AA1123A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, NinoFormatError, None),
-        ("AA123456A", "20199", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, TaxYearFormatError, None),
-        ("AA123456A", "2019-20", "ABCDE12345FG", BAD_REQUEST, EmploymentIdFormatError, None),
-        ("AA123456A", "2018-19", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError, None),
-        ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError, None)
+        ("AA1123A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, NinoFormatError),
+        ("AA123456A", "20199", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, TaxYearFormatError),
+        ("AA123456A", "2019-20", "ABCDE12345FG", BAD_REQUEST, EmploymentIdFormatError),
+        ("AA123456A", "2018-19", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
+        ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
       )
 
       input.foreach(args => (validationErrorTest _).tupled(args))
