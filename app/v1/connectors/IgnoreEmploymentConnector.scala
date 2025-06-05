@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package v1.connectors
 
-import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.connectors.DownstreamUri.{HipUri, TaxYearSpecificIfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser._
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
@@ -34,9 +34,11 @@ class IgnoreEmploymentConnector @Inject() (val http: HttpClient, val appConfig: 
 
     import request._
 
-    val downstreamUri = TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}/ignore")
-
+    val downstreamUri =  if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1940")) {
+      HipUri[Unit](s"itsd/income/ignore/employments/$nino/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
+    } else {
+      TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}/ignore")
+    }
     put(uri = downstreamUri, body = "")
   }
-
 }
