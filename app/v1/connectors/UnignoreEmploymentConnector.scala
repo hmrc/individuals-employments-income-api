@@ -36,12 +36,12 @@ class UnignoreEmploymentConnector @Inject() (val http: HttpClient, val appConfig
     import request._
     import shared.connectors.httpparsers.StandardDownstreamHttpParser._
 
-    val downstreamUri = {
-      if(ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1800"))
+    val downstreamUri =
+      if(ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1800")) {
         HipUri[Unit](s"itsd/income/ignore/employments/$nino/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
-      else
+      } else {
         TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/employments/$nino/ignore/${employmentId.value}")
-    }
+      }
 
     delete(downstreamUri)
   }
