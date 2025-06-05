@@ -76,8 +76,8 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
                                 expectedBody: MtdError): Unit = {
           s"validation fails with ${expectedBody.code} error" in new Test {
 
-            override val nino: String = requestNino
-            override val taxYear: String = requestTaxYear
+            override val nino: String         = requestNino
+            override val taxYear: String      = requestTaxYear
             override val employmentId: String = requestEmploymentId
 
             val response: WSResponse = await(request.post(JsObject.empty))
@@ -111,10 +111,12 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
         def errorBody(code: String): String =
           s"""
-             |{
-             |   "code": "$code",
-             |   "reason": "message"
-             |}
+             |[
+             |  {
+             |   "errorCode": "$code",
+             |   "errorDescription": "message"
+             |  }
+             |]
             """.stripMargin
 
         val errors = Seq(

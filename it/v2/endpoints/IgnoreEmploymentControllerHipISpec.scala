@@ -110,10 +110,12 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
         def errorBody(code: String): String =
           s"""
-             |{
-             |   "code": "$code",
-             |   "reason": "message"
-             |}
+             |[
+             |  {
+             |   "errorCode": "$code",
+             |   "errorDescription": "message"
+             |  }
+             |]
             """.stripMargin
 
         val errors = Seq(
