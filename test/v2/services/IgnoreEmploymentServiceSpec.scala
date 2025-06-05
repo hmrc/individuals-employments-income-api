@@ -98,7 +98,8 @@ class IgnoreEmploymentServiceSpec extends ServiceSpec {
           ("1115", RuleTaxYearNotEndedError),
           ("5000", RuleTaxYearNotSupportedError),
           ("1224", RuleCustomEmploymentError),
-          ("5010", NotFoundError)
+          ("5010", NotFoundError),
+          ("4200", RuleOutsideAmendmentWindowError)
         )
 
         (errors ++ extraTysErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))

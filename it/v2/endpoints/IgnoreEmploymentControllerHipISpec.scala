@@ -16,7 +16,7 @@
 
 package v2.endpoints
 
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOutsideAmendmentWindowError}
 import common.support.EmploymentsIBaseSpec
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
@@ -123,7 +123,8 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "1119", INTERNAL_SERVER_ERROR, InternalError),
           (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
           (UNPROCESSABLE_ENTITY, "1224", BAD_REQUEST, RuleCustomEmploymentError),
-          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
+          (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError)
         )
         errors.foreach(args => (serviceErrorTest _).tupled(args))
       }
