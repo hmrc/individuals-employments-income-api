@@ -16,8 +16,8 @@
 
 package v1.connectors
 
-import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.connectors.DownstreamUri.{HipUri, TaxYearSpecificIfsUri}
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.unignoreEmployment.UnignoreEmploymentRequest
@@ -36,7 +36,12 @@ class UnignoreEmploymentConnector @Inject() (val http: HttpClient, val appConfig
     import request._
     import shared.connectors.httpparsers.StandardDownstreamHttpParser._
 
-    val downstreamUri = TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/employments/$nino/ignore/${employmentId.value}")
+    val downstreamUri =
+      if(ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1800")) {
+        HipUri[Unit](s"itsd/income/ignore/employments/$nino/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
+      } else {
+        TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/employments/$nino/ignore/${employmentId.value}")
+      }
 
     delete(downstreamUri)
   }

@@ -301,15 +301,17 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
   }
 
   private def handleHipErrorsCorrectly[A](httpReads: HttpReads[DownstreamOutcome[A]]): Unit = {
-    "receiving a response with multiple HIP errors containing top level error codes" should {
-      "return a Left ResponseWrapper containing the extracted error codes" in {
-        val httpResponse = HttpResponse(
-          UNPROCESSABLE_ENTITY, multipleTopLevelErrorCodesJson, Map("CorrelationId" -> List(correlationId))
-        )
+    List(NOT_FOUND, UNPROCESSABLE_ENTITY, NOT_IMPLEMENTED).foreach { responseStatus =>
+      s"receiving a $responseStatus response with multiple HIP errors containing top level error codes" should {
+        "return a Left ResponseWrapper containing the extracted error codes" in {
+          val httpResponse = HttpResponse(
+            responseStatus, multipleTopLevelErrorCodesJson, Map("CorrelationId" -> List(correlationId))
+          )
 
-        httpReads.read(method, url, httpResponse) shouldBe Left(
-          ResponseWrapper(correlationId, DownstreamErrors(List(DownstreamErrorCode("1117"), DownstreamErrorCode("1215"), DownstreamErrorCode("1216"), DownstreamErrorCode("1217"))))
-        )
+          httpReads.read(method, url, httpResponse) shouldBe Left(
+            ResponseWrapper(correlationId, DownstreamErrors(List(DownstreamErrorCode("1117"), DownstreamErrorCode("1215"), DownstreamErrorCode("1216"), DownstreamErrorCode("1217"))))
+          )
+        }
       }
     }
 

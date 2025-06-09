@@ -14,31 +14,29 @@
  * limitations under the License.
  */
 
-package v2
+package v1.endpoints
 
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import common.support.EmploymentsIBaseSpec
-import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status._
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers.AUTHORIZATION
+import play.api.test.Helpers._
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class IgnoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
-
-  override def servicesConfig: Map[String, Any] =
-    Map("feature-switch.ifs_hip_migration_1940.enabled" -> false) ++ super.servicesConfig
+class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
     val nino: String = "AA123456A"
 
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
-    def taxYear: String      = "2019-20"
 
-    def downstreamUri: String = s"/income-tax/19-20/income/employments/$nino/$employmentId/ignore"
+    def taxYear: String = "2019-20"
+
+    def downstreamQueryParams: Map[String, String] = Map("taxYear" -> "19-20")
+
+    def downstreamUri: String = s"/itsd/income/ignore/employments/$nino/$employmentId"
 
     def setupStubs(): Unit = ()
 
@@ -61,7 +59,7 @@ class IgnoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
       "any valid request is made" in new Test {
 
         override def setupStubs(): Unit =
-          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, status = NO_CONTENT)
+          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, downstreamQueryParams, status = NO_CONTENT, JsObject.empty)
 
         val response: WSResponse = await(request.post(JsObject.empty))
         response.status shouldBe OK
@@ -113,31 +111,24 @@ class IgnoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
         def errorBody(code: String): String =
           s"""
-             |{
-             |   "code": "$code",
-             |   "reason": "message"
-             |}
+             |[
+             |  {
+             |   "errorCode": "$code",
+             |   "errorDescription": "message"
+             |  }
+             |]
             """.stripMargin
 
         val errors = Seq(
-          (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
-          (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
-          (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
-          (UNPROCESSABLE_ENTITY, "INVALID_REQUEST_BEFORE_TAX_YEAR", BAD_REQUEST, RuleTaxYearNotEndedError),
-          (UNPROCESSABLE_ENTITY, "CANNOT_IGNORE", BAD_REQUEST, RuleCustomEmploymentError),
-          (NOT_FOUND, "NO_DATA_FOUND", NOT_FOUND, NotFoundError),
-          (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
-          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError),
-          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError)
+          (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
+          (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
+          (BAD_REQUEST, "1217", BAD_REQUEST, EmploymentIdFormatError),
+          (BAD_REQUEST, "1119", INTERNAL_SERVER_ERROR, InternalError),
+          (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
+          (UNPROCESSABLE_ENTITY, "1224", BAD_REQUEST, RuleCustomEmploymentError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
-
-        val extraTysErrors = Seq(
-          (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError),
-          (BAD_REQUEST, "INVALID_CORRELATION_ID", INTERNAL_SERVER_ERROR, InternalError)
-        )
-
-        (errors ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+        errors.foreach(args => (serviceErrorTest _).tupled(args))
       }
     }
   }
