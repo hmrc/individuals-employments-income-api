@@ -16,7 +16,7 @@
 
 package v1.services
 
-import common.errors.{EmploymentIdFormatError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
+import common.errors._
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
@@ -83,7 +83,7 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
             await(service.amendEmployment(request)) shouldBe Left(ErrorWrapper(correlationId, error))
           }
 
-        val input = List(
+        val ifsErrors = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
           ("INVALID_EMPLOYMENT_ID", EmploymentIdFormatError),
@@ -95,7 +95,10 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
           ("INVALID_PAYLOAD", InternalError),
           ("INVALID_CORRELATIONID", InternalError),
           ("SERVER_ERROR", InternalError),
-          ("SERVICE_UNAVAILABLE", InternalError),
+          ("SERVICE_UNAVAILABLE", InternalError)
+        )
+
+        val hipErrors = List(
           ("1000", InternalError),
           ("1115", RuleTaxYearNotEndedError),
           ("1116", RuleStartDateAfterTaxYearEndError),
@@ -104,10 +107,11 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
           ("1215", NinoFormatError),
           ("1217", EmploymentIdFormatError),
           ("1221", RuleUpdateForbiddenError),
+          ("5000", RuleTaxYearNotSupportedError),
           ("5010", NotFoundError)
         )
 
-        input.foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }
