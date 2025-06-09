@@ -83,7 +83,7 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
             await(service.amendEmployment(request)) shouldBe Left(ErrorWrapper(correlationId, error))
           }
 
-        val input = List(
+        val ifsErrors = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
           ("INVALID_EMPLOYMENT_ID", EmploymentIdFormatError),
@@ -99,7 +99,21 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
           ("SERVICE_UNAVAILABLE", InternalError)
         )
 
-        input.foreach(args => (serviceError _).tupled(args))
+        val hipErrors = List(
+          ("1000", InternalError),
+          ("1115", RuleTaxYearNotEndedError),
+          ("1116", RuleStartDateAfterTaxYearEndError),
+          ("1117", TaxYearFormatError),
+          ("1118", RuleCessationDateBeforeTaxYearStartError),
+          ("1215", NinoFormatError),
+          ("1217", EmploymentIdFormatError),
+          ("1221", RuleUpdateForbiddenError),
+          ("4200", RuleOutsideAmendmentWindowError),
+          ("5000", RuleTaxYearNotSupportedError),
+          ("5010", NotFoundError)
+        )
+
+        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }
