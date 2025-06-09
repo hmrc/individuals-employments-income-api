@@ -60,6 +60,7 @@ class AmendCustomEmploymentService @Inject() (connector: AmendCustomEmploymentCo
       "1217" -> EmploymentIdFormatError,
       "1221" -> RuleUpdateForbiddenError,
       "4200" -> RuleOutsideAmendmentWindowError,
+      "5000" -> RuleTaxYearNotSupportedError,
       "5010" -> NotFoundError
     )
 

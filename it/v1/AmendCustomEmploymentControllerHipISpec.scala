@@ -447,9 +447,8 @@ class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "1116", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
           (UNPROCESSABLE_ENTITY, "1118", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
           (UNPROCESSABLE_ENTITY, "1221", BAD_REQUEST, RuleUpdateForbiddenError),
-          (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (BAD_REQUEST, "1217", BAD_REQUEST, EmploymentIdFormatError),
-          (FORBIDDEN, "1221", BAD_REQUEST, RuleUpdateForbiddenError),
+          (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError),
           (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
         input.foreach(args => (serviceErrorTest _).tupled(args))

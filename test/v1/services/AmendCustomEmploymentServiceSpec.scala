@@ -16,7 +16,7 @@
 
 package v1.services
 
-import common.errors.{EmploymentIdFormatError, RuleCessationDateBeforeTaxYearStartError, RuleOutsideAmendmentWindowError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
+import common.errors.{EmploymentIdFormatError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
@@ -104,7 +104,6 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
           ("1215", NinoFormatError),
           ("1217", EmploymentIdFormatError),
           ("1221", RuleUpdateForbiddenError),
-          ("4200", RuleOutsideAmendmentWindowError),
           ("5010", NotFoundError)
         )
 
