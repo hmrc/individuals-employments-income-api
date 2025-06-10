@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package v2.services
 
-import common.errors.RuleOutsideAmendmentWindowError
+import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError, RuleOutsideAmendmentWindowError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.outcomes.ResponseWrapper
@@ -72,8 +72,17 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
           ("SERVER_ERROR", InternalError),
           ("SERVICE_UNAVAILABLE", InternalError)
         )
+        val hipErrors: Seq[(String, MtdError)] = List(
+          ("1117", TaxYearFormatError),
+          ("1215", NinoFormatError),
+          ("1217", EmploymentIdFormatError),
+          ("5000", RuleTaxYearNotSupportedError),
+          ("5010", NotFoundError),
+          ("1222", RuleDeleteForbiddenError),
+          ("4200", RuleOutsideAmendmentWindowError)
+        )
 
-        input.foreach(args => (serviceError _).tupled(args))
+        (input ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }
