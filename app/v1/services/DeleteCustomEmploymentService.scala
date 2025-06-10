@@ -37,7 +37,7 @@ class DeleteCustomEmploymentService @Inject() (connector: DeleteCustomEmployment
   }
 
   private val downstreamErrorMap: Map[String, MtdError] = {
-    val errors = Map(
+    val ifsErrors = Map(
       "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
       "INVALID_TAX_YEAR"          -> TaxYearFormatError,
       "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
@@ -58,7 +58,7 @@ class DeleteCustomEmploymentService @Inject() (connector: DeleteCustomEmployment
       "4200" -> RuleOutsideAmendmentWindowError
     )
 
-    errors ++ hipErrors
+    ifsErrors ++ hipErrors
   }
 
 }

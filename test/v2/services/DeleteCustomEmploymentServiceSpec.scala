@@ -63,7 +63,7 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
             result shouldBe outcome
           }
 
-        val input = List(
+        val ifsErrors = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
           ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError),
@@ -82,7 +82,7 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
           ("4200", RuleOutsideAmendmentWindowError)
         )
 
-        (input ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }
