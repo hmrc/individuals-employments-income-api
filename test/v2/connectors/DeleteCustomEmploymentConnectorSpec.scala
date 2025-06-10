@@ -33,7 +33,7 @@ class DeleteCustomEmploymentConnectorSpec extends ConnectorSpec {
 
   "DeleteCustomEmploymentConnector" should {
     "return a 204 result on delete" when {
-      "the downstream call is successful" in new IfsTest with Test {
+      "feature switch is disabled(IFS enabled)" in new IfsTest with Test {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1663.enabled" -> false)
         willDelete(s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId") returns Future
           .successful(outcome)
