@@ -126,10 +126,12 @@ class DeleteCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
         def errorBody(code: String): String =
           s"""
-             |{
-             |   "code": "$code",
-             |   "reason": "downstream message"
-             |}
+             |[
+             |  {
+             |   "errorCode": "$code",
+             |   "errorDescription": "message"
+             |  }
+             |]
             """.stripMargin
 
         val input = Seq(
