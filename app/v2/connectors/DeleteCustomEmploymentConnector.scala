@@ -38,7 +38,6 @@ class DeleteCustomEmploymentConnector @Inject() (val http: HttpClient, val appCo
 
     val downstreamUri = if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1663")) {
       HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
-
     } else {
       IfsUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}")
     }
