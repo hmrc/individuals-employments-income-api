@@ -16,7 +16,7 @@
 
 package v1.services
 
-import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.outcomes.ResponseWrapper
@@ -77,8 +77,7 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
           ("1217", EmploymentIdFormatError),
           ("5000", RuleTaxYearNotSupportedError),
           ("5010", NotFoundError),
-          ("1222", RuleDeleteForbiddenError),
-          ("4200", RuleOutsideAmendmentWindowError)
+          ("1222", RuleDeleteForbiddenError)
         )
 
         (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
