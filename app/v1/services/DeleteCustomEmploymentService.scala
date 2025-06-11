@@ -17,7 +17,7 @@
 package v1.services
 
 import cats.implicits._
-import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError}
 import shared.controllers.RequestContext
 import shared.models.errors.{MtdError, _}
 import shared.services.{BaseService, ServiceOutcome}
@@ -54,8 +54,7 @@ class DeleteCustomEmploymentService @Inject() (connector: DeleteCustomEmployment
       "1217" -> EmploymentIdFormatError,
       "5000" -> RuleTaxYearNotSupportedError,
       "5010" -> NotFoundError,
-      "1222" -> RuleDeleteForbiddenError,
-      "4200" -> RuleOutsideAmendmentWindowError
+      "1222" -> RuleDeleteForbiddenError
     )
 
     ifsErrors ++ hipErrors

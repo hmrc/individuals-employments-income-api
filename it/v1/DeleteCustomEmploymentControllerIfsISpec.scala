@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package v2
+package v1
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError}
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
@@ -27,7 +27,7 @@ import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class DeleteCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
+class DeleteCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
 
   override def servicesConfig: Map[String, Any] =
     Map("feature-switch.ifs_hip_migration_1663.enabled" -> false) ++ super.servicesConfig
@@ -48,7 +48,7 @@ class DeleteCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
       setupStubs()
       buildRequest(uri)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.2.0+json"),
+          (ACCEPT, "application/vnd.hmrc.1.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
@@ -138,7 +138,6 @@ class DeleteCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
           (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
           (UNPROCESSABLE_ENTITY, "CANNOT_DELETE", BAD_REQUEST, RuleDeleteForbiddenError),
-          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
           (NOT_FOUND, "NO_DATA_FOUND", NOT_FOUND, NotFoundError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),

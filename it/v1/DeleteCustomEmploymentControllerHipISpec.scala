@@ -17,7 +17,7 @@
 package v1
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError}
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
@@ -141,7 +141,6 @@ class DeleteCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError),
           (NOT_FOUND, "5010", NOT_FOUND, NotFoundError) ,
           (UNPROCESSABLE_ENTITY, "1222", BAD_REQUEST, RuleDeleteForbiddenError),
-          (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
         )
