@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package v1.services
 
+import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.outcomes.ResponseWrapper
@@ -62,7 +63,7 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
             result shouldBe outcome
           }
 
-        val input = List(
+        val ifsErrors = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
           ("INVALID_CORRELATIONID", InternalError),
@@ -70,8 +71,16 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
           ("SERVER_ERROR", InternalError),
           ("SERVICE_UNAVAILABLE", InternalError)
         )
+        val hipErrors: Seq[(String, MtdError)] = List(
+          ("1117", TaxYearFormatError),
+          ("1215", NinoFormatError),
+          ("1217", EmploymentIdFormatError),
+          ("5000", RuleTaxYearNotSupportedError),
+          ("5010", NotFoundError),
+          ("1222", RuleDeleteForbiddenError)
+        )
 
-        input.foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }
