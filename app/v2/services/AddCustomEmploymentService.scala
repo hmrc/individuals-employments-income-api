@@ -35,8 +35,8 @@ class AddCustomEmploymentService @Inject() (connector: AddCustomEmploymentConnec
       request: AddCustomEmploymentRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[AddCustomEmploymentResponse]] =
     connector.addEmployment(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
-  private val downstreamErrorMap: Map[String, MtdError] =
-    Map(
+  private val downstreamErrorMap: Map[String, MtdError] = {
+    val ifsErrors = Map(
       "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
       "INVALID_TAX_YEAR"          -> TaxYearFormatError,
       "NOT_SUPPORTED_TAX_YEAR"    -> RuleTaxYearNotEndedError,
@@ -48,5 +48,19 @@ class AddCustomEmploymentService @Inject() (connector: AddCustomEmploymentConnec
       "SERVER_ERROR"              -> InternalError,
       "SERVICE_UNAVAILABLE"       -> InternalError
     )
+
+    val hipErrors = Map(
+      "1215" -> NinoFormatError,
+      "1117" -> TaxYearFormatError,
+      "1000" -> InternalError,
+      "1115" -> RuleTaxYearNotEndedError,
+      "1116" -> RuleStartDateAfterTaxYearEndError,
+      "1118" -> RuleCessationDateBeforeTaxYearStartError,
+      "4200" -> RuleOutsideAmendmentWindowError,
+      "5000" -> RuleTaxYearNotSupportedError
+    )
+
+    ifsErrors ++ hipErrors
+  }
 
 }

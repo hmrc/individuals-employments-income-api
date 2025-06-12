@@ -18,10 +18,11 @@ package v1.connectors
 
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
+import play.api.Configuration
 import shared.mocks.MockHttpClient
-import shared.models.domain.{ Nino, TaxYear }
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
-import v1.models.request.addCustomEmployment.{ AddCustomEmploymentRequest, AddCustomEmploymentRequestBody }
+import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
 import scala.concurrent.Future
@@ -60,11 +61,24 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "AddCustomEmploymentConnector" when {
     ".addEmployment" should {
-      "return a success upon HttpClient success" in new Test with Api1661Test {
+      "return a success upon HttpClient success with IFS" in new Test with Api1661Test {
+        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1661.enabled" -> false)
         val outcome = Right(ResponseWrapper(correlationId, response))
 
         willPost(
           url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom",
+          body = addCustomEmploymentRequestBody
+        ).returns(Future.successful(outcome))
+
+        await(connector.addEmployment(request)) shouldBe outcome
+      }
+
+      "return a success upon HttpClient success with HIP" in new Test with HipTest {
+        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1661.enabled" -> true)
+        val outcome = Right(ResponseWrapper(correlationId, response))
+
+        willPost(
+          url = s"$baseUrl/itsd/income/employments/$nino/custom?taxYear=21-22",
           body = addCustomEmploymentRequestBody
         ).returns(Future.successful(outcome))
 
