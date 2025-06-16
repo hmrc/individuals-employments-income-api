@@ -28,13 +28,14 @@ import shared.models.domain.TaxYear
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
+class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
     val nino: String         = "AA123456A"
     val taxYear: String      = "2019-20"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+    val downstreamQueryParam: Map[String, String] = Map("taxYear" -> "19-20")
 
     val requestBodyJson: JsValue = Json.parse(
       """
@@ -67,7 +68,7 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
     def uri: String = s"/$nino/$taxYear"
 
-    def ifsUri: String = s"/income-tax/income/employments/$nino/$taxYear/custom"
+    def hipUri: String = s"/itsd/income/employments/$nino/custom"
 
     def setupStubs(): StubMapping
 
@@ -82,6 +83,9 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   }
 
+  override def servicesConfig: Map[String, Any] =
+    Map("feature-switch.ifs_hip_migration_1661.enabled" -> true) ++ super.servicesConfig
+
   "Calling the 'add custom employment' endpoint" should {
     "return a 200 status code" when {
       "any valid request is made" in new Test {
@@ -90,7 +94,7 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.POST, ifsUri, OK, responseJson)
+          DownstreamStub.onSuccess(DownstreamStub.POST, hipUri, downstreamQueryParam, OK, responseJson)
         }
 
         val response: WSResponse = await(request().post(requestBodyJson))
@@ -324,15 +328,17 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
         input.foreach(args => (validationErrorTest _).tupled(args))
       }
 
-      "ifs service error" when {
-        def serviceErrorTest(ifsStatus: Int, ifsCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"ifs returns an $ifsCode error and status $ifsStatus" in new Test {
+      "hip service error" when {
+        def serviceErrorTest(hipStatus: Int, hipCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
+          s"hip returns an $hipCode error and status $hipStatus" in new Test {
+
+            val errorBody: String = if(hipStatus == BAD_REQUEST || hipStatus == NOT_IMPLEMENTED) badRequestAndNotImplementedErrorBody(hipCode) else otherErrorBody(hipCode)
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DownstreamStub.onError(DownstreamStub.POST, ifsUri, ifsStatus, errorBody(ifsCode))
+              DownstreamStub.onError(DownstreamStub.POST, hipUri, downstreamQueryParam, hipStatus, errorBody)
             }
 
             val response: WSResponse = await(request().post(requestBodyJson))
@@ -341,25 +347,38 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
           }
         }
 
-        def errorBody(code: String): String =
+        def badRequestAndNotImplementedErrorBody(code: String): String =
           s"""
              |{
-             |   "code": "$code",
-             |   "reason": "ifs message"
+             |  "origin": "HIP",
+             |  "response": [
+             |    {
+             |      "errorCode": "$code",
+             |      "errorDescription": "error message"
+             |    }
+             |  ]
              |}
             """.stripMargin
 
+        def otherErrorBody(code: String): String =
+          s"""
+             |[
+             |  {
+             |    "errorCode": "$code",
+             |    "errorDescription": "error message"
+             |  }
+             |]
+            """.stripMargin
+
         val input = Seq(
-          (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
-          (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
-          (UNPROCESSABLE_ENTITY, "NOT_SUPPORTED_TAX_YEAR", BAD_REQUEST, RuleTaxYearNotEndedError),
-          (UNPROCESSABLE_ENTITY, "INVALID_DATE_RANGE", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
-          (UNPROCESSABLE_ENTITY, "INVALID_CESSATION_DATE", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
-          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
-          (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
-          (BAD_REQUEST, "INVALID_PAYLOAD", INTERNAL_SERVER_ERROR, InternalError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError),
-          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError)
+          (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
+          (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
+          (BAD_REQUEST, "1000", INTERNAL_SERVER_ERROR, InternalError),
+          (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
+          (UNPROCESSABLE_ENTITY, "1116", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
+          (UNPROCESSABLE_ENTITY, "1118", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
+          (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError),
+          (NOT_IMPLEMENTED,"5000", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
         input.foreach(args => (serviceErrorTest _).tupled(args))
       }

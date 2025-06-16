@@ -83,7 +83,7 @@ class AddCustomEmploymentServiceSpec extends ServiceSpec {
             await(service.addEmployment(request)) shouldBe Left(ErrorWrapper(correlationId, error))
           }
 
-        val input = List(
+        val ifsErrors = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
           ("NOT_SUPPORTED_TAX_YEAR", RuleTaxYearNotEndedError),
@@ -95,7 +95,17 @@ class AddCustomEmploymentServiceSpec extends ServiceSpec {
           ("SERVICE_UNAVAILABLE", InternalError)
         )
 
-        input.foreach(args => (serviceError _).tupled(args))
+        val hipErrors = List(
+          ("1215", NinoFormatError),
+          ("1117", TaxYearFormatError),
+          ("1000", InternalError),
+          ("1115", RuleTaxYearNotEndedError),
+          ("1116", RuleStartDateAfterTaxYearEndError),
+          ("1118", RuleCessationDateBeforeTaxYearStartError),
+          ("5000", RuleTaxYearNotSupportedError)
+        )
+
+        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }
