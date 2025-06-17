@@ -8,7 +8,21 @@
     "employerName": {"$ref": "employments_definitions.json#/definitions/employerName"},
     "startDate": {"$ref": "employments_definitions.json#/definitions/startDate"},
     "cessationDate": {"$ref": "employments_definitions.json#/definitions/cessationDate"},
-    "payrollId": {"$ref": "employments_definitions.json#/definitions/payrollId"},
+    {{#if (enabled 'ifs_hip_migration_1645')}}
+      "payrollId": {
+        "type": "string",
+        "description": "The unique identifier used by the employer to identify the employee.",
+        "pattern": "^[A-Za-z0-9.,\\-()/=!\"%&*; <>'+:\\?#]{0,35}$",
+        "example": "YDIAHPcYFQbOXLCKQ"
+      },
+    {{else}}
+      "payrollId": {
+        "type": "string",
+        "description": "The unique identifier used by the employer to identify the employee.",
+        "pattern": "^[A-Za-z0-9.,\\-()/=!\"%&*; <>'+:\\?]{0,38}$",
+        "example": "YDIAHPcYFQbOXLCKQ"
+      },
+    {{/if}}
     "occupationalPension": {"$ref": "employments_definitions.json#/definitions/occupationalPension"},
     "dateIgnored": {"$ref": "employments_definitions.json#/definitions/dateIgnored"},
     "submittedOn": {"$ref": "employments_definitions.json#/definitions/submittedOn"}
