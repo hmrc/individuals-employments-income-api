@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,29 @@
 
 package v2.models.request.addCustomEmployment
 
-import play.api.libs.json.{JsError, JsValue, Json}
+import play.api.Configuration
+import play.api.libs.json.{JsError, JsObject, JsValue, Json}
+import shared.config.MockSharedAppConfig
 import shared.utils.UnitSpec
 
-class AddCustomEmploymentRequestBodySpec extends UnitSpec {
+class AddCustomEmploymentRequestBodySpec extends UnitSpec with MockSharedAppConfig {
+
+  private class Test(isHipEnabled: Boolean) {
+    MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1661.enabled" -> isHipEnabled))
+  }
 
   "AddCustomEmploymentRequestBody" when {
-    val json: JsValue = Json.parse(
-      """
+    def json(payrollId: String = "124214112412"): JsValue = Json.parse(
+      s"""
         |{
         |  "employerRef": "123/AB56797",
         |  "employerName": "AMD infotech Ltd",
         |  "startDate": "2019-01-01",
         |  "cessationDate": "2020-06-01",
-        |  "payrollId": "124214112412",
+        |  "payrollId": "$payrollId",
         |  "occupationalPension": false
         |}
-    """.stripMargin
+      """.stripMargin
     )
 
     val model: AddCustomEmploymentRequestBody = AddCustomEmploymentRequestBody(
@@ -46,7 +52,7 @@ class AddCustomEmploymentRequestBodySpec extends UnitSpec {
 
     "read from valid JSON" should {
       "produce the expected AddCustomEmploymentRequestBody object" in {
-        json.as[AddCustomEmploymentRequestBody] shouldBe model
+        json().as[AddCustomEmploymentRequestBody] shouldBe model
       }
     }
 
@@ -67,9 +73,43 @@ class AddCustomEmploymentRequestBodySpec extends UnitSpec {
       }
     }
 
-    "written to JSON" should {
-      "produce the expected JsObject" in {
-        Json.toJson(model) shouldBe json
+    "written to JSON" when {
+      "the feature switch is disabled (IFS enabled)" should {
+        "produce the expected JsObject without truncating payrollId" in new Test(false) {
+          val updatedModel: AddCustomEmploymentRequestBody = model.copy(payrollId = Some("a" * 38))
+
+          Json.toJson(updatedModel) shouldBe json("a" * 38)
+        }
+
+        "produce the expected JsObject with # stripped from payrollId" in new Test(false) {
+          val updatedModel: AddCustomEmploymentRequestBody = model.copy(payrollId = Some("ABC#123456789"))
+
+          Json.toJson(updatedModel) shouldBe json("ABC123456789")
+        }
+      }
+
+      "the feature switch is enabled (HIP enabled)" should {
+        "produce the expected JsObject without truncating payrollId" when {
+          "it is within the 35 character limit" in new Test(true) {
+            Json.toJson(model) shouldBe json()
+          }
+        }
+
+        "produce the expected JsObject with payrollId truncated to 35 characters" when {
+          "it exceeds the 35 character limit" in new Test(true) {
+            val updatedModel: AddCustomEmploymentRequestBody = model.copy(payrollId = Some("a" * 38))
+
+            Json.toJson(updatedModel) shouldBe json("a" * 35)
+          }
+        }
+      }
+
+      "payrollId is not provided" should {
+        "produce the expected JsObject without payrollId" in {
+          val updatedModel: AddCustomEmploymentRequestBody = model.copy(payrollId = None)
+
+          Json.toJson(updatedModel) shouldBe json().as[JsObject] - "payrollId"
+        }
       }
     }
   }

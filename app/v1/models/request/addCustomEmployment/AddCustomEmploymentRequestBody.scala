@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,8 @@
 
 package v1.models.request.addCustomEmployment
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.{JsString, Json, OWrites, Reads}
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
 
 case class AddCustomEmploymentRequestBody(employerRef: Option[String],
                                           employerName: String,
@@ -26,5 +27,15 @@ case class AddCustomEmploymentRequestBody(employerRef: Option[String],
                                           occupationalPension: Boolean)
 
 object AddCustomEmploymentRequestBody {
-  implicit val format: OFormat[AddCustomEmploymentRequestBody] = Json.format[AddCustomEmploymentRequestBody]
+  implicit val reads: Reads[AddCustomEmploymentRequestBody] = Json.reads[AddCustomEmploymentRequestBody]
+
+  implicit def writes(implicit appConfig: SharedAppConfig): OWrites[AddCustomEmploymentRequestBody] =
+    Json.writes[AddCustomEmploymentRequestBody].transform { json =>
+      (json \ "payrollId").asOpt[String].fold(json) { payrollId =>
+        val finalPayrollId: String =
+          if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1661")) payrollId.take(35) else payrollId.replace("#", "")
+
+        json + ("payrollId" -> JsString(finalPayrollId))
+      }
+    }
 }
