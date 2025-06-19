@@ -8,7 +8,7 @@
     "employerName": {"$ref": "employments_definitions.json#/definitions/employerName"},
     "startDate": {"$ref": "employments_definitions.json#/definitions/startDate"},
     "cessationDate": {"$ref": "employments_definitions.json#/definitions/cessationDate"},
-    {{#if (enabled 'ifs_hip_migration_1662')}}
+    {{#if (enabled 'ifs_hip_migration_1662_docs')}}
       "payrollId": {
         "type": "string",
         "description": "The unique identifier used by the employer to identify the employee. Up to 38 characters are supported, but only the first 35 will be retained during submission.",
