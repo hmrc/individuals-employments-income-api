@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,18 @@
 
 package v2.mocks.services
 
-import shared.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import shared.controllers.RequestContext
+import shared.services.ServiceOutcome
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 import v2.models.response.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsResponse
 import v2.services.RetrieveEmploymentAndFinancialDetailsService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockRetrieveEmploymentAndFinancialDetailsService extends MockFactory {
+trait MockRetrieveEmploymentAndFinancialDetailsService extends TestSuite with MockFactory {
 
   val mockRetrieveEmploymentAndFinancialDetailsService: RetrieveEmploymentAndFinancialDetailsService =
     mock[RetrieveEmploymentAndFinancialDetailsService]

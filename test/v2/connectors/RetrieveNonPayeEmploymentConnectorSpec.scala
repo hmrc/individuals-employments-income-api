@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import common.models.domain.MtdSourceEnum
 import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture._
 import v2.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
@@ -37,7 +38,7 @@ class RetrieveNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
         val outcome = Right(ResponseWrapper(correlationId, responseModel))
 
-        willGet(s"$baseUrl/income-tax/income/employments/non-paye/$nino/2018-19?view=LATEST")
+        willGet(url"$baseUrl/income-tax/income/employments/non-paye/$nino/2018-19?view=LATEST")
           .returns(Future.successful(outcome))
 
         await(connector.retrieveNonPayeEmployment(request)) shouldBe outcome
@@ -51,7 +52,7 @@ class RetrieveNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
         val outcome = Right(ResponseWrapper(correlationId, responseModel))
 
-        willGet(s"$baseUrl/income-tax/income/employments/non-paye/23-24/$nino?view=LATEST")
+        willGet(url"$baseUrl/income-tax/income/employments/non-paye/23-24/$nino?view=LATEST")
           .returns(Future.successful(outcome))
 
         await(connector.retrieveNonPayeEmployment(request)) shouldBe outcome

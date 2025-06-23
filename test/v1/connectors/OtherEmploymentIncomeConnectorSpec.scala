@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import config.MockFeatureSwitches
 import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveResponse
 import v1.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
 import v1.models.response.retrieveOtherEmployment.RetrieveOtherEmploymentResponse
@@ -51,7 +52,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
         val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
         val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
-        willDelete(s"$baseUrl/income-tax/income/other/employments/$nino/2017-18") returns Future.successful(outcome)
+        willDelete(url"$baseUrl/income-tax/income/other/employments/$nino/2017-18") returns Future.successful(outcome)
 
         await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
       }
@@ -62,7 +63,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
         val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
         val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
-        willDelete(s"$baseUrl/income-tax/income/other/employments/23-24/$nino") returns Future.successful(outcome)
+        willDelete(url"$baseUrl/income-tax/income/other/employments/23-24/$nino") returns Future.successful(outcome)
 
         await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
       }
@@ -76,7 +77,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
         val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
         val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
-        willDelete(s"$baseUrl/income-tax/2017-18/income/other/employments/$nino") returns Future.successful(outcome)
+        willDelete(url"$baseUrl/income-tax/2017-18/income/other/employments/$nino") returns Future.successful(outcome)
 
         await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
 
@@ -97,7 +98,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
         val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherEmploymentResponse]] =
           Right(ResponseWrapper(correlationId, retrieveResponse))
 
-        willGet(s"$baseUrl/income-tax/income/other/employments/$nino/2021-22") returns Future.successful(outcome)
+        willGet(url"$baseUrl/income-tax/income/other/employments/$nino/2021-22") returns Future.successful(outcome)
 
         await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
       }
@@ -115,7 +116,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
         val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherEmploymentResponse]] =
           Right(ResponseWrapper(correlationId, retrieveResponse))
 
-        willGet(s"$baseUrl/income-tax/${taxYear.asMtd}/income/other/employments/$nino") returns Future.successful(
+        willGet(url"$baseUrl/income-tax/${taxYear.asMtd}/income/other/employments/$nino") returns Future.successful(
           outcome)
 
         await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
@@ -130,7 +131,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
         val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherEmploymentResponse]] =
           Right(ResponseWrapper(correlationId, retrieveResponse))
 
-        willGet(s"$baseUrl/income-tax/income/other/employments/23-24/$nino") returns Future.successful(outcome)
+        willGet(url"$baseUrl/income-tax/income/other/employments/23-24/$nino") returns Future.successful(outcome)
 
         await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
       }

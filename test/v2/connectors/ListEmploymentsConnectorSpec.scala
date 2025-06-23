@@ -22,6 +22,7 @@ import play.api.Configuration
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.listEmployments.ListEmploymentsRequest
 import v2.models.response.listEmployment.{Employment, ListEmploymentResponse}
 
@@ -71,7 +72,7 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> false)
 
         willGet(
-          url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear"
+          url = url"$baseUrl/income-tax/income/employments/$nino/$taxYear"
         ).returns(Future.successful(outcome))
 
         await(connector.listEmployments(request)) shouldBe outcome
@@ -83,7 +84,7 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> true)
 
         willGet(
-          url = s"$baseUrl/itsd/income/employments/$nino?taxYear=19-20"
+          url = url"$baseUrl/itsd/income/employments/$nino?taxYear=19-20"
         ).returns(Future.successful(outcome))
 
         await(connector.listEmployments(request)) shouldBe outcome

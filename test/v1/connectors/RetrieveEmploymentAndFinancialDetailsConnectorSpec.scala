@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import shared.connectors.DownstreamOutcome
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.errors.{DownstreamErrorCode, DownstreamErrors}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 import v1.models.response.retrieveFinancialDetails.{Employer, Employment, RetrieveEmploymentAndFinancialDetailsResponse}
 
@@ -122,21 +123,21 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
     protected def stubHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
       : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
       willGet(
-        url = s"$baseUrl/income-tax/income/employments/$nino/${taxYear.asMtd}/$employmentId",
+        url = url"$baseUrl/income-tax/income/employments/$nino/${taxYear.asMtd}/$employmentId",
         queryParams
       ).returns(Future.successful(outcome))
 
     protected def stubIfsHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
       : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
       willGet(
-        url = s"$baseUrl/income-tax/income/employments/${taxYear.asTysDownstream}/$nino/$employmentId",
+        url = url"$baseUrl/income-tax/income/employments/${taxYear.asTysDownstream}/$nino/$employmentId",
         queryParams
       ).returns(Future.successful(outcome))
 
     protected def stubHipHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
     : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
       willGet(
-        url = s"$baseUrl/itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/$nino/$employmentId",
+        url = url"$baseUrl/itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/$nino/$employmentId",
         queryParams
       ).returns(Future.successful(outcome))
 

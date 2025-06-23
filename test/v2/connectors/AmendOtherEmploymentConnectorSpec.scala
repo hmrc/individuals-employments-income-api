@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors.{InternalError, NinoFormatError}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.amendOtherEmployment._
 
 import scala.concurrent.Future
@@ -33,7 +34,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
-          url = s"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
+          url = url"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
           body = amendOtherEmploymentRequestBody
         ).returns(Future.successful(outcome))
 
@@ -46,7 +47,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
         val outcome = Left(ResponseWrapper(correlationId, NinoFormatError))
 
         willPut(
-          url = s"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
+          url = url"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
           body = amendOtherEmploymentRequestBody
         ).returns(Future.successful(outcome))
 
@@ -59,7 +60,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
         val outcome = Left(ResponseWrapper(correlationId, Seq(NinoFormatError, InternalError)))
 
         willPut(
-          url = s"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
+          url = url"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
           body = amendOtherEmploymentRequestBody
         ).returns(Future.successful(outcome))
 
@@ -72,7 +73,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
-          url = s"$baseUrl/income-tax/income/other/employments/23-24/$nino",
+          url = url"$baseUrl/income-tax/income/other/employments/23-24/$nino",
           body = amendOtherEmploymentRequestBody
         ).returns(Future.successful(outcome))
 
