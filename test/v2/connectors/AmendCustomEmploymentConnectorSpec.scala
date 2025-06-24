@@ -66,7 +66,7 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
-        MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes().returns(Configuration("ifs_hip_migration_1662.enabled" -> false))
+        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1662.enabled" -> false))
 
         willPut(
           url = url"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId",
@@ -80,7 +80,7 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
-        MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes().returns(Configuration("ifs_hip_migration_1662.enabled" -> true))
+        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1662.enabled" -> true))
 
         willPut(
           url = url"$baseUrl/itsd/income/employments/$nino/custom/$employmentId?taxYear=${TaxYear("2022").asTysDownstream}",

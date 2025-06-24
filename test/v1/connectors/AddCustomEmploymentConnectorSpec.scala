@@ -63,7 +63,7 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
   "AddCustomEmploymentConnector" when {
     ".addEmployment" should {
       "return a success upon HttpClient success with IFS" in new Test with Api1661Test {
-        MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes().returns(Configuration("ifs_hip_migration_1661.enabled" -> false))
+        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1661.enabled" -> false))
         val outcome = Right(ResponseWrapper(correlationId, response))
 
         willPost(
@@ -75,7 +75,7 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       }
 
       "return a success upon HttpClient success with HIP" in new Test with HipTest {
-        MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes().returns(Configuration("ifs_hip_migration_1661.enabled" -> true))
+        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1661.enabled" -> true))
         val outcome = Right(ResponseWrapper(correlationId, response))
 
         willPost(

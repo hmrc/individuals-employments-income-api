@@ -83,7 +83,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
 
       "downstream returns OK" when {
         "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on IFS" in new MockEmploymentsAppConfig with TysIfsTest with Test {
-          MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> false)).anyNumberOfTimes()
+          MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> false)).atLeastOnce()
           override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
           val expected = Right(ResponseWrapper(correlationId, response))
 
@@ -93,7 +93,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
         }
 
         "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on HIP" in new MockEmploymentsAppConfig with HipTest with Test {
-          MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> true)).anyNumberOfTimes()
+          MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> true)).atLeastOnce()
           override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
           val expected = Right(ResponseWrapper(correlationId, response))
 
