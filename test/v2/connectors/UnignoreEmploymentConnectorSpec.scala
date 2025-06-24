@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import play.api.Configuration
 import shared.connectors.{ConnectorSpec, DownstreamOutcome}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.unignoreEmployment.UnignoreEmploymentRequest
 
 import scala.concurrent.Future
@@ -35,7 +36,7 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1800.enabled" -> false)
 
         willDelete(
-          url = s"$baseUrl/income-tax/23-24/employments/$nino/ignore/$employmentId"
+          url = url"$baseUrl/income-tax/23-24/employments/$nino/ignore/$employmentId"
         ).returns(Future.successful(expectedOutcome))
 
         val result: DownstreamOutcome[Unit] = await(connector.unignoreEmployment(request))
@@ -50,7 +51,7 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1800.enabled" -> true)
 
         willDelete(
-          url = s"$baseUrl/itsd/income/ignore/employments/$nino/$employmentId?taxYear=23-24"
+          url = url"$baseUrl/itsd/income/ignore/employments/$nino/$employmentId?taxYear=23-24"
         ).returns(Future.successful(expectedOutcome))
 
         val result: DownstreamOutcome[Unit] = await(connector.unignoreEmployment(request))

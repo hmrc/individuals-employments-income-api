@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,10 @@ package v1.connectors
 import config.EmploymentsAppConfig
 import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
 import shared.connectors.DownstreamUri.HipUri
+import shared.connectors._
 import shared.connectors.httpparsers.StandardDownstreamHttpParser._
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.HttpClientV2
 import v1.models.request.addCustomEmployment.AddCustomEmploymentRequest
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
@@ -29,7 +30,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AddCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig, val employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AddCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, val employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def addEmployment(request: AddCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -39,7 +40,7 @@ class AddCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfi
     val nino    = request.nino.nino
     val taxYear = request.taxYear
 
-    val downstreamUri =  if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1661")) {
+    val downstreamUri = if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1661")) {
       HipUri[AddCustomEmploymentResponse](s"itsd/income/employments/$nino/custom?taxYear=${taxYear.asTysDownstream}")
     } else {
       DownstreamUri[AddCustomEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom",

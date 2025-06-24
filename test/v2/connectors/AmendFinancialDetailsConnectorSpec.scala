@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
 import v2.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
@@ -36,7 +37,7 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
-          url = s"$baseUrl/income-tax/income/employments/$nino/2019-20/$employmentId",
+          url = url"$baseUrl/income-tax/income/employments/$nino/2019-20/$employmentId",
           body = amendFinancialDetailsRequestBody
         ).returns(Future.successful(outcome))
 
@@ -51,7 +52,7 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
-          url = s"$baseUrl/income-tax/23-24/income/employments/$nino/$employmentId",
+          url = url"$baseUrl/income-tax/23-24/income/employments/$nino/$employmentId",
           body = amendFinancialDetailsRequestBody
         ).returns(Future.successful(outcome))
 

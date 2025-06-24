@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,11 @@ package shared.config
 import cats.data.Validated
 import org.scalamock.handlers.{CallHandler, CallHandler0}
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import play.api.Configuration
 import shared.routing.Version
 
-trait MockSharedAppConfig extends MockFactory {
+trait MockSharedAppConfig extends TestSuite with MockFactory {
 
   implicit val mockSharedAppConfig: SharedAppConfig = mock[SharedAppConfig]
 

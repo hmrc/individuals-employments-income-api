@@ -23,6 +23,7 @@ import play.api.Configuration
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v2.models.response.retrieveEmployment.RetrieveEmploymentResponse
 
@@ -40,7 +41,7 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> false)
 
-        willGet(url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear?employmentId=$employmentId")
+        willGet(url = url"$baseUrl/income-tax/income/employments/$nino/$taxYear?employmentId=$employmentId")
           .returns(Future.successful(outcome))
 
         await(connector.retrieve(request)) shouldBe outcome
@@ -52,7 +53,7 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
       MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> true)
 
       willGet(
-        url = s"$baseUrl/itsd/income/employments/$nino?taxYear=19-20&employmentId=$employmentId"
+        url = url"$baseUrl/itsd/income/employments/$nino?taxYear=19-20&employmentId=$employmentId"
       ).returns(Future.successful(outcome))
 
       await(connector.retrieve(request)) shouldBe outcome

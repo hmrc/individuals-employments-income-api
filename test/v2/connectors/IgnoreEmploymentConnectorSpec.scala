@@ -21,6 +21,7 @@ import play.api.Configuration
 import shared.connectors.ConnectorSpec
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
 import scala.concurrent.Future
@@ -52,7 +53,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
       "return a success response when feature switch is disabled(IFS enabled)" in new TysIfsTest with Test with ConnectorTest {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1940.enabled" -> false)
         willPut(
-          url = s"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore",
+          url = url"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore",
           body = ""
         ) returns Future.successful(outcome)
 
@@ -63,7 +64,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
       "return a success response when feature switch is enabled (HIP enabled)" in new HipTest with Test {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1940.enabled" -> true)
         willPut(
-          url = s"$baseUrl/itsd/income/ignore/employments/$nino/$employmentId?taxYear=${taxYear.asTysDownstream}",
+          url = url"$baseUrl/itsd/income/ignore/employments/$nino/$employmentId?taxYear=${taxYear.asTysDownstream}",
           body = ""
         ) returns Future.successful(outcome)
 
