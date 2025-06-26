@@ -30,6 +30,8 @@ trait FeatureSwitches {
 
   def supportingAgentsAccessControlEnabled: Boolean = isEnabled("supporting-agents-access-control")
 
+  def additionalDirectorshipDividendData: Boolean = isEnabled("additional_directorship_dividend_data")
+
 }
 
 /** This is just here for non-typesafe usage such as Handlebars using OasFeatureRewriter. In most cases, should use the API-specific
