@@ -45,7 +45,7 @@ class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     }
 
     "deleteNonPayeEmployment is called for a TaxYearSpecific tax year" must {
-      "return a 200 for success scenario" in new MockEmploymentsAppConfig with TysIfsTest with Test {
+      "return a 200 for success scenario" in new MockEmploymentsAppConfig with IfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
@@ -63,10 +63,7 @@ class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     def taxYear: TaxYear
 
     protected val connector: DeleteNonPayeEmploymentConnector =
-      new DeleteNonPayeEmploymentConnector(
-        http = mockHttpClient,
-        appConfig = mockSharedAppConfig,
-        employmentsAppConfig = mockEmploymentsConfig)
+      new DeleteNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig, employmentsAppConfig = mockEmploymentsConfig)
 
     protected val request: DeleteNonPayeEmploymentRequest =
       DeleteNonPayeEmploymentRequest(Nino("AA111111A"), taxYear = taxYear)

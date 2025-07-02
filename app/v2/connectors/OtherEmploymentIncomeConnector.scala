@@ -19,7 +19,7 @@ package v2.connectors
 import config.EmploymentsFeatureSwitches
 import play.api.http.Status.NO_CONTENT
 import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.{DesUri, IfsUri, TaxYearSpecificIfsUri}
+import shared.connectors.DownstreamUri.{DesUri, IfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.{SuccessCode, reads, readsEmpty}
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -31,7 +31,8 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class OtherEmploymentIncomeConnector @Inject()(val http: HttpClientV2, val appConfig: SharedAppConfig)(implicit featureSwitches: EmploymentsFeatureSwitches)
+class OtherEmploymentIncomeConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig)(implicit
+    featureSwitches: EmploymentsFeatureSwitches)
     extends BaseDownstreamConnector {
 
   def deleteOtherEmploymentIncome(request: DeleteOtherEmploymentIncomeRequest)(implicit
@@ -43,7 +44,7 @@ class OtherEmploymentIncomeConnector @Inject()(val http: HttpClientV2, val appCo
 
     val downstreamUri =
       if (request.taxYear.useTaxYearSpecificApi) {
-        TaxYearSpecificIfsUri[Unit](s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
+        IfsUri[Unit](s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
       } else if (featureSwitches.isDesIf_MigrationEnabled) {
         IfsUri[Unit](s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}")
       } else {
@@ -61,8 +62,7 @@ class OtherEmploymentIncomeConnector @Inject()(val http: HttpClientV2, val appCo
       correlationId: String): Future[DownstreamOutcome[RetrieveOtherEmploymentResponse]] = {
 
     val resolvedDownstreamUri = if (request.taxYear.useTaxYearSpecificApi) {
-      TaxYearSpecificIfsUri[RetrieveOtherEmploymentResponse](
-        s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
+      IfsUri[RetrieveOtherEmploymentResponse](s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
     } else if (featureSwitches.isDesIf_MigrationEnabled) {
       IfsUri[RetrieveOtherEmploymentResponse](s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}")
     } else {

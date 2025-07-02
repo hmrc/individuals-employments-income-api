@@ -31,7 +31,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
     "return the expected response for a non-TYS request" when {
       "a valid request is made" in new DesTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2019-20")
-        val outcome = Right(ResponseWrapper(correlationId, ()))
+        val outcome          = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
           url = url"$baseUrl/income-tax/income/other/employments/$nino/2019-20",
@@ -68,9 +68,9 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
       }
     }
     "return the expected response for a TYS request" when {
-      "a valid request is made" in new TysIfsTest with Test {
+      "a valid request is made" in new IfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-        val outcome = Right(ResponseWrapper(correlationId, ()))
+        val outcome          = Right(ResponseWrapper(correlationId, ()))
 
         willPut(
           url = url"$baseUrl/income-tax/income/other/employments/23-24/$nino",

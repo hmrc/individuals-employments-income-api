@@ -32,7 +32,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
     "return the expected response for a non-TYS request" when {
       "a valid request is made" in new Release6Test with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2019-20")
-        val outcome = Right(ResponseWrapper(correlationId, ()))
+        val outcome          = Right(ResponseWrapper(correlationId, ()))
 
         willDelete(
           url = url"$baseUrl/income-tax/income/employments/$nino/2019-20/$employmentId"
@@ -43,9 +43,9 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
     }
 
     "return the expected response for a TYS request" when {
-      "a valid request is made" in new MockEmploymentsAppConfig with TysIfsTest with Test {
+      "a valid request is made" in new MockEmploymentsAppConfig with IfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-        val outcome = Right(ResponseWrapper(correlationId, ()))
+        val outcome          = Right(ResponseWrapper(correlationId, ()))
 
         willDelete(
           url = url"$baseUrl/income-tax/23-24/income/employments/$nino/$employmentId"
@@ -61,7 +61,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
 
     def taxYear: TaxYear
 
-    protected val nino: String = "AA111111A"
+    protected val nino: String         = "AA111111A"
     protected val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     protected val request: DeleteEmploymentFinancialDetailsRequest =

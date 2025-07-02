@@ -19,7 +19,7 @@ package v2.connectors
 import config.EmploymentsAppConfig
 import play.api.libs.json.Format.GenericFormat
 import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
+import shared.connectors.DownstreamUri.IfsUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -30,7 +30,8 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendFinancialDetailsConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AmendFinancialDetailsConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig)
+    extends BaseDownstreamConnector {
 
   def amendFinancialDetails(request: AmendFinancialDetailsRequest)(implicit
       hc: HeaderCarrier,
@@ -41,11 +42,12 @@ class AmendFinancialDetailsConnector @Inject() (val http: HttpClientV2, val appC
 
     val downstreamUri =
       if (taxYear.useTaxYearSpecificApi) {
-        TaxYearSpecificIfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}")
+        IfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}")
       } else {
-          DownstreamUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/${employmentId.value}",
-            DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
-          )
+        DownstreamUri[Unit](
+          s"income-tax/income/employments/$nino/${taxYear.asMtd}/${employmentId.value}",
+          DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
+        )
       }
 
     put(body, downstreamUri)

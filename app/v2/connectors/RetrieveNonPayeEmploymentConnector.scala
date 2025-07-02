@@ -18,7 +18,7 @@ package v2.connectors
 
 import config.EmploymentsAppConfig
 import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.TaxYearSpecificIfsUri
+import shared.connectors.DownstreamUri.IfsUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -30,7 +30,10 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClientV2,
+                                                    val appConfig: SharedAppConfig,
+                                                    employmentsAppConfig: EmploymentsAppConfig)
+    extends BaseDownstreamConnector {
 
   def retrieveNonPayeEmployment(request: RetrieveNonPayeEmploymentIncomeRequest)(implicit
       hc: HeaderCarrier,
@@ -40,7 +43,7 @@ class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClientV2, val 
     import request._
 
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
-      TaxYearSpecificIfsUri[RetrieveNonPayeEmploymentIncomeResponse](
+      IfsUri[RetrieveNonPayeEmploymentIncomeResponse](
         s"income-tax/income/employments/non-paye/${taxYear.asTysDownstream}/${nino.value}?view=${source.toDesViewString}"
       )
     } else {
