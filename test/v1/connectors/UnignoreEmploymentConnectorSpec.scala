@@ -30,7 +30,7 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
 
   "UnignoreEmploymentConnector" should {
     "return the expected response for a TYS IFS request" when {
-      "a valid request is made" in new TysIfsTest with Test {
+      "a valid request is made" in new IfsTest with Test {
         val expectedOutcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1800.enabled" -> false)
@@ -63,7 +63,7 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
   trait Test { _: ConnectorTest =>
     val taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
-    val nino: String = "AA111111A"
+    val nino: String         = "AA111111A"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     val request: UnignoreEmploymentRequest = UnignoreEmploymentRequest(

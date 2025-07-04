@@ -62,7 +62,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
         await(connector.createAndAmend(request)) shouldBe outcome
       }
 
-      "a valid request is made for a TYS tax year" in new MockEmploymentsAppConfig with TysIfsTest with Test {
+      "a valid request is made for a TYS tax year" in new MockEmploymentsAppConfig with IfsTest with Test {
         val taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
         val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))

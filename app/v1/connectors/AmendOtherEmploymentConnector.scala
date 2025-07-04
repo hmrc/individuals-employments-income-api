@@ -17,7 +17,7 @@
 package v1.connectors
 
 import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
+import shared.connectors.DownstreamUri.{DesUri, IfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -38,7 +38,7 @@ class AmendOtherEmploymentConnector @Inject() (val http: HttpClientV2, val appCo
     import request._
 
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
-      TaxYearSpecificIfsUri[Unit](s"income-tax/income/other/employments/${taxYear.asTysDownstream}/${nino.nino}")
+      IfsUri[Unit](s"income-tax/income/other/employments/${taxYear.asTysDownstream}/${nino.nino}")
     } else {
       DesUri[Unit](s"income-tax/income/other/employments/${nino.nino}/${taxYear.asMtd}")
     }

@@ -28,7 +28,7 @@ import scala.concurrent.Future
 
 class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
-  val nino: String = "AA111111A"
+  val nino: String         = "AA111111A"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   trait Test { _: ConnectorTest =>
@@ -50,7 +50,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
   "ignoreEmployment" when {
     "given a valid request" should {
-      "return a success response when feature switch is disabled(IFS enabled)" in new TysIfsTest with Test with ConnectorTest {
+      "return a success response when feature switch is disabled(IFS enabled)" in new IfsTest with Test with ConnectorTest {
         MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1940.enabled" -> false)
         willPut(
           url = url"$baseUrl/income-tax/21-22/income/employments/$nino/$employmentId/ignore",

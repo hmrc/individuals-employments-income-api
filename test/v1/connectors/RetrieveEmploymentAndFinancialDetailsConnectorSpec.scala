@@ -33,8 +33,8 @@ import scala.concurrent.Future
 
 class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String = "AA123456A"
-  val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  val nino: String          = "AA123456A"
+  val employmentId: String  = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
   val source: MtdSourceEnum = MtdSourceEnum.latest
 
   val queryParams: Seq[(String, String)] = Seq(("view", source.toDesViewString))
@@ -82,20 +82,24 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
     "return the expected response for a TYS request" when {
 
       "downstream returns OK" when {
-        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on IFS" in new MockEmploymentsAppConfig with TysIfsTest with Test {
+        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on IFS" in new MockEmploymentsAppConfig
+          with IfsTest
+          with Test {
           MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> false)).atLeastOnce()
           override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-          val expected = Right(ResponseWrapper(correlationId, response))
+          val expected                  = Right(ResponseWrapper(correlationId, response))
 
           stubIfsHttpResponse(expected)
 
           await(connector.retrieve(request)) shouldBe expected
         }
 
-        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on HIP" in new MockEmploymentsAppConfig with HipTest with Test {
+        "the connector sends a valid request downstream with a Tax Year Specific (TYS) tax year on HIP" in new MockEmploymentsAppConfig
+          with HipTest
+          with Test {
           MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1877.enabled" -> true)).atLeastOnce()
           override def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-          val expected = Right(ResponseWrapper(correlationId, response))
+          val expected                  = Right(ResponseWrapper(correlationId, response))
 
           stubHipHttpResponse(expected)
 
@@ -121,21 +125,21 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
         employmentsAppConfig = mockEmploymentsConfig)
 
     protected def stubHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
-      : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
+        : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
       willGet(
         url = url"$baseUrl/income-tax/income/employments/$nino/${taxYear.asMtd}/$employmentId",
         queryParams
       ).returns(Future.successful(outcome))
 
     protected def stubIfsHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
-      : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
+        : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
       willGet(
         url = url"$baseUrl/income-tax/income/employments/${taxYear.asTysDownstream}/$nino/$employmentId",
         queryParams
       ).returns(Future.successful(outcome))
 
     protected def stubHipHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])
-    : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
+        : CallHandler[Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]]]#Derived =
       willGet(
         url = url"$baseUrl/itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/$nino/$employmentId",
         queryParams
