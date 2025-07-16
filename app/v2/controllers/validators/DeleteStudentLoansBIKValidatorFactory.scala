@@ -16,27 +16,16 @@
 
 package v2.controllers.validators
 
-import cats.data.Validated
-import cats.implicits._
 import config.EmploymentsAppConfig
 import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
-import shared.models.errors.MtdError
-import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
 
-class DeleteStudentLoansBIKValidator(nino: String, taxYear: String, employmentId: String, appConfig: EmploymentsAppConfig)
-    extends Validator[DeleteStudentLoansBIKRequest]
-    with ResolverSupport {
+import javax.inject.{Inject, Singleton}
 
-  private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.studentLoansMinimumPermittedTaxYear).resolver
+@Singleton
+class DeleteStudentLoansBIKValidatorFactory @Inject()(appConfig: EmploymentsAppConfig) {
 
-  override def validate: Validated[Seq[MtdError], DeleteStudentLoansBIKRequest] =
-    (
-      ResolveNino(nino),
-      resolveTaxYear(taxYear),
-      ResolveEmploymentId(employmentId)
-    ).mapN(DeleteStudentLoansBIKRequest)
+  def validator(nino: String, taxYear: String, employmentId: String): Validator[DeleteStudentLoansBIKRequest] =
+    new DeleteStudentLoansBIKValidator(nino, taxYear, employmentId, appConfig)
 
 }
