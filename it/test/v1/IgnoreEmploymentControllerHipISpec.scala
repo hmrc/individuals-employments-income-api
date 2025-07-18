@@ -59,7 +59,7 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
       "any valid request is made" in new Test {
 
         override def setupStubs(): Unit =
-          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, downstreamQueryParams, status = NO_CONTENT, JsObject.empty)
+          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, downstreamQueryParams, status = CREATED, JsObject.empty)
 
         val response: WSResponse = await(request.post(JsObject.empty))
         response.status shouldBe OK
