@@ -16,10 +16,11 @@
 
 package v2.connectors
 
+import play.api.http.Status.CREATED
 import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
 import shared.connectors.DownstreamUri.{HipUri, IfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser._
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.ignoreEmployment.IgnoreEmploymentRequest
@@ -35,12 +36,19 @@ class IgnoreEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig
 
     import request._
 
-    val downstreamUri = if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1940")) {
-      HipUri[Unit](s"itsd/income/ignore/employments/$nino/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
+    if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1940")) {
+      implicit val successCode: SuccessCode = SuccessCode(CREATED)
+
+      val downstreamUri: DownstreamUri[Unit] =
+        HipUri[Unit](s"itsd/income/ignore/employments/$nino/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
+
+      putEmpty(uri = downstreamUri)
     } else {
-      IfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}/ignore")
+      val downstreamUri: DownstreamUri[Unit] =
+        IfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/income/employments/$nino/${employmentId.value}/ignore")
+
+      put(uri = downstreamUri, body = "")
     }
-    put(uri = downstreamUri, body = "")
   }
 
 }

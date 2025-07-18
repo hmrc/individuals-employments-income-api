@@ -133,8 +133,8 @@ class BaseDownstreamConnectorSpec extends UnitSpec with MockHttpClient with Mock
       behave like sendsRequestWithIntent(Post)
     }
 
-    "put is called" must {
-      object Put extends RequestMethodCaller {
+    "put is called with body" must {
+      object PutWithBody extends RequestMethodCaller {
         def makeCall(maybeIntentSpecified: Option[String],
                      additionalRequiredHeaders: Seq[(String, String)] = Nil,
                      additionalExcludedHeaders: Seq[(String, String)] = Nil): Assertion = {
@@ -152,8 +152,30 @@ class BaseDownstreamConnectorSpec extends UnitSpec with MockHttpClient with Mock
         }
       }
 
-      behave like sendsRequest(Put)
-      behave like sendsRequestWithIntent(Put)
+      behave like sendsRequest(PutWithBody)
+      behave like sendsRequestWithIntent(PutWithBody)
+    }
+
+    "put is called without body" must {
+      object PutWithoutBody extends RequestMethodCaller {
+        def makeCall(maybeIntentSpecified: Option[String],
+                     additionalRequiredHeaders: Seq[(String, String)] = Nil,
+                     additionalExcludedHeaders: Seq[(String, String)] = Nil): Assertion = {
+          implicit val hc: HeaderCarrier = headerCarrierForInput()
+
+          MockedHttpClient.putEmpty(
+            absoluteUrl,
+            headerCarrierConfig,
+            requiredHeaders = standardContractHeadersWith(additionalRequiredHeaders),
+            excludedHeaders = additionalExcludedHeaders
+          ) returns Future.successful(outcome)
+
+          await(connector.putEmpty(uri(), maybeIntentSpecified)) shouldBe outcome
+        }
+      }
+
+      behave like sendsRequest(PutWithoutBody)
+      behave like sendsRequestWithIntent(PutWithoutBody)
     }
 
     "get is called" must {
