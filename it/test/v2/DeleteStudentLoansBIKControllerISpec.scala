@@ -32,8 +32,8 @@ class DeleteStudentLoansBIKControllerISpec extends EmploymentsIBaseSpec {
   private trait Test {
 
     val nino: String              = "AA123456A"
-    val taxYear: String           = "2024-25"
-    val downstreamTaxYear: String = "24-25"
+    val taxYear: String           = "2025-26"
+    val downstreamTaxYear: String = "25-26"
     val employmentId: String      = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     def uri: String = s"/$nino/$taxYear/$employmentId/benefit-in-kind/student-loans"
@@ -98,10 +98,10 @@ class DeleteStudentLoansBIKControllerISpec extends EmploymentsIBaseSpec {
         }
 
         val input = Seq(
-          ("AA1123A", "2024-25", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, NinoFormatError),
+          ("AA1123A", "2025-26", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, NinoFormatError),
           ("AA123456A", "20122", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, TaxYearFormatError),
-          ("AA123456A", "2024-25", "ABCDE12345FG", BAD_REQUEST, EmploymentIdFormatError),
-          ("AA123456A", "2023-24", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
+          ("AA123456A", "2025-26", "ABCDE12345FG", BAD_REQUEST, EmploymentIdFormatError),
+          ("AA123456A", "2024-25", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2024-26", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
         )
         input.foreach(args => (validationErrorTest _).tupled(args))
