@@ -1,0 +1,6 @@
+delete:
+  $ref: "./student_loans_bik_delete.yaml"
+  summary: Delete Student Loan Benefits in Kind{{#maybeTestOnly "2.0 student-loans-benefits-in-kind-delete"}}{{/maybeTestOnly}}
+  security:
+    - User-Restricted:
+      - write:self-assessment
