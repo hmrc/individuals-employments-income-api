@@ -1,5 +1,5 @@
 delete:
-  $ref: "./student_loans_bik_delete.yaml"
+  $ref: "./student_loans_benefits_in_kind_delete.yaml"
   summary: Delete Student Loan Benefits in Kind{{#maybeTestOnly "2.0 student-loans-benefits-in-kind-delete"}}{{/maybeTestOnly}}
   security:
     - User-Restricted:
