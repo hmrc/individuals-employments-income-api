@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,8 @@ class EmploymentsAppConfig @Inject() (protected val config: ServicesConfig, prot
   def featureSwitches: EmploymentsFeatureSwitches = EmploymentsFeatureSwitches(featureSwitchConfig)
 
   def minimumPermittedTaxYear: TaxYear = TaxYear.ending(config.getInt("minimumPermittedTaxYear"))
+
+  def studentLoansMinimumPermittedTaxYear: TaxYear = TaxYear.ending(config.getInt("studentLoansMinimumPermittedTaxYear"))
 
   def release6DownstreamConfig: DownstreamConfig =
     downstreamConfig("release6")
