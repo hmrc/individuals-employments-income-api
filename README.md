@@ -15,7 +15,7 @@ Start the service manager profile: `sm2 --start MTDFB_INDIVIDUALS_EMPLOYMENTS_IN
 
 Run unit tests: `sbt test`
 
-Run integration tests: `sbt it:test`
+Run integration tests: `sbt it/test`
 
 ## Viewing Open API Spec (OAS) docs
 

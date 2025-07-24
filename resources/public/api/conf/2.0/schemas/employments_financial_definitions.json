@@ -190,7 +190,7 @@
       "properties": {
         "accommodation": {"$ref": "#/definitions/accommodation"},
         "assets": {"$ref": "#/definitions/assets"},
-        "assetsTransfer": {"$ref": "#/definitions/assetsTransfer"},
+        "assetTransfer": {"$ref": "#/definitions/assetTransfer"},
         "beneficialLoan": {"$ref": "#/definitions/beneficialLoan"},
         "car": {"$ref": "#/definitions/car"},
         "carFuel": {"$ref": "#/definitions/carFuel"},
@@ -279,7 +279,7 @@
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
     },
-    "assetsTransfer": {
+    "assetTransfer": {
       "type": "number",
       "description": "The value of any company assets signed over by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
       "example": "1024.99",

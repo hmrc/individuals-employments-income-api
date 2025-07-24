@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package v1.services
 
 import shared.controllers.EndpointLogContext
-import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear, Timestamp}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
+import shared.services.ServiceSpec
 import v1.mocks.connectors.MockListEmploymentsConnector
 import v1.models.request.listEmployments.ListEmploymentsRequest
 import v1.models.response.listEmployment.{Employment, ListEmploymentResponse}
@@ -83,7 +83,7 @@ class ListEmploymentsServiceSpec extends ServiceSpec {
             await(service.listEmployments(requestData)) shouldBe Left(ErrorWrapper(correlationId, error))
           }
 
-        val input = List(
+        val ifsErrors: Seq[(String, MtdError)] = List(
           ("INVALID_TAXABLE_ENTITY_ID", NinoFormatError),
           ("INVALID_TAX_YEAR", TaxYearFormatError),
           ("INVALID_EMPLOYMENT_ID", InternalError),
@@ -93,7 +93,14 @@ class ListEmploymentsServiceSpec extends ServiceSpec {
           ("SERVICE_UNAVAILABLE", InternalError)
         )
 
-        input.foreach(args => (serviceError _).tupled(args))
+        val hipErrors: Seq[(String, MtdError)] = List(
+          ("1215", NinoFormatError),
+          ("1117", TaxYearFormatError),
+          ("1217", InternalError),
+          ("5010", NotFoundError)
+        )
+
+        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
       }
     }
   }

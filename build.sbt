@@ -1,44 +1,39 @@
 import sbt.*
-import uk.gov.hmrc.DefaultBuildSettings.{addTestReportOption, defaultSettings}
+import uk.gov.hmrc.DefaultBuildSettings
 
 val appName = "individuals-employments-income-api"
 
-lazy val ItTest = config("it") extend Test
+ThisBuild / scalaVersion := "2.13.16"
+ThisBuild / majorVersion := 0
 
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
-    libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test(),
+    libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
     retrieveManaged                 := true,
     update / evictionWarningOptions := EvictionWarningOptions.default.withWarnScalaVersionEviction(warnScalaVersionEviction = false),
-    scalaVersion                    := "2.13.12",
     scalacOptions ++= List(
-      "-language:higherKinds",
-      "-Xlint:-byname-implicit",
-      "-Xfatal-warnings",
+      "-feature",
       "-Wconf:src=routes/.*:silent",
-      "-feature"
+      "-Xfatal-warnings"
     )
   )
   .settings(
-    Compile / unmanagedResourceDirectories += baseDirectory.value / "resources"
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "resources",
+    Compile / unmanagedClasspath += baseDirectory.value / "resources"
   )
-  .settings(majorVersion := 0)
   .settings(CodeCoverageSettings.settings *)
-  .settings(defaultSettings() *)
-  .configs(ItTest)
-  .settings(inConfig(ItTest)(Defaults.itSettings) *)
-  .settings(
-    ItTest / fork                       := true,
-    ItTest / unmanagedSourceDirectories := List((ItTest / baseDirectory).value / "it"),
-    ItTest / unmanagedClasspath += baseDirectory.value / "resources",
-    Runtime / unmanagedClasspath += baseDirectory.value / "resources",
-    ItTest / javaOptions += "-Dlogger.resource=logback-test.xml",
-    ItTest / parallelExecution := false,
-    addTestReportOption(ItTest, "int-test-reports")
-  )
-  .settings(
-    resolvers += Resolver.jcenterRepo
-  )
   .settings(PlayKeys.playDefaultPort := 7765)
+
+lazy val it = project
+  .enablePlugins(PlayScala)
+  .dependsOn(microservice % "test->test")
+  .settings(DefaultBuildSettings.itSettings() ++ ScalafmtPlugin.scalafmtConfigSettings)
+  .settings(
+    Test / fork := true,
+    Test / javaOptions += "-Dlogger.resource=logback-test.xml")
+  .settings(libraryDependencies ++= AppDependencies.itDependencies)
+  .settings(
+    scalacOptions ++= Seq("-Xfatal-warnings")
+  )

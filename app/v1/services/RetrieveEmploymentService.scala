@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +35,9 @@ class RetrieveEmploymentService @Inject() (connector: RetrieveEmploymentConnecto
       request: RetrieveEmploymentRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[RetrieveEmploymentResponse]] =
     connector.retrieve(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
-  private val downstreamErrorMap: Map[String, MtdError] =
-    Map(
+  private val downstreamErrorMap: Map[String, MtdError] = {
+
+    val ifsErrors = Map(
       "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
       "INVALID_TAX_YEAR"          -> TaxYearFormatError,
       "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
@@ -45,5 +46,15 @@ class RetrieveEmploymentService @Inject() (connector: RetrieveEmploymentConnecto
       "SERVER_ERROR"              -> InternalError,
       "SERVICE_UNAVAILABLE"       -> InternalError
     )
+
+    val hipErrors = Map(
+      "1117" -> TaxYearFormatError,
+      "1215" -> NinoFormatError,
+      "1217" -> EmploymentIdFormatError,
+      "5010" -> NotFoundError
+    )
+
+    ifsErrors ++ hipErrors
+  }
 
 }

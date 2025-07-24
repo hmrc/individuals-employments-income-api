@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,13 @@
 
 package v2.connectors
 
-import shared.config.SharedAppConfig
 import config.EmploymentsAppConfig
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.connectors.DownstreamUri.HipUri
+import shared.connectors._
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v2.models.response.retrieveEmployment.RetrieveEmploymentResponse
 
@@ -28,7 +30,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveEmploymentConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class RetrieveEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def retrieve(request: RetrieveEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -37,10 +39,13 @@ class RetrieveEmploymentConnector @Inject() (val http: HttpClient, val appConfig
 
     import request._
 
-    val downstreamUri = DownstreamUri[RetrieveEmploymentResponse](
-      s"income-tax/income/employments/$nino/${taxYear.asMtd}?employmentId=${employmentId.value}",
-      DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
-    )
+    val downstreamUri = if(ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1645")){
+      HipUri[RetrieveEmploymentResponse](
+        s"itsd/income/employments/$nino?taxYear=${taxYear.asTysDownstream}&employmentId=${employmentId.value}"
+      )
+    } else {
+      DownstreamUri[RetrieveEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}?employmentId=${employmentId.value}", DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig))
+    }
 
     get(uri = downstreamUri)
   }

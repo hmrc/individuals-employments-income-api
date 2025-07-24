@@ -1,4 +1,4 @@
-summary: Create and Amend Employment Financial Details [Test only]
+summary: Create and Amend Employment Financial Details
 description: |
   This endpoint enables you to submit or overwrite financial data for an individual employment.
   A National Insurance number, tax year and Employment ID are required.

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,19 @@
 
 package v1.connectors
 
-import shared.config.SharedAppConfig
 import config.EmploymentsAppConfig
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.connectors.DownstreamUri.HipUri
+import shared.connectors._
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.HttpClientV2
 import v1.models.request.amendCustomEmployment.AmendCustomEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AmendCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
 
   def amendEmployment(request: AmendCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -38,7 +40,18 @@ class AmendCustomEmploymentConnector @Inject() (val http: HttpClient, val appCon
     val nino         = request.nino.nino
     val taxYear      = request.taxYear
     val employmentId = request.employmentId
-    put(request.body, DownstreamUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}", DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)))
+
+    lazy val downstreamUri1662: DownstreamUri[Unit] =
+      if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1662")) {
+        HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
+      } else {
+        DownstreamUri[Unit](
+          s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}",
+          DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
+        )
+      }
+
+    put(request.body, downstreamUri1662)
   }
 
 }

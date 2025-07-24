@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,11 @@ package v2.connectors
 
 import config.EmploymentsAppConfig
 import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
-import shared.connectors.DownstreamUri.{HipUri, TaxYearSpecificIfsUri}
+import shared.connectors.DownstreamUri.{HipUri, IfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 import v2.models.response.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsResponse
 
@@ -29,7 +30,10 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveEmploymentAndFinancialDetailsConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class RetrieveEmploymentAndFinancialDetailsConnector @Inject() (val http: HttpClientV2,
+                                                                val appConfig: SharedAppConfig,
+                                                                employmentsAppConfig: EmploymentsAppConfig)
+    extends BaseDownstreamConnector {
 
   def retrieve(request: RetrieveEmploymentAndFinancialDetailsRequest)(implicit
       hc: HeaderCarrier,
@@ -47,7 +51,7 @@ class RetrieveEmploymentAndFinancialDetailsConnector @Inject() (val http: HttpCl
           s"itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/${nino.value}/${employmentId.value}"
         )
       } else {
-        TaxYearSpecificIfsUri[RetrieveEmploymentAndFinancialDetailsResponse](
+        IfsUri[RetrieveEmploymentAndFinancialDetailsResponse](
           s"income-tax/income/employments/${taxYear.asTysDownstream}/${nino.value}/${employmentId.value}"
         )
       }

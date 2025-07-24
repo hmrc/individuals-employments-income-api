@@ -1,4 +1,4 @@
-summary: Delete a Custom Employment [Test only]
+summary: Delete a Custom Employment
 description: |
   This endpoint allows the developer to delete a custom employment from the list of employments for this user.
   A National Insurance number, Tax year and Employment ID are required.

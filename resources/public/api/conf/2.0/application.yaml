@@ -74,9 +74,6 @@ tags:
   - name: Other Employment Income
     description: Resources relating to an individual's other employment income
 
-  - name: Student Loan Benefits in Kind
-    description: This endpoint allows you to create, amend, retrieve information on Student Loan Benefits in Kind (BIK).
-
 paths:
   /individuals/employments-income/{nino}/{taxYear}:
     $ref: "./employments.yaml"
@@ -92,6 +89,3 @@ paths:
     $ref: "./employments_non_paye.yaml"
   /individuals/employments-income/other/{nino}/{taxYear}:
     $ref: "./employments_other.yaml"
-  /individuals/employments-income/{nino}/{taxYear}/{employmentId}/benefit-in-kind/student-loans:
-    $ref: "./student_loan_BIK.yaml"
-

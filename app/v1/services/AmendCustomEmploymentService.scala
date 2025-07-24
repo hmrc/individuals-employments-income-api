@@ -33,20 +33,36 @@ class AmendCustomEmploymentService @Inject() (connector: AmendCustomEmploymentCo
   def amendEmployment(request: AmendCustomEmploymentRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[Unit]] =
     connector.amendEmployment(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
-  private val downstreamErrorMap: Map[String, MtdError] =
-    Map(
+  private val downstreamErrorMap: Map[String, MtdError] = {
+    val ifsErrors = Map(
       "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
-      "INVALID_TAX_YEAR"          -> TaxYearFormatError,
-      "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
-      "NOT_SUPPORTED_TAX_YEAR"    -> RuleTaxYearNotEndedError,
-      "INVALID_DATE_RANGE"        -> RuleStartDateAfterTaxYearEndError,
-      "INVALID_CESSATION_DATE"    -> RuleCessationDateBeforeTaxYearStartError,
-      "CANNOT_UPDATE"             -> RuleUpdateForbiddenError,
-      "NO_DATA_FOUND"             -> NotFoundError,
-      "INVALID_PAYLOAD"           -> InternalError,
-      "INVALID_CORRELATIONID"     -> InternalError,
-      "SERVER_ERROR"              -> InternalError,
-      "SERVICE_UNAVAILABLE"       -> InternalError
+      "INVALID_TAX_YEAR" -> TaxYearFormatError,
+      "INVALID_EMPLOYMENT_ID" -> EmploymentIdFormatError,
+      "NOT_SUPPORTED_TAX_YEAR" -> RuleTaxYearNotEndedError,
+      "INVALID_DATE_RANGE" -> RuleStartDateAfterTaxYearEndError,
+      "INVALID_CESSATION_DATE" -> RuleCessationDateBeforeTaxYearStartError,
+      "CANNOT_UPDATE" -> RuleUpdateForbiddenError,
+      "NO_DATA_FOUND" -> NotFoundError,
+      "INVALID_PAYLOAD" -> InternalError,
+      "INVALID_CORRELATIONID" -> InternalError,
+      "SERVER_ERROR" -> InternalError,
+      "SERVICE_UNAVAILABLE" -> InternalError
     )
+
+    val hipErrors: Map[String, MtdError] = Map(
+      "1000" -> InternalError,
+      "1115" -> RuleTaxYearNotEndedError,
+      "1116" -> RuleStartDateAfterTaxYearEndError,
+      "1117" -> TaxYearFormatError,
+      "1118" -> RuleCessationDateBeforeTaxYearStartError,
+      "1215" -> NinoFormatError,
+      "1217" -> EmploymentIdFormatError,
+      "1221" -> RuleUpdateForbiddenError,
+      "5000" -> RuleTaxYearNotSupportedError,
+      "5010" -> NotFoundError
+    )
+
+    ifsErrors ++ hipErrors
+  }
 
 }

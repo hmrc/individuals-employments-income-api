@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,18 @@
 package v2.connectors
 
 import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
+import shared.connectors.DownstreamUri.{DesUri, IfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.amendOtherEmployment.AmendOtherEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendOtherEmploymentConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
+class AmendOtherEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   def amendOtherEmployment(request: AmendOtherEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -37,7 +38,7 @@ class AmendOtherEmploymentConnector @Inject() (val http: HttpClient, val appConf
     import request._
 
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
-      TaxYearSpecificIfsUri[Unit](s"income-tax/income/other/employments/${taxYear.asTysDownstream}/${nino.nino}")
+      IfsUri[Unit](s"income-tax/income/other/employments/${taxYear.asTysDownstream}/${nino.nino}")
     } else {
       DesUri[Unit](s"income-tax/income/other/employments/${nino.nino}/${taxYear.asMtd}")
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
+import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
 import scala.concurrent.Future
@@ -35,7 +36,7 @@ class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
-        willDelete(s"$baseUrl/income-tax/employments/non-paye/$nino/2018-19")
+        willDelete(url"$baseUrl/income-tax/employments/non-paye/$nino/2018-19")
           .returns(Future.successful(outcome))
 
         await(connector.deleteNonPayeEmployment(request)) shouldBe outcome
@@ -44,12 +45,12 @@ class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     }
 
     "deleteNonPayeEmployment is called for a TaxYearSpecific tax year" must {
-      "return a 200 for success scenario" in new MockEmploymentsAppConfig with TysIfsTest with Test {
+      "return a 200 for success scenario" in new MockEmploymentsAppConfig with IfsTest with Test {
         def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
-        willDelete(s"$baseUrl/income-tax/employments/non-paye/23-24/$nino")
+        willDelete(url"$baseUrl/income-tax/employments/non-paye/23-24/$nino")
           .returns(Future.successful(outcome))
 
         await(connector.deleteNonPayeEmployment(request)) shouldBe outcome
@@ -62,10 +63,7 @@ class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     def taxYear: TaxYear
 
     protected val connector: DeleteNonPayeEmploymentConnector =
-      new DeleteNonPayeEmploymentConnector(
-        http = mockHttpClient,
-        appConfig = mockSharedAppConfig,
-        employmentsAppConfig = mockEmploymentsConfig)
+      new DeleteNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig, employmentsAppConfig = mockEmploymentsConfig)
 
     protected val request: DeleteNonPayeEmploymentRequest =
       DeleteNonPayeEmploymentRequest(Nino("AA111111A"), taxYear = taxYear)

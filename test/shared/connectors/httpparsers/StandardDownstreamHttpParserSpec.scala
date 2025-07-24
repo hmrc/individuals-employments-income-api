@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,6 +70,7 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
       handleInternalErrorsCorrectly(httpReads)
       handleUnexpectedResponse(httpReads)
       handleBvrsCorrectly(httpReads)
+      handleHipErrorsCorrectly(httpReads)
     }
 
     "a success code is specified" should {
@@ -100,6 +101,7 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
       handleInternalErrorsCorrectly(httpReads)
       handleUnexpectedResponse(httpReads)
       handleBvrsCorrectly(httpReads)
+      handleHipErrorsCorrectly(httpReads)
     }
 
     "a success code is specified" should {
@@ -140,6 +142,55 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
     """.stripMargin
   )
 
+  val multipleTopLevelErrorCodesJson: JsValue = Json.parse(
+    """
+      |[
+      |    {
+      |        "errorCode": "1117",
+      |        "errorDescription": "Error 1 description"
+      |    },
+      |    {
+      |        "errorCode": "1215",
+      |        "errorDescription": "Error 2 description"
+      |    },
+      |    {
+      |        "errorCode": "1216",
+      |        "errorDescription": "Error 3 description"
+      |    },
+      |    {
+      |        "errorCode": "1217",
+      |        "errorDescription": "Error 4 description"
+      |    }
+      |]
+    """.stripMargin
+  )
+
+  val multipleErrorCodesInResponseJson: JsValue = Json.parse(
+    """
+      |{
+      |    "origin": "HIP",
+      |    "response": [
+      |        {
+      |            "errorCode": "1117",
+      |            "errorDescription": "Error 1 description"
+      |        },
+      |        {
+      |            "errorCode": "1215",
+      |            "errorDescription": "Error 2 description"
+      |        },
+      |        {
+      |            "errorCode": "1216",
+      |            "errorDescription": "Error 3 description"
+      |        },
+      |        {
+      |        "errorCode": "1217",
+      |        "errorDescription": "Error 4 description"
+      |        }
+      |    ]
+      |}
+    """.stripMargin
+  )
+
   val malformedErrorJson: JsValue = Json.parse(
     """
       |{
@@ -150,7 +201,7 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
   )
 
   private def handleErrorsCorrectly[A](httpReads: HttpReads[DownstreamOutcome[A]]): Unit =
-    List(BAD_REQUEST, NOT_FOUND, FORBIDDEN, CONFLICT, GONE, UNPROCESSABLE_ENTITY).foreach(responseCode =>
+    List(BAD_REQUEST, NOT_FOUND, FORBIDDEN, CONFLICT, GONE, UNPROCESSABLE_ENTITY, NOT_IMPLEMENTED).foreach(responseCode =>
       s"receiving a $responseCode response" should {
         "be able to parse a single error" in {
           val httpResponse = HttpResponse(responseCode, singleErrorJson.toString(), Map("CorrelationId" -> List(correlationId)))
@@ -244,6 +295,34 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
                   MtdError("BVR2", "", BAD_REQUEST)
                 )))
           )
+        )
+      }
+    }
+  }
+
+  private def handleHipErrorsCorrectly[A](httpReads: HttpReads[DownstreamOutcome[A]]): Unit = {
+    List(NOT_FOUND, UNPROCESSABLE_ENTITY, NOT_IMPLEMENTED).foreach { responseStatus =>
+      s"receiving a $responseStatus response with multiple HIP errors containing top level error codes" should {
+        "return a Left ResponseWrapper containing the extracted error codes" in {
+          val httpResponse = HttpResponse(
+            responseStatus, multipleTopLevelErrorCodesJson, Map("CorrelationId" -> List(correlationId))
+          )
+
+          httpReads.read(method, url, httpResponse) shouldBe Left(
+            ResponseWrapper(correlationId, DownstreamErrors(List(DownstreamErrorCode("1117"), DownstreamErrorCode("1215"), DownstreamErrorCode("1216"), DownstreamErrorCode("1217"))))
+          )
+        }
+      }
+    }
+
+    "receiving a response with multiple HIP errors containing error codes in response array" should {
+      "return a Left ResponseWrapper containing the extracted error codes" in {
+        val httpResponse = HttpResponse(
+          BAD_REQUEST, multipleErrorCodesInResponseJson, Map("CorrelationId" -> List(correlationId))
+        )
+
+        httpReads.read(method, url, httpResponse) shouldBe Left(
+          ResponseWrapper(correlationId, DownstreamErrors(List(DownstreamErrorCode("1117"), DownstreamErrorCode("1215"), DownstreamErrorCode("1216"), DownstreamErrorCode("1217"))))
         )
       }
     }

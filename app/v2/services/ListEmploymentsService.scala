@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,14 +34,26 @@ class ListEmploymentsService @Inject() (connector: ListEmploymentsConnector) ext
       request: ListEmploymentsRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[ListEmploymentResponse]] =
     connector.listEmployments(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
-  private val downstreamErrorMap: Map[String, MtdError] = Map(
-    "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
-    "INVALID_TAX_YEAR"          -> TaxYearFormatError,
-    "INVALID_EMPLOYMENT_ID"     -> InternalError,
-    "INVALID_CORRELATIONID"     -> InternalError,
-    "NO_DATA_FOUND"             -> NotFoundError,
-    "SERVER_ERROR"              -> InternalError,
-    "SERVICE_UNAVAILABLE"       -> InternalError
-  )
+  private val downstreamErrorMap: Map[String, MtdError] = {
+
+    val ifsErrors = Map(
+      "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
+      "INVALID_TAX_YEAR"          -> TaxYearFormatError,
+      "INVALID_EMPLOYMENT_ID"     -> InternalError,
+      "INVALID_CORRELATIONID"     -> InternalError,
+      "NO_DATA_FOUND"             -> NotFoundError,
+      "SERVER_ERROR"              -> InternalError,
+      "SERVICE_UNAVAILABLE"       -> InternalError
+    )
+
+    val hipErrors = Map(
+      "1117" -> TaxYearFormatError,
+      "1215" -> NinoFormatError,
+      "1217" -> InternalError,
+      "5010" -> NotFoundError
+    )
+
+    ifsErrors ++ hipErrors
+  }
 
 }

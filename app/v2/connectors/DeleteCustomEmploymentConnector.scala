@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,19 @@
 
 package v2.connectors
 
-import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.IfsUri
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.connectors.DownstreamUri.{HipUri, IfsUri}
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteCustomEmploymentConnector @Inject() (val http: HttpClient, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
+class DeleteCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   def delete(request: DeleteCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -36,9 +37,13 @@ class DeleteCustomEmploymentConnector @Inject() (val http: HttpClient, val appCo
 
     import request._
 
-    val downstreamUri = IfsUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}")
-
+    val downstreamUri = if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1663")) {
+      HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
+    } else {
+      IfsUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}")
+    }
     delete(uri = downstreamUri)
+
   }
 
 }

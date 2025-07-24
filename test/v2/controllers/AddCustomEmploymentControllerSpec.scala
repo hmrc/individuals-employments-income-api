@@ -136,7 +136,7 @@ class AddCustomEmploymentControllerSpec
 
     protected def callController(): Future[Result] = controller.addEmployment(validNino, taxYear)(fakePostRequest(requestBodyJson))
 
-    MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
+    MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).atLeastOnce()
     MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =

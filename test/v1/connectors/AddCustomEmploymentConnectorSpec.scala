@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,12 @@ package v1.connectors
 
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
+import play.api.Configuration
 import shared.mocks.MockHttpClient
-import shared.models.domain.{ Nino, TaxYear }
+import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
-import v1.models.request.addCustomEmployment.{ AddCustomEmploymentRequest, AddCustomEmploymentRequestBody }
+import uk.gov.hmrc.http.StringContextOps
+import v1.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v1.models.response.addCustomEmployment.AddCustomEmploymentResponse
 
 import scala.concurrent.Future
@@ -48,7 +50,7 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   val response: AddCustomEmploymentResponse = AddCustomEmploymentResponse("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
 
-  class Test extends MockHttpClient with MockEmploymentsAppConfig {
+  trait Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(
       http = mockHttpClient,
@@ -60,11 +62,24 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "AddCustomEmploymentConnector" when {
     ".addEmployment" should {
-      "return a success upon HttpClient success" in new Test with Api1661Test {
+      "return a success upon HttpClient success with IFS" in new Test with Api1661Test {
+        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1661.enabled" -> false))
         val outcome = Right(ResponseWrapper(correlationId, response))
 
         willPost(
-          url = s"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom",
+          url = url"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom",
+          body = addCustomEmploymentRequestBody
+        ).returns(Future.successful(outcome))
+
+        await(connector.addEmployment(request)) shouldBe outcome
+      }
+
+      "return a success upon HttpClient success with HIP" in new Test with HipTest {
+        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1661.enabled" -> true))
+        val outcome = Right(ResponseWrapper(correlationId, response))
+
+        willPost(
+          url = url"$baseUrl/itsd/income/employments/$nino/custom?taxYear=21-22",
           body = addCustomEmploymentRequestBody
         ).returns(Future.successful(outcome))
 

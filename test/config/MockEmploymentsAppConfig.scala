@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,16 @@ package config
 
 import org.scalamock.handlers.CallHandler0
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import shared.config._
 import shared.models.domain.TaxYear
 
-trait MockEmploymentsAppConfig extends MockFactory with MockSharedAppConfig {
+trait MockEmploymentsAppConfig extends TestSuite with MockSharedAppConfig with MockFactory {
   implicit val mockEmploymentsConfig: EmploymentsAppConfig = mock[EmploymentsAppConfig]
 
   object MockedEmploymentsAppConfig {
     def minimumPermittedTaxYear: CallHandler0[TaxYear] = (() => mockEmploymentsConfig.minimumPermittedTaxYear: TaxYear).expects()
+    def studentLoansMinimumPermittedTaxYear: CallHandler0[TaxYear] = (() => mockEmploymentsConfig.studentLoansMinimumPermittedTaxYear: TaxYear).expects()
     def release6DownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockEmploymentsConfig.release6DownstreamConfig: DownstreamConfig).expects()
     def api1661DownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockEmploymentsConfig.api1661DownstreamConfig: DownstreamConfig).expects()
   }
