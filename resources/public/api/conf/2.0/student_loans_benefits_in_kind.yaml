@@ -4,3 +4,10 @@ delete:
   security:
     - User-Restricted:
       - write:self-assessment
+
+put:
+  $ref: "./student_loans_benefits_in_kind_create_amend.yaml"
+  summary: Create or Amend Student Loan Benefits in Kind{{#maybeTestOnly "2.0 student-loans-benefits-in-kind-create-amend"}}{{/maybeTestOnly}}
+  security:
+    - User-Restricted:
+        - write:self-assessment
