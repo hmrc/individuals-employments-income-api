@@ -65,3 +65,14 @@ components:
         type: string
         example: 2021-22
       required: true
+
+    taxYearMinimum2025:
+      name: taxYear
+      in: path
+      description: |
+        The tax year the data applies to, for example, 2025-26. 
+        The start year and end year must not span two tax years. The minimum tax year is 2025-26. No gaps are allowed, for example, 2020-22 is not valid.
+      schema:
+        type: string
+        example: 2025-26
+      required: true

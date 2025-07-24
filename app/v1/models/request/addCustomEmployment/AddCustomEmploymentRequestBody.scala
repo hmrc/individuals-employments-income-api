@@ -28,3 +28,4 @@ case class AddCustomEmploymentRequestBody(employerRef: Option[String],
 object AddCustomEmploymentRequestBody {
   implicit val format: OFormat[AddCustomEmploymentRequestBody] = Json.format[AddCustomEmploymentRequestBody]
 }
+
