@@ -139,20 +139,7 @@ class AddCustomEmploymentControllerSpec
     MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
     MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] = {
-      println(AuditEvent(
-        auditType = "AddACustomEmployment",
-        transactionName = "add-a-custom-employment",
-        detail = new GenericAuditDetail(
-          userType = "Individual",
-          agentReferenceNumber = None,
-          versionNumber = apiVersion.name,
-          params = Map("nino" -> validNino, "taxYear" -> taxYear),
-          requestBody = requestBody,
-          `X-CorrelationId` = correlationId,
-          auditResponse = auditResponse
-        )
-      ))
+    def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
         auditType = "AddACustomEmployment",
         transactionName = "add-a-custom-employment",
@@ -166,8 +153,6 @@ class AddCustomEmploymentControllerSpec
           auditResponse = auditResponse
         )
       )
-
-    }
 
   }
 
