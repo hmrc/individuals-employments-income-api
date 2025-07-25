@@ -4,3 +4,11 @@ delete:
   security:
     - User-Restricted:
       - write:self-assessment
+
+
+get:
+  $ref: "./student_loan_BIK_retrieve.yaml"
+  summary: Student Loan Benefits in Kind [Test only]
+  security:
+    - User-Restricted:
+        - read:self-assessment

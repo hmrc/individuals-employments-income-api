@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Retrieve Student Loan Benefits in Kind",
+  "description": "This endpoint allows you to retrieve information on Student Loan Benefits in Kind (BIK).",
+  "type": "object",
+  "properties": {
+    "submittedOn": {
+      "type": "string",
+      "description": "The date and time of the submission. Must conform to the format YYYY-MM-DDThh:mm:ss.SSSZ",
+      "example": "2025-08-24T14:15:220Z"
+    },
+    "payrolledBenefits": {
+      "type": "Number",
+      "description": "Payrolled benefits which affect student loan repayments.",
+      "example": 20000.01
+    }
+  },
+  "required": [
+    "submittedOn",
+    "payrolledBenefits"
+  ]
+}

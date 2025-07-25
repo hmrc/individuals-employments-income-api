@@ -7,6 +7,7 @@ info:
     The following groups of endpoints are stateful in the Sandbox:
       * [Non-PAYE Employment Income](#tag/Non-PAYE-Employment-Income)
       * [Other Employment Income](#tag/Other-Employment-Income)
+      * [Student Loan Benefits in Kind](#tag/Student Loan BIK)
     
     The following endpoints are stateful in the Sandbox:
       * List Employments
@@ -17,6 +18,7 @@ info:
       * Retrieve an Employment and its Financial Details
       * Create and Amend Employment Financial Details
       * Delete Employment Financial Details
+      * Retreive Student Loan Benefits in Kind
     
     # Send fraud prevention data
     HMRC monitors transactions to help protect your customers' confidential data from criminals and fraudsters. 
@@ -72,6 +74,9 @@ tags:
 
   - name: Other Employment Income
     description: Resources relating to an individual's other employment income
+
+  - name: Student Loan Benefits in Kind
+    description: This endpoint allows you to create, amend, retrieve and delete information on Student Loan Benefits in Kind (BIK)
 
 paths:
   /individuals/employments-income/{nino}/{taxYear}:
