@@ -22,7 +22,7 @@ import org.scalatest.TestSuite
 import shared.connectors.DownstreamOutcome
 import uk.gov.hmrc.http.HeaderCarrier
 import v2.connectors.CreateAmendStudentLoansBIKConnector
-import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
+import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -32,9 +32,9 @@ trait MockCreateAmendStudentLoansBIKConnector extends TestSuite with MockFactory
 
   object MockCreateAmendStudentLoansBIKConnector {
 
-    def createAndAmend(requestData: CreateAmendStudentLoanBIKRequest): CallHandler[Future[DownstreamOutcome[Unit]]] =
+    def createAndAmend(requestData: CreateAmendStudentLoansBIKRequest): CallHandler[Future[DownstreamOutcome[Unit]]] =
       (mockConnector
-        .createAndAmend(_: CreateAmendStudentLoanBIKRequest)(_: HeaderCarrier, _: ExecutionContext, _: String))
+        .createAndAmend(_: CreateAmendStudentLoansBIKRequest)(_: HeaderCarrier, _: ExecutionContext, _: String))
         .expects(requestData, *, *, *)
 
   }

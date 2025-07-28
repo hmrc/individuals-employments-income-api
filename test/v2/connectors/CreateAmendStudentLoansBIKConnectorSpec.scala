@@ -21,8 +21,8 @@ import shared.connectors.{ConnectorSpec, DownstreamOutcome}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
-import v2.fixtures.studentLoanBIK.CreateAmendStudentLoadBIKConnectorFixture.requestBodyModel
-import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
+import v2.fixtures.studentLoansBIK.CreateAmendStudentLoansBIKConnectorFixture.requestBodyModel
+import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
 
 import scala.concurrent.Future
 
@@ -55,8 +55,8 @@ class CreateAmendStudentLoansBIKConnectorSpec extends ConnectorSpec {
       appConfig = mockSharedAppConfig
     )
 
-    protected val request: CreateAmendStudentLoanBIKRequest =
-      CreateAmendStudentLoanBIKRequest(
+    protected val request: CreateAmendStudentLoansBIKRequest =
+      CreateAmendStudentLoansBIKRequest(
         nino = Nino(nino),
         taxYear = TaxYear.fromMtd(taxYear),
         employmentId = EmploymentId(employmentId),

@@ -23,7 +23,7 @@ import shared.controllers._
 import shared.routing.Version
 import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
-import v2.controllers.validators.CreateAmendStudentLoanBIKValidatorFactory
+import v2.controllers.validators.CreateAmendStudentLoansBIKValidatorFactory
 import v2.services.CreateAmendStudentLoansBIKService
 
 import javax.inject.{Inject, Singleton}
@@ -32,7 +32,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class CreateAmendStudentLoansBIKController @Inject()(val authService: EnrolmentsAuthService,
                                                      val lookupService: MtdIdLookupService,
-                                                     validatorFactory: CreateAmendStudentLoanBIKValidatorFactory,
+                                                     validatorFactory: CreateAmendStudentLoansBIKValidatorFactory,
                                                      service: CreateAmendStudentLoansBIKService,
                                                      auditService: AuditService,
                                                      cc: ControllerComponents,

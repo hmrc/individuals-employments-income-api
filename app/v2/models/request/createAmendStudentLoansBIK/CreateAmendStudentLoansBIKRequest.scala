@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package v2.fixtures.studentLoanBIK
+package v2.models.request.createAmendStudentLoansBIK
 
-import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequestBody
+import common.models.domain.EmploymentId
+import shared.models.domain.{Nino, TaxYear}
 
-object CreateAmendStudentLoadBIKConnectorFixture {
-
-  val requestBodyModel: CreateAmendStudentLoanBIKRequestBody =
-    CreateAmendStudentLoanBIKRequestBody(payrolledBenefits = 20000.01)
-
-}
+case class CreateAmendStudentLoansBIKRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId, body: CreateAmendStudentLoansBIKRequestBody)

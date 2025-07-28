@@ -22,7 +22,7 @@ import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
-import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
+import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -30,10 +30,10 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class CreateAmendStudentLoansBIKConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
-  def createAndAmend(request: CreateAmendStudentLoanBIKRequest)(implicit
-      hc: HeaderCarrier,
-      ec: ExecutionContext,
-      correlationId: String): Future[DownstreamOutcome[Unit]] = {
+  def createAndAmend(request: CreateAmendStudentLoansBIKRequest)(implicit
+                                                                 hc: HeaderCarrier,
+                                                                 ec: ExecutionContext,
+                                                                 correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
     import request._
 

@@ -23,9 +23,9 @@ import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
-import v2.fixtures.studentLoanBIK.CreateAmendStudentLoadBIKConnectorFixture.requestBodyModel
+import v2.fixtures.studentLoansBIK.CreateAmendStudentLoansBIKConnectorFixture.requestBodyModel
 import v2.mocks.connectors.MockCreateAmendStudentLoansBIKConnector
-import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
+import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
 
 import scala.concurrent.Future
 
@@ -82,7 +82,7 @@ class CreateAmendStudentLoansBIKServiceSpec extends ServiceSpec {
   }
 
   trait Test extends MockCreateAmendStudentLoansBIKConnector {
-    val request: CreateAmendStudentLoanBIKRequest = CreateAmendStudentLoanBIKRequest(Nino(nino), taxYear, employmentId, requestBodyModel)
+    val request: CreateAmendStudentLoansBIKRequest = CreateAmendStudentLoansBIKRequest(Nino(nino), taxYear, employmentId, requestBodyModel)
 
     implicit val logContext: EndpointLogContext = EndpointLogContext("Other", "amend")
 

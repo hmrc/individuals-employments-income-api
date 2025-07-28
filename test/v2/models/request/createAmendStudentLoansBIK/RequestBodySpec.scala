@@ -14,12 +14,27 @@
  * limitations under the License.
  */
 
-package v2.models.request.createAmendStudentLoanBIK
+package v2.models.request.createAmendStudentLoansBIK
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.Json
+import shared.utils.UnitSpec
 
-case class CreateAmendStudentLoanBIKRequestBody(payrolledBenefits: BigDecimal)
+class RequestBodySpec extends UnitSpec {
 
-object CreateAmendStudentLoanBIKRequestBody {
-  implicit val format: OFormat[CreateAmendStudentLoanBIKRequestBody] = Json.format[CreateAmendStudentLoanBIKRequestBody]
+  private val json = Json.obj("payrolledBenefits" -> 20000.01)
+
+  private val model = CreateAmendStudentLoansBIKRequestBody(20000.01)
+
+  "reads" should {
+    "turn JSON into a model" in {
+      json.as[CreateAmendStudentLoansBIKRequestBody] shouldBe model
+    }
+  }
+
+  "writes" should {
+    "turn a model into JSON" in {
+      Json.toJson(model) shouldBe json
+    }
+  }
+
 }

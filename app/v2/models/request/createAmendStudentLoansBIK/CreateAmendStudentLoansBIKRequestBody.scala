@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package v2.models.request.createAmendStudentLoanBIK
+package v2.models.request.createAmendStudentLoansBIK
 
-import common.models.domain.EmploymentId
-import shared.models.domain.{Nino, TaxYear}
+import play.api.libs.json.{Json, OFormat}
 
-case class CreateAmendStudentLoanBIKRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId, body: CreateAmendStudentLoanBIKRequestBody)
+case class CreateAmendStudentLoansBIKRequestBody(payrolledBenefits: BigDecimal)
+
+object CreateAmendStudentLoansBIKRequestBody {
+  implicit val format: OFormat[CreateAmendStudentLoansBIKRequestBody] = Json.format[CreateAmendStudentLoansBIKRequestBody]
+}

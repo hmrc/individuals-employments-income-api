@@ -23,9 +23,9 @@ import play.api.libs.json.{JsObject, JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.utils.UnitSpec
-import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
+import v2.models.request.createAmendStudentLoansBIK.{CreateAmendStudentLoansBIKRequest, CreateAmendStudentLoansBIKRequestBody}
 
-class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
+class CreateAmendStudentLoansBIKValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -49,8 +49,8 @@ class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymen
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId,
-                 body: JsValue = validRequestBodyJson): Either[ErrorWrapper, CreateAmendStudentLoanBIKRequest] =
-      new CreateAmendStudentLoanBIKValidator(nino, taxYear, employmentId, body, mockEmploymentsConfig)
+                 body: JsValue = validRequestBodyJson): Either[ErrorWrapper, CreateAmendStudentLoansBIKRequest] =
+      new CreateAmendStudentLoansBIKValidator(nino, taxYear, employmentId, body, mockEmploymentsConfig)
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
@@ -62,11 +62,11 @@ class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymen
     "return a request object" when {
       "valid" in new Test {
         validate() shouldBe Right(
-          CreateAmendStudentLoanBIKRequest(
+          CreateAmendStudentLoansBIKRequest(
             parsedNino,
             parsedTaxYear,
             parsedEmploymentId,
-            CreateAmendStudentLoanBIKRequestBody(validPayrolledBenefits)))
+            CreateAmendStudentLoansBIKRequestBody(validPayrolledBenefits)))
       }
     }
 

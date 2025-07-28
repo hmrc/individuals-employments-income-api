@@ -20,17 +20,17 @@ import cats.data.Validated
 import shared.controllers.validators.RulesValidator
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.EmploymentsIncomeValidators._
-import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
+import v2.models.request.createAmendStudentLoansBIK.{CreateAmendStudentLoansBIKRequest, CreateAmendStudentLoansBIKRequestBody}
 
-object CreateAmendStudentLoanBIKRulesValidator extends RulesValidator[CreateAmendStudentLoanBIKRequest] {
+object CreateAmendStudentLoansBIKRulesValidator extends RulesValidator[CreateAmendStudentLoansBIKRequest] {
 
-  override def validateBusinessRules(parsed: CreateAmendStudentLoanBIKRequest): Validated[Seq[MtdError], CreateAmendStudentLoanBIKRequest] = {
+  override def validateBusinessRules(parsed: CreateAmendStudentLoansBIKRequest): Validated[Seq[MtdError], CreateAmendStudentLoansBIKRequest] = {
     import parsed.body
 
     validateBody(body).onSuccess(parsed)
   }
 
-  private def validateBody(body: CreateAmendStudentLoanBIKRequestBody) =
+  private def validateBody(body: CreateAmendStudentLoansBIKRequestBody) =
     validateNonNegativeNumber(
       amount = body.payrolledBenefits,
       path = "/payrolledBenefits"
