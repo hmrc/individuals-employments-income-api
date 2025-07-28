@@ -30,7 +30,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class CreateAmendStudentLoanBIKController @Inject() (val authService: EnrolmentsAuthService,
+class CreateAmendStudentLoansBIKController @Inject()(val authService: EnrolmentsAuthService,
                                                      val lookupService: MtdIdLookupService,
                                                      validatorFactory: CreateAmendStudentLoanBIKValidatorFactory,
                                                      service: CreateAmendStudentLoansBIKService,
@@ -47,7 +47,7 @@ class CreateAmendStudentLoanBIKController @Inject() (val authService: Enrolments
       endpointName = "createAmendStudentLoansBenefitsInKind"
     )
 
-  def createAmendStudentLoansBenefitsInKind(nino: String, employmentId: String, taxYear: String): Action[JsValue] =
+  def createAmendStudentLoansBIK(nino: String, employmentId: String, taxYear: String): Action[JsValue] =
     authorisedAction(nino).async(parse.json) { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
