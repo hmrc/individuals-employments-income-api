@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package v2.models.request.createAmendStudentLoansBIK
+package v2.models.request.createAmendStudentLoanBIK
 
 import common.models.domain.EmploymentId
 import shared.models.domain.{Nino, TaxYear}
 
-case class CreateAmendStudentLoansBIKRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId, body: CreateAmendStudentLoansBIKRequestBody)
+case class CreateAmendStudentLoanBIKRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId, body: CreateAmendStudentLoanBIKRequestBody)

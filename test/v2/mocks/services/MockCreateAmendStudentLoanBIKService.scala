@@ -21,20 +21,20 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.TestSuite
 import shared.controllers.RequestContext
 import shared.services.ServiceOutcome
-import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
-import v2.services.CreateAmendStudentLoansBIKService
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
+import v2.services.CreateAmendStudentLoanBIKService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockCreateAmendStudentLoansBIKService extends TestSuite with MockFactory {
+trait MockCreateAmendStudentLoanBIKService extends TestSuite with MockFactory {
 
-  val mockService: CreateAmendStudentLoansBIKService = mock[CreateAmendStudentLoansBIKService]
+  val mockService: CreateAmendStudentLoanBIKService = mock[CreateAmendStudentLoanBIKService]
 
-  object MockCreateAmendStudentLoansBIKService {
+  object MockCreateAmendStudentLoanBIKService {
 
-    def createAndAmend(requestData: CreateAmendStudentLoansBIKRequest): CallHandler[Future[ServiceOutcome[Unit]]] = {
+    def createAndAmend(requestData: CreateAmendStudentLoanBIKRequest): CallHandler[Future[ServiceOutcome[Unit]]] = {
       (mockService
-        .createAndAmend(_: CreateAmendStudentLoansBIKRequest)(_: RequestContext, _: ExecutionContext))
+        .createAndAmend(_: CreateAmendStudentLoanBIKRequest)(_: RequestContext, _: ExecutionContext))
         .expects(requestData, *, *)
     }
 

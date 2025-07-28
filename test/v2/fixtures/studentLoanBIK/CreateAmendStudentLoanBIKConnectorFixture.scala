@@ -14,27 +14,13 @@
  * limitations under the License.
  */
 
-package v2.models.request.createAmendStudentLoansBIK
+package v2.fixtures.studentLoanBIK
 
-import play.api.libs.json.Json
-import shared.utils.UnitSpec
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequestBody
 
-class RequestBodySpec extends UnitSpec {
+object CreateAmendStudentLoanBIKConnectorFixture {
 
-  private val json = Json.obj("payrolledBenefits" -> 20000.01)
-
-  private val model = CreateAmendStudentLoansBIKRequestBody(20000.01)
-
-  "reads" should {
-    "turn JSON into a model" in {
-      json.as[CreateAmendStudentLoansBIKRequestBody] shouldBe model
-    }
-  }
-
-  "writes" should {
-    "turn a model into JSON" in {
-      Json.toJson(model) shouldBe json
-    }
-  }
+  val requestBodyModel: CreateAmendStudentLoanBIKRequestBody =
+    CreateAmendStudentLoanBIKRequestBody(payrolledBenefits = 20000.01)
 
 }

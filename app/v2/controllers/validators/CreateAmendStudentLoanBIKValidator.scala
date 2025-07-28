@@ -24,27 +24,27 @@ import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.ResolveEmploymentId
-import v2.models.request.createAmendStudentLoansBIK.{CreateAmendStudentLoansBIKRequest, CreateAmendStudentLoansBIKRequestBody}
+import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
 
-object CreateAmendStudentLoansBIKValidator {
-  private val resolveJson = ResolveNonEmptyJsonObject.resolver[CreateAmendStudentLoansBIKRequestBody]
+object CreateAmendStudentLoanBIKValidator {
+  private val resolveJson = ResolveNonEmptyJsonObject.resolver[CreateAmendStudentLoanBIKRequestBody]
 
 }
 
-class CreateAmendStudentLoansBIKValidator(nino: String, taxYear: String, employmentId: String, body: JsValue, appConfig: EmploymentsAppConfig)
-    extends Validator[CreateAmendStudentLoansBIKRequest]
+class CreateAmendStudentLoanBIKValidator(nino: String, taxYear: String, employmentId: String, body: JsValue, appConfig: EmploymentsAppConfig)
+    extends Validator[CreateAmendStudentLoanBIKRequest]
     with ResolverSupport {
-  import CreateAmendStudentLoansBIKValidator._
+  import CreateAmendStudentLoanBIKValidator._
 
   private val resolveTaxYear =
     ResolveTaxYearMinimum(appConfig.studentLoansMinimumPermittedTaxYear).resolver
 
-  override def validate: Validated[Seq[MtdError], CreateAmendStudentLoansBIKRequest] =
+  override def validate: Validated[Seq[MtdError], CreateAmendStudentLoanBIKRequest] =
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId),
       resolveJson(body)
-    ).mapN(CreateAmendStudentLoansBIKRequest) andThen CreateAmendStudentLoansBIKRulesValidator.validateBusinessRules
+    ).mapN(CreateAmendStudentLoanBIKRequest) andThen CreateAmendStudentLoanBIKRulesValidator.validateBusinessRules
 
 }

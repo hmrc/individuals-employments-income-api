@@ -27,19 +27,19 @@ import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
 import shared.services.MockAuditService
-import v2.controllers.validators.MockCreateAmendStudentLoansBIKValidatorFactory
-import v2.mocks.services.MockCreateAmendStudentLoansBIKService
-import v2.models.request.createAmendStudentLoansBIK.{CreateAmendStudentLoansBIKRequest, CreateAmendStudentLoansBIKRequestBody}
+import v2.controllers.validators.MockCreateAmendStudentLoanBIKValidatorFactory
+import v2.mocks.services.MockCreateAmendStudentLoanBIKService
+import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CreateAmendStudentLoansBIKControllerSpec
+class CreateAmendStudentLoanBIKControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockCreateAmendStudentLoansBIKService
+    with MockCreateAmendStudentLoanBIKService
     with MockAuditService
-    with MockCreateAmendStudentLoansBIKValidatorFactory
+    with MockCreateAmendStudentLoanBIKValidatorFactory
     with MockSharedAppConfig {
 
   val taxYear: String      = "2019-20"
@@ -53,23 +53,23 @@ class CreateAmendStudentLoansBIKControllerSpec
       |""".stripMargin
   )
 
-  val requestModel: CreateAmendStudentLoansBIKRequestBody = CreateAmendStudentLoansBIKRequestBody(
+  val requestModel: CreateAmendStudentLoanBIKRequestBody = CreateAmendStudentLoanBIKRequestBody(
     payrolledBenefits = 20000.01
   )
 
-  val requestData: CreateAmendStudentLoansBIKRequest = CreateAmendStudentLoansBIKRequest(
+  val requestData: CreateAmendStudentLoanBIKRequest = CreateAmendStudentLoanBIKRequest(
     nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId),
     body = requestModel
   )
 
-  "CreateAmendStudentLoansBIKController" should {
+  "CreateAmendStudentLoanBIKController" should {
     "return NO_content" when {
       "happy path" in new Test {
         willUseValidator(returningSuccess(requestData))
 
-        MockCreateAmendStudentLoansBIKService
+        MockCreateAmendStudentLoanBIKService
           .createAndAmend(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
@@ -87,7 +87,7 @@ class CreateAmendStudentLoansBIKControllerSpec
       "service returns an error" in new Test {
         willUseValidator(returningSuccess(requestData))
 
-        MockCreateAmendStudentLoansBIKService
+        MockCreateAmendStudentLoanBIKService
           .createAndAmend(requestData)
           .returns(Future.successful(Left(ErrorWrapper(correlationId, NotFoundError))))
 
@@ -98,10 +98,10 @@ class CreateAmendStudentLoansBIKControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new CreateAmendStudentLoansBIKController(
+    val controller = new CreateAmendStudentLoanBIKController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      validatorFactory = mockCreateAmendStudentLoansBIKValidatorFactory,
+      validatorFactory = mockCreateAmendStudentLoanBIKValidatorFactory,
       service = mockService,
       auditService = mockAuditService,
       cc = cc,
@@ -114,14 +114,14 @@ class CreateAmendStudentLoansBIKControllerSpec
 
     MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.createAmendStudentLoansBIK(validNino, taxYear, employmentId)(
+    protected def callController(): Future[Result] = controller.createAmendStudentLoanBIK(validNino, taxYear, employmentId)(
       fakeRequest
         .withBody(validRequestJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
-        auditType = "CreateAmendStudentLoansBenefitsInKind",
-        transactionName = "create-amend-student-loans-benefits-in-kind",
+        auditType = "CreateAmendStudentLoanBenefitsInKind",
+        transactionName = "create-amend-student-loan-benefits-in-kind",
         detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,

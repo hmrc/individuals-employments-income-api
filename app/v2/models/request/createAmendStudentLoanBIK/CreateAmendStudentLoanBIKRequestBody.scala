@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package v2.models.request.createAmendStudentLoansBIK
+package v2.models.request.createAmendStudentLoanBIK
 
 import play.api.libs.json.{Json, OFormat}
 
-case class CreateAmendStudentLoansBIKRequestBody(payrolledBenefits: BigDecimal)
+case class CreateAmendStudentLoanBIKRequestBody(payrolledBenefits: BigDecimal)
 
-object CreateAmendStudentLoansBIKRequestBody {
-  implicit val format: OFormat[CreateAmendStudentLoansBIKRequestBody] = Json.format[CreateAmendStudentLoansBIKRequestBody]
+object CreateAmendStudentLoanBIKRequestBody {
+  implicit val format: OFormat[CreateAmendStudentLoanBIKRequestBody] = Json.format[CreateAmendStudentLoanBIKRequestBody]
 }

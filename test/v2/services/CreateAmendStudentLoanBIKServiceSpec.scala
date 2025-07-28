@@ -23,24 +23,24 @@ import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
-import v2.fixtures.studentLoansBIK.CreateAmendStudentLoansBIKConnectorFixture.requestBodyModel
-import v2.mocks.connectors.MockCreateAmendStudentLoansBIKConnector
-import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
+import v2.fixtures.studentLoanBIK.CreateAmendStudentLoanBIKConnectorFixture.requestBodyModel
+import v2.mocks.connectors.MockCreateAmendStudentLoanBIKConnector
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
 
 import scala.concurrent.Future
 
-class CreateAmendStudentLoansBIKServiceSpec extends ServiceSpec {
+class CreateAmendStudentLoanBIKServiceSpec extends ServiceSpec {
 
   private val nino         = "AA112233A"
   private val taxYear      = TaxYear.fromMtd("2019-20")
   private val employmentId = EmploymentId("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
 
-  "CreateAmendStudentLoansBIKService" when {
+  "CreateAmendStudentLoanBIKService" when {
     "createAndAmend" must {
       "return correct result for a success" in new Test {
         val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
 
-        MockCreateAmendStudentLoansBIKConnector
+        MockCreateAmendStudentLoanBIKConnector
           .createAndAmend(request)
           .returns(Future.successful(outcome))
         val result: Either[ErrorWrapper, ResponseWrapper[Unit]] = await(service.createAndAmend(request))
@@ -54,7 +54,7 @@ class CreateAmendStudentLoansBIKServiceSpec extends ServiceSpec {
           s"a $downstreamErrorCode error is returned from the service" in new Test {
             val outcome: Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-            MockCreateAmendStudentLoansBIKConnector
+            MockCreateAmendStudentLoanBIKConnector
               .createAndAmend(request)
               .returns(Future.successful(Left(ResponseWrapper(correlationId, DownstreamErrors.single(DownstreamErrorCode(downstreamErrorCode))))))
 
@@ -81,12 +81,12 @@ class CreateAmendStudentLoansBIKServiceSpec extends ServiceSpec {
     }
   }
 
-  trait Test extends MockCreateAmendStudentLoansBIKConnector {
-    val request: CreateAmendStudentLoansBIKRequest = CreateAmendStudentLoansBIKRequest(Nino(nino), taxYear, employmentId, requestBodyModel)
+  trait Test extends MockCreateAmendStudentLoanBIKConnector {
+    val request: CreateAmendStudentLoanBIKRequest = CreateAmendStudentLoanBIKRequest(Nino(nino), taxYear, employmentId, requestBodyModel)
 
     implicit val logContext: EndpointLogContext = EndpointLogContext("Other", "amend")
 
-    val service: CreateAmendStudentLoansBIKService = new CreateAmendStudentLoansBIKService(
+    val service: CreateAmendStudentLoanBIKService = new CreateAmendStudentLoanBIKService(
       connector = mockConnector
     )
 

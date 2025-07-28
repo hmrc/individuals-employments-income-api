@@ -27,7 +27,7 @@ import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class CreateAmendStudentLoansBIKControllerISpec extends EmploymentsIBaseSpec {
+class CreateAmendStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {
 
   val validRequestBodyJson: JsValue = Json.parse(
     """

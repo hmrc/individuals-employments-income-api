@@ -19,14 +19,14 @@ package v2.controllers.validators
 import org.scalamock.handlers.CallHandler
 import play.api.libs.json.JsValue
 import shared.controllers.validators.{MockValidatorFactory, Validator}
-import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
 
-trait MockCreateAmendStudentLoansBIKValidatorFactory extends MockValidatorFactory[CreateAmendStudentLoansBIKRequest] {
+trait MockCreateAmendStudentLoanBIKValidatorFactory extends MockValidatorFactory[CreateAmendStudentLoanBIKRequest] {
 
-  val mockCreateAmendStudentLoansBIKValidatorFactory: CreateAmendStudentLoansBIKValidatorFactory = mock[CreateAmendStudentLoansBIKValidatorFactory]
+  val mockCreateAmendStudentLoanBIKValidatorFactory: CreateAmendStudentLoanBIKValidatorFactory = mock[CreateAmendStudentLoanBIKValidatorFactory]
 
-  def validator(): CallHandler[Validator[CreateAmendStudentLoansBIKRequest]] =
-    (mockCreateAmendStudentLoansBIKValidatorFactory
+  def validator(): CallHandler[Validator[CreateAmendStudentLoanBIKRequest]] =
+    (mockCreateAmendStudentLoanBIKValidatorFactory
       .validator(_: String, _: String, _: String, _: JsValue))
       .expects(*, *, *, *)
 

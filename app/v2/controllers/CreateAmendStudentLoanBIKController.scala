@@ -23,31 +23,31 @@ import shared.controllers._
 import shared.routing.Version
 import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
-import v2.controllers.validators.CreateAmendStudentLoansBIKValidatorFactory
-import v2.services.CreateAmendStudentLoansBIKService
+import v2.controllers.validators.CreateAmendStudentLoanBIKValidatorFactory
+import v2.services.CreateAmendStudentLoanBIKService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class CreateAmendStudentLoansBIKController @Inject() (val authService: EnrolmentsAuthService,
-                                                      val lookupService: MtdIdLookupService,
-                                                      validatorFactory: CreateAmendStudentLoansBIKValidatorFactory,
-                                                      service: CreateAmendStudentLoansBIKService,
-                                                      auditService: AuditService,
-                                                      cc: ControllerComponents,
-                                                      val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
+class CreateAmendStudentLoanBIKController @Inject() (val authService: EnrolmentsAuthService,
+                                                     val lookupService: MtdIdLookupService,
+                                                     validatorFactory: CreateAmendStudentLoanBIKValidatorFactory,
+                                                     service: CreateAmendStudentLoanBIKService,
+                                                     auditService: AuditService,
+                                                     cc: ControllerComponents,
+                                                     val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
-  val endpointName = "create-amend-student-loans-benefits-in-kind"
+  val endpointName = "create-amend-student-loan-benefits-in-kind"
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
-      controllerName = "CreateAmendStudentLoansBIKController",
-      endpointName = "createAmendStudentLoansBenefitsInKind"
+      controllerName = "CreateAmendStudentLoanBIKController",
+      endpointName = "createAmendStudentLoanBenefitsInKind"
     )
 
-  def createAmendStudentLoansBIK(nino: String, taxYear: String, employmentId: String): Action[JsValue] =
+  def createAmendStudentLoanBIK(nino: String, taxYear: String, employmentId: String): Action[JsValue] =
     authorisedAction(nino).async(parse.json) { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
@@ -63,9 +63,9 @@ class CreateAmendStudentLoansBIKController @Inject() (val authService: Enrolment
         .withService(service.createAndAmend)
         .withAuditing(AuditHandler(
           auditService = auditService,
-          auditType = "CreateAmendStudentLoansBenefitsInKind",
+          auditType = "CreateAmendStudentLoanBenefitsInKind",
           apiVersion = Version(request),
-          transactionName = "create-amend-student-loans-benefits-in-kind",
+          transactionName = "create-amend-student-loan-benefits-in-kind",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           requestBody = Some(request.body)
         ))

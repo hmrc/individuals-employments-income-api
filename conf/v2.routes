@@ -22,4 +22,4 @@ DELETE     /:nino/:taxYear/:employmentId/financial-details               v2.cont
 GET        /:nino/:taxYear/:employmentId/financial-details               v2.controllers.RetrieveEmploymentAndFinancialDetailsController.retrieve(nino: String, taxYear: String, employmentId: String, source: Option[String])
 
 DELETE     /:nino/:taxYear/:employmentId/benefit-in-kind/student-loans   v2.controllers.DeleteStudentLoansBIKController.DeleteStudentLoansBIK(nino: String, taxYear: String, employmentId: String)
-PUT        /:nino/:taxYear/:employmentId/benefit-in-kind/student-loans   v2.controllers.CreateAmendStudentLoansBIKController.createAmendStudentLoansBIK(nino: String, taxYear: String, employmentId: String)
+PUT        /:nino/:taxYear/:employmentId/benefit-in-kind/student-loans   v2.controllers.CreateAmendStudentLoanBIKController.createAmendStudentLoanBIK(nino: String, taxYear: String, employmentId: String)

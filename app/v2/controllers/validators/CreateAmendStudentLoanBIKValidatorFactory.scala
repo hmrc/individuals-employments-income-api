@@ -19,14 +19,14 @@ package v2.controllers.validators
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import shared.controllers.validators.Validator
-import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class CreateAmendStudentLoansBIKValidatorFactory @Inject()(appConfig: EmploymentsAppConfig) {
+class CreateAmendStudentLoanBIKValidatorFactory @Inject()(appConfig: EmploymentsAppConfig) {
 
-  def validator(nino: String, taxYear: String, employmentId: String, body: JsValue): Validator[CreateAmendStudentLoansBIKRequest] =
-    new CreateAmendStudentLoansBIKValidator(nino, taxYear, employmentId, body, appConfig)
+  def validator(nino: String, taxYear: String, employmentId: String, body: JsValue): Validator[CreateAmendStudentLoanBIKRequest] =
+    new CreateAmendStudentLoanBIKValidator(nino, taxYear, employmentId, body, appConfig)
 
 }

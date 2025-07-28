@@ -21,20 +21,20 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.TestSuite
 import shared.connectors.DownstreamOutcome
 import uk.gov.hmrc.http.HeaderCarrier
-import v2.connectors.CreateAmendStudentLoansBIKConnector
-import v2.models.request.createAmendStudentLoansBIK.CreateAmendStudentLoansBIKRequest
+import v2.connectors.CreateAmendStudentLoanBIKConnector
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockCreateAmendStudentLoansBIKConnector extends TestSuite with MockFactory {
+trait MockCreateAmendStudentLoanBIKConnector extends TestSuite with MockFactory {
 
-  val mockConnector: CreateAmendStudentLoansBIKConnector = mock[CreateAmendStudentLoansBIKConnector]
+  val mockConnector: CreateAmendStudentLoanBIKConnector = mock[CreateAmendStudentLoanBIKConnector]
 
-  object MockCreateAmendStudentLoansBIKConnector {
+  object MockCreateAmendStudentLoanBIKConnector {
 
-    def createAndAmend(requestData: CreateAmendStudentLoansBIKRequest): CallHandler[Future[DownstreamOutcome[Unit]]] =
+    def createAndAmend(requestData: CreateAmendStudentLoanBIKRequest): CallHandler[Future[DownstreamOutcome[Unit]]] =
       (mockConnector
-        .createAndAmend(_: CreateAmendStudentLoansBIKRequest)(_: HeaderCarrier, _: ExecutionContext, _: String))
+        .createAndAmend(_: CreateAmendStudentLoanBIKRequest)(_: HeaderCarrier, _: ExecutionContext, _: String))
         .expects(requestData, *, *, *)
 
   }
