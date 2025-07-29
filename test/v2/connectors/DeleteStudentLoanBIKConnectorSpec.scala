@@ -21,11 +21,11 @@ import shared.connectors.{ConnectorSpec, DownstreamOutcome}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
 import scala.concurrent.Future
 
-class DeleteStudentLoansBIKConnectorSpec extends ConnectorSpec {
+class DeleteStudentLoanBIKConnectorSpec extends ConnectorSpec {
 
   private val nino: String = "AA111111A"
   private val taxYear: String = "2024-25"
@@ -48,13 +48,13 @@ class DeleteStudentLoansBIKConnectorSpec extends ConnectorSpec {
   trait Test {
     _: ConnectorTest =>
 
-    val connector: DeleteStudentLoansBIKConnector = new DeleteStudentLoansBIKConnector(
+    val connector: DeleteStudentLoanBIKConnector = new DeleteStudentLoanBIKConnector(
       http = mockHttpClient,
       appConfig = mockSharedAppConfig
     )
 
-    protected val request: DeleteStudentLoansBIKRequest =
-      DeleteStudentLoansBIKRequest(
+    protected val request: DeleteStudentLoanBIKRequest =
+      DeleteStudentLoanBIKRequest(
         nino = Nino(nino),
         taxYear = TaxYear.fromMtd(taxYear),
         employmentId = EmploymentId(employmentId)

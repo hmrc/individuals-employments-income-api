@@ -16,16 +16,17 @@
 
 package v2.controllers.validators
 
-import config.EmploymentsAppConfig
-import shared.controllers.validators.Validator
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import org.scalamock.handlers.CallHandler
+import shared.controllers.validators.{MockValidatorFactory, Validator}
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
-import javax.inject.{Inject, Singleton}
+trait MockDeleteStudentLoanBIKValidatorFactory extends MockValidatorFactory[DeleteStudentLoanBIKRequest] {
 
-@Singleton
-class DeleteStudentLoansBIKValidatorFactory @Inject()(appConfig: EmploymentsAppConfig) {
+  val mockDeleteStudentLoanBIKValidatorFactory: DeleteStudentLoanBIKValidatorFactory = mock[DeleteStudentLoanBIKValidatorFactory]
 
-  def validator(nino: String, taxYear: String, employmentId: String): Validator[DeleteStudentLoansBIKRequest] =
-    new DeleteStudentLoansBIKValidator(nino, taxYear, employmentId, appConfig)
+  def validator(): CallHandler[Validator[DeleteStudentLoanBIKRequest]] =
+    (mockDeleteStudentLoanBIKValidatorFactory
+      .validator(_: String, _: String, _: String))
+      .expects(*, *, *)
 
 }

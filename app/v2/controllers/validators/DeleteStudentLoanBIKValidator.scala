@@ -23,20 +23,20 @@ import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.ResolveEmploymentId
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
-class DeleteStudentLoansBIKValidator(nino: String, taxYear: String, employmentId: String, appConfig: EmploymentsAppConfig)
-    extends Validator[DeleteStudentLoansBIKRequest]
+class DeleteStudentLoanBIKValidator(nino: String, taxYear: String, employmentId: String, appConfig: EmploymentsAppConfig)
+    extends Validator[DeleteStudentLoanBIKRequest]
     with ResolverSupport {
 
   private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.studentLoansMinimumPermittedTaxYear).resolver
+    ResolveTaxYearMinimum(appConfig.studentLoanMinimumPermittedTaxYear).resolver
 
-  override def validate: Validated[Seq[MtdError], DeleteStudentLoansBIKRequest] =
+  override def validate: Validated[Seq[MtdError], DeleteStudentLoanBIKRequest] =
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId)
-    ).mapN(DeleteStudentLoansBIKRequest)
+    ).mapN(DeleteStudentLoanBIKRequest)
 
 }

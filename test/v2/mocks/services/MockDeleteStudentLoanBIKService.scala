@@ -21,21 +21,21 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.TestSuite
 import shared.controllers.RequestContext
 import shared.services.ServiceOutcome
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
-import v2.services.DeleteStudentLoansBIKService
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
+import v2.services.DeleteStudentLoanBIKService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockDeleteStudentLoansBIKService extends TestSuite with MockFactory {
+trait MockDeleteStudentLoanBIKService extends TestSuite with MockFactory {
 
-  val mockDeleteStudentLoansBIKService: DeleteStudentLoansBIKService = mock[DeleteStudentLoansBIKService]
+  val mockDeleteStudentLoanBIKService: DeleteStudentLoanBIKService = mock[DeleteStudentLoanBIKService]
 
   object MockDeleteStudentLoansBIKService {
 
-    def delete(requestData: DeleteStudentLoansBIKRequest): CallHandler[Future[ServiceOutcome[Unit]]] = {
+    def delete(requestData: DeleteStudentLoanBIKRequest): CallHandler[Future[ServiceOutcome[Unit]]] = {
       (
-        mockDeleteStudentLoansBIKService
-          .delete(_: DeleteStudentLoansBIKRequest)(
+        mockDeleteStudentLoanBIKService
+          .delete(_: DeleteStudentLoanBIKRequest)(
             _: RequestContext,
             _: ExecutionContext
           )

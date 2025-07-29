@@ -55,7 +55,7 @@ class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymen
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedEmploymentsAppConfig.studentLoansMinimumPermittedTaxYear returns TaxYear.fromMtd("2024-25")
+    MockedEmploymentsAppConfig.studentLoanMinimumPermittedTaxYear returns TaxYear.fromMtd("2024-25")
   }
 
   "validate" should {

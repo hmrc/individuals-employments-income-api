@@ -37,7 +37,7 @@ class CreateAmendStudentLoanBIKValidator(nino: String, taxYear: String, employme
   import CreateAmendStudentLoanBIKValidator._
 
   private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.studentLoansMinimumPermittedTaxYear).resolver
+    ResolveTaxYearMinimum(appConfig.studentLoanMinimumPermittedTaxYear).resolver
 
   override def validate: Validated[Seq[MtdError], CreateAmendStudentLoanBIKRequest] =
     (

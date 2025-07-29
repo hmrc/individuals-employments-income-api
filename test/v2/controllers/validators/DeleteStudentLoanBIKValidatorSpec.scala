@@ -22,9 +22,9 @@ import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.utils.UnitSpec
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
-class DeleteStudentLoansBIKValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
+class DeleteStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -39,18 +39,18 @@ class DeleteStudentLoansBIKValidatorSpec extends UnitSpec with MockEmploymentsAp
 
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
-                 employmentId: String = validEmploymentId): Either[ErrorWrapper, DeleteStudentLoansBIKRequest] =
-      new DeleteStudentLoansBIKValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
+                 employmentId: String = validEmploymentId): Either[ErrorWrapper, DeleteStudentLoanBIKRequest] =
+      new DeleteStudentLoanBIKValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
-    MockedEmploymentsAppConfig.studentLoansMinimumPermittedTaxYear returns TaxYear.fromMtd("2024-25")
+    MockedEmploymentsAppConfig.studentLoanMinimumPermittedTaxYear returns TaxYear.fromMtd("2024-25")
   }
 
   "validate" should {
     "return a request object" when {
       "valid" in new Test {
-        validate() shouldBe Right(DeleteStudentLoansBIKRequest(parsedNino, parsedTaxYear, parsedEmploymentId))
+        validate() shouldBe Right(DeleteStudentLoanBIKRequest(parsedNino, parsedTaxYear, parsedEmploymentId))
       }
     }
 

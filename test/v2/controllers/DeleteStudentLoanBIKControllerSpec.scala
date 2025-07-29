@@ -28,25 +28,25 @@ import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
 import shared.services.MockAuditService
-import v2.controllers.validators.MockDeleteStudentLoansBIKValidatorFactory
-import v2.mocks.services.MockDeleteStudentLoansBIKService
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.controllers.validators.MockDeleteStudentLoanBIKValidatorFactory
+import v2.mocks.services.MockDeleteStudentLoanBIKService
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DeleteStudentLoansBIKControllerSpec
+class DeleteStudentLoanBIKControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockDeleteStudentLoansBIKService
+    with MockDeleteStudentLoanBIKService
     with MockAuditService
-    with MockDeleteStudentLoansBIKValidatorFactory
+    with MockDeleteStudentLoanBIKValidatorFactory
     with MockSharedAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  val requestData: DeleteStudentLoansBIKRequest = DeleteStudentLoansBIKRequest(
+  val requestData: DeleteStudentLoanBIKRequest = DeleteStudentLoanBIKRequest(
     nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     employmentId = EmploymentId(employmentId)
@@ -86,11 +86,11 @@ class DeleteStudentLoansBIKControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new DeleteStudentLoansBIKController(
+    val controller = new DeleteStudentLoanBIKController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      validatorFactory = mockDeleteStudentLoansBIKValidatorFactory,
-      service = mockDeleteStudentLoansBIKService,
+      validatorFactory = mockDeleteStudentLoanBIKValidatorFactory,
+      service = mockDeleteStudentLoanBIKService,
       auditService = mockAuditService,
       cc = cc,
       idGenerator = mockIdGenerator
@@ -102,14 +102,14 @@ class DeleteStudentLoansBIKControllerSpec
 
     MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.DeleteStudentLoansBIK(validNino, taxYear, employmentId)(fakeRequest.withHeaders(
+    protected def callController(): Future[Result] = controller.DeleteStudentLoanBIK(validNino, taxYear, employmentId)(fakeRequest.withHeaders(
       HeaderNames.AUTHORIZATION -> "Bearer Token"
     ))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
-        auditType = "DeleteStudentLoansBenefitsInKind",
-        transactionName = "delete-student-loans-benefits-in-kind",
+        auditType = "DeleteStudentLoanBenefitsInKind",
+        transactionName = "delete-student-loan-benefits-in-kind",
         detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,

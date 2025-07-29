@@ -21,20 +21,20 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.TestSuite
 import shared.connectors.DownstreamOutcome
 import uk.gov.hmrc.http.HeaderCarrier
-import v2.connectors.DeleteStudentLoansBIKConnector
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.connectors.DeleteStudentLoanBIKConnector
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockDeleteStudentLoansBIKConnector extends TestSuite with MockFactory {
+trait MockDeleteStudentLoanBIKConnector extends TestSuite with MockFactory {
 
-  val mockDeleteStudentLoansBIKConnector: DeleteStudentLoansBIKConnector = mock[DeleteStudentLoansBIKConnector]
+  val mockDeleteStudentLoansBIKConnector: DeleteStudentLoanBIKConnector = mock[DeleteStudentLoanBIKConnector]
 
   object MockDeleteStudentLoansBIKConnector {
 
-    def delete(requestData: DeleteStudentLoansBIKRequest): CallHandler[Future[DownstreamOutcome[Unit]]] =
+    def delete(requestData: DeleteStudentLoanBIKRequest): CallHandler[Future[DownstreamOutcome[Unit]]] =
       (mockDeleteStudentLoansBIKConnector
-        .delete(_: DeleteStudentLoansBIKRequest)(_: HeaderCarrier, _: ExecutionContext, _: String))
+        .delete(_: DeleteStudentLoanBIKRequest)(_: HeaderCarrier, _: ExecutionContext, _: String))
         .expects(requestData, *, *, *)
 
   }

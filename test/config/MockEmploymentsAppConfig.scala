@@ -27,7 +27,7 @@ trait MockEmploymentsAppConfig extends TestSuite with MockSharedAppConfig with M
 
   object MockedEmploymentsAppConfig {
     def minimumPermittedTaxYear: CallHandler0[TaxYear] = (() => mockEmploymentsConfig.minimumPermittedTaxYear: TaxYear).expects()
-    def studentLoansMinimumPermittedTaxYear: CallHandler0[TaxYear] = (() => mockEmploymentsConfig.studentLoansMinimumPermittedTaxYear: TaxYear).expects()
+    def studentLoanMinimumPermittedTaxYear: CallHandler0[TaxYear] = (() => mockEmploymentsConfig.studentLoanMinimumPermittedTaxYear: TaxYear).expects()
     def release6DownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockEmploymentsConfig.release6DownstreamConfig: DownstreamConfig).expects()
     def api1661DownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockEmploymentsConfig.api1661DownstreamConfig: DownstreamConfig).expects()
   }

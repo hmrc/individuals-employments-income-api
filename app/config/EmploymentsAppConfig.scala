@@ -31,7 +31,7 @@ class EmploymentsAppConfig @Inject() (protected val config: ServicesConfig, prot
 
   def minimumPermittedTaxYear: TaxYear = TaxYear.ending(config.getInt("minimumPermittedTaxYear"))
 
-  def studentLoansMinimumPermittedTaxYear: TaxYear = TaxYear.ending(config.getInt("studentLoansMinimumPermittedTaxYear"))
+  def studentLoanMinimumPermittedTaxYear: TaxYear = TaxYear.ending(config.getInt("studentLoanMinimumPermittedTaxYear"))
 
   def release6DownstreamConfig: DownstreamConfig =
     downstreamConfig("release6")
