@@ -18,17 +18,16 @@ package v2.controllers.validators
 
 import common.errors._
 import common.models.domain.EmploymentId
-import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.utils.UnitSpec
 import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
 
-class DeleteStudentLoansBIKValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
+class DeleteStudentLoansBIKValidatorSpec extends UnitSpec {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
-  private val validTaxYear                   = "2024-25"
+  private val validTaxYear                   = "2025-26"
   private val validEmploymentId              = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   private val parsedNino         = Nino(validNino)
@@ -40,11 +39,9 @@ class DeleteStudentLoansBIKValidatorSpec extends UnitSpec with MockEmploymentsAp
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId): Either[ErrorWrapper, DeleteStudentLoansBIKRequest] =
-      new DeleteStudentLoansBIKValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
+      new DeleteStudentLoansBIKValidator(nino, taxYear, employmentId).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
-
-    MockedEmploymentsAppConfig.studentLoansMinimumPermittedTaxYear returns TaxYear.fromMtd("2024-25")
   }
 
   "validate" should {
@@ -74,7 +71,7 @@ class DeleteStudentLoansBIKValidatorSpec extends UnitSpec with MockEmploymentsAp
 
     "return RuleTaxYearNotSupportedError error" when {
       "an unsupported tax year is supplied" in new Test {
-        validate(taxYear = "2023-24") shouldBe singleError(RuleTaxYearNotSupportedError)
+        validate(taxYear = "2024-25") shouldBe singleError(RuleTaxYearNotSupportedError)
       }
     }
 
