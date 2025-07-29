@@ -38,7 +38,7 @@ class DeleteStudentLoansBIKController @Inject()(val authService: EnrolmentsAuthS
                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
-  val endpointName = "delete-student-loans-benefits-in-kind"
+  val endpointName = "delete-student-loan-benefits-in-kind"
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
@@ -63,7 +63,7 @@ class DeleteStudentLoansBIKController @Inject()(val authService: EnrolmentsAuthS
           auditService = auditService,
           auditType = "DeleteStudentLoansBenefitsInKind",
           apiVersion = Version(request),
-          transactionName = "delete-student-loans-benefits-in-kind",
+          transactionName = "delete-student-loan-benefits-in-kind",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
         ))
 
