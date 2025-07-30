@@ -18,8 +18,7 @@ package v2.connectors
 
 import shared.config.SharedAppConfig
 import shared.connectors.DownstreamUri.HipUri
-import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
@@ -37,11 +36,13 @@ class RetrieveStudentLoanBIKConnector @Inject()(val http: HttpClientV2,
     def retrieveStudentLoanBIK(request: RetrieveStudentLoanBIKRequest)(implicit
                                                                                    hc: HeaderCarrier,
                                                                                    ec: ExecutionContext,
-                                                                                   correlationId: String): Future[DownstreamOutcome[Unit]] = {
+                                                                                   correlationId: String): Future[DownstreamOutcome[RetrieveStudentLoanBIKResponse]] = {
 
-      import request._
+      import request.nino
+      import request.taxYear
+      import request.employmentId
 
-      val downstreamUri = HipUri[Unit](s"itsa/income-tax/v1/${taxYear.asTysDownstream}/student-loan/payrolled-benefits/$nino/${employmentId.value}")
+      val downstreamUri: DownstreamUri[RetrieveStudentLoanBIKResponse] = HipUri[RetrieveStudentLoanBIKResponse](s"itsa/income-tax/v1/${taxYear.asTysDownstream}/student-loan/payrolled-benefits/$nino/${employmentId.value}")
 
 
       get(uri = downstreamUri)
