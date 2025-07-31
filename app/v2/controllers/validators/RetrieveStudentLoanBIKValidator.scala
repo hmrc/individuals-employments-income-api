@@ -21,6 +21,7 @@ import cats.implicits.catsSyntaxTuple3Semigroupal
 import config.EmploymentsAppConfig
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
@@ -29,8 +30,7 @@ class RetrieveStudentLoanBIKValidator (nino: String, taxYear: String, employment
   extends Validator[RetrieveStudentLoanBIKRequest]
     with ResolverSupport {
 
-  private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.studentLoansMinimumPermittedTaxYear).resolver
+  private val resolveTaxYear: ResolveTaxYearMinimum = ResolveTaxYearMinimum(TaxYear.fromMtd("2025-26"))
 
   override def validate: Validated[Seq[MtdError], RetrieveStudentLoanBIKRequest] =
     (
