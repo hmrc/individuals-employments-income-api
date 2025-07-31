@@ -40,7 +40,7 @@ class DeleteStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymentsApp
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId): Either[ErrorWrapper, DeleteStudentLoanBIKRequest] =
-      new DeleteStudentLoanBIKValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
+      new DeleteStudentLoanBIKValidator(nino, taxYear, employmentId).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
   }

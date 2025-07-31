@@ -22,6 +22,7 @@ import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
+import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
@@ -36,8 +37,7 @@ class CreateAmendStudentLoanBIKValidator(nino: String, taxYear: String, employme
     with ResolverSupport {
   import CreateAmendStudentLoanBIKValidator._
 
-  private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.studentLoanMinimumPermittedTaxYear).resolver
+  private val resolveTaxYear: ResolveTaxYearMinimum = ResolveTaxYearMinimum(TaxYear.fromMtd("2025-26"))
 
   override def validate: Validated[Seq[MtdError], CreateAmendStudentLoanBIKRequest] =
     (

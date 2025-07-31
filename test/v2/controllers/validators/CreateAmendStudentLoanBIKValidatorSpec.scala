@@ -29,7 +29,7 @@ class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymen
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
-  private val validTaxYear                   = "2024-25"
+  private val validTaxYear                   = "2025-26"
   private val validEmploymentId              = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   private val parsedNino         = Nino(validNino)
@@ -54,8 +54,6 @@ class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymen
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
-
-    MockedEmploymentsAppConfig.studentLoanMinimumPermittedTaxYear returns TaxYear.fromMtd("2024-25")
   }
 
   "validate" should {
@@ -110,7 +108,8 @@ class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymen
       }
 
       "the submitted request body where fields have incorrect type" in new Test {
-        validate(body = Json.parse("""{ "payrolledBenefits": true }""")) shouldBe singleError(RuleIncorrectOrEmptyBodyError.withPath("/payrolledBenefits"))
+        validate(body = Json.parse("""{ "payrolledBenefits": true }""")) shouldBe singleError(
+          RuleIncorrectOrEmptyBodyError.withPath("/payrolledBenefits"))
       }
     }
 

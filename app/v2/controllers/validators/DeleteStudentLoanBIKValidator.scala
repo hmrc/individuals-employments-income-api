@@ -25,7 +25,7 @@ import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
-class DeleteStudentLoanBIKValidator(nino: String, taxYear: String, employmentId: String, appConfig: EmploymentsAppConfig)
+class DeleteStudentLoanBIKValidator(nino: String, taxYear: String, employmentId: String)
     extends Validator[DeleteStudentLoanBIKRequest]
     with ResolverSupport {
 

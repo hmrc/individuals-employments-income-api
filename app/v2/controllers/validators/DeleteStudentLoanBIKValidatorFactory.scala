@@ -16,16 +16,15 @@
 
 package v2.controllers.validators
 
-import config.EmploymentsAppConfig
 import shared.controllers.validators.Validator
 import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.Singleton
 
 @Singleton
-class DeleteStudentLoanBIKValidatorFactory @Inject()(appConfig: EmploymentsAppConfig) {
+class DeleteStudentLoanBIKValidatorFactory {
 
   def validator(nino: String, taxYear: String, employmentId: String): Validator[DeleteStudentLoanBIKRequest] =
-    new DeleteStudentLoanBIKValidator(nino, taxYear, employmentId, appConfig)
+    new DeleteStudentLoanBIKValidator(nino, taxYear, employmentId)
 
 }

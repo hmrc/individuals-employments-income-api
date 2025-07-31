@@ -8,7 +8,7 @@ info:
       * [Non-PAYE Employment Income](#tag/Non-PAYE-Employment-Income)
       * [Other Employment Income](#tag/Other-Employment-Income)
     
-    {{#if (enabled 'student-loans-benefits-in-kind')}}
+    {{#if (enabled 'student-loan-benefits-in-kind')}}
       * [Student Loan Benefits in Kind](#tag/Student-Loan-Benefits-in-Kind)
     {{/if}}
     
@@ -21,7 +21,7 @@ info:
       * Retrieve an Employment and its Financial Details
       * Create and Amend Employment Financial Details
       * Delete Employment Financial Details
-    {{#if (enabled 'student-loans-benefits-in-kind')}}
+    {{#if (enabled 'student-loan-benefits-in-kind')}}
       * Create or Amend Student Loan Benefits in Kind
       * Retreive Student Loan Benefits in Kind
       * Delete Student Loan Benefits in Kind
@@ -82,7 +82,7 @@ tags:
   - name: Other Employment Income
     description: Resources relating to an individual's other employment income
 
-  # {{#if (enabled 'student-loans-benefits-in-kind')}}
+  # {{#if (enabled 'student-loan-benefits-in-kind')}}
   - name: Student Loan Benefits in Kind
     description: This endpoint allows you to create, amend, retrieve and delete information on Student Loan Benefits in Kind (BIK)
   # {{/if}}
