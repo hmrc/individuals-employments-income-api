@@ -8,6 +8,7 @@ description: |
   | Header Value (Gov-Test-Scenario) | Scenario                                                                                        |
   |----------------------------------|-------------------------------------------------------------------------------------------------|
   | N/A - DEFAULT                    | Simulates success response.                                                                     |
+  | OUTSIDE_AMENDMENT_WINDOW         | Simulates the scenario where request cannot be completed as it is outside the amendment window. |
   | STATEFUL                         | Performs a stateful delete.                                                                     |
 
 
