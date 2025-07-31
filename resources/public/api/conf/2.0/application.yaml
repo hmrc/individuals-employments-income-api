@@ -102,7 +102,7 @@ paths:
     $ref: "./employments_non_paye.yaml"
   /individuals/employments-income/other/{nino}/{taxYear}:
     $ref: "./employments_other.yaml"
-# {{#if (enabled 'student-loans-benefits-in-kind')}}
+# {{#if (enabled 'student-loan-benefits-in-kind')}}
   /individuals/employments-income/{nino}/{taxYear}/{employmentId}/benefit-in-kind/student-loans:
-    $ref: "./student_loans_benefits_in_kind.yaml"
+    $ref: "./student_loan_benefits_in_kind.yaml"
 # {{/if}}

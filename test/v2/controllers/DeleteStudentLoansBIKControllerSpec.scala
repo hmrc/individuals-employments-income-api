@@ -109,7 +109,7 @@ class DeleteStudentLoansBIKControllerSpec
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
         auditType = "DeleteStudentLoansBenefitsInKind",
-        transactionName = "delete-student-loans-benefits-in-kind",
+        transactionName = "delete-student-loan-benefits-in-kind",
         detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
