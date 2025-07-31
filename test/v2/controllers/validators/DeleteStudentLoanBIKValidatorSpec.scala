@@ -28,7 +28,7 @@ class DeleteStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymentsApp
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
-  private val validTaxYear                   = "2024-25"
+  private val validTaxYear                   = "2025-26"
   private val validEmploymentId              = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   private val parsedNino         = Nino(validNino)
@@ -43,8 +43,6 @@ class DeleteStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymentsApp
       new DeleteStudentLoanBIKValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
-
-    MockedEmploymentsAppConfig.studentLoanMinimumPermittedTaxYear returns TaxYear.fromMtd("2024-25")
   }
 
   "validate" should {
@@ -74,7 +72,7 @@ class DeleteStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymentsApp
 
     "return RuleTaxYearNotSupportedError error" when {
       "an unsupported tax year is supplied" in new Test {
-        validate(taxYear = "2023-24") shouldBe singleError(RuleTaxYearNotSupportedError)
+        validate(taxYear = "2024-25") shouldBe singleError(RuleTaxYearNotSupportedError)
       }
     }
 
