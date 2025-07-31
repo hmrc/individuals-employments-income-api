@@ -1,14 +1,29 @@
+/*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package v2.connectors
 
-import common.connectors.EmploymentsConnectorSpec
-import common.models.domain.{EmploymentId, MtdSourceEnum}
+import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
 import shared.connectors.{ConnectorSpec, DownstreamOutcome}
+import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
-import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture.responseModel
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.fixtures.RetrieveStudentLoanBIKFixture.responseModel
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
 import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse
 
@@ -17,63 +32,37 @@ import scala.concurrent.Future
 class RetrieveStudentLoanBIKConnectorSpec extends ConnectorSpec {
 
   val nino: String = "AA111111A"
+  private val downstreamTaxYear: String = "24-25"
+  private val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   "RetrieveStudentLoanBIKContnectorSpec" should{
       "return a 200 for success scenario" in new HipTest with Test {
 
-        willGet(url"$baseUrl/income-tax/income/employments/non-paye/$nino/2018-19?view=LATEST")
+        willGet(url"$baseUrl/itsa/income-tax/v1/$downstreamTaxYear/student-loan/payrolled-benefits/$nino/$employmentId")
           .returns(Future.successful(outcome))
 
-        val result = await(connector.get(request))
+        val result: DownstreamOutcome[RetrieveStudentLoanBIKResponse] = await(connector.retrieveStudentLoanBIK(request))
         result shouldBe outcome
 
       }
-    }
 
-    "retrieveUkDividendsIncomeAnnualSummary is called for a TaxYearSpecific tax year" must {
-      "return a 200 for success scenario" in new MockEmploymentsAppConfig with IfsTest with Test {
-        def taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-
-        val outcome = Right(ResponseWrapper(correlationId, responseModel))
-
-        willGet(url"$baseUrl/income-tax/income/employments/non-paye/23-24/$nino?view=LATEST")
-          .returns(Future.successful(outcome))
-
-        await(connector.retrieveStudentLoanBIK(request)) shouldBe outcome
-      }
-    }
   }
 
+  trait Test  extends MockHttpClient with MockEmploymentsAppConfig {
 
-
-  trait Test { _: ConnectorSpec =>
 
     val connector: RetrieveStudentLoanBIKConnector = new RetrieveStudentLoanBIKConnector(
       http = mockHttpClient,
       appConfig = mockSharedAppConfig
     )
 
-    protected val request: DeleteStudentLoansBIKRequest =
-      DeleteStudentLoansBIKRequest(
-        nino = Nino(nino),
-        taxYear = TaxYear.fromMtd(taxYear),
-        employmentId = EmploymentId(employmentId)
+    protected val request: RetrieveStudentLoanBIKRequest =
+      RetrieveStudentLoanBIKRequest(
+        nino = Nino("AA111111A"),
+        taxYear = TaxYear.fromMtd("2024-25"),
+        employmentId = EmploymentId("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
       )
 
-    val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))
-
+    val outcome = Right(ResponseWrapper(correlationId, responseModel))
   }
-
-
-
 }
-//  trait Test extends EmploymentsConnectorTest { _: ConnectorTest with MockEmploymentsAppConfig =>
-//    def taxYear: TaxYear
-//
-//    protected val connector: RetrieveNonPayeEmploymentConnector =
-//      new RetrieveNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig, employmentsAppConfig = mockEmploymentsConfig)
-//
-//    protected val request: RetrieveNonPayeEmploymentIncomeRequest =
-//      RetrieveNonPayeEmploymentIncomeRequest(Nino("AA111111A"), taxYear = taxYear, MtdSourceEnum.latest)
-//
-//  }

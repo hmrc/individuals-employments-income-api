@@ -19,8 +19,7 @@ package v2.controllers
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import shared.config.SharedAppConfig
 import shared.controllers._
-import shared.routing.Version
-import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import shared.services.{ EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
 import v2.controllers.validators.RetrieveStudentLoanBIKValidatorFactory
 import v2.services.RetrieveStudentLoanBIKService
@@ -33,7 +32,6 @@ class RetrieveStudentLoanBIKController @Inject() (val authService: EnrolmentsAut
                                                   val lookupService: MtdIdLookupService,
                                                   validatorFactory: RetrieveStudentLoanBIKValidatorFactory,
                                                   service: RetrieveStudentLoanBIKService,
-                                                  auditService: AuditService,
                                                   cc: ControllerComponents,
                                                   val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
@@ -59,13 +57,8 @@ class RetrieveStudentLoanBIKController @Inject() (val authService: EnrolmentsAut
       val requestHandler = RequestHandler
         .withValidator(validator)
         .withService(service.retrieve)
-        .withAuditing(AuditHandler(
-          auditService = auditService,
-          auditType = "DeleteStudentLoansBenefitsInKind",
-          apiVersion = Version(request),
-          transactionName = "delete-student-loans-benefits-in-kind",
-          params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)
-        ))
+        .withPlainJsonResult()
+
       requestHandler.handleRequest()
     }
 

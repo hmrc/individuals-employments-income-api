@@ -23,6 +23,7 @@ import shared.models.errors._
 import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.RetrieveStudentLoanBIKConnector
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
+import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,8 +33,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class RetrieveStudentLoanBIKService @Inject() (connector: RetrieveStudentLoanBIKConnector) extends BaseService {
 
   def retrieve(request: RetrieveStudentLoanBIKRequest)(implicit
-                                                              ctx: RequestContext,
-                                                              ec: ExecutionContext): Future[ServiceOutcome[Unit]] = {
+                                                       ctx: RequestContext,
+                                                       ec: ExecutionContext): Future[ServiceOutcome[RetrieveStudentLoanBIKResponse]] = {
 
     connector.retrieveStudentLoanBIK(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
