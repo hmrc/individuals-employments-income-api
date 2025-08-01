@@ -24,4 +24,4 @@ GET        /:nino/:taxYear/:employmentId/financial-details               v2.cont
 # Student Loan Benefits in Kind
 PUT        /:nino/:taxYear/:employmentId/benefit-in-kind/student-loans   v2.controllers.CreateAmendStudentLoanBIKController.createAmendStudentLoanBIK(nino: String, taxYear: String, employmentId: String)
 GET        /:nino/:taxYear/:employmentId/benefit-in-kind/student-loans   v2.controllers.RetrieveStudentLoanBIKController.retrieveStudentLoanBIK(nino: String, taxYear: String, employmentId: String)
-DELETE     /:nino/:taxYear/:employmentId/benefit-in-kind/student-loans   v2.controllers.DeleteStudentLoansBIKController.DeleteStudentLoansBIK(nino: String, taxYear: String, employmentId: String)
+DELETE     /:nino/:taxYear/:employmentId/benefit-in-kind/student-loans   v2.controllers.DeleteStudentLoanBIKController.DeleteStudentLoanBIK(nino: String, taxYear: String, employmentId: String)
