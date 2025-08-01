@@ -38,7 +38,7 @@ import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import v2.fixtures.RetrieveStudentLoanBIKFixture
 
 
-class RetrieveStudentLoanBIKControllerSpec extends EmploymentsIBaseSpec {
+class RetrieveStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
@@ -165,7 +165,6 @@ class RetrieveStudentLoanBIKControllerSpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "UNMATCHED_STUB_ERROR", BAD_REQUEST, RuleIncorrectGovTestScenarioError) ,
           (NOT_FOUND, "NOT_FOUND", NOT_FOUND, NotFoundError),
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError),
-          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
         )

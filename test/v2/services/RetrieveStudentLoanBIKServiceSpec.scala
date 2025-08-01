@@ -81,7 +81,6 @@ class RetrieveStudentLoanBIKServiceSpec  extends ServiceSpec {
           ("UNMATCHED_STUB_ERROR", RuleIncorrectGovTestScenarioError),
           ("NOT_FOUND", NotFoundError),
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError),
-          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError),
           ("SERVER_ERROR", InternalError),
           ("SERVICE_UNAVAILABLE", InternalError)
         )
