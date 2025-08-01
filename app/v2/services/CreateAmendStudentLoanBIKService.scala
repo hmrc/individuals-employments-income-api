@@ -28,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class CreateAmendStudentLoanBIKService @Inject()(connector: CreateAmendStudentLoanBIKConnector) extends BaseService {
+class CreateAmendStudentLoanBIKService @Inject() (connector: CreateAmendStudentLoanBIKConnector) extends BaseService {
 
   def createAndAmend(request: CreateAmendStudentLoanBIKRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[Unit]] = {
 
@@ -36,23 +36,15 @@ class CreateAmendStudentLoanBIKService @Inject()(connector: CreateAmendStudentLo
 
   }
 
-  private val downstreamErrorMap: Map[String, MtdError] = {
-    val error = Map(
-      "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
-      "INVALID_TAX_YEAR"          -> TaxYearFormatError,
-      "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
-      "UNMATCHED_STUB_ERROR"      -> RuleIncorrectGovTestScenarioError,
-      "INVALID_CORRELATIONID"     -> InternalError,
-      "INVALID_PAYLOAD"           -> InternalError,
-      "SERVER_ERROR"              -> InternalError,
-      "SERVICE_UNAVAILABLE"       -> InternalError
-    )
-    val extraTysErrors = Map(
-      "INVALID_CORRELATION_ID"   -> InternalError,
-      "OUTSIDE_AMENDMENT_WINDOW" -> RuleOutsideAmendmentWindowError,
-      "TAX_YEAR_NOT_SUPPORTED"   -> RuleTaxYearNotSupportedError
-    )
-    error ++ extraTysErrors
-  }
+  private val downstreamErrorMap: Map[String, MtdError] = Map(
+    "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
+    "INVALID_TAX_YEAR"          -> TaxYearFormatError,
+    "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
+    "INVALID_PAYLOAD"           -> InternalError,
+    "INVALID_CORRELATION_ID"    -> InternalError,
+    "UNMATCHED_STUB_ERROR"      -> RuleIncorrectGovTestScenarioError,
+    "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
+    "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
+  )
 
 }

@@ -71,9 +71,7 @@ class CreateAmendStudentLoanBIKServiceSpec extends ServiceSpec {
           ("INVALID_PAYLOAD", InternalError),
           ("UNMATCHED_STUB_ERROR", RuleIncorrectGovTestScenarioError),
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError),
-          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError),
-          ("SERVER_ERROR", InternalError),
-          ("SERVICE_UNAVAILABLE", InternalError)
+          ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError)
         )
 
         hipErrors.foreach(args => (serviceError _).tupled(args))
