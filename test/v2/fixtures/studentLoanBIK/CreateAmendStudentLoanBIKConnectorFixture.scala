@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package v2.controllers.validators
+package v2.fixtures.studentLoanBIK
 
-import shared.controllers.validators.Validator
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequestBody
 
-import javax.inject.Singleton
+object CreateAmendStudentLoanBIKConnectorFixture {
 
-@Singleton
-class DeleteStudentLoansBIKValidatorFactory {
-
-  def validator(nino: String, taxYear: String, employmentId: String): Validator[DeleteStudentLoansBIKRequest] =
-    new DeleteStudentLoansBIKValidator(nino, taxYear, employmentId)
+  val requestBodyModel: CreateAmendStudentLoanBIKRequestBody =
+    CreateAmendStudentLoanBIKRequestBody(payrolledBenefits = 20000.01)
 
 }

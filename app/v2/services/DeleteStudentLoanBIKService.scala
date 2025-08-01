@@ -21,16 +21,16 @@ import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
 import shared.controllers.RequestContext
 import shared.models.errors._
 import shared.services.{BaseService, ServiceOutcome}
-import v2.connectors.DeleteStudentLoansBIKConnector
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.connectors.DeleteStudentLoanBIKConnector
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteStudentLoansBIKService @Inject()(connector: DeleteStudentLoansBIKConnector) extends BaseService {
+class DeleteStudentLoanBIKService @Inject()(connector: DeleteStudentLoanBIKConnector) extends BaseService {
 
-  def delete(request: DeleteStudentLoansBIKRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[Unit]] = {
+  def delete(request: DeleteStudentLoanBIKRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[Unit]] = {
 
     connector.delete(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 

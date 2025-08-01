@@ -22,24 +22,24 @@ import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteStudentLoansBIKConnector @Inject()(val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
+class CreateAmendStudentLoanBIKConnector @Inject()(val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
-  def delete(request: DeleteStudentLoansBIKRequest)(implicit
-      hc: HeaderCarrier,
-      ec: ExecutionContext,
-      correlationId: String): Future[DownstreamOutcome[Unit]] = {
+  def createAndAmend(request: CreateAmendStudentLoanBIKRequest)(implicit
+                                                                hc: HeaderCarrier,
+                                                                ec: ExecutionContext,
+                                                                correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
     import request._
 
     val downstreamUri = HipUri[Unit](s"itsa/income-tax/v1/${taxYear.asTysDownstream}/student-loan/payrolled-benefits/$nino/${employmentId.value}")
 
-    delete(uri = downstreamUri)
+    put(body = body, uri = downstreamUri)
 
   }
 
