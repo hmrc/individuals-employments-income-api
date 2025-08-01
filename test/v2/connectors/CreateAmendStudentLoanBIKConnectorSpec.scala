@@ -21,26 +21,28 @@ import shared.connectors.{ConnectorSpec, DownstreamOutcome}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.fixtures.studentLoanBIK.CreateAmendStudentLoanBIKConnectorFixture.requestBodyModel
+import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
 
 import scala.concurrent.Future
 
-class DeleteStudentLoansBIKConnectorSpec extends ConnectorSpec {
+class CreateAmendStudentLoanBIKConnectorSpec extends ConnectorSpec {
 
-  private val nino: String = "AA111111A"
-  private val taxYear: String = "2024-25"
+  private val nino: String              = "AA111111A"
+  private val taxYear: String           = "2024-25"
   private val downstreamTaxYear: String = "24-25"
-  private val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val employmentId              = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  "DeleteStudentLoansBIKConnector" should {
-    "return a 204 result on delete" in new HipTest with Test {
+  "CreateAmendStudentLoanBIKConnector" should {
+    "return a 204 result on create amend" in new HipTest with Test {
 
-        willDelete(url"$baseUrl/itsa/income-tax/v1/$downstreamTaxYear/student-loan/payrolled-benefits/$nino/$employmentId") returns Future
-          .successful(outcome)
+      willPut(
+        url"$baseUrl/itsa/income-tax/v1/$downstreamTaxYear/student-loan/payrolled-benefits/$nino/$employmentId",
+        requestBodyModel) returns Future
+        .successful(outcome)
 
-        val result: DownstreamOutcome[Unit] = await(connector.delete(request))
-        result shouldBe outcome
-
+      val result: DownstreamOutcome[Unit] = await(connector.createAndAmend(request))
+      result shouldBe outcome
 
     }
   }
@@ -48,16 +50,17 @@ class DeleteStudentLoansBIKConnectorSpec extends ConnectorSpec {
   trait Test {
     _: ConnectorTest =>
 
-    val connector: DeleteStudentLoansBIKConnector = new DeleteStudentLoansBIKConnector(
+    val connector: CreateAmendStudentLoanBIKConnector = new CreateAmendStudentLoanBIKConnector(
       http = mockHttpClient,
       appConfig = mockSharedAppConfig
     )
 
-    protected val request: DeleteStudentLoansBIKRequest =
-      DeleteStudentLoansBIKRequest(
+    protected val request: CreateAmendStudentLoanBIKRequest =
+      CreateAmendStudentLoanBIKRequest(
         nino = Nino(nino),
         taxYear = TaxYear.fromMtd(taxYear),
-        employmentId = EmploymentId(employmentId)
+        employmentId = EmploymentId(employmentId),
+        body = requestBodyModel
       )
 
     val outcome: Right[Nothing, ResponseWrapper[Unit]] = Right(ResponseWrapper(correlationId, ()))

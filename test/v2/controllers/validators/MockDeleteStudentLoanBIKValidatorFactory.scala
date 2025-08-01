@@ -18,14 +18,14 @@ package v2.controllers.validators
 
 import org.scalamock.handlers.CallHandler
 import shared.controllers.validators.{MockValidatorFactory, Validator}
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
-trait MockDeleteStudentLoansBIKValidatorFactory extends MockValidatorFactory[DeleteStudentLoansBIKRequest] {
+trait MockDeleteStudentLoanBIKValidatorFactory extends MockValidatorFactory[DeleteStudentLoanBIKRequest] {
 
-  val mockDeleteStudentLoansBIKValidatorFactory: DeleteStudentLoansBIKValidatorFactory = mock[DeleteStudentLoansBIKValidatorFactory]
+  val mockDeleteStudentLoanBIKValidatorFactory: DeleteStudentLoanBIKValidatorFactory = mock[DeleteStudentLoanBIKValidatorFactory]
 
-  def validator(): CallHandler[Validator[DeleteStudentLoansBIKRequest]] =
-    (mockDeleteStudentLoansBIKValidatorFactory
+  def validator(): CallHandler[Validator[DeleteStudentLoanBIKRequest]] =
+    (mockDeleteStudentLoanBIKValidatorFactory
       .validator(_: String, _: String, _: String))
       .expects(*, *, *)
 

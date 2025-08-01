@@ -18,8 +18,7 @@ package v2.controllers
 
 import common.models.domain.EmploymentId
 import play.api.Configuration
-import play.api.http.HeaderNames
-import play.api.libs.json.JsValue
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
 import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
@@ -28,37 +27,50 @@ import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
 import shared.services.MockAuditService
-import v2.controllers.validators.MockDeleteStudentLoansBIKValidatorFactory
-import v2.mocks.services.MockDeleteStudentLoansBIKService
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.controllers.validators.MockCreateAmendStudentLoanBIKValidatorFactory
+import v2.mocks.services.MockCreateAmendStudentLoanBIKService
+import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DeleteStudentLoansBIKControllerSpec
+class CreateAmendStudentLoanBIKControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockDeleteStudentLoansBIKService
+    with MockCreateAmendStudentLoanBIKService
     with MockAuditService
-    with MockDeleteStudentLoansBIKValidatorFactory
+    with MockCreateAmendStudentLoanBIKValidatorFactory
     with MockSharedAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  val requestData: DeleteStudentLoansBIKRequest = DeleteStudentLoansBIKRequest(
-    nino = Nino(validNino),
-    taxYear = TaxYear.fromMtd(taxYear),
-    employmentId = EmploymentId(employmentId)
+  val validRequestJson: JsValue = Json.parse(
+    """
+      |{
+      |    "payrolledBenefits": 20000.01
+      |}
+      |""".stripMargin
   )
 
-  "DeleteStudentLoansBIKController" should {
+  val requestModel: CreateAmendStudentLoanBIKRequestBody = CreateAmendStudentLoanBIKRequestBody(
+    payrolledBenefits = 20000.01
+  )
+
+  val requestData: CreateAmendStudentLoanBIKRequest = CreateAmendStudentLoanBIKRequest(
+    nino = Nino(validNino),
+    taxYear = TaxYear.fromMtd(taxYear),
+    employmentId = EmploymentId(employmentId),
+    body = requestModel
+  )
+
+  "CreateAmendStudentLoanBIKController" should {
     "return NO_content" when {
       "happy path" in new Test {
         willUseValidator(returningSuccess(requestData))
 
-        MockDeleteStudentLoansBIKService
-          .delete(requestData)
+        MockCreateAmendStudentLoanBIKService
+          .createAndAmend(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
         runOkTestWithAudit(expectedStatus = NO_CONTENT)
@@ -75,8 +87,8 @@ class DeleteStudentLoansBIKControllerSpec
       "service returns an error" in new Test {
         willUseValidator(returningSuccess(requestData))
 
-        MockDeleteStudentLoansBIKService
-          .delete(requestData)
+        MockCreateAmendStudentLoanBIKService
+          .createAndAmend(requestData)
           .returns(Future.successful(Left(ErrorWrapper(correlationId, NotFoundError))))
 
         runErrorTestWithAudit(NotFoundError)
@@ -86,36 +98,36 @@ class DeleteStudentLoansBIKControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new DeleteStudentLoansBIKController(
+    val controller = new CreateAmendStudentLoanBIKController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      validatorFactory = mockDeleteStudentLoansBIKValidatorFactory,
-      service = mockDeleteStudentLoansBIKService,
+      validatorFactory = mockCreateAmendStudentLoanBIKValidatorFactory,
+      service = mockService,
       auditService = mockAuditService,
       cc = cc,
       idGenerator = mockIdGenerator
     )
 
     MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
-      "supporting-agents-access-control.enabled" -> false
+      "supporting-agents-access-control.enabled" -> true
     )
 
     MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.DeleteStudentLoansBIK(validNino, taxYear, employmentId)(fakeRequest.withHeaders(
-      HeaderNames.AUTHORIZATION -> "Bearer Token"
-    ))
+    protected def callController(): Future[Result] = controller.createAmendStudentLoanBIK(validNino, taxYear, employmentId)(
+      fakeRequest
+        .withBody(validRequestJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
-        auditType = "DeleteStudentLoansBenefitsInKind",
-        transactionName = "delete-student-loan-benefits-in-kind",
+        auditType = "CreateAmendStudentLoanBenefitsInKind",
+        transactionName = "create-amend-student-loan-benefits-in-kind",
         detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
           versionNumber = apiVersion.name,
           params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
-          requestBody = requestBody,
+          requestBody = Some(validRequestJson),
           `X-CorrelationId` = correlationId,
           auditResponse = auditResponse
         )

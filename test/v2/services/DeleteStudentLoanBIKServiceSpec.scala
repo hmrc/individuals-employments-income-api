@@ -23,12 +23,12 @@ import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors._
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
-import v2.mocks.connectors.MockDeleteStudentLoansBIKConnector
-import v2.models.request.deleteStudentLoansBIK.DeleteStudentLoansBIKRequest
+import v2.mocks.connectors.MockDeleteStudentLoanBIKConnector
+import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
 import scala.concurrent.Future
 
-class DeleteStudentLoansBIKServiceSpec extends ServiceSpec {
+class DeleteStudentLoanBIKServiceSpec extends ServiceSpec {
 
   private val nino         = "AA112233A"
   private val taxYear      = TaxYear.fromMtd("2019-20")
@@ -81,13 +81,13 @@ class DeleteStudentLoansBIKServiceSpec extends ServiceSpec {
     }
   }
 
-  trait Test extends MockDeleteStudentLoansBIKConnector {
+  trait Test extends MockDeleteStudentLoanBIKConnector {
 
-    val request: DeleteStudentLoansBIKRequest = DeleteStudentLoansBIKRequest(Nino(nino), taxYear, employmentId)
+    val request: DeleteStudentLoanBIKRequest = DeleteStudentLoanBIKRequest(Nino(nino), taxYear, employmentId)
 
     implicit val logContext: EndpointLogContext = EndpointLogContext("c", "ep")
 
-    val service: DeleteStudentLoansBIKService = new DeleteStudentLoansBIKService(
+    val service: DeleteStudentLoanBIKService = new DeleteStudentLoanBIKService(
       connector = mockDeleteStudentLoansBIKConnector
     )
 

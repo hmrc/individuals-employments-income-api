@@ -22,31 +22,31 @@ import shared.controllers._
 import shared.routing.Version
 import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
-import v2.controllers.validators.DeleteStudentLoansBIKValidatorFactory
-import v2.services.DeleteStudentLoansBIKService
+import v2.controllers.validators.DeleteStudentLoanBIKValidatorFactory
+import v2.services.DeleteStudentLoanBIKService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class DeleteStudentLoansBIKController @Inject()(val authService: EnrolmentsAuthService,
-                                                val lookupService: MtdIdLookupService,
-                                                validatorFactory: DeleteStudentLoansBIKValidatorFactory,
-                                                service: DeleteStudentLoansBIKService,
-                                                auditService: AuditService,
-                                                cc: ControllerComponents,
-                                                val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
+class DeleteStudentLoanBIKController @Inject()(val authService: EnrolmentsAuthService,
+                                               val lookupService: MtdIdLookupService,
+                                               validatorFactory: DeleteStudentLoanBIKValidatorFactory,
+                                               service: DeleteStudentLoanBIKService,
+                                               auditService: AuditService,
+                                               cc: ControllerComponents,
+                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "delete-student-loan-benefits-in-kind"
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
-      controllerName = "DeleteStudentLoansBIKController",
-      endpointName = "DeleteStudentLoansBIK"
+      controllerName = "DeleteStudentLoanBIKController",
+      endpointName = "DeleteStudentLoanBIK"
     )
 
-  def DeleteStudentLoansBIK(nino: String, taxYear: String, employmentId: String): Action[AnyContent] =
+  def DeleteStudentLoanBIK(nino: String, taxYear: String, employmentId: String): Action[AnyContent] =
     authorisedAction(nino).async { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
@@ -61,7 +61,7 @@ class DeleteStudentLoansBIKController @Inject()(val authService: EnrolmentsAuthS
         .withService(service.delete)
         .withAuditing(AuditHandler(
           auditService = auditService,
-          auditType = "DeleteStudentLoansBenefitsInKind",
+          auditType = "DeleteStudentLoanBenefitsInKind",
           apiVersion = Version(request),
           transactionName = "delete-student-loan-benefits-in-kind",
           params = Map("nino" -> nino, "taxYear" -> taxYear, "employmentId" -> employmentId)

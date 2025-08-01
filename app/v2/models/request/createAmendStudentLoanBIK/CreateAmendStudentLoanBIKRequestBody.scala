@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package v2.models.request.deleteStudentLoansBIK
+package v2.models.request.createAmendStudentLoanBIK
 
-import common.models.domain.EmploymentId
-import shared.models.domain.{Nino, TaxYear}
+import play.api.libs.json.{Json, OFormat}
 
-case class DeleteStudentLoansBIKRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId)
+case class CreateAmendStudentLoanBIKRequestBody(payrolledBenefits: BigDecimal)
+
+object CreateAmendStudentLoanBIKRequestBody {
+  implicit val format: OFormat[CreateAmendStudentLoanBIKRequestBody] = Json.format[CreateAmendStudentLoanBIKRequestBody]
+}
