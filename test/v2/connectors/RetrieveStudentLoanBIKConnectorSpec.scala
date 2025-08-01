@@ -63,6 +63,6 @@ class RetrieveStudentLoanBIKConnectorSpec extends ConnectorSpec {
         employmentId = EmploymentId("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
       )
 
-    val outcome = Right(ResponseWrapper(correlationId, responseModel))
+    val outcome: Right[Nothing, ResponseWrapper[RetrieveStudentLoanBIKResponse]] = Right(ResponseWrapper(correlationId, responseModel))
   }
 }

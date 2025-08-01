@@ -24,15 +24,10 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
 import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse
-
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-
-class RetrieveStudentLoanBIKConnector @Inject()(val http: HttpClientV2,
-                                      val appConfig: SharedAppConfig,
-                                      )
-  extends BaseDownstreamConnector {
+class RetrieveStudentLoanBIKConnector @Inject()(val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
     def retrieveStudentLoanBIK(request: RetrieveStudentLoanBIKRequest)(implicit
                                                                        hc: HeaderCarrier,
