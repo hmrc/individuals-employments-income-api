@@ -16,7 +16,7 @@
 
 package v2.services
 
-import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}

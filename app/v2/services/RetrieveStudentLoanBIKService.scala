@@ -17,7 +17,7 @@
 package v2.services
 
 import cats.implicits._
-import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError}
 import shared.controllers.RequestContext
 import shared.models.errors._
 import shared.services.{BaseService, ServiceOutcome}
