@@ -41,7 +41,7 @@ class RetrieveStudentLoanBIKValidatorSpec extends UnitSpec with MockSharedAppCon
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId): Either[ErrorWrapper, RetrieveStudentLoanBIKRequest] =
-      new RetrieveStudentLoanBIKValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
+      new RetrieveStudentLoanBIKValidator(nino, taxYear, employmentId).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
