@@ -27,24 +27,20 @@ import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class RetrieveStudentLoanBIKConnector @Inject()(val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
+class RetrieveStudentLoanBIKConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
-    def retrieveStudentLoanBIK(request: RetrieveStudentLoanBIKRequest)(implicit
-                                                                       hc: HeaderCarrier,
-                                                                       ec: ExecutionContext,
-                                                                       correlationId: String): Future[DownstreamOutcome[RetrieveStudentLoanBIKResponse]] = {
+  def retrieveStudentLoanBIK(request: RetrieveStudentLoanBIKRequest)(implicit
+      hc: HeaderCarrier,
+      ec: ExecutionContext,
+      correlationId: String): Future[DownstreamOutcome[RetrieveStudentLoanBIKResponse]] = {
 
-      import request.{employmentId, nino, taxYear}
+    import request.{employmentId, nino, taxYear}
 
-      val downstreamUri: DownstreamUri[RetrieveStudentLoanBIKResponse] = HipUri[RetrieveStudentLoanBIKResponse](s"itsa/income-tax/v1/${taxYear.asTysDownstream}/student-loan/payrolled-benefits/$nino/${employmentId.value}")
+    val downstreamUri: DownstreamUri[RetrieveStudentLoanBIKResponse] = HipUri[RetrieveStudentLoanBIKResponse](
+      s"itsa/income-tax/v1/${taxYear.asTysDownstream}/student-loan/payrolled-benefits/$nino/${employmentId.value}")
 
+    get(uri = downstreamUri)
 
-      get(uri = downstreamUri)
+  }
 
-    }
 }
-
-
-
-
-
