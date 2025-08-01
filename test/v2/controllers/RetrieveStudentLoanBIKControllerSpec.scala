@@ -40,7 +40,7 @@ class RetrieveStudentLoanBIKControllerSpec extends ControllerBaseSpec
   with MockRetrieveStudentLoanBIKValidatorFactory
   with MockSharedAppConfig {
 
-  val taxYear: String = "2034-25"
+  val taxYear: String = "2025-26"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   val requestData: RetrieveStudentLoanBIKRequest = RetrieveStudentLoanBIKRequest(
