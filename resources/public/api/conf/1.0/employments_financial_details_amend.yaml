@@ -36,12 +36,16 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: './schemas/employments_financial_amend_request.json'
+        oneOf:
+          - $ref: './schemas/employments_financial_amend_request/def1/employments_financial_amend_request.json'
+          - $ref: './schemas/employments_financial_amend_request/def2/employments_financial_amend_request.json'
       examples:
-        example-1:
-          description: Default Example
+        "Example request for TY 2022-23 and before":
           value:
-            $ref: './examples/employments/financialDetails/amend_request.json'
+            $ref: './examples/employments/financialDetails/amend_request_NON_TYS.json'
+        "Example request for TY 2023-24 onwards":
+          value:
+            $ref: './examples/employments/financialDetails/amend_request_TYS.json'
 
 responses:
   "200":
