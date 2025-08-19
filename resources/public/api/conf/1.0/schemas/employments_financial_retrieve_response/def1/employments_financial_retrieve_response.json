@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "TY 2022-23 and before",
+  "description": "Retrieve an Employment and its Financial Details Response",
+  "type": "object",
+  "properties": {
+    "submittedOn": {"$ref": "../../employments_financial_definitions.json#/definitions/submittedOn"},
+    "source": {"$ref": "../../employments_financial_definitions.json#/definitions/source"},
+    "customerAdded": {"$ref": "../../employments_financial_definitions.json#/definitions/customerAdded"},
+    "dateIgnored": {"$ref": "../../employments_financial_definitions.json#/definitions/dateIgnored"},
+    "employment": {"$ref": "../../employments_financial_definitions.json#/definitions/def1/retrieveEmployment"}
+  },
+  "required": ["submittedOn", "employment"]
+}

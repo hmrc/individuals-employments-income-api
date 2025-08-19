@@ -41,16 +41,22 @@ responses:
     content:
       application/json:
         schema:
-          $ref: './schemas/employments_financial_retrieve_response.json'
+          oneOf:
+            - $ref: './schemas/employments_financial_retrieve_response/def1/employments_financial_retrieve_response.json'
+            - $ref: './schemas/employments_financial_retrieve_response/def2/employments_financial_retrieve_response.json'
         examples:
-          user-provided:
-            description: User provided financial details
+          "User provided financial details TY 22-23 and before":
             value:
-              $ref: './examples/employments/financialDetails/retrieve_user_response.json'
-          hmrc-held:
-            description: HMRC held financial details
+              $ref: './examples/employments/financialDetails/retrieve_user_response_NON_TYS.json'
+          "User provided financial details TY 23-24 onwards":
             value:
-              $ref: './examples/employments/financialDetails/retrieve_hmrc_response.json'
+              $ref: './examples/employments/financialDetails/retrieve_user_response_TYS.json'
+          "HMRC held financial details TY 22-23 and before":
+            value:
+              $ref: './examples/employments/financialDetails/retrieve_hmrc_response_NON_TYS.json'
+          "HMRC held financial details TY 23-24 onwards":
+            value:
+              $ref: './examples/employments/financialDetails/retrieve_hmrc_response_TYS.json'
 
   "400":
     description: Bad request

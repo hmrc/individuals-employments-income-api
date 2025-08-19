@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Create And Amend Employment Financial Details Request",
+  "title": "TY 2023-24 onwards",
   "description": "Create And Amend Employment Financial Details Request",
   "type": "object",
   "properties": {
-    "employment": {"$ref": "employments_financial_definitions.json#/definitions/amendEmployment"}
+    "employment": {"$ref": "../../employments_financial_definitions.json#/definitions/def2/amendEmployment"}
   },
   "required": ["employment"]
 }
