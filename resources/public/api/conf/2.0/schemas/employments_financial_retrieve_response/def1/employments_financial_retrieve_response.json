@@ -8,7 +8,7 @@
     "source": {"$ref": "../../employments_financial_definitions.json#/definitions/source"},
     "customerAdded": {"$ref": "../../employments_financial_definitions.json#/definitions/customerAdded"},
     "dateIgnored": {"$ref": "../../employments_financial_definitions.json#/definitions/dateIgnored"},
-    "employment": {"$ref": "../../employments_financial_definitions.json#/definitions/retrieveEmploymentDef1"}
+    "employment": {"$ref": "../../employments_financial_definitions.json#/definitions/def1/retrieveEmployment"}
   },
   "required": ["submittedOn", "employment"]
 }

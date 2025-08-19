@@ -4,7 +4,7 @@
   "description": "Create And Amend Employment Financial Details Request",
   "type": "object",
   "properties": {
-    "employment": {"$ref": "../../employments_financial_definitions.json#/definitions/amendEmploymentDef1"}
+    "employment": {"$ref": "../../employments_financial_definitions.json#/definitions/def1/amendEmployment"}
   },
   "required": ["employment"]
 }
