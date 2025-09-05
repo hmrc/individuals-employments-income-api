@@ -13,5 +13,7 @@
       "multipleOf": 0.01
     }
   },
-  "required": ["payrolledBenefits"]
+  "required": [
+    "payrolledBenefits"
+  ]
 }
