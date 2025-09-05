@@ -54,7 +54,7 @@ object EmploymentsIncomeValidators extends ResolverSupport {
   def validateCustomerRef(value: Option[String], error: => MtdError = CustomerRefFormatError): Validated[Seq[MtdError], Option[String]] =
     ResolveStringPattern(customerReferenceRegex, error).resolver.resolveOptionally(value)
 
-  private val payrollIdRegex = "^[A-Za-z0-9.,\\-()/=!\"%&*; <>'+:\\?#]{0,38}$".r
+  private val payrollIdRegex ="^[A-Za-z0-9 .,\\-()/=!\"%&*;<>'+:?#]{0,38}$".r
 
   def validatePayrollId(value: Option[String], error: => MtdError = PayrollIdFormatError): Validated[Seq[MtdError], Option[String]] =
     ResolveStringPattern(payrollIdRegex, error).resolver.resolveOptionally(value)
