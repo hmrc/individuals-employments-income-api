@@ -184,7 +184,7 @@
             "example": "1",
             "pattern": "^[1-9][0-9]{0,9}$"
           },
-          {{#if (enabled 'ifs_hip_migration_1877_docs')}}
+          {{#if (enabled 'api_1877_r17_docs')}}
             "payrollId": {
             "type": "string",
             "description": "The unique identifier used by the employer to identify the employee.",
