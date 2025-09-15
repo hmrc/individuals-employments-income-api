@@ -44,17 +44,24 @@ responses:
           oneOf:
             - $ref: './schemas/employments_financial_retrieve_response/def1/employments_financial_retrieve_response.json'
             - $ref: './schemas/employments_financial_retrieve_response/def2/employments_financial_retrieve_response.json'
+            - $ref: './schemas/employments_financial_retrieve_response/def3/employments_financial_retrieve_response.json'
         examples:
           "User provided financial details TY 22-23 and before":
             value:
               $ref: './examples/employments/financialDetails/retrieve_user_response_NON_TYS.json'
-          "User provided financial details TY 23-24 onwards":
+          "User provided financial details TY 23-24":
+            value:
+              $ref: './examples/employments/financialDetails/retrieve_user_response_TYS.json'
+          "User provided financial details TY 24-25 onwards":
             value:
               $ref: './examples/employments/financialDetails/retrieve_user_response_TYS.json'
           "HMRC held financial details TY 22-23 and before":
             value:
               $ref: './examples/employments/financialDetails/retrieve_hmrc_response_NON_TYS.json'
-          "HMRC held financial details TY 23-24 onwards":
+          "HMRC held financial details TY 23-24":
+            value:
+              $ref: './examples/employments/financialDetails/retrieve_hmrc_response_TYS.json'
+          "HMRC held financial details TY 24-25 onwards":
             value:
               $ref: './examples/employments/financialDetails/retrieve_hmrc_response_TYS.json'
 
