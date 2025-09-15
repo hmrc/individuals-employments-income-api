@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "TY 2023-24",
+  "title": "TY 2024-25 onwards",
   "description": "Retrieve an Employment and its Financial Details Response",
   "type": "object",
   "properties": {
@@ -8,7 +8,7 @@
     "source": {"$ref": "../../employments_financial_definitions.json#/definitions/source"},
     "customerAdded": {"$ref": "../../employments_financial_definitions.json#/definitions/customerAdded"},
     "dateIgnored": {"$ref": "../../employments_financial_definitions.json#/definitions/dateIgnored"},
-    "employment": {"$ref": "../../employments_financial_definitions.json#/definitions/def2/retrieveEmployment"}
+    "employment": {"$ref": "../../employments_financial_definitions.json#/definitions/def3/retrieveEmployment"}
   },
   "required": ["submittedOn", "employment"]
 }
