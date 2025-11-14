@@ -20,48 +20,18 @@ import common.models.domain.PayFrequency
 import play.api.libs.json.Reads
 import shared.utils.enums.Enums
 
-sealed trait DownstreamPayFrequency {
-  def toMtd: PayFrequency
+enum DownstreamPayFrequency(toMtd: PayFrequency) {
+  case `WEEKLY`           extends DownstreamPayFrequency(PayFrequency.`weekly`)
+  case `FORTNIGHTLY`      extends DownstreamPayFrequency(PayFrequency.`fortnightly`)
+  case `FOUR WEEKLY`      extends DownstreamPayFrequency(PayFrequency.`four-weekly`)
+  case `CALENDAR MONTHLY` extends DownstreamPayFrequency(PayFrequency.`monthly`)
+  case `QUARTERLY`        extends DownstreamPayFrequency(PayFrequency.`quarterly`)
+  case `BI-ANNUALLY`      extends DownstreamPayFrequency(PayFrequency.`bi-annually`)
+  case `ONE-OFF`          extends DownstreamPayFrequency(PayFrequency.`one-off`)
+  case `IRREGULAR`        extends DownstreamPayFrequency(PayFrequency.`irregular`)
+  case `ANNUALLY`         extends DownstreamPayFrequency(PayFrequency.`annually`)
 }
 
 object DownstreamPayFrequency {
-
-  case object `WEEKLY` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`weekly`
-  }
-
-  case object `FORTNIGHTLY` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`fortnightly`
-  }
-
-  case object `FOUR WEEKLY` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`four-weekly`
-  }
-
-  case object `CALENDAR MONTHLY` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`monthly`
-  }
-
-  case object `QUARTERLY` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`quarterly`
-  }
-
-  case object `BI-ANNUALLY` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`bi-annually`
-  }
-
-  case object `ONE-OFF` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`one-off`
-  }
-
-  case object `IRREGULAR` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`irregular`
-  }
-
-  case object `ANNUALLY` extends DownstreamPayFrequency {
-    override def toMtd: PayFrequency = PayFrequency.`annually`
-  }
-
-  implicit val reads: Reads[DownstreamPayFrequency] = Enums.reads[DownstreamPayFrequency]
-
+  given Reads[DownstreamPayFrequency] = Enums.reads[DownstreamPayFrequency](values)
 }

@@ -3,7 +3,7 @@ import uk.gov.hmrc.DefaultBuildSettings
 
 val appName = "individuals-employments-income-api"
 
-ThisBuild / scalaVersion := "2.13.16"
+ThisBuild / scalaVersion := "3.4.3"
 ThisBuild / majorVersion := 0
 
 lazy val microservice = Project(appName, file("."))

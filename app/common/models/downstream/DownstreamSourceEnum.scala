@@ -20,23 +20,12 @@ import common.models.domain.MtdSourceEnum
 import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
-sealed trait DownstreamSourceEnum {
-  def toMtdEnum: MtdSourceEnum
+enum DownstreamSourceEnum(toMtdEnum: MtdSourceEnum) {
+  case `HMRC HELD` extends DownstreamSourceEnum(MtdSourceEnum.`hmrc-held`)
+  case CUSTOMER    extends DownstreamSourceEnum(MtdSourceEnum.user)
+  case LATEST      extends DownstreamSourceEnum(MtdSourceEnum.latest)
 }
 
 object DownstreamSourceEnum {
-  implicit val format: Format[DownstreamSourceEnum] = Enums.format[DownstreamSourceEnum]
-
-  case object `HMRC HELD` extends DownstreamSourceEnum {
-    override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
-  }
-
-  case object CUSTOMER extends DownstreamSourceEnum {
-    override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.user
-  }
-
-  case object LATEST extends DownstreamSourceEnum {
-    override def toMtdEnum: MtdSourceEnum = MtdSourceEnum.latest
-  }
-
+  given Format[DownstreamSourceEnum] = Enums.format[DownstreamSourceEnum](values)
 }
