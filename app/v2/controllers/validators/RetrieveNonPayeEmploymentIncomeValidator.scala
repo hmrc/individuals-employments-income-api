@@ -46,6 +46,6 @@ class RetrieveNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, ma
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       resolveSource(maybeSource)
-    ).mapN(RetrieveNonPayeEmploymentIncomeRequest)
+    ).mapN(RetrieveNonPayeEmploymentIncomeRequest.apply)
 
 }

@@ -50,6 +50,6 @@ class RetrieveFinancialDetailsValidator(nino: String, taxYear: String, employmen
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId),
       resolveSource(maybeSource)
-    ).mapN(RetrieveEmploymentAndFinancialDetailsRequest)
+    ).mapN(RetrieveEmploymentAndFinancialDetailsRequest.apply)
 
 }

@@ -28,6 +28,6 @@ object AmendTaxableLumpSumsAndCertainIncomeItem {
     (JsPath \ "amount").write[BigDecimal] and
       (JsPath \ "taxPaid").writeNullable[BigDecimal] and
       (JsPath \ "taxTakenOffInEmployment").writeNullable[Boolean]
-  )(unlift(AmendTaxableLumpSumsAndCertainIncomeItem.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

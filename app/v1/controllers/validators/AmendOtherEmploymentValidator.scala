@@ -43,6 +43,6 @@ class AmendOtherEmploymentValidator(nino: String, taxYear: String, body: JsValue
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       resolveJson(body)
-    ).mapN(AmendOtherEmploymentRequest) andThen AmendOtherEmploymentRulesValidator.validateBusinessRules
+    ).mapN(AmendOtherEmploymentRequest.apply) andThen AmendOtherEmploymentRulesValidator.validateBusinessRules
 
 }

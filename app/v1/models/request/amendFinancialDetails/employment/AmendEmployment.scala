@@ -36,6 +36,6 @@ object AmendEmployment {
       (JsPath \ "deductions").writeNullable[AmendDeductions] and
       (JsPath \ "benefitsInKind").writeNullable[AmendBenefitsInKind] and
       (JsPath \ "offPayrollWorker").writeNullable[Boolean].contramap[Option[Boolean]](trimIfNotTrue)
-  )(unlift(AmendEmployment.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

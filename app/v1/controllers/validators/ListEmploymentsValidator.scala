@@ -33,6 +33,6 @@ class ListEmploymentsValidator(nino: String, taxYear: String, appConfig: Employm
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear)
-    ).mapN(ListEmploymentsRequest)
+    ).mapN(ListEmploymentsRequest.apply)
 
 }

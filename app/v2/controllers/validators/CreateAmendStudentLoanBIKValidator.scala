@@ -45,6 +45,6 @@ class CreateAmendStudentLoanBIKValidator(nino: String, taxYear: String, employme
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId),
       resolveJson(body)
-    ).mapN(CreateAmendStudentLoanBIKRequest) andThen CreateAmendStudentLoanBIKRulesValidator.validateBusinessRules
+    ).mapN(CreateAmendStudentLoanBIKRequest.apply) andThen CreateAmendStudentLoanBIKRulesValidator.validateBusinessRules
 
 }

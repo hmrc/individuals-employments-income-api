@@ -55,7 +55,7 @@ object ShareOptionItem {
       (JsPath \ "profitOnOptionExercised").read[BigDecimal] and
       (JsPath \ "employersNicPaid").read[BigDecimal] and
       (JsPath \ "taxableAmount").read[BigDecimal]
-  )(ShareOptionItem.apply _)
+  )(ShareOptionItem.apply)
 
   implicit val writes: OWrites[ShareOptionItem] = Json.writes[ShareOptionItem]
 }

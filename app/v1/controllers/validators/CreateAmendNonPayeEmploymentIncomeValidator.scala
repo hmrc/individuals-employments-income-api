@@ -45,14 +45,13 @@ class CreateAmendNonPayeEmploymentIncomeValidator(nino: String,
   import CreateAmendNonPayeEmploymentIncomeValidator._
 
   private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver thenValidate
-      satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear)
+    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver.thenValidate(satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear))
 
   override def validate: Validated[Seq[MtdError], CreateAmendNonPayeEmploymentRequest] =
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       resolveJson(body)
-    ).mapN(CreateAmendNonPayeEmploymentRequest) andThen CreateAmendNonPayeIncomeRulesValidator.validateBusinessRules
+    ).mapN(CreateAmendNonPayeEmploymentRequest.apply) andThen CreateAmendNonPayeIncomeRulesValidator.validateBusinessRules
 
 }

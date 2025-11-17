@@ -63,6 +63,6 @@ object Employment {
         case Some(BenefitsInKind.empty) => None
         case other                      => other
       }
-  )(Employment.apply _)
+  )(Employment.apply)
 
 }

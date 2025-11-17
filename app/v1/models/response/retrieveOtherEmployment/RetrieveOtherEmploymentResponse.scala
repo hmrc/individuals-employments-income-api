@@ -37,7 +37,7 @@ object RetrieveOtherEmploymentResponse extends JsonUtils {
       (JsPath \ "disability").readNullable[CommonOtherEmployment] and
       (JsPath \ "foreignService").readNullable[CommonOtherEmployment] and
       (JsPath \ "lumpSums").readNullable[Seq[LumpSums]].mapEmptySeqToNone
-  )(RetrieveOtherEmploymentResponse.apply _)
+  )(RetrieveOtherEmploymentResponse.apply)
 
   implicit val writes: OWrites[RetrieveOtherEmploymentResponse] = Json.writes[RetrieveOtherEmploymentResponse]
 

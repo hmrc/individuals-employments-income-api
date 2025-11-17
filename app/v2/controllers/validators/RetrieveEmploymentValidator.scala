@@ -38,6 +38,6 @@ class RetrieveEmploymentValidator(nino: String, taxYear: String, employmentId: S
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId)
-    ).mapN(RetrieveEmploymentRequest)
+    ).mapN(RetrieveEmploymentRequest.apply)
 
 }

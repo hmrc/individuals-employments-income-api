@@ -32,12 +32,10 @@ object CustomEmploymentDateValidator extends ResolverSupport {
 
   def validator(taxYear: TaxYear): Validator[StringDateRange] = { case (startDate: String, cessationDate: Option[String]) =>
     def validateStartDate(date: LocalDate) =
-      (satisfiesMax(taxYear.endDate, RuleStartDateAfterTaxYearEndError) thenValidate
-        isInRange(StartDateFormatError))(date)
+      satisfiesMax(taxYear.endDate, RuleStartDateAfterTaxYearEndError).thenValidate(isInRange(StartDateFormatError))(date)
 
     def validateCessationDate(maybeDate: Option[LocalDate]) =
-      (satisfiesMin(taxYear.startDate, RuleCessationDateBeforeTaxYearStartError) thenValidate
-        isInRange(CessationDateFormatError)).validateOptionally(maybeDate)
+      satisfiesMin(taxYear.startDate, RuleCessationDateBeforeTaxYearStartError).thenValidate(isInRange(CessationDateFormatError)).validateOptionally(maybeDate)
 
     (resolveStartDate(startDate), resolveCessationDate(cessationDate)) match {
       case (Valid(start), Valid(maybeCessation)) =>

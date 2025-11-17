@@ -21,8 +21,8 @@ import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError
 import common.support.EmploymentsIBaseSpec
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers._
-import shared.models.errors._
+import play.api.test.Helpers.*
+import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
 class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {

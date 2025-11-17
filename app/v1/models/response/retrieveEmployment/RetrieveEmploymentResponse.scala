@@ -42,6 +42,6 @@ object RetrieveEmploymentResponse {
       (JsPath \\ "occupationalPension").readNullable[Boolean] and
       (JsPath \\ "dateIgnored").readNullable[Timestamp] and
       (JsPath \\ "submittedOn").readNullable[Timestamp]
-  )(RetrieveEmploymentResponse.apply _)
+  )(RetrieveEmploymentResponse.apply)
 
 }

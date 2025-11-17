@@ -36,6 +36,6 @@ class DeleteOtherEmploymentValidator(nino: String, taxYear: String, appConfig: E
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear)
-    ).mapN(DeleteOtherEmploymentIncomeRequest)
+    ).mapN(DeleteOtherEmploymentIncomeRequest.apply)
 
 }

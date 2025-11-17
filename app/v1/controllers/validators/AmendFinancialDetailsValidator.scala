@@ -21,7 +21,7 @@ import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.errors.MtdError
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import v1.controllers.validators.resolvers.ResolveEmploymentId
@@ -45,6 +45,6 @@ class AmendFinancialDetailsValidator(nino: String, taxYear: String, employmentId
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId),
       resolveJson(body)
-    ).mapN(AmendFinancialDetailsRequest) andThen AmendFinancialDetailsRulesValidator.validateBusinessRules
+    ).mapN(AmendFinancialDetailsRequest.apply) andThen AmendFinancialDetailsRulesValidator.validateBusinessRules
 
 }

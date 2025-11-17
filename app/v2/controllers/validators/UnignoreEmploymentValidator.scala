@@ -38,6 +38,6 @@ class UnignoreEmploymentValidator(nino: String, taxYear: String, employmentId: S
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId)
-    ).mapN(UnignoreEmploymentRequest)
+    ).mapN(UnignoreEmploymentRequest.apply)
 
 }

@@ -49,6 +49,6 @@ class AmendFinancialDetailsValidator(nino: String, taxYear: String, employmentId
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId),
       resolveJson(body)
-    ).mapN(AmendFinancialDetailsRequest) andThen AmendFinancialDetailsRulesValidator.validateBusinessRules
+    ).mapN(AmendFinancialDetailsRequest.apply) andThen AmendFinancialDetailsRulesValidator.validateBusinessRules
 
 }

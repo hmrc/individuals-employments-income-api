@@ -34,7 +34,7 @@ object RetrieveNonPayeEmploymentIncomeResponse {
       (JsPath \ "source").read[DownstreamSourceEnum].map(_.toMtdEnum) and
       (JsPath \ "totalNonPayeIncome").readNullable[BigDecimal] and
       (JsPath \ "nonPayeIncome").readNullable[NonPayeIncome]
-  )(RetrieveNonPayeEmploymentIncomeResponse.apply _)
+  )(RetrieveNonPayeEmploymentIncomeResponse.apply)
 
   implicit val writes: OWrites[RetrieveNonPayeEmploymentIncomeResponse] = Json.writes[RetrieveNonPayeEmploymentIncomeResponse]
 

@@ -98,6 +98,8 @@ object EmptinessChecker {
   def apply[A](using aInstance: EmptinessChecker[A]): EmptinessChecker[A] = aInstance
 
   def instance[A](func: A => Structure): EmptinessChecker[A] = (value: A) => func(value)
+  
+  def instanceObj[A](func: A => Structure.Obj): ObjEmptinessChecker[A] = (value: A) => func(value)
 
   def use[A](func: A => List[(String, Structure)]): EmptinessChecker[A] = EmptinessChecker.instance { a =>
     Structure.Obj(func(a))
@@ -108,15 +110,10 @@ object EmptinessChecker {
   def primitive[A]: EmptinessChecker[A] = EmptinessChecker.instance(_ => Structure.Primitive)
 
   given EmptinessChecker[String] = instance(_ => Structure.Primitive)
-
   given EmptinessChecker[Int] = instance(_ => Structure.Primitive)
-
   given EmptinessChecker[Double] = instance(_ => Structure.Primitive)
-
   given EmptinessChecker[Boolean] = instance(_ => Structure.Primitive)
-
   given EmptinessChecker[BigInt] = instance(_ => Structure.Primitive)
-
   given EmptinessChecker[BigDecimal] = instance(_ => Structure.Primitive)
 
   given [A](using aInstance: EmptinessChecker[A]): EmptinessChecker[Option[A]] =
@@ -135,7 +132,7 @@ object EmptinessChecker {
     given [A](using a: => A): Lazy[A] = new Lazy(() => a)
   }
 
-  inline given derived[A](using m: Mirror.Of[A]): EmptinessChecker[A] =
+  inline given derived[A](using m: Mirror.ProductOf[A]): EmptinessChecker[A] =
     instance { a =>
       val elemLabels    = summonLabels[m.MirroredElemLabels]
       val elemInstances = summonAllInstances[m.MirroredElemTypes]

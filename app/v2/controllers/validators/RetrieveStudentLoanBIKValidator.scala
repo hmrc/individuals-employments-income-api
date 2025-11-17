@@ -36,6 +36,6 @@ class RetrieveStudentLoanBIKValidator (nino: String, taxYear: String, employment
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId)
-    ).mapN(RetrieveStudentLoanBIKRequest)
+    ).mapN(RetrieveStudentLoanBIKRequest.apply)
 
 }

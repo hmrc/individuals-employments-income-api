@@ -41,14 +41,14 @@ class AddCustomEmploymentValidator(nino: String, taxYear: String, body: JsValue,
   import AddCustomEmploymentValidator._
 
   private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver thenValidate
-      satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear)
+    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+      .thenValidate(satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear))
 
   override def validate: Validated[Seq[MtdError], AddCustomEmploymentRequest] =
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       resolveJson(body)
-    ).mapN(AddCustomEmploymentRequest) andThen AddCustomEmploymentRulesValidator.validateBusinessRules
+    ).mapN(AddCustomEmploymentRequest.apply) andThen AddCustomEmploymentRulesValidator.validateBusinessRules
 
 }

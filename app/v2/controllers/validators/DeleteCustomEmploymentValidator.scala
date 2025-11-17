@@ -38,6 +38,6 @@ class DeleteCustomEmploymentValidator(nino: String, taxYear: String, employmentI
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId)
-    ).mapN(DeleteCustomEmploymentRequest)
+    ).mapN(DeleteCustomEmploymentRequest.apply)
 
 }

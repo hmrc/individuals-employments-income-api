@@ -43,6 +43,6 @@ object AmendOtherEmploymentRequestBody extends JsonUtils {
       (JsPath \ "disability").writeNullable[AmendCommonOtherEmployment] and
       (JsPath \ "foreignService").writeNullable[AmendCommonOtherEmployment] and
       (JsPath \ "lumpSums").writeNullable[Seq[AmendLumpSums]]
-  )(unlift(AmendOtherEmploymentRequestBody.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

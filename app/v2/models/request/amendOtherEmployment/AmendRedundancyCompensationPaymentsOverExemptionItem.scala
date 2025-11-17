@@ -28,5 +28,5 @@ object AmendRedundancyCompensationPaymentsOverExemptionItem {
     (JsPath \ "amount").write[BigDecimal] and
       (JsPath \ "taxPaid").writeNullable[BigDecimal] and
       (JsPath \ "taxTakenOffInEmployment").writeNullable[Boolean]
-  )(unlift(AmendRedundancyCompensationPaymentsOverExemptionItem.unapply))
+  )(o => Tuple.fromProductTyped(o))
 }

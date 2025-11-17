@@ -32,6 +32,6 @@ object AmendBenefitFromEmployerFinancedRetirementSchemeItem {
       (JsPath \ "exemptAmount").writeNullable[BigDecimal] and
       (JsPath \ "taxPaid").writeNullable[BigDecimal] and
       (JsPath \ "taxTakenOffInEmployment").writeNullable[Boolean]
-  )(unlift(AmendBenefitFromEmployerFinancedRetirementSchemeItem.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

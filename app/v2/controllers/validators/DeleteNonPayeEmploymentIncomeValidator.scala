@@ -33,6 +33,6 @@ class DeleteNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, appC
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear)
-    ).mapN(DeleteNonPayeEmploymentRequest)
+    ).mapN(DeleteNonPayeEmploymentRequest.apply)
 
 }

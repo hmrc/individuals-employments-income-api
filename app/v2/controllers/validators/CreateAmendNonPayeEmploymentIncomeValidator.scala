@@ -53,6 +53,6 @@ class CreateAmendNonPayeEmploymentIncomeValidator(nino: String,
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       resolveJson(body)
-    ).mapN(CreateAmendNonPayeEmploymentRequest) andThen CreateAmendNonPayeIncomeRulesValidator.validateBusinessRules
+    ).mapN(CreateAmendNonPayeEmploymentRequest.apply) andThen CreateAmendNonPayeIncomeRulesValidator.validateBusinessRules
 
 }

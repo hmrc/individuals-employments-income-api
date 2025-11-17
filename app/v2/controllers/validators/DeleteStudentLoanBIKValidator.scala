@@ -36,6 +36,6 @@ class DeleteStudentLoanBIKValidator(nino: String, taxYear: String, employmentId:
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId)
-    ).mapN(DeleteStudentLoanBIKRequest)
+    ).mapN(DeleteStudentLoanBIKRequest.apply)
 
 }

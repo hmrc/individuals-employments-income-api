@@ -36,6 +36,6 @@ class RetrieveOtherEmploymentValidator(nino: String, taxYear: String, appConfig:
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear)
-    ).mapN(RetrieveOtherEmploymentIncomeRequest)
+    ).mapN(RetrieveOtherEmploymentIncomeRequest.apply)
 
 }

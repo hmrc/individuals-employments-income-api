@@ -60,7 +60,7 @@ class ValidatorSpec extends UnitSpec with MockFactory {
         ResolveNino(nino),
         ResolveTaxYear(taxYear),
         jsonResolver(jsonBody)
-      ).mapN(TestParsedRequest) andThen TestRulesValidator.validateBusinessRules
+      ).mapN(TestParsedRequest.apply) andThen TestRulesValidator.validateBusinessRules
 
     override def invalid(error: MtdError): Invalid[Seq[MtdError]] = super.invalid(error)
 

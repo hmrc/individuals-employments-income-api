@@ -37,6 +37,6 @@ object RetrieveEmploymentAndFinancialDetailsResponse {
       (JsPath \ "customerAdded").readNullable[Timestamp] and
       (JsPath \ "dateIgnored").readNullable[Timestamp] and
       (JsPath \ "employment").read[Employment]
-  )(RetrieveEmploymentAndFinancialDetailsResponse.apply _)
+  )(RetrieveEmploymentAndFinancialDetailsResponse.apply)
 
 }
