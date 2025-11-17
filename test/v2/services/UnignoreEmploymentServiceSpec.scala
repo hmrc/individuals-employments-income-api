@@ -21,7 +21,7 @@ import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.HeaderCarrier
 import v2.mocks.connectors.MockUnignoreEmploymentConnector

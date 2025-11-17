@@ -21,7 +21,7 @@ import common.models.domain.{EmploymentId, MtdSourceEnum}
 import config.MockEmploymentsAppConfig
 import shared.config.MockSharedAppConfig
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.utils.UnitSpec
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 

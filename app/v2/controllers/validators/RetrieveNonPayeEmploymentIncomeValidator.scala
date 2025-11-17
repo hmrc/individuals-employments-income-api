@@ -18,7 +18,7 @@ package v2.controllers.validators
 
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.ResolveTaxYearMinimum
-import shared.controllers.validators.resolvers.ResolverSupport._
+import shared.controllers.validators.resolvers.ResolverSupport.*
 import cats.data.Validated
 import cats.implicits.catsSyntaxTuple3Semigroupal
 import common.errors.SourceFormatError

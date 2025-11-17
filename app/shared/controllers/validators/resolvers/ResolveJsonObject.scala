@@ -17,7 +17,7 @@
 package shared.controllers.validators.resolvers
 
 import cats.data.Validated
-import play.api.libs.json._
+import play.api.libs.json.*
 import shared.controllers.validators.resolvers.UnexpectedJsonFieldsValidator.SchemaStructureSource
 import shared.models.errors.MtdError
 import shared.utils.Logging

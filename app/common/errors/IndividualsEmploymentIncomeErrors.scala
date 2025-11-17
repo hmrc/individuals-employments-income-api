@@ -16,7 +16,7 @@
 
 package common.errors
 
-import play.api.http.Status._
+import play.api.http.Status.*
 import shared.models.errors.MtdError
 
 object EmploymentIdFormatError    extends MtdError("FORMAT_EMPLOYMENT_ID", "The provided employment ID is invalid", BAD_REQUEST)

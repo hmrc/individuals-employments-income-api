@@ -19,7 +19,7 @@ package v2.controllers.validators
 import shared.controllers.validators.RulesValidator
 import cats.data.Validated
 import shared.models.errors.MtdError
-import v2.controllers.validators.resolvers.EmploymentsIncomeValidators._
+import v2.controllers.validators.resolvers.EmploymentsIncomeValidators.*
 import v2.models.request.createAmendNonPayeEmployment.{CreateAmendNonPayeEmploymentRequest, CreateAmendNonPayeEmploymentRequestBody}
 
 object CreateAmendNonPayeIncomeRulesValidator extends RulesValidator[CreateAmendNonPayeEmploymentRequest] {

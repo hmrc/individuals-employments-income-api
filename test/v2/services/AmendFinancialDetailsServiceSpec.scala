@@ -22,7 +22,7 @@ import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import v2.mocks.connectors.MockAmendFinancialDetailsConnector
 import v2.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
 import v2.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}

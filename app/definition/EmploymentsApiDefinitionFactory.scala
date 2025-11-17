@@ -17,7 +17,7 @@
 package definition
 
 import shared.config.SharedAppConfig
-import shared.routing._
+import shared.routing.*
 import shared.definition.{APIDefinition, APIVersion, ApiDefinitionFactory, Definition}
 
 import javax.inject.{Inject, Singleton}
@@ -25,7 +25,7 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class EmploymentsApiDefinitionFactory @Inject()(protected val appConfig: SharedAppConfig) extends ApiDefinitionFactory {
 
-  lazy val definition: Definition =
+  val definition: Definition =
     Definition(
       api = APIDefinition(
         name = "Individuals Employments Income (MTD)",

@@ -19,7 +19,7 @@ package v2.services
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v2.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v2.mocks.connectors.MockOtherEmploymentIncomeConnector

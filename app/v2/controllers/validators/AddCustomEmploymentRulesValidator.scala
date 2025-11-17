@@ -17,12 +17,12 @@
 package v2.controllers.validators
 
 import shared.controllers.validators.RulesValidator
-import shared.controllers.validators.resolvers._
+import shared.controllers.validators.resolvers.*
 import cats.data.Validated
 import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.CustomEmploymentDateValidator
-import v2.controllers.validators.resolvers.EmploymentsIncomeValidators._
+import v2.controllers.validators.resolvers.EmploymentsIncomeValidators.*
 import v2.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 
 object AddCustomEmploymentRulesValidator extends RulesValidator[AddCustomEmploymentRequest] with ResolverSupport {

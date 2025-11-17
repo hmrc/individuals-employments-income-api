@@ -16,7 +16,7 @@
 
 package v2.models.request.amendOtherEmployment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendCommonOtherEmployment(customerReference: Option[String], amountDeducted: BigDecimal)

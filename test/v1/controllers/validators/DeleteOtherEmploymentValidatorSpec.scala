@@ -18,7 +18,7 @@ package v1.controllers.validators
 
 import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.utils.UnitSpec
 import v1.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 

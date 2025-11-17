@@ -16,15 +16,14 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.resolvers.ResolveNino
-import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
-import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
+import shared.controllers.validators.Validator
+import shared.controllers.validators.resolvers.*
 import shared.models.domain.TaxYear
+import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
@@ -34,14 +33,19 @@ object AmendFinancialDetailsValidator {
   private val resolveJson = ResolveNonEmptyJsonObject.resolver[AmendFinancialDetailsRequestBody]
 }
 
-class AmendFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, body: JsValue, temporalValidationEnabled: Boolean, appConfig: EmploymentsAppConfig)
+class AmendFinancialDetailsValidator(nino: String,
+                                     taxYear: String,
+                                     employmentId: String,
+                                     body: JsValue,
+                                     temporalValidationEnabled: Boolean,
+                                     appConfig: EmploymentsAppConfig)
     extends Validator[AmendFinancialDetailsRequest]
     with ResolverSupport {
-  import AmendFinancialDetailsValidator._
+  import v2.controllers.validators.AmendFinancialDetailsValidator.*
 
   private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver thenValidate
-      satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear)
+    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+      .thenValidate(satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear))
 
   override def validate: Validated[Seq[MtdError], AmendFinancialDetailsRequest] =
     (

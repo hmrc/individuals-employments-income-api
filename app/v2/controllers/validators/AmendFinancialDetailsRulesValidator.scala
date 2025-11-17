@@ -17,12 +17,12 @@
 package v2.controllers.validators
 
 import shared.controllers.validators.RulesValidator
-import shared.controllers.validators.resolvers._
+import shared.controllers.validators.resolvers.*
 import cats.data.Validated
 import common.errors.{RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
 import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
-import v2.controllers.validators.resolvers.EmploymentsIncomeValidators._
+import v2.controllers.validators.resolvers.EmploymentsIncomeValidators.*
 import v2.models.request.amendFinancialDetails.AmendFinancialDetailsRequest
 import v2.models.request.amendFinancialDetails.employment.{AmendBenefitsInKind, AmendDeductions, AmendPay}
 

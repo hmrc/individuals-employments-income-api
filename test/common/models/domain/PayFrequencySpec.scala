@@ -16,7 +16,7 @@
 
 package common.models.domain
 
-import common.models.domain.PayFrequency._
+import common.models.domain.PayFrequency.*
 import shared.utils.UnitSpec
 import shared.utils.enums.EnumJsonSpecSupport
 

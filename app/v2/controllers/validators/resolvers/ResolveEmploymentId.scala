@@ -27,7 +27,7 @@ object ResolveEmploymentId extends ResolverSupport {
   private val employmentIdRegex = "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$".r
 
   val resolver: Resolver[String, EmploymentId] =
-    ResolveStringPattern(employmentIdRegex, EmploymentIdFormatError).resolver.map(EmploymentId)
+    ResolveStringPattern(employmentIdRegex, EmploymentIdFormatError).resolver.map(EmploymentId.apply)
 
   def apply(value: String): Validated[Seq[MtdError], EmploymentId] = resolver(value)
 

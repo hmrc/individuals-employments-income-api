@@ -20,7 +20,7 @@ import cats.data.EitherT
 import common.errors.{EmploymentIdFormatError, SourceFormatError}
 import shared.config.SharedAppConfig
 import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, _}
+import shared.models.errors.{MtdError, *}
 import shared.services.{BaseService, ServiceOutcome}
 import v1.connectors.RetrieveEmploymentAndFinancialDetailsConnector
 import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest

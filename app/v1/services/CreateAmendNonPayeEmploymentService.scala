@@ -16,9 +16,9 @@
 
 package v1.services
 
-import cats.syntax.either._
+import cats.syntax.either.*
 import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, _}
+import shared.models.errors.{MtdError, *}
 import shared.services.{BaseService, ServiceOutcome}
 import v1.connectors.CreateAmendNonPayeEmploymentConnector
 import v1.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest

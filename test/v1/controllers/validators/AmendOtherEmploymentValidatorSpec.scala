@@ -16,9 +16,9 @@
 
 package v1.controllers.validators
 
-import common.errors._
+import common.errors.*
 import config.MockEmploymentsAppConfig
-import play.api.libs.json._
+import play.api.libs.json.*
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors.{BadRequestError, DateFormatError, ErrorWrapper, MtdError, NinoFormatError, RuleIncorrectOrEmptyBodyError, RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError, TaxYearFormatError, ValueFormatError}
 import shared.models.utils.JsonErrorValidators

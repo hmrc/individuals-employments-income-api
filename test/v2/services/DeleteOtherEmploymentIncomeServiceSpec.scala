@@ -20,7 +20,7 @@ import common.errors.RuleOutsideAmendmentWindowError
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v2.mocks.connectors.MockOtherEmploymentIncomeConnector
 import v2.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest

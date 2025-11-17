@@ -21,8 +21,8 @@ import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
-import v1.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture._
-import v1.models.request.createAmendNonPayeEmployment._
+import v1.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture.*
+import v1.models.request.createAmendNonPayeEmployment.*
 
 import scala.concurrent.Future
 

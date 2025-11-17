@@ -18,7 +18,7 @@ package v1.controllers.validators.resolvers
 
 import shared.controllers.validators.resolvers.ResolverSupport
 import shared.models.domain.TaxYear
-import shared.models.errors._
+import shared.models.errors.*
 import cats.data.Validated.{Invalid, Valid}
 import common.errors.{CessationDateFormatError, RuleCessationDateBeforeStartDateError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError}
 import shared.controllers.validators.resolvers.ResolveIsoDate

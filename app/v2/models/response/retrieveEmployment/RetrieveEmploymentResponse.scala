@@ -17,7 +17,7 @@
 package v2.models.response.retrieveEmployment
 
 import shared.models.domain.Timestamp
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class RetrieveEmploymentResponse(employerRef: Option[String],
@@ -42,6 +42,6 @@ object RetrieveEmploymentResponse {
       (JsPath \\ "occupationalPension").readNullable[Boolean] and
       (JsPath \\ "dateIgnored").readNullable[Timestamp] and
       (JsPath \\ "submittedOn").readNullable[Timestamp]
-  )(RetrieveEmploymentResponse.apply _)
+  )(RetrieveEmploymentResponse.apply)
 
 }

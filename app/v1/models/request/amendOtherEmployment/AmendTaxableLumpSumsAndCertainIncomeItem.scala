@@ -16,7 +16,7 @@
 
 package v1.models.request.amendOtherEmployment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendTaxableLumpSumsAndCertainIncomeItem(amount: BigDecimal, taxPaid: Option[BigDecimal], taxTakenOffInEmployment: Boolean)

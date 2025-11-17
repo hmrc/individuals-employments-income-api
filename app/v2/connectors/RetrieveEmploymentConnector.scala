@@ -19,7 +19,7 @@ package v2.connectors
 import config.EmploymentsAppConfig
 import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
 import shared.connectors.DownstreamUri.HipUri
-import shared.connectors._
+import shared.connectors.*
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2

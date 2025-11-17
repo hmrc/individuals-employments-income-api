@@ -21,7 +21,7 @@ import play.api.mvc.Result
 import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear, Timestamp}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockListEmploymentsValidatorFactory
 import v1.fixtures.ListEmploymentsControllerFixture.mtdResponse

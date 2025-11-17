@@ -23,12 +23,12 @@ import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.MockAuditService
 import v2.controllers.validators.MockAmendOtherEmploymentValidatorFactory
 import v2.mocks.services.MockAmendOtherEmploymentService
-import v2.models.request.amendOtherEmployment._
+import v2.models.request.amendOtherEmployment.*
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

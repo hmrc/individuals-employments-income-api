@@ -18,7 +18,7 @@ package v2.models.response.retrieveOtherEmployment
 
 import common.models.domain.ShareOptionSchemeType
 import common.models.downstream.DownstreamShareOptionSchemeType
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class ShareOptionItem(employerName: String,
@@ -55,7 +55,7 @@ object ShareOptionItem {
       (JsPath \ "profitOnOptionExercised").read[BigDecimal] and
       (JsPath \ "employersNicPaid").read[BigDecimal] and
       (JsPath \ "taxableAmount").read[BigDecimal]
-  )(ShareOptionItem.apply _)
+  )(ShareOptionItem.apply)
 
   implicit val writes: OWrites[ShareOptionItem] = Json.writes[ShareOptionItem]
 }

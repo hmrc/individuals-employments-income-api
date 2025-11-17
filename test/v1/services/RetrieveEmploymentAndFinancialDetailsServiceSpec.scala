@@ -20,8 +20,8 @@ import common.errors.{EmploymentIdFormatError, SourceFormatError}
 import common.models.domain.{EmploymentId, MtdSourceEnum}
 import shared.config.MockSharedAppConfig
 import shared.controllers.EndpointLogContext
-import shared.models.domain._
-import shared.models.errors._
+import shared.models.domain.*
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier

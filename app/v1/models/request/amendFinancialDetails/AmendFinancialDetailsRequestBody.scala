@@ -16,7 +16,7 @@
 
 package v1.models.request.amendFinancialDetails
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.{Json, OFormat, OWrites, Reads}
 import v1.models.request.amendFinancialDetails.employment.AmendEmployment
 
 case class AmendFinancialDetailsRequestBody(employment: AmendEmployment)

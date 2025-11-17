@@ -31,7 +31,7 @@ object RetrieveStudentLoanBIKResponse {
   implicit val reads: Reads[RetrieveStudentLoanBIKResponse] = (
     (JsPath \ "submittedOn").read[Timestamp] and
       (JsPath \ "payrolledBenefits").read[BigDecimal]
-    )(RetrieveStudentLoanBIKResponse.apply _)
+    )(RetrieveStudentLoanBIKResponse.apply)
 
   implicit val writes: OWrites[RetrieveStudentLoanBIKResponse] = Json.writes[RetrieveStudentLoanBIKResponse]
 

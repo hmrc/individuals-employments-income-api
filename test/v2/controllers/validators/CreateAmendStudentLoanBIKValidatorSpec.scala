@@ -21,7 +21,7 @@ import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
 import play.api.libs.json.{JsObject, JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.utils.UnitSpec
 import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
 

@@ -16,7 +16,7 @@
 
 package common.models.domain
 
-import common.models.domain.ShareOptionSchemeType._
+import common.models.domain.ShareOptionSchemeType.*
 import shared.utils.UnitSpec
 import shared.utils.enums.EnumJsonSpecSupport
 

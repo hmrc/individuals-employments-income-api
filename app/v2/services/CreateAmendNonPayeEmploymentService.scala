@@ -16,10 +16,10 @@
 
 package v2.services
 
-import cats.syntax.either._
+import cats.syntax.either.*
 import common.errors.RuleOutsideAmendmentWindowError
 import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, _}
+import shared.models.errors.{MtdError, *}
 import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.CreateAmendNonPayeEmploymentConnector
 import v2.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest

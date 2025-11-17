@@ -22,10 +22,10 @@ import play.api.mvc.Result
 import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v2.controllers.validators.MockRetrieveNonPayeEmploymentIncomeValidatorFactory
-import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture._
+import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture.*
 import v2.mocks.services.MockRetrieveNonPayeEmploymentService
 import v2.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 

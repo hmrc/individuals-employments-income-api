@@ -19,7 +19,7 @@ package v1.controllers.validators
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.ResolverSupport
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.EmploymentsAppConfig
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
 import shared.models.errors.MtdError

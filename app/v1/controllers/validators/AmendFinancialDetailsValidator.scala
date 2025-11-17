@@ -16,14 +16,14 @@
 
 package v1.controllers.validators
 
-import shared.controllers.validators.resolvers.ResolveNino
-import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
-import shared.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.*
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
+import shared.controllers.validators.Validator
+//import shared.controllers.validators.resolvers.*
+import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolverSupport, ResolveTaxYearMinimum, ResolveNino}
+import shared.models.errors.MtdError
 import v1.controllers.validators.resolvers.ResolveEmploymentId
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
 
@@ -34,7 +34,7 @@ object AmendFinancialDetailsValidator {
 class AmendFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, body: JsValue, appConfig: EmploymentsAppConfig)
     extends Validator[AmendFinancialDetailsRequest]
     with ResolverSupport {
-  import AmendFinancialDetailsValidator._
+  import v1.controllers.validators.AmendFinancialDetailsValidator.*
 
   private val resolveTaxYear =
     ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver

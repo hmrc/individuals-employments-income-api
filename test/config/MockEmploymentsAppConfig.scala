@@ -19,7 +19,7 @@ package config
 import org.scalamock.handlers.CallHandler0
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.TestSuite
-import shared.config._
+import shared.config.*
 import shared.models.domain.TaxYear
 
 trait MockEmploymentsAppConfig extends TestSuite with MockSharedAppConfig with MockFactory {

@@ -18,7 +18,7 @@ package v1.models.response.retrieveOtherEmployment
 
 import common.models.domain.SharesAwardedOrReceivedSchemeType
 import common.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class SharesAwardedOrReceivedItem(employerName: String,

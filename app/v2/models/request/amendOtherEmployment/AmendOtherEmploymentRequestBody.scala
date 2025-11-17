@@ -17,7 +17,7 @@
 package v2.models.request.amendOtherEmployment
 
 import common.utils.JsonUtils
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, OWrites, Reads}
 
 case class AmendOtherEmploymentRequestBody(shareOption: Option[Seq[AmendShareOptionItem]],
@@ -35,7 +35,7 @@ object AmendOtherEmploymentRequestBody extends JsonUtils {
       (JsPath \ "disability").readNullable[AmendCommonOtherEmployment] and
       (JsPath \ "foreignService").readNullable[AmendCommonOtherEmployment] and
       (JsPath \ "lumpSums").readNullable[Seq[AmendLumpSums]].mapEmptySeqToNone
-  )(AmendOtherEmploymentRequestBody.apply _)
+  )(AmendOtherEmploymentRequestBody.apply)
 
   implicit val writes: OWrites[AmendOtherEmploymentRequestBody] = (
     (JsPath \ "shareOption").writeNullable[Seq[AmendShareOptionItem]] and

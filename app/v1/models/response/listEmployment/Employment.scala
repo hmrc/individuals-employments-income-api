@@ -17,7 +17,7 @@
 package v1.models.response.listEmployment
 
 import shared.models.domain.Timestamp
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class Employment(employmentId: String, employerName: String, dateIgnored: Option[Timestamp] = None)

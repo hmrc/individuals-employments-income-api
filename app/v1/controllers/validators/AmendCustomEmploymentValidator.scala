@@ -21,7 +21,7 @@ import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import play.api.libs.json.JsValue
 import config.EmploymentsAppConfig
 import shared.models.domain.TaxYear

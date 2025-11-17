@@ -22,10 +22,10 @@ import play.api.mvc.Result
 import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear, Timestamp}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockRetrieveEmploymentValidatorFactory
-import v1.fixtures.RetrieveEmploymentControllerFixture._
+import v1.fixtures.RetrieveEmploymentControllerFixture.*
 import v1.mocks.services.MockRetrieveEmploymentService
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v1.models.response.retrieveEmployment.RetrieveEmploymentResponse
