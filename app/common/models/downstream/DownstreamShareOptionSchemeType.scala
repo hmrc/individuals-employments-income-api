@@ -20,7 +20,7 @@ import common.models.domain.ShareOptionSchemeType
 import play.api.libs.json.Reads
 import shared.utils.enums.Enums
 
-enum DownstreamShareOptionSchemeType(toMtd: ShareOptionSchemeType) {
+enum DownstreamShareOptionSchemeType(val toMtd: ShareOptionSchemeType) {
   case `EMI`   extends DownstreamShareOptionSchemeType(ShareOptionSchemeType.`emi`)
   case `CSOP`  extends DownstreamShareOptionSchemeType(ShareOptionSchemeType.`csop`)
   case `SAYE`  extends DownstreamShareOptionSchemeType(ShareOptionSchemeType.`saye`)

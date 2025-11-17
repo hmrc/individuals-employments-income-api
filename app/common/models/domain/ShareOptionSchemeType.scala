@@ -19,7 +19,7 @@ package common.models.domain
 import play.api.libs.json.Writes
 import shared.utils.enums.Enums
 
-enum ShareOptionSchemeType(toDownstreamString: String) {
+enum ShareOptionSchemeType(val toDownstreamString: String) {
   case `emi`   extends ShareOptionSchemeType("EMI")
   case `csop`  extends ShareOptionSchemeType("CSOP")
   case `saye`  extends ShareOptionSchemeType("SAYE")

@@ -20,7 +20,7 @@ import common.models.domain.SharesAwardedOrReceivedSchemeType
 import play.api.libs.json.Reads
 import shared.utils.enums.Enums
 
-enum DownstreamSharesAwardedOrReceivedSchemeType(toMtd: SharesAwardedOrReceivedSchemeType) {
+enum DownstreamSharesAwardedOrReceivedSchemeType(val toMtd: SharesAwardedOrReceivedSchemeType) {
   case `SIP`   extends DownstreamSharesAwardedOrReceivedSchemeType(SharesAwardedOrReceivedSchemeType.`sip`)
   case `Other` extends DownstreamSharesAwardedOrReceivedSchemeType(SharesAwardedOrReceivedSchemeType.`other`)
 }

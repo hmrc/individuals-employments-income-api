@@ -20,7 +20,7 @@ import common.models.domain.PayFrequency
 import play.api.libs.json.Reads
 import shared.utils.enums.Enums
 
-enum DownstreamPayFrequency(toMtd: PayFrequency) {
+enum DownstreamPayFrequency(val toMtd: PayFrequency) {
   case `WEEKLY`           extends DownstreamPayFrequency(PayFrequency.`weekly`)
   case `FORTNIGHTLY`      extends DownstreamPayFrequency(PayFrequency.`fortnightly`)
   case `FOUR WEEKLY`      extends DownstreamPayFrequency(PayFrequency.`four-weekly`)

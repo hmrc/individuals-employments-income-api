@@ -19,16 +19,13 @@ package shared.models.domain
 import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
-sealed trait Status {}
-
 //noinspection ScalaStyle
+enum Status {
+  case valid
+  case invalid
+  case superseded
+}
+
 object Status {
-
-  case object valid extends Status
-
-  case object invalid extends Status
-
-  case object superseded extends Status
-
-  implicit val format: Format[Status] = Enums.format[Status]
+  given Format[Status] = Enums.format[Status](values)
 }

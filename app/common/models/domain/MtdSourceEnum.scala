@@ -19,7 +19,7 @@ package common.models.domain
 import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
-enum MtdSourceEnum(toDesViewString: String) {
+enum MtdSourceEnum(val toDesViewString: String) {
   case `hmrc-held` extends MtdSourceEnum("HMRC-HELD")
   case user        extends MtdSourceEnum("CUSTOMER")
   case latest      extends MtdSourceEnum("LATEST")

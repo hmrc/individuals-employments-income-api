@@ -20,7 +20,7 @@ import common.models.domain.MtdSourceEnum
 import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
-enum DownstreamSourceEnum(toMtdEnum: MtdSourceEnum) {
+enum DownstreamSourceEnum(val toMtdEnum: MtdSourceEnum) {
   case `HMRC HELD` extends DownstreamSourceEnum(MtdSourceEnum.`hmrc-held`)
   case CUSTOMER    extends DownstreamSourceEnum(MtdSourceEnum.user)
   case LATEST      extends DownstreamSourceEnum(MtdSourceEnum.latest)

@@ -19,7 +19,7 @@ package common.models.domain
 import play.api.libs.json.Writes
 import shared.utils.enums.Enums
 
-enum SharesAwardedOrReceivedSchemeType(toDownstreamString: String) {
+enum SharesAwardedOrReceivedSchemeType(val toDownstreamString: String) {
   case `sip`   extends SharesAwardedOrReceivedSchemeType("SIP")
   case `other` extends SharesAwardedOrReceivedSchemeType("Other")
 }

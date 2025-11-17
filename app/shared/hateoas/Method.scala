@@ -27,5 +27,5 @@ enum Method {
 }
 
 object Method {
-  given Format[Method] = Enums.format[Method]
+  given Format[Method] = Enums.format[Method](values)
 }
