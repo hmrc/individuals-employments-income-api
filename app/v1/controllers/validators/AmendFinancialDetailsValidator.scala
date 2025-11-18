@@ -21,7 +21,6 @@ import cats.implicits.*
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import shared.controllers.validators.Validator
-//import shared.controllers.validators.resolvers.*
 import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolverSupport, ResolveTaxYearMinimum, ResolveNino}
 import shared.models.errors.MtdError
 import v1.controllers.validators.resolvers.ResolveEmploymentId

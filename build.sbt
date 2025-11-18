@@ -15,7 +15,8 @@ lazy val microservice = Project(appName, file("."))
     update / evictionWarningOptions := EvictionWarningOptions.default.withWarnScalaVersionEviction(warnScalaVersionEviction = false),
     scalacOptions ++= List(
       "-feature",
-      "-Wconf:src=routes/.*:silent"
+      "-Wconf:src=routes/.*:silent",
+      "-Xmax-inlines:64"
 //      "-Xfatal-warnings"
     )
   )
