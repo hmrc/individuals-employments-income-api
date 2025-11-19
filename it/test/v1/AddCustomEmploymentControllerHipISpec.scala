@@ -27,6 +27,8 @@ import play.api.test.Helpers.AUTHORIZATION
 import shared.models.domain.TaxYear
 import shared.models.errors.*
 import shared.services.*
+import play.api.libs.ws.writeableOf_JsValue
+import play.api.libs.ws.readableAsJson
 
 class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 

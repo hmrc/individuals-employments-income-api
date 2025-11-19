@@ -5,6 +5,10 @@ val appName = "individuals-employments-income-api"
 
 ThisBuild / scalaVersion := "3.5.2"
 ThisBuild / majorVersion := 0
+ThisBuild / scalacOptions ++= Seq(
+  "-Werror",
+  "-Wconf:msg=Flag.*repeatedly:s"
+)
 
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
@@ -17,7 +21,6 @@ lazy val microservice = Project(appName, file("."))
       "-feature",
       "-Wconf:src=routes/.*:silent",
       "-Xmax-inlines:64"
-//      "-Xfatal-warnings"
     )
   )
   .settings(
@@ -35,6 +38,3 @@ lazy val it = project
     Test / fork := true,
     Test / javaOptions += "-Dlogger.resource=logback-test.xml")
   .settings(libraryDependencies ++= AppDependencies.itDependencies)
-  .settings(
-    scalacOptions ++= Seq("-Xfatal-warnings")
-  )

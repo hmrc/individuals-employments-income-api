@@ -27,6 +27,7 @@ import play.api.test.Helpers.AUTHORIZATION
 import shared.models.domain.TaxYear
 import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import play.api.libs.ws.writeableOf_JsValue
 
 class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 

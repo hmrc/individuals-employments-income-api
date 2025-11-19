@@ -26,6 +26,7 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import play.api.libs.ws.DefaultBodyReadables.readableAsString
 
 class DeleteStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {
 

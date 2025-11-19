@@ -23,6 +23,7 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.*
 import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import play.api.libs.ws.writeableOf_JsValue
 
 class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 

@@ -54,7 +54,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerHipISpec extends Employment
     def request: WSRequest = {
       setupStubs()
       buildRequest(mtdUri)
-        .addQueryStringParameters(mtdQueryParams: _*)
+        .addQueryStringParameters(mtdQueryParams*)
         .withHttpHeaders(
           (ACCEPT, "application/vnd.hmrc.1.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
