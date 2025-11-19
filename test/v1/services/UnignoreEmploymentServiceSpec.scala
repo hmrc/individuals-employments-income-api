@@ -87,7 +87,7 @@ class UnignoreEmploymentServiceSpec extends ServiceSpec {
           ("5000", RuleTaxYearNotSupportedError)
         )
 
-        (ifsErrors ++ extraTysIfsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ extraTysIfsErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

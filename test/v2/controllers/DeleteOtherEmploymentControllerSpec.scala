@@ -83,7 +83,7 @@ class DeleteOtherEmploymentControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new DeleteOtherEmploymentController(
+    val controller: DeleteOtherEmploymentController = new DeleteOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockDeleteOtherEmploymentValidatorFactory,

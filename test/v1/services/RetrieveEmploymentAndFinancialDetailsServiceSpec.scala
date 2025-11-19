@@ -18,7 +18,6 @@ package v1.services
 
 import common.errors.{EmploymentIdFormatError, SourceFormatError}
 import common.models.domain.{EmploymentId, MtdSourceEnum}
-import shared.config.MockSharedAppConfig
 import shared.controllers.EndpointLogContext
 import shared.models.domain.*
 import shared.models.errors.*
@@ -60,11 +59,11 @@ class RetrieveEmploymentAndFinancialDetailsServiceSpec extends ServiceSpec {
     employment = employment
   )
 
-  trait Test extends MockRetrieveEmploymentAndFinancialDetailsConnector with MockSharedAppConfig {
+  trait Test extends MockRetrieveEmploymentAndFinancialDetailsConnector {
     implicit val hc: HeaderCarrier              = HeaderCarrier()
     implicit val logContext: EndpointLogContext = EndpointLogContext("controller", "retrieveEmploymentAndFinancialDetails")
 
-    val service = new RetrieveEmploymentAndFinancialDetailsService(mockConnector, mockSharedAppConfig)
+    val service = new RetrieveEmploymentAndFinancialDetailsService(mockConnector)
   }
 
   "RetrieveEmploymentAndFinancialDetailsService" should {
@@ -102,7 +101,7 @@ class RetrieveEmploymentAndFinancialDetailsServiceSpec extends ServiceSpec {
         ("SERVICE_UNAVAILABLE", InternalError)
       )
 
-      errors.foreach(args => (serviceError _).tupled(args))
+      errors.foreach(serviceError.tupled)
     }
   }
 

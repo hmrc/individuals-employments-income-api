@@ -17,7 +17,6 @@
 package common.models.downstream
 
 import common.models.domain.MtdSourceEnum
-import common.models.downstream.DownstreamSourceEnum
 import shared.utils.UnitSpec
 import shared.utils.enums.EnumJsonSpecSupport
 

@@ -83,7 +83,7 @@ class RetrieveNonPayeEmploymentControllerSpec
 
   trait Test extends ControllerTest {
 
-    val controller = new RetrieveNonPayeEmploymentController(
+    val controller: RetrieveNonPayeEmploymentController = new RetrieveNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockRetrieveNonPayeEmploymentIncomeValidatorFactory,

@@ -89,7 +89,7 @@ class UnignoreEmploymentServiceSpec extends ServiceSpec {
           ("4200", RuleOutsideAmendmentWindowError)
         )
 
-        (ifsErrors ++ extraTysIfsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ extraTysIfsErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

@@ -62,7 +62,7 @@ class RetrieveFinancialDetailsValidatorSpec extends UnitSpec with MockSharedAppC
         ("user", RetrieveEmploymentAndFinancialDetailsRequest(parsedNino, parsedTaxYear, parsedEmploymentId, MtdSourceEnum.user))
       )
 
-      input.foreach(args => (validateSuccessfullyWith _).tupled(args))
+      input.foreach(validateSuccessfullyWith.tupled)
 
       "default to 'latest' source" in new Test {
         validate(maybeSource = None) shouldBe Right(

@@ -16,11 +16,10 @@
 
 package common.models.downstream
 
-import shared.utils.enums.EnumJsonSpecSupport
 import common.models.domain.PayFrequency
-import common.models.downstream.DownstreamPayFrequency
 import common.models.downstream.DownstreamPayFrequency.*
 import shared.utils.UnitSpec
+import shared.utils.enums.EnumJsonSpecSupport
 
 class DownstreamPayFrequencySpec extends UnitSpec with EnumJsonSpecSupport {
 

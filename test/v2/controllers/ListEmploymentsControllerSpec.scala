@@ -100,7 +100,7 @@ class ListEmploymentsControllerSpec
 
   trait Test extends ControllerTest {
 
-    val controller = new ListEmploymentsController(
+    val controller: ListEmploymentsController = new ListEmploymentsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockListEmploymentsValidatorFactory,

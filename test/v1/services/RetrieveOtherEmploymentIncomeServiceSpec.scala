@@ -73,7 +73,7 @@ class RetrieveOtherEmploymentIncomeServiceSpec extends ServiceSpec {
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceError.tupled)
       }
     }
 

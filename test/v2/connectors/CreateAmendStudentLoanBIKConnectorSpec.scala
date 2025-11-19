@@ -48,7 +48,7 @@ class CreateAmendStudentLoanBIKConnectorSpec extends ConnectorSpec {
   }
 
   trait Test {
-    _: ConnectorTest =>
+    self: ConnectorTest =>
 
     val connector: CreateAmendStudentLoanBIKConnector = new CreateAmendStudentLoanBIKConnector(
       http = mockHttpClient,

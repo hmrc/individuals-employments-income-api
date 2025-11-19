@@ -59,7 +59,7 @@ class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockSha
         ("user", RetrieveNonPayeEmploymentIncomeRequest(parsedNino, parsedTaxYear, MtdSourceEnum.user))
       )
 
-      input.foreach(args => (validateSuccessfullyWith _).tupled(args))
+      input.foreach(validateSuccessfullyWith.tupled)
 
       "default to 'latest' source" in new Test {
         validate(maybeSource = None) shouldBe Right(RetrieveNonPayeEmploymentIncomeRequest(parsedNino, parsedTaxYear, MtdSourceEnum.latest))

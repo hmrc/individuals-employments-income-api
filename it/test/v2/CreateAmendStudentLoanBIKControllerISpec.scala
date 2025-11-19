@@ -200,7 +200,7 @@ class CreateAmendStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {
             None,
             Some("invalidPayrolledBenefitsErrorRule"))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downstream service error" when {
@@ -247,7 +247,7 @@ class CreateAmendStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

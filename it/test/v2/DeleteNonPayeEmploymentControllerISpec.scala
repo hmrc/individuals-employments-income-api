@@ -87,7 +87,7 @@ class DeleteNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec  {
           ("AA123456A", "2014-16", BAD_REQUEST, RuleTaxYearRangeInvalidError),
           ("AA123456A", "2015-16", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downstream service error" when {
@@ -132,7 +132,7 @@ class DeleteNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec  {
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceErrorTest.tupled)
       }
     }
   }

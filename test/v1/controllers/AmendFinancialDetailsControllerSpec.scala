@@ -201,7 +201,7 @@ class AmendFinancialDetailsControllerSpec
       .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true))
       .anyNumberOfTimes()
 
-    val controller = new AmendFinancialDetailsController(
+    val controller: AmendFinancialDetailsController = new AmendFinancialDetailsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockAmendFinancialDetailsValidatorFactory,

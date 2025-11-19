@@ -93,7 +93,7 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           ("AA123456A", "2018-19", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "service error" when {
@@ -128,7 +128,7 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "1224", BAD_REQUEST, RuleCustomEmploymentError),
           (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
-        errors.foreach(args => (serviceErrorTest _).tupled(args))
+        errors.foreach(serviceErrorTest.tupled)
       }
     }
   }

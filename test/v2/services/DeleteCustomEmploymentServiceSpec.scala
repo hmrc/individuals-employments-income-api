@@ -82,7 +82,7 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
           ("4200", RuleOutsideAmendmentWindowError)
         )
 
-        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

@@ -158,7 +158,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerHipISpec extends Employment
           ("AA123456A", "2016-17", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", None, BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", Some("SOURCE"), BAD_REQUEST, SourceFormatError)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downstream service error" when {
@@ -190,7 +190,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerHipISpec extends Employment
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

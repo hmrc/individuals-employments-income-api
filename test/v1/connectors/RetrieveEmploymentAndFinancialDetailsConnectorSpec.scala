@@ -111,7 +111,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
   }
 
   trait Test {
-    _: ConnectorTest with MockEmploymentsAppConfig =>
+    self: ConnectorTest & MockEmploymentsAppConfig =>
 
     def taxYear: TaxYear = TaxYear.fromMtd("2018-19")
 

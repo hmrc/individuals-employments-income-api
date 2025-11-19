@@ -149,7 +149,7 @@ class AmendOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
           ("AA123456A", "2019-20", missingFieldRequestBodyJson, BAD_REQUEST, ErrorWrapper("X-123", missingMandatoryFieldErrors, None)),
           ("AA123456A", "2019-20", invalidLumpSumsRequestBodyJson, BAD_REQUEST, ErrorWrapper("X-123", ruleLumpSumsError, None))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "des service error" when {
@@ -193,7 +193,7 @@ class AmendOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceErrorTest.tupled)
       }
     }
   }

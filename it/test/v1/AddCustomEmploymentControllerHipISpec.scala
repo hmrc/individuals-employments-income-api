@@ -326,7 +326,7 @@ class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           ("AA123456A", "2019-20", nonValidRequestBodyJson, BAD_REQUEST, invalidFieldType, Some("(wrong field type)")),
           ("AA123456A", "2019-20", missingFieldRequestBodyJson, BAD_REQUEST, missingMandatoryFieldErrors, Some("(missing mandatory fields)"))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "hip service error" when {
@@ -380,7 +380,7 @@ class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "1118", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
           (NOT_IMPLEMENTED,"5000", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
 
       "validation error for dates outside allowed range" when {
@@ -411,7 +411,7 @@ class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
         val input = Seq(
           ("AA123456A", "2019-20", invalidStartDateRangeRequestJson, BAD_REQUEST, StartDateFormatError, None)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
     }
   }

@@ -466,9 +466,9 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
 
         def noErrorWhenOnlyKeep(keptSection: String): Unit =
           s"only contain $keptSection" in new Test {
-            val lumpSumWithKeptSection = (sections - keptSection).foldLeft(itemJson)(_ removeProperty _)
+            val lumpSumWithKeptSection = (sections - keptSection).foldLeft(itemJson)(_ `removeProperty` _)
 
-            validate(body = body(lumpSumWithKeptSection)) shouldBe a[Right[_, _]]
+            validate(body = body(lumpSumWithKeptSection)) shouldBe a[Right[?, ?]]
           }
 
         sections.foreach(behave like noErrorWhenOnlyKeep(_))

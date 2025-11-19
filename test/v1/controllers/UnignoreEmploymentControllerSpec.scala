@@ -46,7 +46,7 @@ class UnignoreEmploymentControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new UnignoreEmploymentController(
+    val controller: UnignoreEmploymentController = new UnignoreEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockUnignoreEmploymentValidatorFactory,

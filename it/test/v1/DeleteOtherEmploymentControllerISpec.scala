@@ -114,7 +114,7 @@ class DeleteOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
           ("AA123456A", "2015-17", BAD_REQUEST, RuleTaxYearRangeInvalidError),
           ("AA123456A", "2018-19", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "des service error" when {
@@ -156,7 +156,7 @@ class DeleteOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
 
-        (input ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+        (input ++ extraTysErrors).foreach(serviceErrorTest.tupled)
       }
     }
   }

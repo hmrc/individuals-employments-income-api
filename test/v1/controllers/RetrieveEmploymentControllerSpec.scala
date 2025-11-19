@@ -136,7 +136,7 @@ class RetrieveEmploymentControllerSpec
 
   trait Test extends ControllerTest {
 
-    val controller = new RetrieveEmploymentController(
+    val controller: RetrieveEmploymentController = new RetrieveEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockRetrieveEmploymentValidatorFactory,

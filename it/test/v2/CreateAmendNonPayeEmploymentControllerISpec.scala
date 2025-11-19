@@ -166,7 +166,7 @@ class CreateAmendNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
           (validNino, "2020-21", invalidTipsRequestBodyJson, BAD_REQUEST, invalidTipsError, None, Some("tipsRule"))
         )
 
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downstream service error" when {
@@ -208,7 +208,7 @@ class CreateAmendNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceErrorTest.tupled)
       }
     }
   }

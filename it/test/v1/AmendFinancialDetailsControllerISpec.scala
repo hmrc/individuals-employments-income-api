@@ -569,7 +569,7 @@ class AmendFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
           // @formatter:on
         )
 
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downStream service error" when {
@@ -612,7 +612,7 @@ class AmendFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "INVALID_SUBMISSION_PENSION_SCHEME", BAD_REQUEST, RuleInvalidSubmissionPensionSchemeError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceErrorTest.tupled)
       }
     }
   }

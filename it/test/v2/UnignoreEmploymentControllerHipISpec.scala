@@ -111,7 +111,7 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
         ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
       )
 
-      input.foreach(args => (validationErrorTest _).tupled(args))
+      input.foreach(validationErrorTest.tupled)
     }
 
     "return a service error according to spec" when {
@@ -143,7 +143,7 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
         (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError)
       )
 
-      errors.foreach(args => (serviceErrorTest _).tupled(args))
+      errors.foreach(serviceErrorTest.tupled)
     }
 
   }

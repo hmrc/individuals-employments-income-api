@@ -83,7 +83,7 @@ class DeleteNonPayeEmploymentControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new DeleteNonPayeEmploymentController(
+    val controller: DeleteNonPayeEmploymentController = new DeleteNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockDeleteNonPayeEmploymentIncomeValidatorFactory,

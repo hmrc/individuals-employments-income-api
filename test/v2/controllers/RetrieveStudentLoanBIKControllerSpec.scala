@@ -83,7 +83,7 @@ class RetrieveStudentLoanBIKControllerSpec extends ControllerBaseSpec
 
   trait Test extends ControllerTest  {
 
-    val controller = new RetrieveStudentLoanBIKController(
+    val controller: RetrieveStudentLoanBIKController = new RetrieveStudentLoanBIKController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockRetrieveStudentLoanBIKValidatorFactory,

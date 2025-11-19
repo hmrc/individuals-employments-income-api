@@ -59,7 +59,7 @@ class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
   }
 
   trait Test {
-    _: ConnectorTest with MockEmploymentsAppConfig =>
+    self: ConnectorTest & MockEmploymentsAppConfig =>
     def taxYear: TaxYear
 
     protected val connector: DeleteNonPayeEmploymentConnector =

@@ -149,7 +149,7 @@ class ListEmploymentsControllerHipISpec extends IntegrationBaseSpec {
           ("AA123456A", "2018-19", BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2019-21", BAD_REQUEST, RuleTaxYearRangeInvalidError)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downstream service error" when {
@@ -186,7 +186,7 @@ class ListEmploymentsControllerHipISpec extends IntegrationBaseSpec {
           (BAD_REQUEST, "1217", INTERNAL_SERVER_ERROR, InternalError),
           (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

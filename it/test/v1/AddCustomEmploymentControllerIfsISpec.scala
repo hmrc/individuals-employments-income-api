@@ -324,7 +324,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
           ("AA123456A", "2019-20", nonValidRequestBodyJson, BAD_REQUEST, invalidFieldType, Some("(wrong field type)")),
           ("AA123456A", "2019-20", missingFieldRequestBodyJson, BAD_REQUEST, missingMandatoryFieldErrors, Some("(missing mandatory fields)"))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "ifs service error" when {
@@ -363,7 +363,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
 
       "validation error for dates outside allowed range" when {
@@ -394,7 +394,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
         val input = Seq(
           ("AA123456A", "2019-20", invalidStartDateRangeRequestJson, BAD_REQUEST, StartDateFormatError, None)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
     }
   }

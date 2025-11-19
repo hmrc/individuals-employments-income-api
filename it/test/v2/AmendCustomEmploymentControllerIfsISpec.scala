@@ -373,7 +373,7 @@ class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
             missingMandatoryFieldErrors,
             Some("(missing mandatory fields)"))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "validation format error" when {
@@ -414,7 +414,7 @@ class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
             CessationDateFormatError,
             None)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "ifs service error" when {
@@ -457,7 +457,7 @@ class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

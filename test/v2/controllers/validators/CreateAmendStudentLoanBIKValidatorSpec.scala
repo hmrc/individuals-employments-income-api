@@ -18,14 +18,13 @@ package v2.controllers.validators
 
 import common.errors.EmploymentIdFormatError
 import common.models.domain.EmploymentId
-import config.MockEmploymentsAppConfig
 import play.api.libs.json.{JsObject, JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors.*
 import shared.utils.UnitSpec
 import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
 
-class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {
+class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"
@@ -50,7 +49,7 @@ class CreateAmendStudentLoanBIKValidatorSpec extends UnitSpec with MockEmploymen
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId,
                  body: JsValue = validRequestBodyJson): Either[ErrorWrapper, CreateAmendStudentLoanBIKRequest] =
-      new CreateAmendStudentLoanBIKValidator(nino, taxYear, employmentId, body, mockEmploymentsConfig)
+      new CreateAmendStudentLoanBIKValidator(nino, taxYear, employmentId, body)
         .validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))

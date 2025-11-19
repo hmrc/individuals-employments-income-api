@@ -60,7 +60,7 @@ class DeleteCustomEmploymentConnectorSpec extends ConnectorSpec {
   }
 
   trait Test {
-    _: ConnectorTest =>
+    self: ConnectorTest =>
 
     val connector: DeleteCustomEmploymentConnector = new DeleteCustomEmploymentConnector(
       http = mockHttpClient,

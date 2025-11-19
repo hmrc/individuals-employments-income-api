@@ -150,7 +150,7 @@ class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
           ("AA123456A", "2018-19", BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2019-21", BAD_REQUEST, RuleTaxYearRangeInvalidError)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "ifs service error" when {
@@ -188,7 +188,7 @@ class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

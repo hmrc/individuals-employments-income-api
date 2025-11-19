@@ -27,8 +27,8 @@ trait MockFeatureSwitches extends TestSuite with MockFactory {
 
   object MockFeatureSwitches {
 
-    def isTemporalValidationEnabled(implicit request: Request[_]): CallHandler[Boolean] =
-      (mockFeatureSwitches.isTemporalValidationEnabled(_: Request[_])).expects(request)
+    def isTemporalValidationEnabled(implicit request: Request[?]): CallHandler[Boolean] =
+      (mockFeatureSwitches.isTemporalValidationEnabled(_: Request[?])).expects(request)
 
     def isDesIf_MigrationEnabled: CallHandler[Boolean] =
       (() => mockFeatureSwitches.isDesIf_MigrationEnabled).expects()

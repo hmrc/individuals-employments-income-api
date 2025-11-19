@@ -32,7 +32,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
   val nino: String = "AA123456A"
 
   trait Test {
-    _: ConnectorTest =>
+    self: ConnectorTest =>
     def taxYear: TaxYear
 
     protected val connector: OtherEmploymentIncomeConnector =

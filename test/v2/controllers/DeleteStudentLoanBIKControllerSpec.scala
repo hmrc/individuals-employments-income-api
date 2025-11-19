@@ -86,7 +86,7 @@ class DeleteStudentLoanBIKControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new DeleteStudentLoanBIKController(
+    val controller: DeleteStudentLoanBIKController = new DeleteStudentLoanBIKController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockDeleteStudentLoanBIKValidatorFactory,

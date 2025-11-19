@@ -369,7 +369,7 @@ class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
             missingMandatoryFieldErrors,
             Some("(missing mandatory fields)"))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "validation format error" when {
@@ -410,7 +410,7 @@ class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
             CessationDateFormatError,
             None)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "hip service error" when {
@@ -452,7 +452,7 @@ class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError),
           (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

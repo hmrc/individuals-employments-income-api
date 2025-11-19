@@ -101,7 +101,7 @@ class IgnoreEmploymentServiceSpec extends ServiceSpec {
           ("5010", NotFoundError)
         )
 
-        (errors ++ extraTysErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (errors ++ extraTysErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

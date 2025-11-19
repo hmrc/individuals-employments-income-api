@@ -143,7 +143,7 @@ class RetrieveEmploymentControllerHipISpec extends IntegrationBaseSpec {
           ("AA123456A", "2018-19", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downstream service error" when {
@@ -181,7 +181,7 @@ class RetrieveEmploymentControllerHipISpec extends IntegrationBaseSpec {
           (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
 
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

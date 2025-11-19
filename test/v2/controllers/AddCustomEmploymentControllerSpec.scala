@@ -124,7 +124,7 @@ class AddCustomEmploymentControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new AddCustomEmploymentController(
+    val controller: AddCustomEmploymentController = new AddCustomEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockAddCustomEmploymentValidatorFactory,

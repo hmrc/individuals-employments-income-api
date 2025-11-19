@@ -111,7 +111,7 @@ class AmendCustomEmploymentServiceSpec extends ServiceSpec {
           ("5010", NotFoundError)
         )
 
-        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

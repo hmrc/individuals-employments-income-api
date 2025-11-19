@@ -63,7 +63,8 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
     }
   }
 
-  trait Test { _: ConnectorTest with MockEmploymentsAppConfig =>
+  trait Test {
+    self: ConnectorTest & MockEmploymentsAppConfig =>
 
     val nino: String = "AA111111A"
     val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"

@@ -74,7 +74,7 @@ class CreateAmendStudentLoanBIKServiceSpec extends ServiceSpec {
           ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError)
         )
 
-        hipErrors.foreach(args => (serviceError _).tupled(args))
+        hipErrors.foreach(serviceError.tupled)
       }
     }
   }

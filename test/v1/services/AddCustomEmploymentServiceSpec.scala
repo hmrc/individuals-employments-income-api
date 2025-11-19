@@ -105,7 +105,7 @@ class AddCustomEmploymentServiceSpec extends ServiceSpec {
           ("5000", RuleTaxYearNotSupportedError)
         )
 
-        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

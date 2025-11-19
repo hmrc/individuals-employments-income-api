@@ -98,7 +98,7 @@ class CreateAmendNonPayeEmploymentControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new CreateAmendNonPayeEmploymentController(
+    val controller: CreateAmendNonPayeEmploymentController = new CreateAmendNonPayeEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockCreateAmendNonPayeEmploymentIncomeValidatorFactory,

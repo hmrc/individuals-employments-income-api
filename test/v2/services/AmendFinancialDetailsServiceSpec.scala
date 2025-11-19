@@ -96,7 +96,7 @@ class AmendFinancialDetailsServiceSpec extends ServiceSpec {
           ("INVALID_SUBMISSION_PENSION_SCHEME", RuleInvalidSubmissionPensionSchemeError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceError.tupled)
       }
     }
   }

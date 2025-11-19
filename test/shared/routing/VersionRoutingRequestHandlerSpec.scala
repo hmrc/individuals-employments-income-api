@@ -19,7 +19,6 @@ package shared.routing
 import org.apache.pekko.actor.ActorSystem
 import org.scalatest.Inside
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.http.HeaderNames.ACCEPT
 import play.api.http.{HttpConfiguration, HttpErrorHandler, HttpFilters}
 import play.api.mvc.*
 import play.api.routing.Router
@@ -37,7 +36,7 @@ class VersionRoutingRequestHandlerSpec extends UnitSpec with Inside with MockSha
   val actionBuilder: DefaultActionBuilder = app.injector.instanceOf[DefaultActionBuilder]
 
   import play.api.mvc.Handler
-  import play.api.routing.sird._
+  import play.api.routing.sird.*
 
   object DefaultHandler extends Handler
   object V3Handler      extends Handler

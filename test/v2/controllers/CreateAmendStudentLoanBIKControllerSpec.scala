@@ -98,7 +98,7 @@ class CreateAmendStudentLoanBIKControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new CreateAmendStudentLoanBIKController(
+    val controller: CreateAmendStudentLoanBIKController = new CreateAmendStudentLoanBIKController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockCreateAmendStudentLoanBIKValidatorFactory,

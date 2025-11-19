@@ -116,7 +116,7 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidato
       }
 
       def expectNoError(value: JsNumber): Unit = new Test {
-        validate(body = body(value)) shouldBe a[Right[_, _]]
+        validate(body = body(value)) shouldBe a[Right[?, ?]]
       }
 
       "expect ValueFormatError when value is larger the max" in expectError(JsNumber(max + 0.01))
