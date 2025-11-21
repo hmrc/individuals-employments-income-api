@@ -66,6 +66,6 @@ object EmploymentsIncomeValidators extends ResolverSupport {
     ResolveParsedNumber(min = -99999999999.99)(amount, path)
 
   def validatePositiveInt(amount: BigInt, path: String): Validated[Seq[MtdError], BigInt] =
-    resolveValid[BigInt].thenValidate(satisfiesMin(0, ValueFormatError.forPathAndMin(path, "0")))(amount)
+    resolveValid[BigInt].thenValidate(satisfiesMin(BigInt(0), ValueFormatError.forPathAndMin(path, "0")))(amount)
 
 }

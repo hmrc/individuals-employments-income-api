@@ -18,7 +18,7 @@ package v2.models.response.retrieveOtherEmployment
 
 import common.models.domain.SharesAwardedOrReceivedSchemeType
 import common.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class SharesAwardedOrReceivedItem(employerName: String,
@@ -53,7 +53,7 @@ object SharesAwardedOrReceivedItem {
       (JsPath \ "amountPaidForSharesOnAward").read[BigDecimal] and
       (JsPath \ "marketValueAfterRestrictionsLifted").read[BigDecimal] and
       (JsPath \ "taxableAmount").read[BigDecimal]
-  )(SharesAwardedOrReceivedItem.apply _)
+  )(SharesAwardedOrReceivedItem.apply)
 
   implicit val writes: OWrites[SharesAwardedOrReceivedItem] = Json.writes[SharesAwardedOrReceivedItem]
 }

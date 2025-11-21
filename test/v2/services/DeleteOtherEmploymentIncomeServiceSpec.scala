@@ -20,7 +20,7 @@ import common.errors.RuleOutsideAmendmentWindowError
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v2.mocks.connectors.MockOtherEmploymentIncomeConnector
 import v2.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
@@ -73,7 +73,7 @@ class DeleteOtherEmploymentIncomeServiceSpec extends ServiceSpec {
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceError.tupled)
       }
     }
 

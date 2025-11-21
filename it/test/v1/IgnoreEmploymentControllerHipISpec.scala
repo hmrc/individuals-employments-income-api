@@ -20,9 +20,10 @@ import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import common.support.EmploymentsIBaseSpec
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers._
-import shared.models.errors._
+import play.api.test.Helpers.*
+import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import play.api.libs.ws.writeableOf_JsValue
 
 class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
@@ -93,7 +94,7 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           ("AA123456A", "2018-19", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "service error" when {
@@ -128,7 +129,7 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "1224", BAD_REQUEST, RuleCustomEmploymentError),
           (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
-        errors.foreach(args => (serviceErrorTest _).tupled(args))
+        errors.foreach(serviceErrorTest.tupled)
       }
     }
   }

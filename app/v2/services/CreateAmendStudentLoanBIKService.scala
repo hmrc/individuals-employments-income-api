@@ -19,7 +19,7 @@ package v2.services
 import cats.implicits.toBifunctorOps
 import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
 import shared.controllers.RequestContext
-import shared.models.errors._
+import shared.models.errors.*
 import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.CreateAmendStudentLoanBIKConnector
 import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest

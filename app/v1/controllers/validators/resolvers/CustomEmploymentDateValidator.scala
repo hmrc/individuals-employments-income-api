@@ -18,7 +18,7 @@ package v1.controllers.validators.resolvers
 
 import shared.controllers.validators.resolvers.ResolverSupport
 import shared.models.domain.TaxYear
-import shared.models.errors._
+import shared.models.errors.*
 import cats.data.Validated.{Invalid, Valid}
 import common.errors.{CessationDateFormatError, RuleCessationDateBeforeStartDateError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError}
 import shared.controllers.validators.resolvers.ResolveIsoDate
@@ -32,12 +32,10 @@ object CustomEmploymentDateValidator extends ResolverSupport {
 
   def validator(taxYear: TaxYear): Validator[StringDateRange] = { case (startDate: String, cessationDate: Option[String]) =>
     def validateStartDate(date: LocalDate) =
-      (satisfiesMax(taxYear.endDate, RuleStartDateAfterTaxYearEndError) thenValidate
-        isInRange(StartDateFormatError))(date)
+      satisfiesMax(taxYear.endDate, RuleStartDateAfterTaxYearEndError).thenValidate(isInRange(StartDateFormatError))(date)
 
     def validateCessationDate(maybeDate: Option[LocalDate]) =
-      (satisfiesMin(taxYear.startDate, RuleCessationDateBeforeTaxYearStartError) thenValidate
-        isInRange(CessationDateFormatError)).validateOptionally(maybeDate)
+      satisfiesMin(taxYear.startDate, RuleCessationDateBeforeTaxYearStartError).thenValidate(isInRange(CessationDateFormatError)).validateOptionally(maybeDate)
 
     (resolveStartDate(startDate), resolveCessationDate(cessationDate)) match {
       case (Valid(start), Valid(maybeCessation)) =>

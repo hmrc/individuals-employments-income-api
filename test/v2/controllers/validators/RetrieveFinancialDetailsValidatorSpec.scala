@@ -21,7 +21,7 @@ import common.models.domain.{EmploymentId, MtdSourceEnum}
 import config.MockEmploymentsAppConfig
 import shared.config.MockSharedAppConfig
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.utils.UnitSpec
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 
@@ -62,7 +62,7 @@ class RetrieveFinancialDetailsValidatorSpec extends UnitSpec with MockSharedAppC
         ("user", RetrieveEmploymentAndFinancialDetailsRequest(parsedNino, parsedTaxYear, parsedEmploymentId, MtdSourceEnum.user))
       )
 
-      input.foreach(args => (validateSuccessfullyWith _).tupled(args))
+      input.foreach(validateSuccessfullyWith.tupled)
 
       "default to 'latest' source" in new Test {
         validate(maybeSource = None) shouldBe Right(

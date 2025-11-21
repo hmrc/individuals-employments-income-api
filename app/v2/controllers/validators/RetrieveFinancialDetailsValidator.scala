@@ -17,10 +17,10 @@
 package v2.controllers.validators
 
 import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.ResolverSupport._
+import shared.controllers.validators.resolvers.ResolverSupport.*
 import shared.controllers.validators.resolvers.{ResolveTaxYearMinimum, ResolverSupport}
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import common.errors.SourceFormatError
 import common.models.domain.MtdSourceEnum
 import config.EmploymentsAppConfig
@@ -50,6 +50,6 @@ class RetrieveFinancialDetailsValidator(nino: String, taxYear: String, employmen
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId),
       resolveSource(maybeSource)
-    ).mapN(RetrieveEmploymentAndFinancialDetailsRequest)
+    ).mapN(RetrieveEmploymentAndFinancialDetailsRequest.apply)
 
 }

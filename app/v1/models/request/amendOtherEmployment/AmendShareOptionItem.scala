@@ -17,7 +17,7 @@
 package v1.models.request.amendOtherEmployment
 
 import common.models.domain.ShareOptionSchemeType
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendShareOptionItem(employerName: String,
@@ -58,6 +58,6 @@ object AmendShareOptionItem {
       (JsPath \ "profitOnOptionExercised").write[BigDecimal] and
       (JsPath \ "employersNicPaid").write[BigDecimal] and
       (JsPath \ "taxableAmount").write[BigDecimal]
-  )(unlift(AmendShareOptionItem.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

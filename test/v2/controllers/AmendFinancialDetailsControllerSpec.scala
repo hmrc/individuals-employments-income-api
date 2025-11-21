@@ -24,7 +24,7 @@ import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.MockAuditService
 import v2.controllers.validators.MockAmendFinancialDetailsValidatorFactory
@@ -201,7 +201,7 @@ class AmendFinancialDetailsControllerSpec
       .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true))
       .anyNumberOfTimes()
 
-    val controller = new AmendFinancialDetailsController(
+    val controller: AmendFinancialDetailsController = new AmendFinancialDetailsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockAmendFinancialDetailsValidatorFactory,

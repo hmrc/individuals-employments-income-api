@@ -18,7 +18,6 @@ package v2.controllers.validators
 
 import cats.data.Validated
 import cats.implicits.catsSyntaxTuple4Semigroupal
-import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
@@ -32,10 +31,10 @@ object CreateAmendStudentLoanBIKValidator {
 
 }
 
-class CreateAmendStudentLoanBIKValidator(nino: String, taxYear: String, employmentId: String, body: JsValue, appConfig: EmploymentsAppConfig)
+class CreateAmendStudentLoanBIKValidator(nino: String, taxYear: String, employmentId: String, body: JsValue)
     extends Validator[CreateAmendStudentLoanBIKRequest]
     with ResolverSupport {
-  import CreateAmendStudentLoanBIKValidator._
+  import v2.controllers.validators.CreateAmendStudentLoanBIKValidator.*
 
   private val resolveTaxYear: ResolveTaxYearMinimum = ResolveTaxYearMinimum(TaxYear.fromMtd("2025-26"))
 
@@ -45,6 +44,6 @@ class CreateAmendStudentLoanBIKValidator(nino: String, taxYear: String, employme
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId),
       resolveJson(body)
-    ).mapN(CreateAmendStudentLoanBIKRequest) andThen CreateAmendStudentLoanBIKRulesValidator.validateBusinessRules
+    ).mapN(CreateAmendStudentLoanBIKRequest.apply) andThen CreateAmendStudentLoanBIKRulesValidator.validateBusinessRules
 
 }

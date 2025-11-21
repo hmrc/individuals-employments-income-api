@@ -20,7 +20,7 @@ import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.errors.MtdError
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.EmploymentsAppConfig
 import shared.controllers.validators.resolvers.ResolveNino
 import v1.controllers.validators.resolvers.ResolveEmploymentId
@@ -38,6 +38,6 @@ class IgnoreEmploymentValidator(nino: String, taxYear: String, employmentId: Str
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId)
-    ).mapN(IgnoreEmploymentRequest)
+    ).mapN(IgnoreEmploymentRequest.apply)
 
 }

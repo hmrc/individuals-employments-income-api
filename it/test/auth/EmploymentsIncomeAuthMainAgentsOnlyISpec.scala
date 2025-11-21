@@ -21,6 +21,7 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import shared.auth.AuthMainAgentsOnlyISpec
 import shared.services.DownstreamStub
+import play.api.libs.ws.writeableOf_JsValue
 
 class EmploymentsIncomeAuthMainAgentsOnlyISpec extends AuthMainAgentsOnlyISpec {
 

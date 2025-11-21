@@ -57,7 +57,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
   }
 
   trait Test {
-    _: ConnectorTest with MockEmploymentsAppConfig =>
+    self: ConnectorTest & MockEmploymentsAppConfig =>
 
     def taxYear: TaxYear
 

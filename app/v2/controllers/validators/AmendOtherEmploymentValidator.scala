@@ -20,7 +20,7 @@ import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.errors.MtdError
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import shared.controllers.validators.resolvers.ResolveNino
@@ -43,6 +43,6 @@ class AmendOtherEmploymentValidator(nino: String, taxYear: String, body: JsValue
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       resolveJson(body)
-    ).mapN(AmendOtherEmploymentRequest) andThen AmendOtherEmploymentRulesValidator.validateBusinessRules
+    ).mapN(AmendOtherEmploymentRequest.apply) andThen AmendOtherEmploymentRulesValidator.validateBusinessRules
 
 }

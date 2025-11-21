@@ -20,7 +20,7 @@ import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import v2.fixtures.studentLoanBIK.CreateAmendStudentLoanBIKConnectorFixture.requestBodyModel
@@ -74,7 +74,7 @@ class CreateAmendStudentLoanBIKServiceSpec extends ServiceSpec {
           ("OUTSIDE_AMENDMENT_WINDOW", RuleOutsideAmendmentWindowError)
         )
 
-        hipErrors.foreach(args => (serviceError _).tupled(args))
+        hipErrors.foreach(serviceError.tupled)
       }
     }
   }

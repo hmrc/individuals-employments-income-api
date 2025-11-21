@@ -16,7 +16,7 @@
 
 package common.models.domain
 
-import common.models.domain.SharesAwardedOrReceivedSchemeType._
+import common.models.domain.SharesAwardedOrReceivedSchemeType.*
 import shared.utils.UnitSpec
 import shared.utils.enums.EnumJsonSpecSupport
 

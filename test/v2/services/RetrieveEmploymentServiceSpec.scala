@@ -20,7 +20,7 @@ import common.errors.EmploymentIdFormatError
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier
@@ -73,7 +73,7 @@ class RetrieveEmploymentServiceSpec extends ServiceSpec {
           ("5010", NotFoundError)
         )
 
-        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

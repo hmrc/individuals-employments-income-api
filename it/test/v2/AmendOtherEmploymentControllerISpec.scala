@@ -17,16 +17,17 @@
 package v2
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{DateFormatError, _}
+import common.errors.{DateFormatError, *}
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import shared.models.errors._
+import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import v2.AmendOtherEmploymentControllerISpec._
+import v2.AmendOtherEmploymentControllerISpec.*
+import play.api.libs.ws.writeableOf_JsValue
 
 class AmendOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
@@ -149,7 +150,7 @@ class AmendOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
           ("AA123456A", "2019-20", missingFieldRequestBodyJson, BAD_REQUEST, ErrorWrapper("X-123", missingMandatoryFieldErrors, None)),
           ("AA123456A", "2019-20", invalidLumpSumsRequestBodyJson, BAD_REQUEST, ErrorWrapper("X-123", ruleLumpSumsError, None))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "des service error" when {
@@ -193,7 +194,7 @@ class AmendOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceErrorTest.tupled)
       }
     }
   }

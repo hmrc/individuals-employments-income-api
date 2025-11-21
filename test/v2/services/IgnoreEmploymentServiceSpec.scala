@@ -20,7 +20,7 @@ import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOu
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import v2.mocks.connectors.MockIgnoreEmploymentConnector
@@ -102,7 +102,7 @@ class IgnoreEmploymentServiceSpec extends ServiceSpec {
           ("4200", RuleOutsideAmendmentWindowError)
         )
 
-        (errors ++ extraTysErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (errors ++ extraTysErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

@@ -83,7 +83,7 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
         MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1662.enabled" -> true))
 
         willPut(
-          url = url"$baseUrl/itsd/income/employments/$nino/custom/$employmentId?taxYear=${TaxYear("2022").asTysDownstream}",
+          url = url"$baseUrl/itsd/income/employments/$nino/custom/$employmentId?taxYear=${TaxYear.fromMtd("2021-22").asTysDownstream}",
           body = amendCustomEmploymentRequestBody
         ).returns(Future.successful(outcome))
 

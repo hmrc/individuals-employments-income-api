@@ -60,7 +60,8 @@ class UnignoreEmploymentConnectorSpec extends ConnectorSpec {
     }
   }
 
-  trait Test { _: ConnectorTest =>
+  trait Test {
+    self: ConnectorTest =>
     val taxYear: TaxYear = TaxYear.fromMtd("2023-24")
 
     val nino: String         = "AA111111A"

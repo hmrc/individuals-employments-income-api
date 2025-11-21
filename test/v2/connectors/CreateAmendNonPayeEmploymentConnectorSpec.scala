@@ -21,8 +21,8 @@ import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
-import v2.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture._
-import v2.models.request.createAmendNonPayeEmployment._
+import v2.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture.*
+import v2.models.request.createAmendNonPayeEmployment.*
 
 import scala.concurrent.Future
 
@@ -30,7 +30,8 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
 
   private val nino: String = "AA111111A"
 
-  trait Test extends EmploymentsConnectorTest { _: ConnectorTest with MockEmploymentsAppConfig =>
+  trait Test extends EmploymentsConnectorTest {
+    self: ConnectorTest & MockEmploymentsAppConfig =>
     def taxYear: TaxYear
 
     def request = CreateAmendNonPayeEmploymentRequest(

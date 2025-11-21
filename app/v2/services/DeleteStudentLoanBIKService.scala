@@ -16,10 +16,10 @@
 
 package v2.services
 
-import cats.implicits._
+import cats.implicits.*
 import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
 import shared.controllers.RequestContext
-import shared.models.errors._
+import shared.models.errors.*
 import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.DeleteStudentLoanBIKConnector
 import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest

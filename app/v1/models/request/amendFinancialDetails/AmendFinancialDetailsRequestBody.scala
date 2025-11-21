@@ -16,11 +16,11 @@
 
 package v1.models.request.amendFinancialDetails
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.{Json, OFormat, OWrites, Reads}
 import v1.models.request.amendFinancialDetails.employment.AmendEmployment
 
 case class AmendFinancialDetailsRequestBody(employment: AmendEmployment)
 
 object AmendFinancialDetailsRequestBody {
-  implicit val format: OFormat[AmendFinancialDetailsRequestBody] = Json.format[AmendFinancialDetailsRequestBody]
+  given OFormat[AmendFinancialDetailsRequestBody] = Json.format[AmendFinancialDetailsRequestBody]
 }

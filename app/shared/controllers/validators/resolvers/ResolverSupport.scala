@@ -18,7 +18,7 @@ package shared.controllers.validators.resolvers
 
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
-import cats.implicits._
+import cats.implicits.*
 import shared.models.errors.MtdError
 
 import scala.math.Ordered.orderingToOrdered
@@ -56,7 +56,7 @@ trait ResolverSupport {
     def validateOptionally: Validator[Option[A]] = _.flatMap(validator)
   }
 
-  /** Use to lift a a Validator to a Resolver that validates. E.g.
+  /** Use to lift a Validator to a Resolver that validates. E.g.
     * {{{
     * resolveValid[Int] thenValidate satisfiesMax(1000, someError)
     * }}}
@@ -70,12 +70,12 @@ trait ResolverSupport {
     a => Option.when(!predicate(a))(List(error))
 
   def inRange[A: Ordering](minAllowed: A, maxAllowed: A, error: => MtdError): Validator[A] =
-    satisfiesMin[A](minAllowed, error) thenValidate satisfiesMax[A](maxAllowed, error)
+    satisfiesMin[A](minAllowed, error).thenValidate(satisfiesMax[A](maxAllowed, error))
 
   def satisfiesMin[A: Ordering](minAllowed: A, error: => MtdError): Validator[A] = satisfies(error)(minAllowed <= _)
   def satisfiesMax[A: Ordering](maxAllowed: A, error: => MtdError): Validator[A] = satisfies(error)(_ <= maxAllowed)
 
-  def combinedValidator[A](first: Validator[A], others: Validator[A]*): Validator[A] = { value: A =>
+  def combinedValidator[A](first: Validator[A], others: Validator[A]*): Validator[A] = { (value: A) =>
     val validators = first +: others
 
     val validations = validators.map(validator => validator(value))

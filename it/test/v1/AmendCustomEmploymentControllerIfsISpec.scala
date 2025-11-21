@@ -17,16 +17,17 @@
 package v1
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors._
+import common.errors.*
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.domain.TaxYear
-import shared.models.errors._
+import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import play.api.libs.ws.writeableOf_JsValue
 
 class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec{
 
@@ -372,7 +373,7 @@ class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec{
             missingMandatoryFieldErrors,
             Some("(missing mandatory fields)"))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "validation format error" when {
@@ -413,7 +414,7 @@ class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec{
             CessationDateFormatError,
             None)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "ifs service error" when {
@@ -455,7 +456,7 @@ class AmendCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec{
           (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

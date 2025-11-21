@@ -20,7 +20,7 @@ import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.errors.{MtdError, RuleTaxYearNotEndedError}
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import shared.controllers.validators.resolvers.ResolveNino
@@ -45,14 +45,14 @@ class CreateAmendNonPayeEmploymentIncomeValidator(nino: String,
   import CreateAmendNonPayeEmploymentIncomeValidator._
 
   private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver thenValidate
-      satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear)
+    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+      .thenValidate(satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear))
 
   override def validate: Validated[Seq[MtdError], CreateAmendNonPayeEmploymentRequest] =
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       resolveJson(body)
-    ).mapN(CreateAmendNonPayeEmploymentRequest) andThen CreateAmendNonPayeIncomeRulesValidator.validateBusinessRules
+    ).mapN(CreateAmendNonPayeEmploymentRequest.apply) andThen CreateAmendNonPayeIncomeRulesValidator.validateBusinessRules
 
 }

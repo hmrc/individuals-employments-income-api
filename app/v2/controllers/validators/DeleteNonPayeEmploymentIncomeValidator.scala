@@ -20,7 +20,7 @@ import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.ResolveTaxYearMinimum
 import shared.models.errors.MtdError
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.EmploymentsAppConfig
 import shared.controllers.validators.resolvers.ResolveNino
 import v2.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
@@ -33,6 +33,6 @@ class DeleteNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, appC
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear)
-    ).mapN(DeleteNonPayeEmploymentRequest)
+    ).mapN(DeleteNonPayeEmploymentRequest.apply)
 
 }

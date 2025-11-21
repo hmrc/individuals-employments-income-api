@@ -20,7 +20,7 @@ import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier
@@ -87,7 +87,7 @@ class UnignoreEmploymentServiceSpec extends ServiceSpec {
           ("5000", RuleTaxYearNotSupportedError)
         )
 
-        (ifsErrors ++ extraTysIfsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ extraTysIfsErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

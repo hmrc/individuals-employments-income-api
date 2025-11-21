@@ -18,7 +18,7 @@ package shared.controllers.validators.resolvers
 
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
-import cats.implicits._
+import cats.implicits.*
 import shared.models.domain.DateRange
 import shared.models.errors.{EndDateFormatError, MtdError, RuleEndBeforeStartDateError, StartDateFormatError}
 
@@ -41,10 +41,10 @@ case class ResolveDateRange(startDateFormatError: MtdError = StartDateFormatErro
   def apply(value: (String, String)): Validated[Seq[MtdError], DateRange] = resolver(value)
 
   def withDatesLimitedTo(minDate: LocalDate, maxDate: LocalDate): Resolver[(String, String), DateRange] =
-    resolver thenValidate datesLimitedTo(minDate, startDateFormatError, maxDate, endDateFormatError)
+    resolver.thenValidate(datesLimitedTo(minDate, startDateFormatError, maxDate, endDateFormatError))
 
   def withYearsLimitedTo(minYear: Int, maxYear: Int): Resolver[(String, String), DateRange] =
-    resolver thenValidate yearsLimitedTo(minYear, startDateFormatError, maxYear, endDateFormatError)
+    resolver.thenValidate(yearsLimitedTo(minYear, startDateFormatError, maxYear, endDateFormatError))
 
   private def resolveDateRange(parsedStartDate: LocalDate, parsedEndDate: LocalDate): Validated[Seq[MtdError], DateRange] =
     if (parsedEndDate < parsedStartDate)

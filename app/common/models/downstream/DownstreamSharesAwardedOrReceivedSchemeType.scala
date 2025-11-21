@@ -20,19 +20,11 @@ import common.models.domain.SharesAwardedOrReceivedSchemeType
 import play.api.libs.json.Reads
 import shared.utils.enums.Enums
 
-sealed trait DownstreamSharesAwardedOrReceivedSchemeType {
-  def toMtd: SharesAwardedOrReceivedSchemeType
+enum DownstreamSharesAwardedOrReceivedSchemeType(val toMtd: SharesAwardedOrReceivedSchemeType) {
+  case `SIP`   extends DownstreamSharesAwardedOrReceivedSchemeType(SharesAwardedOrReceivedSchemeType.`sip`)
+  case `Other` extends DownstreamSharesAwardedOrReceivedSchemeType(SharesAwardedOrReceivedSchemeType.`other`)
 }
 
 object DownstreamSharesAwardedOrReceivedSchemeType {
-
-  case object `SIP` extends DownstreamSharesAwardedOrReceivedSchemeType {
-    override def toMtd: SharesAwardedOrReceivedSchemeType = SharesAwardedOrReceivedSchemeType.`sip`
-  }
-
-  case object `Other` extends DownstreamSharesAwardedOrReceivedSchemeType {
-    override def toMtd: SharesAwardedOrReceivedSchemeType = SharesAwardedOrReceivedSchemeType.`other`
-  }
-
-  implicit val reads: Reads[DownstreamSharesAwardedOrReceivedSchemeType] = Enums.reads[DownstreamSharesAwardedOrReceivedSchemeType]
+  given Reads[DownstreamSharesAwardedOrReceivedSchemeType] = Enums.reads[DownstreamSharesAwardedOrReceivedSchemeType](values)
 }

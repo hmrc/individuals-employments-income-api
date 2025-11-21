@@ -18,9 +18,8 @@ package v2.services
 
 import cats.data.EitherT
 import common.errors.{EmploymentIdFormatError, SourceFormatError}
-import shared.config.SharedAppConfig
 import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, _}
+import shared.models.errors.*
 import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.RetrieveEmploymentAndFinancialDetailsConnector
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
@@ -30,8 +29,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveEmploymentAndFinancialDetailsService @Inject() (connector: RetrieveEmploymentAndFinancialDetailsConnector, appConfig: SharedAppConfig)
-    extends BaseService {
+class RetrieveEmploymentAndFinancialDetailsService @Inject() (connector: RetrieveEmploymentAndFinancialDetailsConnector) extends BaseService {
 
   def retrieve(request: RetrieveEmploymentAndFinancialDetailsRequest)(implicit
       ctx: RequestContext,
@@ -54,4 +52,5 @@ class RetrieveEmploymentAndFinancialDetailsService @Inject() (connector: Retriev
     "SERVER_ERROR"              -> InternalError,
     "SERVICE_UNAVAILABLE"       -> InternalError
   )
+
 }

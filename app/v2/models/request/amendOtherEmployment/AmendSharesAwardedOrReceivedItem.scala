@@ -17,7 +17,7 @@
 package v2.models.request.amendOtherEmployment
 
 import common.models.domain.SharesAwardedOrReceivedSchemeType
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendSharesAwardedOrReceivedItem(employerName: String,
@@ -56,6 +56,6 @@ object AmendSharesAwardedOrReceivedItem {
       (JsPath \ "amountPaidForSharesOnAward").write[BigDecimal] and
       (JsPath \ "marketValueAfterRestrictionsLifted").write[BigDecimal] and
       (JsPath \ "taxableAmount").write[BigDecimal]
-  )(unlift(AmendSharesAwardedOrReceivedItem.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

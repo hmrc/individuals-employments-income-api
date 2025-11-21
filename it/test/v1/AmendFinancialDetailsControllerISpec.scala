@@ -20,13 +20,14 @@ import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.{EmploymentIdFormatError, RuleInvalidSubmissionPensionSchemeError, RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors
-import shared.models.errors._
+import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import play.api.libs.ws.writeableOf_JsValue
 
 class AmendFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
 
@@ -569,7 +570,7 @@ class AmendFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
           // @formatter:on
         )
 
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downStream service error" when {
@@ -612,7 +613,7 @@ class AmendFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "INVALID_SUBMISSION_PENSION_SCHEME", BAD_REQUEST, RuleInvalidSubmissionPensionSchemeError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceErrorTest _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceErrorTest.tupled)
       }
     }
   }

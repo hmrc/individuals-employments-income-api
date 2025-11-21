@@ -22,7 +22,7 @@ import config.MockEmploymentsAppConfig
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
-import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture._
+import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture.*
 import v2.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
 import scala.concurrent.Future
@@ -60,7 +60,8 @@ class RetrieveNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     }
   }
 
-  trait Test extends EmploymentsConnectorTest { _: ConnectorTest with MockEmploymentsAppConfig =>
+  trait Test extends EmploymentsConnectorTest {
+    slef: ConnectorTest & MockEmploymentsAppConfig =>
     def taxYear: TaxYear
 
     protected val connector: RetrieveNonPayeEmploymentConnector =

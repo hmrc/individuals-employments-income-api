@@ -18,7 +18,7 @@ package v1.controllers.validators.resolvers
 
 import common.errors.{CessationDateFormatError, RuleCessationDateBeforeStartDateError, RuleCessationDateBeforeTaxYearStartError, RuleStartDateAfterTaxYearEndError}
 import shared.models.domain.TaxYear
-import shared.models.errors._
+import shared.models.errors.*
 import shared.utils.UnitSpec
 import v1.controllers.validators.resolvers.CustomEmploymentDateValidator.validator
 

@@ -16,7 +16,7 @@
 
 package v2.models.request.amendOtherEmployment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendCommonOtherEmployment(customerReference: Option[String], amountDeducted: BigDecimal)
@@ -27,6 +27,6 @@ object AmendCommonOtherEmployment {
   implicit val writes: OWrites[AmendCommonOtherEmployment] = (
     (JsPath \ "customerReference").writeNullable[String] and
       (JsPath \ "amountDeducted").write[BigDecimal]
-  )(unlift(AmendCommonOtherEmployment.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

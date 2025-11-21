@@ -19,7 +19,7 @@ package v2.models.response.retrieveNonPayeEmploymentIncome
 import shared.models.domain.Timestamp
 import common.models.domain.MtdSourceEnum
 import common.models.downstream.DownstreamSourceEnum
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class RetrieveNonPayeEmploymentIncomeResponse(submittedOn: Timestamp,
@@ -34,7 +34,7 @@ object RetrieveNonPayeEmploymentIncomeResponse {
       (JsPath \ "source").read[DownstreamSourceEnum].map(_.toMtdEnum) and
       (JsPath \ "totalNonPayeIncome").readNullable[BigDecimal] and
       (JsPath \ "nonPayeIncome").readNullable[NonPayeIncome]
-  )(RetrieveNonPayeEmploymentIncomeResponse.apply _)
+  )(RetrieveNonPayeEmploymentIncomeResponse.apply)
 
   implicit val writes: OWrites[RetrieveNonPayeEmploymentIncomeResponse] = Json.writes[RetrieveNonPayeEmploymentIncomeResponse]
 

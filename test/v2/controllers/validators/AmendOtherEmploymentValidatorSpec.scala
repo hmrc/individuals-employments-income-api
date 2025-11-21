@@ -16,9 +16,9 @@
 
 package v2.controllers.validators
 
-import common.errors._
+import common.errors.*
 import config.MockEmploymentsAppConfig
-import play.api.libs.json._
+import play.api.libs.json.*
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors.{BadRequestError, DateFormatError, ErrorWrapper, MtdError, NinoFormatError, RuleIncorrectOrEmptyBodyError, RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError, TaxYearFormatError, ValueFormatError}
 import shared.models.utils.JsonErrorValidators
@@ -466,9 +466,9 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
 
         def noErrorWhenOnlyKeep(keptSection: String): Unit =
           s"only contain $keptSection" in new Test {
-            val lumpSumWithKeptSection = (sections - keptSection).foldLeft(itemJson)(_ removeProperty _)
+            val lumpSumWithKeptSection = (sections - keptSection).foldLeft(itemJson)(_ `removeProperty` _)
 
-            validate(body = body(lumpSumWithKeptSection)) shouldBe a[Right[_, _]]
+            validate(body = body(lumpSumWithKeptSection)) shouldBe a[Right[?, ?]]
           }
 
         sections.foreach(behave like noErrorWhenOnlyKeep(_))

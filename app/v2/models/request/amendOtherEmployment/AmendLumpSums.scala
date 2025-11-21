@@ -16,7 +16,7 @@
 
 package v2.models.request.amendOtherEmployment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendLumpSums(employerName: String,
@@ -35,7 +35,7 @@ object AmendLumpSums {
       (JsPath \ "benefitFromEmployerFinancedRetirementScheme").readNullable[AmendBenefitFromEmployerFinancedRetirementSchemeItem] and
       (JsPath \ "redundancyCompensationPaymentsOverExemption").readNullable[AmendRedundancyCompensationPaymentsOverExemptionItem] and
       (JsPath \ "redundancyCompensationPaymentsUnderExemption").readNullable[AmendRedundancyCompensationPaymentsUnderExemptionItem]
-  )(AmendLumpSums.apply _)
+  )(AmendLumpSums.apply)
 
   implicit val writes: OWrites[AmendLumpSums] = Json.writes[AmendLumpSums]
 }

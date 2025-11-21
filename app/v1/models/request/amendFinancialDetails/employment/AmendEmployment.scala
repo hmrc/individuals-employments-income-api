@@ -16,7 +16,7 @@
 
 package v1.models.request.amendFinancialDetails.employment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendEmployment(pay: AmendPay,
@@ -36,6 +36,6 @@ object AmendEmployment {
       (JsPath \ "deductions").writeNullable[AmendDeductions] and
       (JsPath \ "benefitsInKind").writeNullable[AmendBenefitsInKind] and
       (JsPath \ "offPayrollWorker").writeNullable[Boolean].contramap[Option[Boolean]](trimIfNotTrue)
-  )(unlift(AmendEmployment.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

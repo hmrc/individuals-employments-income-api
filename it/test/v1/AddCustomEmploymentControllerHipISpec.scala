@@ -17,16 +17,18 @@
 package v1
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors._
+import common.errors.*
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.domain.TaxYear
-import shared.models.errors._
-import shared.services._
+import shared.models.errors.*
+import shared.services.*
+import play.api.libs.ws.writeableOf_JsValue
+import play.api.libs.ws.readableAsJson
 
 class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
@@ -326,7 +328,7 @@ class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           ("AA123456A", "2019-20", nonValidRequestBodyJson, BAD_REQUEST, invalidFieldType, Some("(wrong field type)")),
           ("AA123456A", "2019-20", missingFieldRequestBodyJson, BAD_REQUEST, missingMandatoryFieldErrors, Some("(missing mandatory fields)"))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "hip service error" when {
@@ -380,7 +382,7 @@ class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "1118", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
           (NOT_IMPLEMENTED,"5000", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
 
       "validation error for dates outside allowed range" when {
@@ -411,7 +413,7 @@ class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
         val input = Seq(
           ("AA123456A", "2019-20", invalidStartDateRangeRequestJson, BAD_REQUEST, StartDateFormatError, None)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
     }
   }

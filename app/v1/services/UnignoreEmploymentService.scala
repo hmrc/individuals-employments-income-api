@@ -16,10 +16,10 @@
 
 package v1.services
 
-import cats.implicits._
+import cats.implicits.*
 import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, _}
+import shared.models.errors.{MtdError, *}
 import shared.services.{BaseService, ServiceOutcome}
 import shared.utils.Logging
 import v1.connectors.UnignoreEmploymentConnector

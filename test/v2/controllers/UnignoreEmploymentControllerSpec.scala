@@ -25,7 +25,7 @@ import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v2.controllers.validators.MockUnignoreEmploymentValidatorFactory
 import v2.mocks.services.MockUnignoreEmploymentService
@@ -46,7 +46,7 @@ class UnignoreEmploymentControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new UnignoreEmploymentController(
+    val controller: UnignoreEmploymentController = new UnignoreEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockUnignoreEmploymentValidatorFactory,

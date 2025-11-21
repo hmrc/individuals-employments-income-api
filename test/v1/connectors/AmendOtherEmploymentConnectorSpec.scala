@@ -21,7 +21,7 @@ import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors.{InternalError, NinoFormatError}
 import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
-import v1.models.request.amendOtherEmployment._
+import v1.models.request.amendOtherEmployment.*
 
 import scala.concurrent.Future
 
@@ -83,7 +83,7 @@ class AmendOtherEmploymentConnectorSpec extends ConnectorSpec {
   }
 
   trait Test {
-    _: ConnectorTest =>
+    self: ConnectorTest =>
 
     def taxYear: TaxYear
 

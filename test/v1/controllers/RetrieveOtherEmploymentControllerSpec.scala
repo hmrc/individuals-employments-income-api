@@ -21,7 +21,7 @@ import play.api.mvc.Result
 import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockRetrieveOtherEmploymentValidatorFactory
 import v1.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
@@ -80,7 +80,7 @@ class RetrieveOtherEmploymentControllerSpec
 
   trait Test extends ControllerTest {
 
-    val controller = new RetrieveOtherEmploymentController(
+    val controller: RetrieveOtherEmploymentController = new RetrieveOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockRetrieveOtherEmploymentValidatorFactory,

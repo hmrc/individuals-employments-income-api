@@ -85,7 +85,7 @@ class RetrieveStudentLoanBIKServiceSpec  extends ServiceSpec {
           ("SERVICE_UNAVAILABLE", InternalError)
         )
 
-        hipErrors.foreach(args => (serviceError _).tupled(args))
+        hipErrors.foreach(serviceError.tupled)
       }
     }
 

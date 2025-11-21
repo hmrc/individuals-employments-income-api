@@ -30,7 +30,7 @@ case class EmploymentsFeatureSwitches (protected val featureSwitchConfig: Config
 
   def isDesIf_MigrationEnabled: Boolean = isEnabled("desIf_Migration")
 
-  def isTemporalValidationEnabled(implicit request: Request[_]): Boolean = {
+  def isTemporalValidationEnabled(implicit request: Request[?]): Boolean = {
     if (isEnabled("allowTemporalValidationSuspension")) {
       request.headers.get("suspend-temporal-validations").forall(!BooleanUtils.toBoolean(_))
     } else {

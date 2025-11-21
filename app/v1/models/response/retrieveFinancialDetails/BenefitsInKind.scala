@@ -16,8 +16,8 @@
 
 package v1.models.response.retrieveFinancialDetails
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 case class BenefitsInKind(accommodation: Option[BigDecimal],
                           assets: Option[BigDecimal],
@@ -197,6 +197,6 @@ object BenefitsInKind {
   implicit val reads: Reads[BenefitsInKind] = (
     JsPath.read[BenefitsInKindPart1](formatPt1) and
       JsPath.read[BenefitsInKindPart2](formatPt2)
-  )(BenefitsInKind.buildBenefitsObject _)
+  )(BenefitsInKind.buildBenefitsObject)
 
 }

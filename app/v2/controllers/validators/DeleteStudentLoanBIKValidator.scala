@@ -17,7 +17,7 @@
 package v2.controllers.validators
 
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
 import shared.models.domain.TaxYear
@@ -36,6 +36,6 @@ class DeleteStudentLoanBIKValidator(nino: String, taxYear: String, employmentId:
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       ResolveEmploymentId(employmentId)
-    ).mapN(DeleteStudentLoanBIKRequest)
+    ).mapN(DeleteStudentLoanBIKRequest.apply)
 
 }

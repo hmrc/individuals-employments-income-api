@@ -16,10 +16,10 @@
 
 package shared.connectors.httpparsers
 
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json, Reads}
 import shared.connectors.DownstreamOutcome
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.utils.UnitSpec
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}

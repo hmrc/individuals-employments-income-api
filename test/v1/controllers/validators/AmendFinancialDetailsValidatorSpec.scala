@@ -19,9 +19,9 @@ package v1.controllers.validators
 import common.errors.{EmploymentIdFormatError, RuleMissingOffPayrollWorker, RuleNotAllowedOffPayrollWorker}
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import play.api.libs.json._
+import play.api.libs.json.*
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.utils.JsonErrorValidators
 import shared.utils.UnitSpec
 import v1.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
@@ -116,7 +116,7 @@ class AmendFinancialDetailsValidatorSpec extends UnitSpec with JsonErrorValidato
       }
 
       def expectNoError(value: JsNumber): Unit = new Test {
-        validate(body = body(value)) shouldBe a[Right[_, _]]
+        validate(body = body(value)) shouldBe a[Right[?, ?]]
       }
 
       "expect ValueFormatError when value is larger the max" in expectError(JsNumber(max + 0.01))

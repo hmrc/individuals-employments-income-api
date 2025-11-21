@@ -25,7 +25,7 @@ import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockIgnoreEmploymentValidatorFactory
 import v1.mocks.services.MockIgnoreEmploymentService
@@ -46,7 +46,7 @@ class IgnoreEmploymentControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new IgnoreEmploymentController(
+    val controller: IgnoreEmploymentController = new IgnoreEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockIgnoreEmploymentValidatorFactory,

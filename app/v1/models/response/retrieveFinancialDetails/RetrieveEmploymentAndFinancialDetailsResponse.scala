@@ -19,7 +19,7 @@ package v1.models.response.retrieveFinancialDetails
 import common.models.domain.MtdSourceEnum
 import common.models.downstream.DownstreamSourceEnum
 import shared.models.domain.Timestamp
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class RetrieveEmploymentAndFinancialDetailsResponse(submittedOn: Timestamp,
@@ -37,6 +37,6 @@ object RetrieveEmploymentAndFinancialDetailsResponse {
       (JsPath \ "customerAdded").readNullable[Timestamp] and
       (JsPath \ "dateIgnored").readNullable[Timestamp] and
       (JsPath \ "employment").read[Employment]
-  )(RetrieveEmploymentAndFinancialDetailsResponse.apply _)
+  )(RetrieveEmploymentAndFinancialDetailsResponse.apply)
 
 }

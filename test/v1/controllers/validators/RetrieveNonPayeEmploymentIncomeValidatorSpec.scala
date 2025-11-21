@@ -21,7 +21,7 @@ import common.models.domain.MtdSourceEnum
 import config.MockEmploymentsAppConfig
 import shared.config.MockSharedAppConfig
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.utils.UnitSpec
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
@@ -59,7 +59,7 @@ class RetrieveNonPayeEmploymentIncomeValidatorSpec extends UnitSpec with MockSha
         ("user", RetrieveNonPayeEmploymentIncomeRequest(parsedNino, parsedTaxYear, MtdSourceEnum.user))
       )
 
-      input.foreach(args => (validateSuccessfullyWith _).tupled(args))
+      input.foreach(validateSuccessfullyWith.tupled)
 
       "default to 'latest' source" in new Test {
         validate(maybeSource = None) shouldBe Right(RetrieveNonPayeEmploymentIncomeRequest(parsedNino, parsedTaxYear, MtdSourceEnum.latest))

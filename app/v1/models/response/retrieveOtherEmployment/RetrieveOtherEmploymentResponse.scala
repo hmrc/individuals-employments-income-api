@@ -18,7 +18,7 @@ package v1.models.response.retrieveOtherEmployment
 
 import common.utils.JsonUtils
 import shared.models.domain.Timestamp
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class RetrieveOtherEmploymentResponse(submittedOn: Timestamp,
@@ -37,7 +37,7 @@ object RetrieveOtherEmploymentResponse extends JsonUtils {
       (JsPath \ "disability").readNullable[CommonOtherEmployment] and
       (JsPath \ "foreignService").readNullable[CommonOtherEmployment] and
       (JsPath \ "lumpSums").readNullable[Seq[LumpSums]].mapEmptySeqToNone
-  )(RetrieveOtherEmploymentResponse.apply _)
+  )(RetrieveOtherEmploymentResponse.apply)
 
   implicit val writes: OWrites[RetrieveOtherEmploymentResponse] = Json.writes[RetrieveOtherEmploymentResponse]
 

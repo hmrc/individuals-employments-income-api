@@ -33,16 +33,17 @@ package v2
  */
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors._
+import common.errors.*
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.domain.TaxYear
-import shared.models.errors._
+import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import play.api.libs.ws.writeableOf_JsValue
 
 class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
@@ -385,7 +386,7 @@ class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
             missingMandatoryFieldErrors,
             Some("(missing mandatory fields)"))
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "validation format error" when {
@@ -426,7 +427,7 @@ class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
             CessationDateFormatError,
             None)
         )
-        input.foreach(args => (validationErrorTest _).tupled(args))
+        input.foreach(validationErrorTest.tupled)
       }
 
       "hip service error" when {
@@ -470,7 +471,7 @@ class AmendCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
           (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError),
           (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
-        input.foreach(args => (serviceErrorTest _).tupled(args))
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }

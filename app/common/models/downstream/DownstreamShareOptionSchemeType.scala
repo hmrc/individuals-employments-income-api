@@ -20,27 +20,13 @@ import common.models.domain.ShareOptionSchemeType
 import play.api.libs.json.Reads
 import shared.utils.enums.Enums
 
-sealed trait DownstreamShareOptionSchemeType {
-  def toMtd: ShareOptionSchemeType
+enum DownstreamShareOptionSchemeType(val toMtd: ShareOptionSchemeType) {
+  case `EMI`   extends DownstreamShareOptionSchemeType(ShareOptionSchemeType.`emi`)
+  case `CSOP`  extends DownstreamShareOptionSchemeType(ShareOptionSchemeType.`csop`)
+  case `SAYE`  extends DownstreamShareOptionSchemeType(ShareOptionSchemeType.`saye`)
+  case `Other` extends DownstreamShareOptionSchemeType(ShareOptionSchemeType.`other`)
 }
 
 object DownstreamShareOptionSchemeType {
-
-  case object `EMI` extends DownstreamShareOptionSchemeType {
-    override def toMtd: ShareOptionSchemeType = ShareOptionSchemeType.`emi`
-  }
-
-  case object `CSOP` extends DownstreamShareOptionSchemeType {
-    override def toMtd: ShareOptionSchemeType = ShareOptionSchemeType.`csop`
-  }
-
-  case object `SAYE` extends DownstreamShareOptionSchemeType {
-    override def toMtd: ShareOptionSchemeType = ShareOptionSchemeType.`saye`
-  }
-
-  case object `Other` extends DownstreamShareOptionSchemeType {
-    override def toMtd: ShareOptionSchemeType = ShareOptionSchemeType.`other`
-  }
-
-  implicit val reads: Reads[DownstreamShareOptionSchemeType] = Enums.reads[DownstreamShareOptionSchemeType]
+  given Reads[DownstreamShareOptionSchemeType] = Enums.reads[DownstreamShareOptionSchemeType](values)
 }

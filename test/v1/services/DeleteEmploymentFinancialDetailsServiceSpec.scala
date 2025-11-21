@@ -20,7 +20,7 @@ import common.errors.EmploymentIdFormatError
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import v1.mocks.connectors.MockDeleteEmploymentFinancialDetailsConnector
@@ -68,7 +68,7 @@ class DeleteEmploymentFinancialDetailsServiceSpec extends ServiceSpec {
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceError.tupled)
       }
     }
   }

@@ -21,7 +21,7 @@ import play.api.mvc.Result
 import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear, Timestamp}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v2.controllers.validators.MockListEmploymentsValidatorFactory
 import v2.fixtures.ListEmploymentsControllerFixture.mtdResponse
@@ -100,7 +100,7 @@ class ListEmploymentsControllerSpec
 
   trait Test extends ControllerTest {
 
-    val controller = new ListEmploymentsController(
+    val controller: ListEmploymentsController = new ListEmploymentsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockListEmploymentsValidatorFactory,

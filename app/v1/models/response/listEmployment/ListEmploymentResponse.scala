@@ -17,8 +17,8 @@
 package v1.models.response.listEmployment
 
 import common.utils.JsonUtils
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 case class ListEmploymentResponse(employments: Option[Seq[Employment]], customEmployments: Option[Seq[Employment]])
 

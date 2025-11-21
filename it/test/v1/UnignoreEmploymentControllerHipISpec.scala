@@ -21,9 +21,10 @@ import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError
 import common.support.EmploymentsIBaseSpec
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers._
-import shared.models.errors._
+import play.api.test.Helpers.*
+import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import play.api.libs.ws.writeableOf_JsValue
 
 class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
@@ -111,7 +112,7 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
         ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
       )
 
-      input.foreach(args => (validationErrorTest _).tupled(args))
+      input.foreach(validationErrorTest.tupled)
     }
 
     "return a service error according to spec" when {
@@ -142,7 +143,7 @@ class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
         (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError)
       )
 
-      errors.foreach(args => (serviceErrorTest _).tupled(args))
+      errors.foreach(serviceErrorTest.tupled)
     }
 
   }

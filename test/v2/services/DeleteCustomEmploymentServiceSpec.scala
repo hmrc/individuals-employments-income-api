@@ -22,7 +22,7 @@ import shared.controllers.EndpointLogContext
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import v2.mocks.connectors.MockDeleteCustomEmploymentConnector
 import v2.models.request.deleteCustomEmployment.DeleteCustomEmploymentRequest
 
@@ -82,7 +82,7 @@ class DeleteCustomEmploymentServiceSpec extends ServiceSpec {
           ("4200", RuleOutsideAmendmentWindowError)
         )
 
-        (ifsErrors ++ hipErrors).foreach(args => (serviceError _).tupled(args))
+        (ifsErrors ++ hipErrors).foreach(serviceError.tupled)
       }
     }
   }

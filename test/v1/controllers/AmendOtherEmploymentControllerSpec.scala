@@ -23,12 +23,12 @@ import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.MockAuditService
 import v1.controllers.validators.MockAmendOtherEmploymentValidatorFactory
 import v1.mocks.services.MockAmendOtherEmploymentService
-import v1.models.request.amendOtherEmployment._
+import v1.models.request.amendOtherEmployment.*
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -299,7 +299,7 @@ class AmendOtherEmploymentControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new AmendOtherEmploymentController(
+    val controller: AmendOtherEmploymentController = new AmendOtherEmploymentController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockAmendOtherEmploymentValidatorFactory,

@@ -16,7 +16,7 @@
 
 package v2.models.request.amendOtherEmployment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class AmendTaxableLumpSumsAndCertainIncomeItem(amount: BigDecimal, taxPaid: Option[BigDecimal], taxTakenOffInEmployment: Option[Boolean])
@@ -28,6 +28,6 @@ object AmendTaxableLumpSumsAndCertainIncomeItem {
     (JsPath \ "amount").write[BigDecimal] and
       (JsPath \ "taxPaid").writeNullable[BigDecimal] and
       (JsPath \ "taxTakenOffInEmployment").writeNullable[Boolean]
-  )(unlift(AmendTaxableLumpSumsAndCertainIncomeItem.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

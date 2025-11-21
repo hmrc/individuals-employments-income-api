@@ -16,7 +16,7 @@
 
 package v2.models.response.retrieveOtherEmployment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class LumpSums(employerName: String,
@@ -35,7 +35,7 @@ object LumpSums {
       (JsPath \ "benefitFromEmployerFinancedRetirementScheme").readNullable[BenefitFromEmployerFinancedRetirementSchemeItem] and
       (JsPath \ "redundancyCompensationPaymentsOverExemption").readNullable[RedundancyCompensationPaymentsOverExemptionItem] and
       (JsPath \ "redundancyCompensationPaymentsUnderExemption").readNullable[RedundancyCompensationPaymentsUnderExemptionItem]
-  )(LumpSums.apply _)
+  )(LumpSums.apply)
 
   implicit val writes: OWrites[LumpSums] = Json.writes[LumpSums]
 }

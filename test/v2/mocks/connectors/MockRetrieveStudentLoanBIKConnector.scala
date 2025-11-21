@@ -29,15 +29,11 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait MockRetrieveStudentLoanBIKConnector extends TestSuite with MockFactory {
 
-val mockRetrieveStudentLoanBIKConnector: RetrieveStudentLoanBIKConnector =
-  mock[RetrieveStudentLoanBIKConnector]
-
-
+  val mockRetrieveStudentLoanBIKConnector: RetrieveStudentLoanBIKConnector = mock[RetrieveStudentLoanBIKConnector]
 
   object RetrieveStudentLoanBIKConnector {
 
-    def retrieveStudentLoanBIK(
-                                requestData:RetrieveStudentLoanBIKRequest): CallHandler[Future[DownstreamOutcome[RetrieveStudentLoanBIKResponse]]] =
+    def retrieveStudentLoanBIK(requestData: RetrieveStudentLoanBIKRequest): CallHandler[Future[DownstreamOutcome[RetrieveStudentLoanBIKResponse]]] = {
       (
         mockRetrieveStudentLoanBIKConnector
           .retrieveStudentLoanBIK(_: RetrieveStudentLoanBIKRequest)(
@@ -45,7 +41,9 @@ val mockRetrieveStudentLoanBIKConnector: RetrieveStudentLoanBIKConnector =
             _: ExecutionContext,
             _: String
           )
-      )
+        )
         .expects(requestData, *, *, *)
+    }
   }
+
 }

@@ -22,10 +22,10 @@ import play.api.mvc.Result
 import shared.config.MockSharedAppConfig
 import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import v1.controllers.validators.MockRetrieveFinancialDetailsValidatorFactory
-import v1.fixtures.RetrieveFinancialDetailsControllerFixture._
+import v1.fixtures.RetrieveFinancialDetailsControllerFixture.*
 import v1.mocks.services.MockRetrieveEmploymentAndFinancialDetailsService
 import v1.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 
@@ -87,7 +87,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
 
   trait Test extends ControllerTest {
 
-    val controller = new RetrieveEmploymentAndFinancialDetailsController(
+    val controller: RetrieveEmploymentAndFinancialDetailsController = new RetrieveEmploymentAndFinancialDetailsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockRetrieveFinancialDetailsValidatorFactory,

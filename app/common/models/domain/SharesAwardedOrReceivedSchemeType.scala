@@ -19,21 +19,12 @@ package common.models.domain
 import play.api.libs.json.Writes
 import shared.utils.enums.Enums
 
-sealed trait SharesAwardedOrReceivedSchemeType {
-  def toDownstreamString: String
+enum SharesAwardedOrReceivedSchemeType(val toDownstreamString: String) {
+  case `sip`   extends SharesAwardedOrReceivedSchemeType("SIP")
+  case `other` extends SharesAwardedOrReceivedSchemeType("Other")
 }
 
 object SharesAwardedOrReceivedSchemeType {
-
-  case object `sip` extends SharesAwardedOrReceivedSchemeType {
-    override def toDownstreamString: String = "SIP"
-  }
-
-  case object `other` extends SharesAwardedOrReceivedSchemeType {
-    override def toDownstreamString: String = "Other"
-  }
-
-  implicit val writes: Writes[SharesAwardedOrReceivedSchemeType]         = Enums.format[SharesAwardedOrReceivedSchemeType]
-  val parser: PartialFunction[String, SharesAwardedOrReceivedSchemeType] = Enums.parser[SharesAwardedOrReceivedSchemeType]
-
+  given Writes[SharesAwardedOrReceivedSchemeType]         = Enums.format[SharesAwardedOrReceivedSchemeType](values)
+  val parser: PartialFunction[String, SharesAwardedOrReceivedSchemeType] = Enums.parser[SharesAwardedOrReceivedSchemeType](values)
 }

@@ -19,20 +19,18 @@ package common.models.domain
 import play.api.libs.json.Writes
 import shared.utils.enums.Enums
 
-sealed trait PayFrequency
+enum PayFrequency {
+  case `weekly`
+  case `fortnightly`
+  case `four-weekly`
+  case `monthly`
+  case `quarterly`
+  case `bi-annually`
+  case `one-off`
+  case `irregular`
+  case `annually`
+}
 
 object PayFrequency {
-
-  case object `weekly`      extends PayFrequency
-  case object `fortnightly` extends PayFrequency
-  case object `four-weekly` extends PayFrequency
-  case object `monthly`     extends PayFrequency
-  case object `quarterly`   extends PayFrequency
-  case object `bi-annually` extends PayFrequency
-  case object `one-off`     extends PayFrequency
-  case object `irregular`   extends PayFrequency
-  case object `annually`    extends PayFrequency
-
-  implicit val writes: Writes[PayFrequency] = Enums.writes[PayFrequency]
-
+  given Writes[PayFrequency] = Enums.writes[PayFrequency]
 }

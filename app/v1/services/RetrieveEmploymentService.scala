@@ -16,10 +16,10 @@
 
 package v1.services
 
-import cats.implicits._
+import cats.implicits.*
 import common.errors.EmploymentIdFormatError
 import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, _}
+import shared.models.errors.{MtdError, *}
 import shared.services.{BaseService, ServiceOutcome}
 import v1.connectors.RetrieveEmploymentConnector
 import v1.models.request.retrieveEmployment.RetrieveEmploymentRequest

@@ -16,7 +16,7 @@
 
 package v2.models.response.retrieveOtherEmployment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class TaxableLumpSumsAndCertainIncomeItem(amount: BigDecimal, taxPaid: Option[BigDecimal], taxTakenOffInEmployment: Option[Boolean])
@@ -27,7 +27,7 @@ object TaxableLumpSumsAndCertainIncomeItem {
     (JsPath \ "amount").read[BigDecimal] and
       (JsPath \ "taxPaid").readNullable[BigDecimal] and
       (JsPath \ "taxTakenOffInEmployment").readNullable[Boolean]
-  )(TaxableLumpSumsAndCertainIncomeItem.apply _)
+  )(TaxableLumpSumsAndCertainIncomeItem.apply)
 
   implicit val writes: OWrites[TaxableLumpSumsAndCertainIncomeItem] = Json.writes[TaxableLumpSumsAndCertainIncomeItem]
 }

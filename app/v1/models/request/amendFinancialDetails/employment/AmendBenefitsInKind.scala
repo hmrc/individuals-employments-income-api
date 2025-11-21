@@ -16,8 +16,9 @@
 
 package v1.models.request.amendFinancialDetails.employment
 
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{Format, Json, OFormat}
+import shared.utils.EmptinessChecker
 
 /*
 Due to limitations with the Play JSON library, it is not possible to create a single formatter for a case class which contains
@@ -93,6 +94,7 @@ case class AmendBenefitsInKind(
 
 object AmendBenefitsInKind {
 
+  given EmptinessChecker[AmendBenefitsInKind] = EmptinessChecker.derived
   private val firstSegment: OFormat[AmendBenefitsInKindSection1] = Json.format[AmendBenefitsInKindSection1]
 
   private val secondSegment: OFormat[AmendBenefitsInKindSection2] = Json.format[AmendBenefitsInKindSection2]

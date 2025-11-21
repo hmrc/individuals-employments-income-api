@@ -20,9 +20,9 @@ import common.models.domain.MtdSourceEnum
 import shared.controllers.EndpointLogContext
 import shared.services.ServiceSpec
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
-import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture._
+import v1.fixtures.RetrieveNonPayeEmploymentControllerFixture.*
 import v1.mocks.connectors.MockRetrieveNonPayeEmploymentConnector
 import v1.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
@@ -82,7 +82,7 @@ class RetrieveNonPayeEmploymentServiceSpec extends ServiceSpec {
           "NOT_FOUND" -> NotFoundError
         )
 
-        (errors ++ extraTysErrors).foreach(args => (serviceError _).tupled(args))
+        (errors ++ extraTysErrors).foreach(serviceError.tupled)
       }
     }
   }

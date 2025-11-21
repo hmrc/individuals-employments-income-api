@@ -16,9 +16,9 @@
 
 package v2.services
 
-import cats.implicits._
+import cats.implicits.*
 import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, _}
+import shared.models.errors.{MtdError, *}
 import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.ListEmploymentsConnector
 import v2.models.request.listEmployments.ListEmploymentsRequest
