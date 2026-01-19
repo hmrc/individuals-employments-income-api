@@ -17,7 +17,6 @@
 package v1.connectors
 
 import common.models.domain.EmploymentId
-import play.api.Configuration
 import shared.connectors.{ConnectorSpec, DownstreamOutcome}
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -35,19 +34,7 @@ class DeleteCustomEmploymentConnectorSpec extends ConnectorSpec {
 
   "DeleteCustomEmploymentConnector" should {
     "return a 204 result on delete" when {
-      "feature switch is disabled(IFS enabled)" in new IfsTest with Test {
-        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1663.enabled" -> false)
-
-        willDelete(url"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId") returns Future
-          .successful(outcome)
-
-        val result: DownstreamOutcome[Unit] = await(connector.delete(request))
-        result shouldBe outcome
-
-      }
       "feature switch is enabled(HIP enabled)" in new HipTest with Test {
-        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1663.enabled" -> true)
-
         willDelete(url"$baseUrl/itsd/income/employments/$nino/custom/$employmentId?taxYear=19-20") returns Future
           .successful(outcome)
 
