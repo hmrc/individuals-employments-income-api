@@ -16,8 +16,8 @@
 
 package v2.connectors
 
-import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
-import shared.connectors.DownstreamUri.{HipUri, IfsUri}
+import shared.config.SharedAppConfig
+import shared.connectors.DownstreamUri.HipUri
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
@@ -34,15 +34,11 @@ class UnignoreEmploymentConnector @Inject() (val http: HttpClientV2, val appConf
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
-    import request._
-    import shared.connectors.httpparsers.StandardDownstreamHttpParser._
+    import request.*
+    import shared.connectors.httpparsers.StandardDownstreamHttpParser.*
 
     val downstreamUri =
-      if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1800")) {
-        HipUri[Unit](s"itsd/income/ignore/employments/$nino/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
-      } else {
-        IfsUri[Unit](s"income-tax/${taxYear.asTysDownstream}/employments/$nino/ignore/${employmentId.value}")
-      }
+      HipUri[Unit](s"itsd/income/ignore/employments/$nino/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
 
     delete(downstreamUri)
   }
