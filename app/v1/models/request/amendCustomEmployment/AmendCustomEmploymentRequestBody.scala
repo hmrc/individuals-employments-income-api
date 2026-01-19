@@ -17,7 +17,7 @@
 package v1.models.request.amendCustomEmployment
 
 import play.api.libs.json.{JsString, Json, OWrites, Reads}
-import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.config.SharedAppConfig
 
 case class AmendCustomEmploymentRequestBody(employerRef: Option[String],
                                             employerName: String,
@@ -32,8 +32,7 @@ object AmendCustomEmploymentRequestBody {
   implicit def writes(implicit appConfig: SharedAppConfig): OWrites[AmendCustomEmploymentRequestBody] =
     Json.writes[AmendCustomEmploymentRequestBody].transform { json =>
       (json \ "payrollId").asOpt[String].fold(json) { payrollId =>
-        val finalPayrollId: String =
-          if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1662")) payrollId.take(35) else payrollId.replace("#", "")
+        val finalPayrollId: String = payrollId.take(35)
 
         json + ("payrollId" -> JsString(finalPayrollId))
       }

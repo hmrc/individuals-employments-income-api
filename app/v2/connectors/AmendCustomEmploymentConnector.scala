@@ -16,10 +16,9 @@
 
 package v2.connectors
 
-import config.EmploymentsAppConfig
-import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
+import shared.config.SharedAppConfig
 import shared.connectors.DownstreamUri.HipUri
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
+import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.amendCustomEmployment.AmendCustomEmploymentRequest
@@ -28,29 +27,21 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig)
-    extends BaseDownstreamConnector {
+class AmendCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   def amendEmployment(request: AmendCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
-    import shared.connectors.httpparsers.StandardDownstreamHttpParser._
+    import shared.connectors.httpparsers.StandardDownstreamHttpParser.*
 
     val nino         = request.nino.nino
     val taxYear      = request.taxYear
     val employmentId = request.employmentId
 
     lazy val downstreamUri1662: DownstreamUri[Unit] =
-      if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1662")) {
-        HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
-      } else {
-        DownstreamUri[Unit](
-          s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}",
-          DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
-        )
-      }
+      HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
 
     put(request.body, downstreamUri1662)
   }
