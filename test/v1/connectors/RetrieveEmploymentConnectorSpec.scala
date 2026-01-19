@@ -19,7 +19,6 @@ package v1.connectors
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import play.api.Configuration
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -37,19 +36,7 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   "retrieve" when {
     "given a valid request" must {
-      "return a success response when feature switch is disabled (IFS 'release6' enabled)" in new Test with Release6Test {
-
-        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> false)
-
-        willGet(url = url"$baseUrl/income-tax/income/employments/$nino/$taxYear?employmentId=$employmentId")
-          .returns(Future.successful(outcome))
-
-        await(connector.retrieve(request)) shouldBe outcome
-      }
-
       "return a success response when feature switch is enabled (HIP enabled)" in new Test with HipTest {
-
-        MockedSharedAppConfig.featureSwitchConfig returns Configuration("ifs_hip_migration_1645.enabled" -> true)
 
         willGet(
           url = url"$baseUrl/itsd/income/employments/$nino?taxYear=19-20&employmentId=$employmentId"
@@ -62,11 +49,7 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   trait Test extends MockHttpClient with MockEmploymentsAppConfig {
 
-    val connector: RetrieveEmploymentConnector = new RetrieveEmploymentConnector(
-      http = mockHttpClient,
-      appConfig = mockSharedAppConfig,
-      employmentsAppConfig = mockEmploymentsConfig
-    )
+    val connector: RetrieveEmploymentConnector = new RetrieveEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
 
     val request: RetrieveEmploymentRequest =
       RetrieveEmploymentRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId))

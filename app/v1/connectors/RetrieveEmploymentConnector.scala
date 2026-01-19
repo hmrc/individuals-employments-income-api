@@ -16,10 +16,9 @@
 
 package v1.connectors
 
-import config.EmploymentsAppConfig
-import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
-import shared.connectors.DownstreamUri.HipUri
+import shared.config.SharedAppConfig
 import shared.connectors.*
+import shared.connectors.DownstreamUri.HipUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
@@ -30,26 +29,19 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig)
-    extends BaseDownstreamConnector {
+class RetrieveEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   def retrieve(request: RetrieveEmploymentRequest)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[RetrieveEmploymentResponse]] = {
 
-    import request._
+    import request.*
 
-    val downstreamUri = if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1645")) {
+    val downstreamUri =
       HipUri[RetrieveEmploymentResponse](
         s"itsd/income/employments/$nino?taxYear=${taxYear.asTysDownstream}&employmentId=${employmentId.value}"
       )
-    } else {
-      DownstreamUri[RetrieveEmploymentResponse](
-        s"income-tax/income/employments/$nino/${taxYear.asMtd}?employmentId=${employmentId.value}",
-        DownstreamStrategy.standardStrategy(employmentsAppConfig.release6DownstreamConfig)
-      )
-    }
 
     get(uri = downstreamUri)
   }
