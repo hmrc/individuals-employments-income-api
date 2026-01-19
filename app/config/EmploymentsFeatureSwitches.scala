@@ -28,8 +28,6 @@ case class EmploymentsFeatureSwitches(protected val featureSwitchConfig: Configu
   @Inject
   def this(appConfig: SharedAppConfig) = this(appConfig.featureSwitchConfig)
 
-  def isDesIf_MigrationEnabled: Boolean = isEnabled("desIf_Migration")
-
   def isTemporalValidationEnabled(implicit request: Request[?]): Boolean = {
     if (isEnabled("allowTemporalValidationSuspension")) {
       request.headers.get("suspend-temporal-validations").forall(!BooleanUtils.toBoolean(_))
