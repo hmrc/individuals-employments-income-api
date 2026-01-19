@@ -28,9 +28,9 @@ import scala.concurrent.Future
 
 class DeleteCustomEmploymentConnectorSpec extends ConnectorSpec {
 
-  private val nino: String = "AA111111A"
+  private val nino: String    = "AA111111A"
   private val taxYear: String = "2019-20"
-  private val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val employmentId    = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   "DeleteCustomEmploymentConnector" should {
     "return a 204 result on delete" when {

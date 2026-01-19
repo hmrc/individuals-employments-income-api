@@ -28,7 +28,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteStudentLoanBIKService @Inject()(connector: DeleteStudentLoanBIKConnector) extends BaseService {
+class DeleteStudentLoanBIKService @Inject() (connector: DeleteStudentLoanBIKConnector) extends BaseService {
 
   def delete(request: DeleteStudentLoanBIKRequest)(implicit ctx: RequestContext, ec: ExecutionContext): Future[ServiceOutcome[Unit]] = {
 
@@ -37,16 +37,16 @@ class DeleteStudentLoanBIKService @Inject()(connector: DeleteStudentLoanBIKConne
   }
 
   private val downstreamErrorMap: Map[String, MtdError] = Map(
-      "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
-      "INVALID_TAX_YEAR" -> TaxYearFormatError,
-      "INVALID_EMPLOYMENT_ID" -> EmploymentIdFormatError,
-      "INVALID_CORRELATION_ID" -> InternalError,
-      "UNMATCHED_STUB_ERROR" -> RuleIncorrectGovTestScenarioError,
-      "NOT_FOUND" -> NotFoundError,
-      "TAX_YEAR_NOT_SUPPORTED" -> RuleTaxYearNotSupportedError,
-      "OUTSIDE_AMENDMENT_WINDOW" -> RuleOutsideAmendmentWindowError,
-      "SERVER_ERROR" -> InternalError,
-      "SERVICE_UNAVAILABLE" -> InternalError
-    )
+    "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
+    "INVALID_TAX_YEAR"          -> TaxYearFormatError,
+    "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
+    "INVALID_CORRELATION_ID"    -> InternalError,
+    "UNMATCHED_STUB_ERROR"      -> RuleIncorrectGovTestScenarioError,
+    "NOT_FOUND"                 -> NotFoundError,
+    "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError,
+    "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
+    "SERVER_ERROR"              -> InternalError,
+    "SERVICE_UNAVAILABLE"       -> InternalError
+  )
 
 }

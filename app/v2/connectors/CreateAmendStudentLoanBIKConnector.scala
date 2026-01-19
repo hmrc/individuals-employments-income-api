@@ -28,12 +28,12 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class CreateAmendStudentLoanBIKConnector @Inject()(val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
+class CreateAmendStudentLoanBIKConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   def createAndAmend(request: CreateAmendStudentLoanBIKRequest)(implicit
-                                                                hc: HeaderCarrier,
-                                                                ec: ExecutionContext,
-                                                                correlationId: String): Future[DownstreamOutcome[Unit]] = {
+      hc: HeaderCarrier,
+      ec: ExecutionContext,
+      correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
     import request._
 

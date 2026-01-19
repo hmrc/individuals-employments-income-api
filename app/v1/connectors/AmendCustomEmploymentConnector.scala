@@ -28,7 +28,8 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AmendCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig)
+    extends BaseDownstreamConnector {
 
   def amendEmployment(request: AmendCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,

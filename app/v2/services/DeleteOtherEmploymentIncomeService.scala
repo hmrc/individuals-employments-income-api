@@ -46,8 +46,8 @@ class DeleteOtherEmploymentIncomeService @Inject() (connector: OtherEmploymentIn
     )
 
     val extraTysErrors = Map(
-      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
-      "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
+      "OUTSIDE_AMENDMENT_WINDOW" -> RuleOutsideAmendmentWindowError,
+      "TAX_YEAR_NOT_SUPPORTED"   -> RuleTaxYearNotSupportedError
     )
     errors ++ extraTysErrors
   }

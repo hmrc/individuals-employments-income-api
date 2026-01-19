@@ -99,9 +99,10 @@ class DeleteOtherEmploymentControllerSpec
 
     MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.deleteOtherEmployment(validNino, taxYear)(fakeRequest.withHeaders(
-    HeaderNames.AUTHORIZATION -> "Bearer Token"
-  ))
+    protected def callController(): Future[Result] = controller.deleteOtherEmployment(validNino, taxYear)(
+      fakeRequest.withHeaders(
+        HeaderNames.AUTHORIZATION -> "Bearer Token"
+      ))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(

@@ -34,6 +34,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
   trait Test {
     self: ConnectorTest =>
+
     val connector: IgnoreEmploymentConnector = new IgnoreEmploymentConnector(
       http = mockHttpClient,
       appConfig = mockSharedAppConfig

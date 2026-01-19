@@ -28,7 +28,7 @@ object EmptyPathsResult {
 }
 
 /** Type class to locate paths to empty objects or arrays within an instance of an object.
- */
+  */
 trait EmptinessChecker[A] {
   import EmptinessChecker.*
 
@@ -98,7 +98,7 @@ object EmptinessChecker {
   def apply[A](using aInstance: EmptinessChecker[A]): EmptinessChecker[A] = aInstance
 
   def instance[A](func: A => Structure): EmptinessChecker[A] = (value: A) => func(value)
-  
+
   def instanceObj[A](func: A => Structure.Obj): ObjEmptinessChecker[A] = (value: A) => func(value)
 
   def use[A](func: A => List[(String, Structure)]): EmptinessChecker[A] = EmptinessChecker.instance { a =>
@@ -109,11 +109,11 @@ object EmptinessChecker {
 
   def primitive[A]: EmptinessChecker[A] = EmptinessChecker.instance(_ => Structure.Primitive)
 
-  given EmptinessChecker[String] = instance(_ => Structure.Primitive)
-  given EmptinessChecker[Int] = instance(_ => Structure.Primitive)
-  given EmptinessChecker[Double] = instance(_ => Structure.Primitive)
-  given EmptinessChecker[Boolean] = instance(_ => Structure.Primitive)
-  given EmptinessChecker[BigInt] = instance(_ => Structure.Primitive)
+  given EmptinessChecker[String]     = instance(_ => Structure.Primitive)
+  given EmptinessChecker[Int]        = instance(_ => Structure.Primitive)
+  given EmptinessChecker[Double]     = instance(_ => Structure.Primitive)
+  given EmptinessChecker[Boolean]    = instance(_ => Structure.Primitive)
+  given EmptinessChecker[BigInt]     = instance(_ => Structure.Primitive)
   given EmptinessChecker[BigDecimal] = instance(_ => Structure.Primitive)
 
   given [A](using aInstance: EmptinessChecker[A]): EmptinessChecker[Option[A]] =

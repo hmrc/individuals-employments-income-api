@@ -51,9 +51,9 @@ class UnignoreEmploymentService @Inject() (connector: UnignoreEmploymentConnecto
     )
 
     val extraIfsTysErrors = Map(
-      "INVALID_CORRELATION_ID"    -> InternalError,
-      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
-      "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
+      "INVALID_CORRELATION_ID"   -> InternalError,
+      "OUTSIDE_AMENDMENT_WINDOW" -> RuleOutsideAmendmentWindowError,
+      "TAX_YEAR_NOT_SUPPORTED"   -> RuleTaxYearNotSupportedError
     )
 
     val hipErrors = Map(

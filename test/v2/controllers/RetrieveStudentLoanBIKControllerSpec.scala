@@ -33,14 +33,15 @@ import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class RetrieveStudentLoanBIKControllerSpec extends ControllerBaseSpec
-  with ControllerTestRunner
-  with MockRetrieveStudentLoanBIKService
-  with MockAuditService
-  with MockRetrieveStudentLoanBIKValidatorFactory
-  with MockSharedAppConfig {
+class RetrieveStudentLoanBIKControllerSpec
+    extends ControllerBaseSpec
+    with ControllerTestRunner
+    with MockRetrieveStudentLoanBIKService
+    with MockAuditService
+    with MockRetrieveStudentLoanBIKValidatorFactory
+    with MockSharedAppConfig {
 
-  val taxYear: String = "2025-26"
+  val taxYear: String      = "2025-26"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   val requestData: RetrieveStudentLoanBIKRequest = RetrieveStudentLoanBIKRequest(
@@ -81,7 +82,7 @@ class RetrieveStudentLoanBIKControllerSpec extends ControllerBaseSpec
     }
   }
 
-  trait Test extends ControllerTest  {
+  trait Test extends ControllerTest {
 
     val controller: RetrieveStudentLoanBIKController = new RetrieveStudentLoanBIKController(
       authService = mockEnrolmentsAuthService,
@@ -100,6 +101,6 @@ class RetrieveStudentLoanBIKControllerSpec extends ControllerBaseSpec
 
     protected def callController(): Future[Result] = controller.retrieveStudentLoanBIK(validNino, taxYear, employmentId)(fakeRequest)
 
-
   }
+
 }

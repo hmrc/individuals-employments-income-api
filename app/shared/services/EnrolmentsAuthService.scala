@@ -50,7 +50,6 @@ class EnrolmentsAuthService @Inject() (val connector: AuthConnector, val appConf
   def authorised(mtdId: String, endpointAllowsSupportingAgents: Boolean = false)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext): Future[AuthOutcome] =
-
     authFunction
       .authorised(initialPredicate(mtdId))
       .retrieve(affinityGroup and authorisedEnrolments) {
@@ -87,7 +86,7 @@ class EnrolmentsAuthService @Inject() (val connector: AuthConnector, val appConf
 
   private def agentDetails(mtdId: String, enrolments: Enrolments, agentType: String): Either[MtdError, UserDetails] = {
     (for {
-      enrolment <- enrolments.getEnrolment("HMRC-AS-AGENT")
+      enrolment  <- enrolments.getEnrolment("HMRC-AS-AGENT")
       identifier <- enrolment.getIdentifier("AgentReferenceNumber")
     } yield UserDetails(mtdId, agentType, Some(identifier.value)))
       .toRight {

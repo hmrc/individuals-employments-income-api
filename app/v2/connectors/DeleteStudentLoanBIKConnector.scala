@@ -28,12 +28,12 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteStudentLoanBIKConnector @Inject()(val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
+class DeleteStudentLoanBIKConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   def delete(request: DeleteStudentLoanBIKRequest)(implicit
-                                                   hc: HeaderCarrier,
-                                                   ec: ExecutionContext,
-                                                   correlationId: String): Future[DownstreamOutcome[Unit]] = {
+      hc: HeaderCarrier,
+      ec: ExecutionContext,
+      correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
     import request._
 

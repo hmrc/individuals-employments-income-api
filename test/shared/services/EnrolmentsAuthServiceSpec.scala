@@ -110,7 +110,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec with MockSharedAppConfig {
 
     def authorisedAgentsMissingArn(authValidationEnabled: Boolean, initialPredicate: Predicate): Unit = {
       "disallow agents that are missing an ARN" in new Test {
-        val retrievalsResult = new~(
+        val retrievalsResult = new ~(
           Some(Agent),
           Enrolments(
             Set(Enrolment("HMRC-AS-AGENT", List(EnrolmentIdentifier("SomeOtherIdentifier", "123567890")), "Active"))

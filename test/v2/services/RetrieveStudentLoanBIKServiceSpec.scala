@@ -41,13 +41,14 @@ import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse
 
 import scala.concurrent.Future
 
-class RetrieveStudentLoanBIKServiceSpec  extends ServiceSpec {
+class RetrieveStudentLoanBIKServiceSpec extends ServiceSpec {
 
   private val retrieveRequest = RetrieveStudentLoanBIKRequest(
     nino = Nino("AA112233A"),
     taxYear = TaxYear.fromMtd("2025-26"),
     employmentId = EmploymentId("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
   )
+
   "RetrieveStudentLoanBIKSpec" when {
     "the downstream retrieve request is successful" must {
       "return a success result" in new Test {

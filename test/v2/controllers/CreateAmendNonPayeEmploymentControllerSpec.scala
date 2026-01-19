@@ -114,7 +114,8 @@ class CreateAmendNonPayeEmploymentControllerSpec
 
     MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.createAmendNonPayeEmployment(validNino, taxYear)(fakeRequest.withBody(validRequestJson))
+    protected def callController(): Future[Result] =
+      controller.createAmendNonPayeEmployment(validNino, taxYear)(fakeRequest.withBody(validRequestJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(

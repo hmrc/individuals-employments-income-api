@@ -62,9 +62,10 @@ class UnignoreEmploymentControllerSpec
 
     MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
-    protected def callController(): Future[Result] = controller.unignoreEmployment(validNino, taxYear, employmentId)(fakeRequest.withHeaders(
-    HeaderNames.AUTHORIZATION -> "Bearer Token"
-  ))
+    protected def callController(): Future[Result] = controller.unignoreEmployment(validNino, taxYear, employmentId)(
+      fakeRequest.withHeaders(
+        HeaderNames.AUTHORIZATION -> "Bearer Token"
+      ))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
@@ -73,8 +74,7 @@ class UnignoreEmploymentControllerSpec
         detail = new GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
-versionNumber = apiVersion.name,
-
+          versionNumber = apiVersion.name,
           params = Map("nino" -> validNino, "taxYear" -> taxYear, "employmentId" -> employmentId),
           requestBody = requestBody,
           `X-CorrelationId` = correlationId,

@@ -31,25 +31,24 @@ import scala.concurrent.Future
 
 class RetrieveStudentLoanBIKConnectorSpec extends ConnectorSpec {
 
-  val nino: String = "AA111111A"
+  val nino: String                      = "AA111111A"
   private val downstreamTaxYear: String = "24-25"
-  private val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val employmentId              = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  "RetrieveStudentLoanBIKContnectorSpec" should{
-      "return a 200 for success scenario" in new HipTest with Test {
+  "RetrieveStudentLoanBIKContnectorSpec" should {
+    "return a 200 for success scenario" in new HipTest with Test {
 
-        willGet(url"$baseUrl/itsa/income-tax/v1/$downstreamTaxYear/student-loan/payrolled-benefits/$nino/$employmentId")
-          .returns(Future.successful(outcome))
+      willGet(url"$baseUrl/itsa/income-tax/v1/$downstreamTaxYear/student-loan/payrolled-benefits/$nino/$employmentId")
+        .returns(Future.successful(outcome))
 
-        val result: DownstreamOutcome[RetrieveStudentLoanBIKResponse] = await(connector.retrieveStudentLoanBIK(request))
-        result shouldBe outcome
+      val result: DownstreamOutcome[RetrieveStudentLoanBIKResponse] = await(connector.retrieveStudentLoanBIK(request))
+      result shouldBe outcome
 
-      }
+    }
 
   }
 
-  trait Test  extends MockHttpClient with MockEmploymentsAppConfig {
-
+  trait Test extends MockHttpClient with MockEmploymentsAppConfig {
 
     val connector: RetrieveStudentLoanBIKConnector = new RetrieveStudentLoanBIKConnector(
       http = mockHttpClient,
@@ -65,4 +64,5 @@ class RetrieveStudentLoanBIKConnectorSpec extends ConnectorSpec {
 
     val outcome: Right[Nothing, ResponseWrapper[RetrieveStudentLoanBIKResponse]] = Right(ResponseWrapper(correlationId, responseModel))
   }
+
 }

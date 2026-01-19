@@ -36,17 +36,17 @@ class AmendCustomEmploymentService @Inject() (connector: AmendCustomEmploymentCo
   private val downstreamErrorMap: Map[String, MtdError] = {
     val ifsErrors = Map(
       "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
-      "INVALID_TAX_YEAR" -> TaxYearFormatError,
-      "INVALID_EMPLOYMENT_ID" -> EmploymentIdFormatError,
-      "NOT_SUPPORTED_TAX_YEAR" -> RuleTaxYearNotEndedError,
-      "INVALID_DATE_RANGE" -> RuleStartDateAfterTaxYearEndError,
-      "INVALID_CESSATION_DATE" -> RuleCessationDateBeforeTaxYearStartError,
-      "CANNOT_UPDATE" -> RuleUpdateForbiddenError,
-      "NO_DATA_FOUND" -> NotFoundError,
-      "INVALID_PAYLOAD" -> InternalError,
-      "INVALID_CORRELATIONID" -> InternalError,
-      "SERVER_ERROR" -> InternalError,
-      "SERVICE_UNAVAILABLE" -> InternalError
+      "INVALID_TAX_YEAR"          -> TaxYearFormatError,
+      "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
+      "NOT_SUPPORTED_TAX_YEAR"    -> RuleTaxYearNotEndedError,
+      "INVALID_DATE_RANGE"        -> RuleStartDateAfterTaxYearEndError,
+      "INVALID_CESSATION_DATE"    -> RuleCessationDateBeforeTaxYearStartError,
+      "CANNOT_UPDATE"             -> RuleUpdateForbiddenError,
+      "NO_DATA_FOUND"             -> NotFoundError,
+      "INVALID_PAYLOAD"           -> InternalError,
+      "INVALID_CORRELATIONID"     -> InternalError,
+      "SERVER_ERROR"              -> InternalError,
+      "SERVICE_UNAVAILABLE"       -> InternalError
     )
 
     val hipErrors: Map[String, MtdError] = Map(

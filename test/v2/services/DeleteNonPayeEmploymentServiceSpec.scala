@@ -77,10 +77,10 @@ class DeleteNonPayeEmploymentServiceSpec extends ServiceSpec {
         )
 
         val extraTysErrors = List(
-          "INVALID_CORRELATION_ID"    -> InternalError,
-          "NOT_FOUND"                 -> NotFoundError,
-          "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
-          "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
+          "INVALID_CORRELATION_ID"   -> InternalError,
+          "NOT_FOUND"                -> NotFoundError,
+          "OUTSIDE_AMENDMENT_WINDOW" -> RuleOutsideAmendmentWindowError,
+          "TAX_YEAR_NOT_SUPPORTED"   -> RuleTaxYearNotSupportedError
         )
 
         (errors ++ extraTysErrors).foreach(serviceError.tupled)

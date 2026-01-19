@@ -21,19 +21,27 @@ import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
 import shared.config.MockSharedAppConfig
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.{BadRequestError, ErrorWrapper, MtdError, NinoFormatError, RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
+import shared.models.errors.{
+  BadRequestError,
+  ErrorWrapper,
+  MtdError,
+  NinoFormatError,
+  RuleTaxYearNotSupportedError,
+  RuleTaxYearRangeInvalidError,
+  TaxYearFormatError
+}
 import shared.utils.UnitSpec
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
 
 class RetrieveStudentLoanBIKValidatorSpec extends UnitSpec with MockSharedAppConfig {
 
   private implicit val correlationId: String = "correlationId"
-  private val validNino = "AA123456B"
-  private val validTaxYear = "2025-26"
-  private val validEmploymentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val validNino                      = "AA123456B"
+  private val validTaxYear                   = "2025-26"
+  private val validEmploymentId              = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-  private val parsedNino = Nino(validNino)
-  private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
+  private val parsedNino         = Nino(validNino)
+  private val parsedTaxYear      = TaxYear.fromMtd(validTaxYear)
   private val parsedEmploymentId = EmploymentId(validEmploymentId)
 
   trait Test extends MockEmploymentsAppConfig {
@@ -46,6 +54,7 @@ class RetrieveStudentLoanBIKValidatorSpec extends UnitSpec with MockSharedAppCon
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
   }
+
   "validate" should {
     "return a request object" when {
       "valid" in new Test {

@@ -32,7 +32,7 @@ class RetrieveOtherEmploymentValidatorSpec extends UnitSpec with MockSharedAppCo
   private val parsedNino    = Nino(validNino)
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
-  trait Test extends MockEmploymentsAppConfig{
+  trait Test extends MockEmploymentsAppConfig {
 
     def validate(nino: String = validNino, taxYear: String = validTaxYear): Either[ErrorWrapper, RetrieveOtherEmploymentIncomeRequest] =
       new RetrieveOtherEmploymentValidator(nino, taxYear, mockEmploymentsConfig).validateAndWrapResult()

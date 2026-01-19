@@ -45,9 +45,9 @@ class DeleteEmploymentFinancialDetailsService @Inject() (connector: DeleteEmploy
     )
 
     val extraTysErrors = Map(
-      "INVALID_CORRELATION_ID"    -> InternalError,
-      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
-      "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
+      "INVALID_CORRELATION_ID"   -> InternalError,
+      "OUTSIDE_AMENDMENT_WINDOW" -> RuleOutsideAmendmentWindowError,
+      "TAX_YEAR_NOT_SUPPORTED"   -> RuleTaxYearNotSupportedError
     )
 
     errors ++ extraTysErrors

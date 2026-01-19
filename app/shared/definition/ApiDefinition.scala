@@ -20,7 +20,6 @@ import play.api.libs.json.{Format, Json, OFormat}
 import shared.routing.Version
 import shared.utils.enums.Enums
 
-
 enum APIStatus {
   case ALPHA
   case BETA
@@ -30,7 +29,7 @@ enum APIStatus {
 }
 
 object APIStatus {
-  given Format[APIStatus] = Enums.format[APIStatus](values)
+  given Format[APIStatus]                        = Enums.format[APIStatus](values)
   val parser: PartialFunction[String, APIStatus] = Enums.parser[APIStatus](values)
 }
 

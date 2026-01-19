@@ -32,7 +32,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait MockHttpClient extends TestSuite with MockFactory {
 
-  val mockHttpClient: HttpClientV2 = mock[HttpClientV2]
+  val mockHttpClient: HttpClientV2       = mock[HttpClientV2]
   val mockRequestBuilder: RequestBuilder = mock[RequestBuilder]
 
   object MockedHttpClient extends Matchers {

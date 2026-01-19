@@ -30,7 +30,7 @@ import scala.concurrent.Future
 
 class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String = "AA111111A"
+  val nino: String    = "AA111111A"
   val taxYear: String = "2019-20"
 
   val request: ListEmploymentsRequest = ListEmploymentsRequest(Nino(nino), TaxYear.fromMtd(taxYear))
@@ -91,4 +91,5 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
       }
     }
   }
+
 }

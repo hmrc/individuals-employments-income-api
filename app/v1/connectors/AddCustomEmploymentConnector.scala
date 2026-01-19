@@ -30,7 +30,8 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AddCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, val employmentsAppConfig: EmploymentsAppConfig) extends BaseDownstreamConnector {
+class AddCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, val employmentsAppConfig: EmploymentsAppConfig)
+    extends BaseDownstreamConnector {
 
   def addEmployment(request: AddCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,
@@ -43,7 +44,8 @@ class AddCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appCon
     val downstreamUri = if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1661")) {
       HipUri[AddCustomEmploymentResponse](s"itsd/income/employments/$nino/custom?taxYear=${taxYear.asTysDownstream}")
     } else {
-      DownstreamUri[AddCustomEmploymentResponse](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom",
+      DownstreamUri[AddCustomEmploymentResponse](
+        s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom",
         DownstreamStrategy.standardStrategy(employmentsAppConfig.api1661DownstreamConfig))
     }
 

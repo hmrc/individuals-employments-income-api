@@ -44,5 +44,7 @@ trait MockRetrieveStudentLoanBIKService extends TestSuite with MockFactory {
         )
         .expects(requestData, *, *)
     }
+
   }
+
 }

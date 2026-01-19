@@ -30,7 +30,7 @@ import scala.concurrent.Future
 
 class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String = "AA111111A"
+  val nino: String    = "AA111111A"
   val taxYear: String = "2021-22"
 
   val addCustomEmploymentRequestBody: AddCustomEmploymentRequestBody = AddCustomEmploymentRequestBody(

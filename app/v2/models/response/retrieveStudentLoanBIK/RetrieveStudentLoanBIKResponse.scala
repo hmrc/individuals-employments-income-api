@@ -20,20 +20,15 @@ import play.api.libs.functional.syntax.toFunctionalBuilderOps
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import shared.models.domain.Timestamp
 
-case class RetrieveStudentLoanBIKResponse (submittedOn: Timestamp,
-                                      payrolledBenefits: BigDecimal) {
-
-}
+case class RetrieveStudentLoanBIKResponse(submittedOn: Timestamp, payrolledBenefits: BigDecimal) {}
 
 object RetrieveStudentLoanBIKResponse {
-
 
   implicit val reads: Reads[RetrieveStudentLoanBIKResponse] = (
     (JsPath \ "submittedOn").read[Timestamp] and
       (JsPath \ "payrolledBenefits").read[BigDecimal]
-    )(RetrieveStudentLoanBIKResponse.apply)
+  )(RetrieveStudentLoanBIKResponse.apply)
 
   implicit val writes: OWrites[RetrieveStudentLoanBIKResponse] = Json.writes[RetrieveStudentLoanBIKResponse]
-
 
 }

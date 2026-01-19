@@ -62,7 +62,7 @@ class BaseDownstreamConnectorSpec extends UnitSpec with MockHttpClient with Mock
     HeaderCarrier(otherHeaders = inputHeaders)
 
   val connector: BaseDownstreamConnector = new BaseDownstreamConnector {
-    val http: HttpClientV2           = mockHttpClient
+    val http: HttpClientV2         = mockHttpClient
     val appConfig: SharedAppConfig = mockSharedAppConfig
   }
 
@@ -271,7 +271,7 @@ class BaseDownstreamConnectorSpec extends UnitSpec with MockHttpClient with Mock
 
     "a request is received with headers" must {
       def makeCall(downstreamUri: DownstreamUri[Result], requiredHeaders: Seq[(String, String)] = Nil, excludedHeaders: Seq[(String, String)] = Nil)(
-        implicit hc: HeaderCarrier): Assertion = {
+          implicit hc: HeaderCarrier): Assertion = {
         MockedHttpClient.put(
           absoluteUrl,
           headerCarrierConfig,

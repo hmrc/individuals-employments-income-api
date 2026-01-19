@@ -25,6 +25,6 @@ enum SharesAwardedOrReceivedSchemeType(val toDownstreamString: String) {
 }
 
 object SharesAwardedOrReceivedSchemeType {
-  given Writes[SharesAwardedOrReceivedSchemeType]         = Enums.format[SharesAwardedOrReceivedSchemeType](values)
+  given Writes[SharesAwardedOrReceivedSchemeType]                        = Enums.format[SharesAwardedOrReceivedSchemeType](values)
   val parser: PartialFunction[String, SharesAwardedOrReceivedSchemeType] = Enums.parser[SharesAwardedOrReceivedSchemeType](values)
 }

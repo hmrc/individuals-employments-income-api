@@ -29,13 +29,13 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class DeleteStudentLoanBIKController @Inject()(val authService: EnrolmentsAuthService,
-                                               val lookupService: MtdIdLookupService,
-                                               validatorFactory: DeleteStudentLoanBIKValidatorFactory,
-                                               service: DeleteStudentLoanBIKService,
-                                               auditService: AuditService,
-                                               cc: ControllerComponents,
-                                               val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
+class DeleteStudentLoanBIKController @Inject() (val authService: EnrolmentsAuthService,
+                                                val lookupService: MtdIdLookupService,
+                                                validatorFactory: DeleteStudentLoanBIKValidatorFactory,
+                                                service: DeleteStudentLoanBIKService,
+                                                auditService: AuditService,
+                                                cc: ControllerComponents,
+                                                val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "delete-student-loan-benefits-in-kind"

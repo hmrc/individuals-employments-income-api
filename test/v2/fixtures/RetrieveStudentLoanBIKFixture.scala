@@ -23,7 +23,7 @@ import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse
 object RetrieveStudentLoanBIKFixture {
 
   val downstreamResponse: JsValue = Json.parse(
-  """
+    """
      |{
      | "submittedOn": "2025-08-24T14:15:22Z",
      | "payrolledBenefits": 20000.01
@@ -32,7 +32,7 @@ object RetrieveStudentLoanBIKFixture {
   )
 
   val mtdResponse: JsValue = Json.parse(
-  """
+    """
       |{
       | "submittedOn": "2025-08-24T14:15:22.000Z",
       | "payrolledBenefits": 20000.01

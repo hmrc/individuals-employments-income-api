@@ -49,4 +49,5 @@ trait AppConfigBase {
 
     BasicAuthDownstreamConfig(baseUrl, env, clientId, clientSecret, environmentHeaders)
   }
+
 }

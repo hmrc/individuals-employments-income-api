@@ -34,4 +34,5 @@ trait EmploymentsConnectorSpec extends ConnectorSpec with MockFeatureSwitches {
 
     MockedEmploymentsAppConfig.api1661DownstreamConfig.anyNumberOfTimes() returns config
   }
+
 }

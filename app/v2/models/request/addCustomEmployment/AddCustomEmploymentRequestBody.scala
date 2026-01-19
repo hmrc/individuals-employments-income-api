@@ -38,4 +38,5 @@ object AddCustomEmploymentRequestBody {
         json + ("payrollId" -> JsString(finalPayrollId))
       }
     }
+
 }
