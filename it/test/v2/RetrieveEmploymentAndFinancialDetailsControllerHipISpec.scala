@@ -82,10 +82,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerHipISpec extends Employment
     def downstreamTaxYear: String = "23-24"
     def downstreamUri: String     = s"/itsa/income-tax/v1/$downstreamTaxYear/income/employments/$nino/$employmentId"
   }
-
-  override def servicesConfig: Map[String, Any] =
-    Map("feature-switch.ifs_hip_migration_1877.enabled" -> true) ++ super.servicesConfig
-
+  
   "Calling retrieve employment and financial details endpoint" should {
     "return 200 status code" when {
       "a valid request with all parameters is made" in new HipTest {
