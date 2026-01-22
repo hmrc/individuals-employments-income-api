@@ -16,7 +16,6 @@
 
 package v1.connectors
 
-import config.EmploymentsAppConfig
 import shared.config.SharedAppConfig
 import shared.connectors.*
 import shared.connectors.DownstreamUri.HipUri
@@ -30,8 +29,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AddCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, val employmentsAppConfig: EmploymentsAppConfig)
-    extends BaseDownstreamConnector {
+class AddCustomEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   def addEmployment(request: AddCustomEmploymentRequest)(implicit
       hc: HeaderCarrier,

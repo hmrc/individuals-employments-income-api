@@ -51,11 +51,7 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   trait Test extends MockHttpClient with MockEmploymentsAppConfig {
 
-    val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(
-      http = mockHttpClient,
-      appConfig = mockSharedAppConfig,
-      employmentsAppConfig = mockEmploymentsConfig
-    )
+    val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
 
   }
 
