@@ -27,7 +27,7 @@ import shared.services.*
 import shared.support.IntegrationBaseSpec
 import v2.fixtures.ListEmploymentsControllerFixture
 
-class ListEmploymentsControllerHipISpec extends IntegrationBaseSpec  {
+class ListEmploymentsControllerISpec extends IntegrationBaseSpec  {
 
   private trait Test {
 

@@ -26,7 +26,7 @@ import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import play.api.libs.ws.writeableOf_JsValue
 
-class UnignoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
+class UnignoreEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 

@@ -28,7 +28,7 @@ import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import v2.fixtures.RetrieveFinancialDetailsControllerFixture.*
 
-class RetrieveEmploymentAndFinancialDetailsControllerHipISpec extends EmploymentsIBaseSpec {
+class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 

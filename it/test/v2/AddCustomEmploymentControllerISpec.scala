@@ -28,7 +28,7 @@ import shared.models.domain.TaxYear
 import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
-class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
+class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 

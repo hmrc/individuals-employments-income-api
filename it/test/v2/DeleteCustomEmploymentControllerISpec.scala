@@ -16,58 +16,65 @@
 
 package v2
 
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOutsideAmendmentWindowError}
+import com.github.tomakehurst.wiremock.stubbing.StubMapping
+import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError, RuleOutsideAmendmentWindowError}
 import common.support.EmploymentsIBaseSpec
+import play.api.http.HeaderNames.ACCEPT
+import play.api.http.Status.*
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers.*
+import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import play.api.libs.ws.writeableOf_JsValue
+import play.api.libs.ws.DefaultBodyReadables.readableAsString
 
-class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
+class DeleteCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
-    val nino: String = "AA123456A"
-
+    val nino: String         = "AA123456A"
+    val taxYear: String      = "2019-20"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
-    def taxYear: String      = "2019-20"
+
+    def uri: String = s"/$nino/$taxYear/$employmentId"
 
     def downstreamQueryParams: Map[String, String] = Map("taxYear" -> "19-20")
 
-    def downstreamUri: String = s"/itsd/income/ignore/employments/$nino/$employmentId"
+    def downstreamUri: String = s"/itsd/income/employments/$nino/custom/$employmentId"
 
-    def setupStubs(): Unit = ()
 
-    def request: WSRequest = {
-      AuditStub.audit()
-      AuthStub.authorised()
-      MtdIdLookupStub.ninoFound(nino)
+    def setupStubs(): StubMapping
+
+    def request(): WSRequest = {
       setupStubs()
-      buildRequest(s"/$nino/$taxYear/$employmentId/ignore")
+      buildRequest(uri)
         .withHttpHeaders(
           (ACCEPT, "application/vnd.hmrc.2.0+json"),
-          (AUTHORIZATION, "Bearer 123")
+          (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
 
   }
 
-  "Calling the 'ignore employment' endpoint" should {
-    "return a 200 status code" when {
+  "Calling the 'delete a custom employment' endpoint" should {
+    "return a 204 status code" when {
       "any valid request is made" in new Test {
 
-        override def setupStubs(): Unit =
-          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, downstreamQueryParams, status = CREATED, JsObject.empty)
+        override def setupStubs(): StubMapping = {
+          AuditStub.audit()
+          AuthStub.authorised()
+          MtdIdLookupStub.ninoFound(nino)
+          DownstreamStub.onSuccess(DownstreamStub.DELETE, downstreamUri, downstreamQueryParams, NO_CONTENT, JsObject.empty)
+        }
 
-        val response: WSResponse = await(request.post(JsObject.empty))
-        response.status shouldBe OK
-        response.header("Content-Type") shouldBe None
+        val response: WSResponse = await(request().delete())
+        response.status shouldBe NO_CONTENT
+        response.body shouldBe ""
       }
     }
 
     "return error according to spec" when {
+
       "validation error" when {
         def validationErrorTest(requestNino: String,
                                 requestTaxYear: String,
@@ -80,7 +87,13 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
             override val taxYear: String      = requestTaxYear
             override val employmentId: String = requestEmploymentId
 
-            val response: WSResponse = await(request.post(JsObject.empty))
+            override def setupStubs(): StubMapping = {
+              AuditStub.audit()
+              AuthStub.authorised()
+              MtdIdLookupStub.ninoFound(nino)
+            }
+
+            val response: WSResponse = await(request().delete())
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
           }
@@ -88,7 +101,7 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
         val input = Seq(
           ("AA1123A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, NinoFormatError),
-          ("AA123456A", "20199", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, TaxYearFormatError),
+          ("AA123456A", "20122", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, TaxYearFormatError),
           ("AA123456A", "2019-20", "ABCDE12345FG", BAD_REQUEST, EmploymentIdFormatError),
           ("AA123456A", "2018-19", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
@@ -96,14 +109,18 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
         input.foreach(validationErrorTest.tupled)
       }
 
-      "service error" when {
+      "downstream service error" when {
         def serviceErrorTest(downstreamStatus: Int, downstreamCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
           s"downstream returns an $downstreamCode error and status $downstreamStatus" in new Test {
 
-            override def setupStubs(): Unit =
-              DownstreamStub.onError(DownstreamStub.PUT, downstreamUri, downstreamStatus, errorBody(downstreamCode))
+            override def setupStubs(): StubMapping = {
+              AuditStub.audit()
+              AuthStub.authorised()
+              MtdIdLookupStub.ninoFound(nino)
+              DownstreamStub.onError(DownstreamStub.DELETE, downstreamUri, downstreamStatus, errorBody(downstreamCode))
+            }
 
-            val response: WSResponse = await(request.post(JsObject.empty))
+            val response: WSResponse = await(request().delete())
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
           }
@@ -119,17 +136,18 @@ class IgnoreEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
              |]
             """.stripMargin
 
-        val errors = Seq(
+        val input = Seq(
           (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
           (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
           (BAD_REQUEST, "1217", BAD_REQUEST, EmploymentIdFormatError),
-          (BAD_REQUEST, "1119", INTERNAL_SERVER_ERROR, InternalError),
-          (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
-          (UNPROCESSABLE_ENTITY, "1224", BAD_REQUEST, RuleCustomEmploymentError),
-          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
-          (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError)
+          (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError) ,
+          (UNPROCESSABLE_ENTITY, "1222", BAD_REQUEST, RuleDeleteForbiddenError),
+          (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError),
+          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
+          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
         )
-        errors.foreach(serviceErrorTest.tupled)
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }
