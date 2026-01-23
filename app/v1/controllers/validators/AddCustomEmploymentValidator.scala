@@ -34,14 +34,15 @@ object AddCustomEmploymentValidator {
   private val resolveJson = ResolveNonEmptyJsonObject.resolver[AddCustomEmploymentRequestBody]
 }
 
-class AddCustomEmploymentValidator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean, appConfig: EmploymentsAppConfig)(implicit
-    clock: Clock = Clock.systemUTC)
+class AddCustomEmploymentValidator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean, appConfig: EmploymentsAppConfig)(
+    implicit clock: Clock = Clock.systemUTC)
     extends Validator[AddCustomEmploymentRequest]
     with ResolverSupport {
   import AddCustomEmploymentValidator._
 
   private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver.thenValidate(satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear))
+    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver.thenValidate(satisfies(RuleTaxYearNotEndedError)(ty =>
+      !temporalValidationEnabled || ty < TaxYear.currentTaxYear))
 
   override def validate: Validated[Seq[MtdError], AddCustomEmploymentRequest] =
     (

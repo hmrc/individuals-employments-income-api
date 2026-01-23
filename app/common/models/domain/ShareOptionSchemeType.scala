@@ -27,6 +27,6 @@ enum ShareOptionSchemeType(val toDownstreamString: String) {
 }
 
 object ShareOptionSchemeType {
-  given Writes[ShareOptionSchemeType]         = Enums.writes[ShareOptionSchemeType]
+  given Writes[ShareOptionSchemeType]                        = Enums.writes[ShareOptionSchemeType]
   val parser: PartialFunction[String, ShareOptionSchemeType] = Enums.parser[ShareOptionSchemeType](values)
 }

@@ -35,7 +35,7 @@ import scala.concurrent.Future
 
 class AmendOtherEmploymentControllerSpec
     extends ControllerBaseSpec
-      with ControllerTestRunner
+    with ControllerTestRunner
     with MockAmendOtherEmploymentValidatorFactory
     with MockAuditService
     with MockAmendOtherEmploymentService

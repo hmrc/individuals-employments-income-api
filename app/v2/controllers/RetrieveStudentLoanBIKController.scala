@@ -19,7 +19,7 @@ package v2.controllers
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import shared.config.SharedAppConfig
 import shared.controllers.*
-import shared.services.{ EnrolmentsAuthService, MtdIdLookupService}
+import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
 import shared.utils.IdGenerator
 import v2.controllers.validators.RetrieveStudentLoanBIKValidatorFactory
 import v2.services.RetrieveStudentLoanBIKService
@@ -62,5 +62,4 @@ class RetrieveStudentLoanBIKController @Inject() (val authService: EnrolmentsAut
       requestHandler.handleRequest()
     }
 
-  }
-
+}

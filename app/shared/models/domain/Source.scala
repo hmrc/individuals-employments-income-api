@@ -19,7 +19,6 @@ package shared.models.domain
 import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
-
 enum Source {
   case `MTD-SA`
 }

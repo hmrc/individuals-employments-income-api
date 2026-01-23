@@ -16,10 +16,9 @@
 
 package v1.connectors
 
-import config.EmploymentsFeatureSwitches
 import play.api.http.Status.NO_CONTENT
 import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.{DesUri, IfsUri}
+import shared.connectors.DownstreamUri.IfsUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.{SuccessCode, reads, readsEmpty}
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -31,9 +30,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class OtherEmploymentIncomeConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig)(implicit
-    featureSwitches: EmploymentsFeatureSwitches)
-    extends BaseDownstreamConnector {
+class OtherEmploymentIncomeConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   def deleteOtherEmploymentIncome(request: DeleteOtherEmploymentIncomeRequest)(implicit
       hc: HeaderCarrier,
@@ -45,10 +42,8 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClientV2, val appC
     val downstreamUri =
       if (request.taxYear.useTaxYearSpecificApi) {
         IfsUri[Unit](s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
-      } else if (featureSwitches.isDesIf_MigrationEnabled) {
-        IfsUri[Unit](s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}")
       } else {
-        DesUri[Unit](s"income-tax/income/other/employments/${request.nino}/${request.taxYear.asMtd}")
+        IfsUri[Unit](s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}")
       }
 
     delete(
@@ -63,10 +58,8 @@ class OtherEmploymentIncomeConnector @Inject() (val http: HttpClientV2, val appC
 
     val resolvedDownstreamUri = if (request.taxYear.useTaxYearSpecificApi) {
       IfsUri[RetrieveOtherEmploymentResponse](s"income-tax/income/other/employments/${request.taxYear.asTysDownstream}/${request.nino}")
-    } else if (featureSwitches.isDesIf_MigrationEnabled) {
-      IfsUri[RetrieveOtherEmploymentResponse](s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}")
     } else {
-      DesUri[RetrieveOtherEmploymentResponse](s"income-tax/income/other/employments/${request.nino}/${request.taxYear.asMtd}")
+      IfsUri[RetrieveOtherEmploymentResponse](s"income-tax/${request.taxYear.asMtd}/income/other/employments/${request.nino}")
     }
 
     get(uri = resolvedDownstreamUri)

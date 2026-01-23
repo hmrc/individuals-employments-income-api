@@ -19,12 +19,11 @@ package common.errors
 import play.api.http.Status.*
 import shared.models.errors.MtdError
 
-object EmploymentIdFormatError    extends MtdError("FORMAT_EMPLOYMENT_ID", "The provided employment ID is invalid", BAD_REQUEST)
-object CustomerRefFormatError extends MtdError("FORMAT_CUSTOMER_REF", "The provided customer reference is invalid", BAD_REQUEST)
+object EmploymentIdFormatError extends MtdError("FORMAT_EMPLOYMENT_ID", "The provided employment ID is invalid", BAD_REQUEST)
+object CustomerRefFormatError  extends MtdError("FORMAT_CUSTOMER_REF", "The provided customer reference is invalid", BAD_REQUEST)
 object EmployerNameFormatError extends MtdError("FORMAT_EMPLOYER_NAME", "The provided employer name is invalid", BAD_REQUEST)
 object EmployerRefFormatError  extends MtdError("FORMAT_EMPLOYER_REF", "The provided employer ref is invalid", BAD_REQUEST)
 object DateFormatError         extends MtdError("FORMAT_DATE", "The field should be in the format YYYY-MM-DD", BAD_REQUEST)
-
 
 object ClassOfSharesAwardedFormatError
     extends MtdError("FORMAT_CLASS_OF_SHARES_AWARDED", "The provided class of shares awarded is invalid", BAD_REQUEST)
@@ -32,10 +31,10 @@ object ClassOfSharesAwardedFormatError
 object ClassOfSharesAcquiredFormatError
     extends MtdError("FORMAT_CLASS_OF_SHARES_ACQUIRED", "The provided class of shares acquired is invalid", BAD_REQUEST)
 
-object SchemePlanTypeFormatError   extends MtdError("FORMAT_SCHEME_PLAN_TYPE", "The provided scheme plan type is invalid", BAD_REQUEST)
-object PayrollIdFormatError        extends MtdError("FORMAT_PAYROLL_ID", "The provided payroll ID is invalid", BAD_REQUEST)
-object CessationDateFormatError    extends MtdError("FORMAT_CESSATION_DATE", "The provided cessation date is invalid", BAD_REQUEST)
-object SourceFormatError           extends MtdError("FORMAT_SOURCE", "The provided source is invalid", BAD_REQUEST)
+object SchemePlanTypeFormatError extends MtdError("FORMAT_SCHEME_PLAN_TYPE", "The provided scheme plan type is invalid", BAD_REQUEST)
+object PayrollIdFormatError      extends MtdError("FORMAT_PAYROLL_ID", "The provided payroll ID is invalid", BAD_REQUEST)
+object CessationDateFormatError  extends MtdError("FORMAT_CESSATION_DATE", "The provided cessation date is invalid", BAD_REQUEST)
+object SourceFormatError         extends MtdError("FORMAT_SOURCE", "The provided source is invalid", BAD_REQUEST)
 
 // Rule Errors
 

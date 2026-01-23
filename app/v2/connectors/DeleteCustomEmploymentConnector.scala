@@ -16,8 +16,8 @@
 
 package v2.connectors
 
-import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
-import shared.connectors.DownstreamUri.{HipUri, IfsUri}
+import shared.config.SharedAppConfig
+import shared.connectors.DownstreamUri.HipUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -35,13 +35,11 @@ class DeleteCustomEmploymentConnector @Inject() (val http: HttpClientV2, val app
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
-    import request._
+    import request.*
 
-    val downstreamUri = if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1663")) {
+    val downstreamUri =
       HipUri[Unit](s"itsd/income/employments/$nino/custom/${employmentId.value}?taxYear=${taxYear.asTysDownstream}")
-    } else {
-      IfsUri[Unit](s"income-tax/income/employments/$nino/${taxYear.asMtd}/custom/${employmentId.value}")
-    }
+
     delete(uri = downstreamUri)
 
   }

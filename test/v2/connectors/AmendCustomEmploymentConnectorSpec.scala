@@ -19,7 +19,6 @@ package v2.connectors
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import play.api.Configuration
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -30,8 +29,8 @@ import scala.concurrent.Future
 
 class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String = "AA111111A"
-  val taxYear: String = "2021-22"
+  val nino: String         = "AA111111A"
+  val taxYear: String      = "2021-22"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   val amendCustomEmploymentRequestBody: AmendCustomEmploymentRequestBody = AmendCustomEmploymentRequestBody(
@@ -52,35 +51,15 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
-    val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(
-      http = mockHttpClient,
-      appConfig = mockSharedAppConfig,
-      employmentsAppConfig = mockEmploymentsConfig
-    )
+    val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
 
   }
 
   "AmendCustomEmploymentConnector" when {
     ".amendEmployment" should {
-      "return a success upon HttpClient success with hip feature switch disabled" in new Test with Release6Test {
-
-        val outcome = Right(ResponseWrapper(correlationId, ()))
-
-        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1662.enabled" -> false))
-
-        willPut(
-          url = url"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom/$employmentId",
-          body = amendCustomEmploymentRequestBody
-        ).returns(Future.successful(outcome))
-
-        await(connector.amendEmployment(request)) shouldBe outcome
-      }
-
       "return a success upon HttpClient success with hip feature switch enabled" in new Test with HipTest {
 
         val outcome = Right(ResponseWrapper(correlationId, ()))
-
-        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1662.enabled" -> true))
 
         willPut(
           url = url"$baseUrl/itsd/income/employments/$nino/custom/$employmentId?taxYear=${TaxYear.fromMtd("2021-22").asTysDownstream}",

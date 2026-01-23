@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package v1
+package v2
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors.*
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import v1.fixtures.ListEmploymentsControllerFixture
+import shared.services.*
+import shared.support.IntegrationBaseSpec
+import v2.fixtures.ListEmploymentsControllerFixture
 
-class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
-
-  override def servicesConfig: Map[String, Any] =
-    Map("feature-switch.ifs_hip_migration_1645.enabled" -> false) ++ super.servicesConfig
+class ListEmploymentsControllerISpec extends IntegrationBaseSpec  {
 
   private trait Test {
 
@@ -38,7 +35,9 @@ class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
     val taxYear: String      = "2019-20"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
-    val ifsResponse: JsValue = Json.parse(
+    val downstreamQueryParam: Map[String, String] = Map("taxYear" -> "19-20")
+
+    val downstreamResponse: JsValue = Json.parse(
       """
         |{
         |   "employments": [
@@ -89,7 +88,7 @@ class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
 
     def uri: String = s"/$nino/$taxYear"
 
-    def ifsUri: String = s"/income-tax/income/employments/$nino/$taxYear"
+    def downstreamUri: String = s"/itsd/income/employments/$nino"
 
     def setupStubs(): StubMapping
 
@@ -97,14 +96,14 @@ class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
       setupStubs()
       buildRequest(uri)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.1.0+json"),
+          (ACCEPT, "application/vnd.hmrc.2.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
 
   }
 
-  "Calling the 'list employments' endpoint" should {
+  "Calling the 'List Employments' endpoint" should {
     "return a 200 status code" when {
       "any valid request is made" in new Test {
 
@@ -112,7 +111,7 @@ class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, ifsUri, OK, ifsResponse)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, downstreamQueryParam, OK, downstreamResponse)
         }
 
         val response: WSResponse = await(request.get())
@@ -153,15 +152,15 @@ class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
         input.foreach(validationErrorTest.tupled)
       }
 
-      "ifs service error" when {
-        def serviceErrorTest(ifsStatus: Int, ifsCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"ifs returns an $ifsCode error and status $ifsStatus" in new Test {
+      "downstream service error" when {
+        def serviceErrorTest(downstreamStatus: Int, downstreamCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
+          s"downstream returns an $downstreamCode error and status $downstreamStatus" in new Test {
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DownstreamStub.onError(DownstreamStub.GET, ifsUri, ifsStatus, errorBody(ifsCode))
+              DownstreamStub.onError(DownstreamStub.GET, downstreamUri, downstreamQueryParam, downstreamStatus, errorBody(downstreamCode))
             }
 
             val response: WSResponse = await(request.get())
@@ -173,20 +172,19 @@ class ListEmploymentsControllerIfsISpec extends EmploymentsIBaseSpec  {
 
         def errorBody(code: String): String =
           s"""
-             |{
-             |   "code": "$code",
-             |   "reason": "ifs message"
-             |}
-            """.stripMargin
+             |[
+             |  {
+             |    "errorCode": "$code",
+             |    "errorDescription": "downstream message"
+             |  }
+             |]
+          """.stripMargin
 
         val input = Seq(
-          (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
-          (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
-          (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", INTERNAL_SERVER_ERROR, InternalError),
-          (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
-          (NOT_FOUND, "NO_DATA_FOUND", NOT_FOUND, NotFoundError),
-          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
+          (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
+          (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
+          (BAD_REQUEST, "1217", INTERNAL_SERVER_ERROR, InternalError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
         )
         input.foreach(serviceErrorTest.tupled)
       }

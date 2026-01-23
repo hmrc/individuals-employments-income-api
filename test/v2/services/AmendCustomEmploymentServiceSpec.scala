@@ -16,7 +16,13 @@
 
 package v2.services
 
-import common.errors.{EmploymentIdFormatError, RuleCessationDateBeforeTaxYearStartError, RuleOutsideAmendmentWindowError, RuleStartDateAfterTaxYearEndError, RuleUpdateForbiddenError}
+import common.errors.{
+  EmploymentIdFormatError,
+  RuleCessationDateBeforeTaxYearStartError,
+  RuleOutsideAmendmentWindowError,
+  RuleStartDateAfterTaxYearEndError,
+  RuleUpdateForbiddenError
+}
 import common.models.domain.EmploymentId
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}

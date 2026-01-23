@@ -48,9 +48,9 @@ class AmendOtherEmploymentService @Inject() (connector: AmendOtherEmploymentConn
     )
 
     val extraTysErrors: Map[String, MtdError] = Map(
-      "INVALID_CORRELATION_ID"    -> InternalError,
-      "OUTSIDE_AMENDMENT_WINDOW"  -> RuleOutsideAmendmentWindowError,
-      "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError
+      "INVALID_CORRELATION_ID"   -> InternalError,
+      "OUTSIDE_AMENDMENT_WINDOW" -> RuleOutsideAmendmentWindowError,
+      "TAX_YEAR_NOT_SUPPORTED"   -> RuleTaxYearNotSupportedError
     )
 
     errors ++ extraTysErrors

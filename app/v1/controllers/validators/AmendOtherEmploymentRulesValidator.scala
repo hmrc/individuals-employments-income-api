@@ -21,7 +21,15 @@ import shared.controllers.validators.resolvers.*
 import shared.models.errors.*
 import cats.data.Validated
 import cats.implicits.*
-import common.errors.{ClassOfSharesAcquiredFormatError, ClassOfSharesAwardedFormatError, CustomerRefFormatError, EmployerNameFormatError, EmployerRefFormatError, RuleLumpSumsError, SchemePlanTypeFormatError}
+import common.errors.{
+  ClassOfSharesAcquiredFormatError,
+  ClassOfSharesAwardedFormatError,
+  CustomerRefFormatError,
+  EmployerNameFormatError,
+  EmployerRefFormatError,
+  RuleLumpSumsError,
+  SchemePlanTypeFormatError
+}
 import shared.controllers.validators.resolvers.ResolveIsoDate
 import shared.models.errors.MtdError
 import v1.controllers.validators.resolvers.EmploymentsIncomeValidators.*

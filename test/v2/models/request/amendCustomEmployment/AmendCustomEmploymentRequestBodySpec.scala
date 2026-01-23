@@ -16,16 +16,11 @@
 
 package v2.models.request.amendCustomEmployment
 
-import play.api.Configuration
 import play.api.libs.json.{JsError, JsValue, Json}
 import shared.config.MockSharedAppConfig
 import shared.utils.UnitSpec
 
 class AmendCustomEmploymentRequestBodySpec extends UnitSpec with MockSharedAppConfig {
-
-  private class Test(isHipEnabled: Boolean) {
-    MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1662.enabled" -> isHipEnabled))
-  }
 
   private val model: AmendCustomEmploymentRequestBody = AmendCustomEmploymentRequestBody(
     employerRef = Some("123/AZ12334"),
@@ -99,29 +94,16 @@ class AmendCustomEmploymentRequestBodySpec extends UnitSpec with MockSharedAppCo
     }
 
     "written to JSON" when {
-      "the feature switch is disabled (IFS enabled)" should {
-        "produce the expected JsObject without truncating payrollId" in new Test(false) {
-          val updatedModel: AmendCustomEmploymentRequestBody = model.copy(payrollId = Some("a" * 38))
-
-          Json.toJson(updatedModel) shouldBe fullJson("a" * 38)
-        }
-
-        "produce the expected JsObject with # stripped from payrollId" in new Test(false) {
-          val updatedModel: AmendCustomEmploymentRequestBody = model.copy(payrollId = Some("ABC#123456789"))
-
-          Json.toJson(updatedModel) shouldBe fullJson("ABC123456789")
-        }
-      }
 
       "the feature switch is enabled (HIP enabled)" should {
         "produce the expected JsObject without truncating payrollId" when {
-          "it is within the 35 character limit" in new Test(true) {
+          "it is within the 35 character limit" in {
             Json.toJson(model) shouldBe fullJson()
           }
         }
 
         "produce the expected JsObject with payrollId truncated to 35 characters" when {
-          "it exceeds the 35 character limit" in new Test(true) {
+          "it exceeds the 35 character limit" in {
             val updatedModel: AmendCustomEmploymentRequestBody = model.copy(payrollId = Some("a" * 38))
 
             Json.toJson(updatedModel) shouldBe fullJson("a" * 35)

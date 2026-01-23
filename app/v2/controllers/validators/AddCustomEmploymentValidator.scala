@@ -34,8 +34,8 @@ object AddCustomEmploymentValidator {
   private val resolveJson = ResolveNonEmptyJsonObject.resolver[AddCustomEmploymentRequestBody]
 }
 
-class AddCustomEmploymentValidator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean, appConfig: EmploymentsAppConfig)(implicit
-    clock: Clock = Clock.systemUTC)
+class AddCustomEmploymentValidator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean, appConfig: EmploymentsAppConfig)(
+    implicit clock: Clock = Clock.systemUTC)
     extends Validator[AddCustomEmploymentRequest]
     with ResolverSupport {
   import AddCustomEmploymentValidator._

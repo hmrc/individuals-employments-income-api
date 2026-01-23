@@ -94,7 +94,7 @@ case class AmendBenefitsInKind(
 
 object AmendBenefitsInKind {
 
-  given EmptinessChecker[AmendBenefitsInKind] = EmptinessChecker.derived
+  given EmptinessChecker[AmendBenefitsInKind]                    = EmptinessChecker.derived
   private val firstSegment: OFormat[AmendBenefitsInKindSection1] = Json.format[AmendBenefitsInKindSection1]
 
   private val secondSegment: OFormat[AmendBenefitsInKindSection2] = Json.format[AmendBenefitsInKindSection2]

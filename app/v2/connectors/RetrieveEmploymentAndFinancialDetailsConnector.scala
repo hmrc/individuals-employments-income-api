@@ -17,8 +17,8 @@
 package v2.connectors
 
 import config.EmploymentsAppConfig
-import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
-import shared.connectors.DownstreamUri.{HipUri, IfsUri}
+import shared.config.SharedAppConfig
+import shared.connectors.DownstreamUri.HipUri
 import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
 import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -40,22 +40,15 @@ class RetrieveEmploymentAndFinancialDetailsConnector @Inject() (val http: HttpCl
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse]] = {
 
-    import request._
+    import request.*
 
     val view        = source.toDesViewString
     val queryParams = Seq(("view", view))
 
-    lazy val downstreamUri1877: DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse] = {
-      if (ConfigFeatureSwitches().isEnabled("ifs_hip_migration_1877")) {
-        HipUri[RetrieveEmploymentAndFinancialDetailsResponse](
-          s"itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/${nino.value}/${employmentId.value}"
-        )
-      } else {
-        IfsUri[RetrieveEmploymentAndFinancialDetailsResponse](
-          s"income-tax/income/employments/${taxYear.asTysDownstream}/${nino.value}/${employmentId.value}"
-        )
-      }
-    }
+    lazy val downstreamUri1877: DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse] =
+      HipUri[RetrieveEmploymentAndFinancialDetailsResponse](
+        s"itsa/income-tax/v1/${taxYear.asTysDownstream}/income/employments/${nino.value}/${employmentId.value}"
+      )
 
     lazy val downstreamUri1647: DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse] = {
       DownstreamUri[RetrieveEmploymentAndFinancialDetailsResponse](

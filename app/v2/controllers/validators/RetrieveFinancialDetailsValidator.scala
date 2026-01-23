@@ -36,7 +36,11 @@ object RetrieveFinancialDetailsValidator {
 
 }
 
-class RetrieveFinancialDetailsValidator(nino: String, taxYear: String, employmentId: String, maybeSource: Option[String], appConfig: EmploymentsAppConfig)
+class RetrieveFinancialDetailsValidator(nino: String,
+                                        taxYear: String,
+                                        employmentId: String,
+                                        maybeSource: Option[String],
+                                        appConfig: EmploymentsAppConfig)
     extends Validator[RetrieveEmploymentAndFinancialDetailsRequest]
     with ResolverSupport {
   import RetrieveFinancialDetailsValidator._

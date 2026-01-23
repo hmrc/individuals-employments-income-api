@@ -16,6 +16,22 @@
 
 package v2
 
+/*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.*
 import common.support.EmploymentsIBaseSpec
@@ -28,15 +44,14 @@ import shared.models.domain.TaxYear
 import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import play.api.libs.ws.writeableOf_JsValue
-import play.api.libs.ws.readableAsJson
 
-class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
+class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
-    val nino: String         = "AA123456A"
-    val taxYear: String      = "2019-20"
-    val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+    val nino: String    = "AA123456A"
+    val taxYear: String = "2019-20"
+    val employmentId    = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
     val requestBodyJson: JsValue = Json.parse(
       """
@@ -48,28 +63,12 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
         |  "payrollId": "124214112412",
         |  "occupationalPension": false
         |}
-      """.stripMargin
+    """.stripMargin
     )
 
-    val responseJson: JsValue = Json.parse(
-      s"""
-         |{
-         |   "employmentId": "$employmentId"
-         |}
-        """.stripMargin
-    )
+    def uri: String = s"/$nino/$taxYear/$employmentId"
 
-    val wrappedResponseJson: JsValue = Json.parse(
-      s"""
-         |{
-         |   "employmentId": "$employmentId"
-         |}
-        """.stripMargin
-    )
-
-    def uri: String = s"/$nino/$taxYear"
-
-    def ifsUri: String = s"/income-tax/income/employments/$nino/$taxYear/custom"
+    def hipUri: String = s"/itsd/income/employments/$nino/custom/$employmentId"
 
     def setupStubs(): StubMapping
 
@@ -84,10 +83,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
 
   }
 
-  override def servicesConfig: Map[String, Any] =
-    Map("feature-switch.ifs_hip_migration_1661.enabled" -> false) ++ super.servicesConfig
-
-  "Calling the 'add custom employment' endpoint" should {
+  "Calling the amend custom employment endpoint" should {
     "return a 200 status code" when {
       "any valid request is made" in new Test {
 
@@ -95,13 +91,12 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.POST, ifsUri, OK, responseJson)
+          DownstreamStub.onSuccess(DownstreamStub.PUT, hipUri, NO_CONTENT)
         }
 
-        val response: WSResponse = await(request().post(requestBodyJson))
+        val response: WSResponse = await(request().withQueryStringParameters("taxYear" -> taxYear).put(requestBodyJson))
         response.status shouldBe OK
-        response.body[JsValue] shouldBe wrappedResponseJson
-        response.header("Content-Type") shouldBe Some("application/json")
+        response.header("Content-Type") shouldBe None
       }
     }
 
@@ -130,7 +125,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
           |  "startDate": false,
           |  "cessationDate": false,
           |  "payrollId": false,
-          |  "occupationalPension": 13
+          |  "occupationalPension": 77
           |}
         """.stripMargin
       )
@@ -195,13 +190,26 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
       """.stripMargin
       )
 
-      val invalidStartDateRangeRequestJson: JsValue = Json.parse(
+      val startDateOutsideAllowedRangeJson: JsValue = Json.parse(
         """
           |{
           |  "employerRef": "123/AZ12334",
           |  "employerName": "AMD infotech Ltd",
           |  "startDate": "0010-01-01",
           |  "cessationDate": "2020-06-01",
+          |  "payrollId": "124214112412",
+          |  "occupationalPension": false
+          |}
+      """.stripMargin
+      )
+
+      val cessationDateOutsideAllowedRangeJson: JsValue = Json.parse(
+        """
+          |{
+          |  "employerRef": "123/AZ12334",
+          |  "employerName": "AMD infotech Ltd",
+          |  "startDate": "2019-01-01",
+          |  "cessationDate": "2220-06-01",
           |  "payrollId": "124214112412",
           |  "occupationalPension": false
           |}
@@ -284,6 +292,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
       "validation error" when {
         def validationErrorTest(requestNino: String,
                                 requestTaxYear: String,
+                                requestEmploymentId: String,
                                 requestBody: JsValue,
                                 expectedStatus: Int,
                                 expectedBody: MtdError,
@@ -292,6 +301,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
 
             override val nino: String             = requestNino
             override val taxYear: String          = requestTaxYear
+            override val employmentId: String     = requestEmploymentId
             override val requestBodyJson: JsValue = requestBody
 
             override def setupStubs(): StubMapping = {
@@ -300,7 +310,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
               MtdIdLookupStub.ninoFound(nino)
             }
 
-            val response: WSResponse = await(request().post(requestBodyJson))
+            val response: WSResponse = await(request().withQueryStringParameters("taxYear" -> taxYear).put(requestBodyJson))
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
           }
@@ -309,69 +319,80 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
         def getCurrentTaxYear: String = TaxYear.currentTaxYear.asMtd
 
         val input = Seq(
-          ("AA1123A", "2019-20", validRequestJson, BAD_REQUEST, NinoFormatError, None),
-          ("AA123456A", "20177", validRequestJson, BAD_REQUEST, TaxYearFormatError, None),
-          ("AA123456A", "2015-17", validRequestJson, BAD_REQUEST, RuleTaxYearRangeInvalidError, None),
-          ("AA123456A", "2015-16", validRequestJson, BAD_REQUEST, RuleTaxYearNotSupportedError, None),
-          ("AA123456A", getCurrentTaxYear, validRequestJson, BAD_REQUEST, RuleTaxYearNotEndedError, None),
-          ("AA123456A", "2019-20", invalidEmployerRefRequestJson, BAD_REQUEST, EmployerRefFormatError, None),
-          ("AA123456A", "2019-20", invalidEmployerNameRequestJson, BAD_REQUEST, EmployerNameFormatError, None),
-          ("AA123456A", "2019-20", invalidPayrollIdRequestJson, BAD_REQUEST, PayrollIdFormatError, None),
-          ("AA123456A", "2019-20", invalidStartDateRequestJson, BAD_REQUEST, StartDateFormatError, None),
-          ("AA123456A", "2019-20", invalidCessationDateRequestJson, BAD_REQUEST, CessationDateFormatError, None),
-          ("AA123456A", "2019-20", invalidDateOrderRequestJson, BAD_REQUEST, RuleCessationDateBeforeStartDateError, None),
-          ("AA123456A", "2019-20", startDateLateRequestJson, BAD_REQUEST, RuleStartDateAfterTaxYearEndError, None),
-          ("AA123456A", "2019-20", cessationDateEarlyRequestJson, BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError, None),
-          ("AA123456A", "2019-20", emptyRequestJson, BAD_REQUEST, RuleIncorrectOrEmptyBodyError, None),
-          ("AA123456A", "2019-20", nonValidRequestBodyJson, BAD_REQUEST, invalidFieldType, Some("(wrong field type)")),
-          ("AA123456A", "2019-20", missingFieldRequestBodyJson, BAD_REQUEST, missingMandatoryFieldErrors, Some("(missing mandatory fields)"))
+          ("AA1123A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", validRequestJson, BAD_REQUEST, NinoFormatError, None),
+          ("AA123456A", "20177", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", validRequestJson, BAD_REQUEST, TaxYearFormatError, None),
+          ("AA123456A", "2019-20", "ABCDEFG", validRequestJson, BAD_REQUEST, EmploymentIdFormatError, None),
+          ("AA123456A", "2015-17", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", validRequestJson, BAD_REQUEST, RuleTaxYearRangeInvalidError, None),
+          ("AA123456A", "2015-16", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", validRequestJson, BAD_REQUEST, RuleTaxYearNotSupportedError, None),
+          ("AA123456A", getCurrentTaxYear, "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", validRequestJson, BAD_REQUEST, RuleTaxYearNotEndedError, None),
+          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", invalidEmployerRefRequestJson, BAD_REQUEST, EmployerRefFormatError, None),
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            invalidEmployerNameRequestJson,
+            BAD_REQUEST,
+            EmployerNameFormatError,
+            None),
+          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", invalidPayrollIdRequestJson, BAD_REQUEST, PayrollIdFormatError, None),
+          ("AA123456A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", invalidStartDateRequestJson, BAD_REQUEST, StartDateFormatError, None),
+          (
+            "AA123456A",
+            "2019-20",
+            "78d9f015-a8b4-47a8-8bbc-c253a1e8057e",
+            invalidCessationDateRequestJson,
+            BAD_REQUEST,
+            CessationDateFormatError,
+            None),
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            invalidDateOrderRequestJson,
+            BAD_REQUEST,
+            RuleCessationDateBeforeStartDateError,
+            None),
+          (
+            "AA123456A",
+            "2019-20",
+            "78d9f015-a8b4-47a8-8bbc-c253a1e8057e",
+            startDateLateRequestJson,
+            BAD_REQUEST,
+            RuleStartDateAfterTaxYearEndError,
+            None),
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            cessationDateEarlyRequestJson,
+            BAD_REQUEST,
+            RuleCessationDateBeforeTaxYearStartError,
+            None),
+          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", emptyRequestJson, BAD_REQUEST, RuleIncorrectOrEmptyBodyError, None),
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            nonValidRequestBodyJson,
+            BAD_REQUEST,
+            invalidFieldType,
+            Some("(invalid field type)")),
+          (
+            "AA123456A",
+            "2019-20",
+            "78d9f015-a8b4-47a8-8bbc-c253a1e8057e",
+            missingFieldRequestBodyJson,
+            BAD_REQUEST,
+            missingMandatoryFieldErrors,
+            Some("(missing mandatory fields)"))
         )
         input.foreach(validationErrorTest.tupled)
       }
 
-      "ifs service error" when {
-        def serviceErrorTest(ifsStatus: Int, ifsCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"ifs returns an $ifsCode error and status $ifsStatus" in new Test {
-
-            override def setupStubs(): StubMapping = {
-              AuditStub.audit()
-              AuthStub.authorised()
-              MtdIdLookupStub.ninoFound(nino)
-              DownstreamStub.onError(DownstreamStub.POST, ifsUri, ifsStatus, errorBody(ifsCode))
-            }
-
-            val response: WSResponse = await(request().post(requestBodyJson))
-            response.status shouldBe expectedStatus
-            response.json shouldBe Json.toJson(expectedBody)
-          }
-        }
-
-        def errorBody(code: String): String =
-          s"""
-             |{
-             |   "code": "$code",
-             |   "reason": "ifs message"
-             |}
-            """.stripMargin
-
-        val input = Seq(
-          (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
-          (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
-          (UNPROCESSABLE_ENTITY, "NOT_SUPPORTED_TAX_YEAR", BAD_REQUEST, RuleTaxYearNotEndedError),
-          (UNPROCESSABLE_ENTITY, "INVALID_DATE_RANGE", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
-          (UNPROCESSABLE_ENTITY, "INVALID_CESSATION_DATE", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
-          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
-          (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
-          (BAD_REQUEST, "INVALID_PAYLOAD", INTERNAL_SERVER_ERROR, InternalError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError),
-          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError)
-        )
-        input.foreach(serviceErrorTest.tupled)
-      }
-
-      "validation error for dates outside allowed range" when {
+      "validation format error" when {
         def validationErrorTest(requestNino: String,
                                 requestTaxYear: String,
+                                requestEmploymentId: String,
                                 requestBody: JsValue,
                                 expectedStatus: Int,
                                 expectedBody: MtdError,
@@ -380,6 +401,7 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
 
             override val nino: String             = requestNino
             override val taxYear: String          = requestTaxYear
+            override val employmentId: String     = requestEmploymentId
             override val requestBodyJson: JsValue = requestBody
 
             override def setupStubs(): StubMapping = {
@@ -388,18 +410,71 @@ class AddCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
               MtdIdLookupStub.ninoFound(nino)
             }
 
-            val response: WSResponse = await(request().post(requestBodyJson))
+            val response: WSResponse = await(request().withQueryStringParameters("taxYear" -> taxYear).put(requestBodyJson))
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
           }
         }
 
         val input = Seq(
-          ("AA123456A", "2019-20", invalidStartDateRangeRequestJson, BAD_REQUEST, StartDateFormatError, None)
+          ("AA123456A", "2019-20", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", startDateOutsideAllowedRangeJson, BAD_REQUEST, StartDateFormatError, None),
+          (
+            "AA123456A",
+            "2019-20",
+            "4557ecb5-fd32-48cc-81f5-e6acd1099f3c",
+            cessationDateOutsideAllowedRangeJson,
+            BAD_REQUEST,
+            CessationDateFormatError,
+            None)
         )
         input.foreach(validationErrorTest.tupled)
+      }
+
+      "hip service error" when {
+        def serviceErrorTest(hipStatus: Int, hipCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
+          s"hip returns an $hipCode error and status $hipStatus" in new Test {
+
+            override def setupStubs(): StubMapping = {
+              AuditStub.audit()
+              AuthStub.authorised()
+              MtdIdLookupStub.ninoFound(nino)
+              DownstreamStub.onError(DownstreamStub.PUT, hipUri, hipStatus, errorBody(hipCode))
+            }
+
+            val response: WSResponse = await(request().withQueryStringParameters("taxYear" -> taxYear).put(requestBodyJson))
+            response.status shouldBe expectedStatus
+            response.json shouldBe Json.toJson(expectedBody)
+          }
+        }
+
+        def errorBody(code: String): String =
+          s"""
+             |[
+             |  {
+             |    "errorCode": "$code",
+             |    "errorDescription": "string"
+             |  }
+             |]
+            """.stripMargin
+
+        val input = Seq(
+          (BAD_REQUEST, "1000", INTERNAL_SERVER_ERROR, InternalError),
+          (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
+          (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
+          (UNPROCESSABLE_ENTITY, "1115", BAD_REQUEST, RuleTaxYearNotEndedError),
+          (UNPROCESSABLE_ENTITY, "1116", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
+          (UNPROCESSABLE_ENTITY, "1118", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
+          (UNPROCESSABLE_ENTITY, "1221", BAD_REQUEST, RuleUpdateForbiddenError),
+          (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError),
+          (BAD_REQUEST, "1217", BAD_REQUEST, EmploymentIdFormatError),
+          (FORBIDDEN, "1221", BAD_REQUEST, RuleUpdateForbiddenError),
+          (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
+        )
+        input.foreach(serviceErrorTest.tupled)
       }
     }
   }
 
 }
+

@@ -36,5 +36,5 @@ class EmploymentsAppConfig @Inject() (protected val config: ServicesConfig, prot
 
   def api1661DownstreamConfig: DownstreamConfig =
     downstreamConfig("api1661")
-}
 
+}

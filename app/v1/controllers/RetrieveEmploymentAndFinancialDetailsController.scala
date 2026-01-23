@@ -28,12 +28,13 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class RetrieveEmploymentAndFinancialDetailsController @Inject() (val authService: EnrolmentsAuthService,
-                                                                 val lookupService: MtdIdLookupService,
-                                                                 validatorFactory: RetrieveFinancialDetailsValidatorFactory,
-                                                                 service: RetrieveEmploymentAndFinancialDetailsService,
-                                                                 cc: ControllerComponents,
-                                                                 val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
+class RetrieveEmploymentAndFinancialDetailsController @Inject() (
+    val authService: EnrolmentsAuthService,
+    val lookupService: MtdIdLookupService,
+    validatorFactory: RetrieveFinancialDetailsValidatorFactory,
+    service: RetrieveEmploymentAndFinancialDetailsService,
+    cc: ControllerComponents,
+    val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "retrieve-employment-financial-details"

@@ -31,10 +31,11 @@ trait MockSharedAppConfig extends TestSuite with MockFactory {
     // MTD ID Lookup Config
     def mtdIdBaseUrl: CallHandler0[String] = (() => mockSharedAppConfig.mtdIdBaseUrl: String).expects()
 
-    def desDownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockSharedAppConfig.desDownstreamConfig: DownstreamConfig).expects()
-    def ifsDownstreamConfig: CallHandler0[DownstreamConfig]    = (() => mockSharedAppConfig.ifsDownstreamConfig: DownstreamConfig).expects()
+    def desDownstreamConfig: CallHandler0[DownstreamConfig] = (() => mockSharedAppConfig.desDownstreamConfig: DownstreamConfig).expects()
+    def ifsDownstreamConfig: CallHandler0[DownstreamConfig] = (() => mockSharedAppConfig.ifsDownstreamConfig: DownstreamConfig).expects()
 
-    def hipDownstreamConfig: CallHandler[BasicAuthDownstreamConfig] = (() => mockSharedAppConfig.hipDownstreamConfig: BasicAuthDownstreamConfig).expects()
+    def hipDownstreamConfig: CallHandler[BasicAuthDownstreamConfig] =
+      (() => mockSharedAppConfig.hipDownstreamConfig: BasicAuthDownstreamConfig).expects()
 
     // API Config
     def featureSwitchConfig: CallHandler0[Configuration]         = (() => mockSharedAppConfig.featureSwitchConfig: Configuration).expects()
@@ -42,8 +43,11 @@ trait MockSharedAppConfig extends TestSuite with MockFactory {
     def apiStatus(version: Version): CallHandler[String]         = (mockSharedAppConfig.apiStatus: Version => String).expects(version)
     def endpointsEnabled(version: String): CallHandler[Boolean]  = (mockSharedAppConfig.endpointsEnabled(_: String)).expects(version)
     def endpointsEnabled(version: Version): CallHandler[Boolean] = (mockSharedAppConfig.endpointsEnabled: Version => Boolean).expects(version)
-    def deprecationFor(version: Version): CallHandler[Validated[String, Deprecation]] = (mockSharedAppConfig.deprecationFor(_: Version)).expects(version)
-    def apiDocumentationUrl(): CallHandler[String]                                    = (() => mockSharedAppConfig.apiDocumentationUrl: String).expects()
+
+    def deprecationFor(version: Version): CallHandler[Validated[String, Deprecation]] =
+      (mockSharedAppConfig.deprecationFor(_: Version)).expects(version)
+
+    def apiDocumentationUrl(): CallHandler[String] = (() => mockSharedAppConfig.apiDocumentationUrl: String).expects()
 
     def apiVersionReleasedInProduction(version: String): CallHandler[Boolean] =
       (mockSharedAppConfig.apiVersionReleasedInProduction: String => Boolean).expects(version)

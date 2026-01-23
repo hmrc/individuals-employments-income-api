@@ -146,7 +146,7 @@ class ErrorHandlerSpec extends UnitSpec with GuiceOneAppPerSuite {
       Seq(499, GATEWAY_TIMEOUT).foreach { statusCode =>
         s"a $statusCode UpstreamErrorResponse is returned" in new Test {
           val errorResponse: UpstreamErrorResponse = UpstreamErrorResponse("request timeout", statusCode, statusCode, Map.empty)
-          val result: Future[Result] = handler.onServerError(requestHeader, errorResponse)
+          val result: Future[Result]               = handler.onServerError(requestHeader, errorResponse)
 
           status(result) shouldBe GATEWAY_TIMEOUT
           contentAsJson(result) shouldBe GatewayTimeoutError.asJson

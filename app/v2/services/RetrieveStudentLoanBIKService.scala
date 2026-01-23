@@ -28,13 +28,12 @@ import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
-
 @Singleton
 class RetrieveStudentLoanBIKService @Inject() (connector: RetrieveStudentLoanBIKConnector) extends BaseService {
 
   def retrieve(request: RetrieveStudentLoanBIKRequest)(implicit
-                                                       ctx: RequestContext,
-                                                       ec: ExecutionContext): Future[ServiceOutcome[RetrieveStudentLoanBIKResponse]] = {
+      ctx: RequestContext,
+      ec: ExecutionContext): Future[ServiceOutcome[RetrieveStudentLoanBIKResponse]] = {
 
     connector.retrieveStudentLoanBIK(request).map(_.leftMap(mapDownstreamErrors(downstreamErrorMap)))
 
@@ -42,14 +41,14 @@ class RetrieveStudentLoanBIKService @Inject() (connector: RetrieveStudentLoanBIK
 
   private val downstreamErrorMap: Map[String, MtdError] = Map(
     "INVALID_TAXABLE_ENTITY_ID" -> NinoFormatError,
-    "INVALID_TAX_YEAR" -> TaxYearFormatError,
-    "INVALID_EMPLOYMENT_ID" -> EmploymentIdFormatError,
-    "INVALID_CORRELATION_ID" -> InternalError,
-    "UNMATCHED_STUB_ERROR" -> RuleIncorrectGovTestScenarioError,
-    "NOT_FOUND" -> NotFoundError,
-    "TAX_YEAR_NOT_SUPPORTED" -> RuleTaxYearNotSupportedError,
-    "SERVER_ERROR" -> InternalError,
-    "SERVICE_UNAVAILABLE" -> InternalError
+    "INVALID_TAX_YEAR"          -> TaxYearFormatError,
+    "INVALID_EMPLOYMENT_ID"     -> EmploymentIdFormatError,
+    "INVALID_CORRELATION_ID"    -> InternalError,
+    "UNMATCHED_STUB_ERROR"      -> RuleIncorrectGovTestScenarioError,
+    "NOT_FOUND"                 -> NotFoundError,
+    "TAX_YEAR_NOT_SUPPORTED"    -> RuleTaxYearNotSupportedError,
+    "SERVER_ERROR"              -> InternalError,
+    "SERVICE_UNAVAILABLE"       -> InternalError
   )
 
 }

@@ -17,21 +17,18 @@
 package v2
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{EmploymentIdFormatError, RuleDeleteForbiddenError, RuleOutsideAmendmentWindowError}
-import common.support.EmploymentsIBaseSpec
+import common.errors.EmploymentIdFormatError
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status.*
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors.*
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import play.api.libs.ws.DefaultBodyReadables.readableAsString
+import shared.services.*
+import shared.support.IntegrationBaseSpec
+import v2.fixtures.RetrieveEmploymentControllerFixture.*
 
-class DeleteCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
-
-  override def servicesConfig: Map[String, Any] =
-    Map("feature-switch.ifs_hip_migration_1663.enabled" -> false) ++ super.servicesConfig
+class RetrieveEmploymentControllerISpec extends IntegrationBaseSpec {
 
   private trait Test {
 
@@ -39,13 +36,21 @@ class DeleteCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
     val taxYear: String      = "2019-20"
     val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
+    val downstreamEmploymentId: Option[String] = Some("4557ecb5-fd32-48cc-81f5-e6acd1099f3c")
+
+    val downstreamHmrcEnteredResponseWithoutDateIgnored: JsValue = hmrcEnteredResponseWithoutDateIgnored
+    val downstreamHmrcEnteredResponseWithDateIgnored: JsValue    = hmrcEnteredResponseWithDateIgnored
+    val downstreamCustomEnteredResponse: JsValue                 = customEnteredResponse
+
     def uri: String = s"/$nino/$taxYear/$employmentId"
 
-    def downstreamUri: String = s"/income-tax/income/employments/$nino/$taxYear/custom/$employmentId"
+    def downstreamUri: String = s"/itsd/income/employments/$nino"
+
+    val downstreamQueryParams: Map[String, String] = Map("taxYear" -> "19-20", "employmentId" -> downstreamEmploymentId.getOrElse(""))
 
     def setupStubs(): StubMapping
 
-    def request(): WSRequest = {
+    def request: WSRequest = {
       setupStubs()
       buildRequest(uri)
         .withHttpHeaders(
@@ -56,20 +61,51 @@ class DeleteCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
 
   }
 
-  "Calling the 'delete a custom employment' endpoint" should {
-    "return a 204 status code" when {
-      "any valid request is made" in new Test {
+  "Calling the 'Retrieve an Employment' endpoint" should {
+    "return a 200 status code" when {
+      "any valid request is made to retrieve hmrc entered employment with no date ignored present" in new Test {
 
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.DELETE, downstreamUri, NO_CONTENT)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, downstreamQueryParams, OK, downstreamHmrcEnteredResponseWithoutDateIgnored)
         }
 
-        val response: WSResponse = await(request().delete())
-        response.status shouldBe NO_CONTENT
-        response.body shouldBe ""
+        val response: WSResponse = await(request.get())
+        response.status shouldBe OK
+        response.json shouldBe mtdHmrcEnteredResponseWithNoDateIgnored
+        response.header("Content-Type") shouldBe Some("application/json")
+      }
+
+      "any valid request is made to retrieve hmrc entered employment with date ignored present" in new Test {
+
+        override def setupStubs(): StubMapping = {
+          AuditStub.audit()
+          AuthStub.authorised()
+          MtdIdLookupStub.ninoFound(nino)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, downstreamQueryParams, OK, downstreamHmrcEnteredResponseWithDateIgnored)
+        }
+
+        val response: WSResponse = await(request.get())
+        response.status shouldBe OK
+        response.json shouldBe mtdHmrcEnteredResponseWithDateIgnored
+        response.header("Content-Type") shouldBe Some("application/json")
+      }
+
+      "any valid request is made to retrieve custom entered employment" in new Test {
+
+        override def setupStubs(): StubMapping = {
+          AuditStub.audit()
+          AuthStub.authorised()
+          MtdIdLookupStub.ninoFound(nino)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, downstreamQueryParams, OK, downstreamCustomEnteredResponse)
+        }
+
+        val response: WSResponse = await(request.get())
+        response.status shouldBe OK
+        response.json shouldBe mtdCustomEnteredResponse
+        response.header("Content-Type") shouldBe Some("application/json")
       }
     }
 
@@ -93,15 +129,16 @@ class DeleteCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
               MtdIdLookupStub.ninoFound(nino)
             }
 
-            val response: WSResponse = await(request().delete())
+            val response: WSResponse = await(request.get())
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
+            response.header("Content-Type") shouldBe Some("application/json")
           }
         }
 
         val input = Seq(
           ("AA1123A", "2019-20", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, NinoFormatError),
-          ("AA123456A", "20122", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, TaxYearFormatError),
+          ("AA123456A", "20199", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, TaxYearFormatError),
           ("AA123456A", "2019-20", "ABCDE12345FG", BAD_REQUEST, EmploymentIdFormatError),
           ("AA123456A", "2018-19", "78d9f015-a8b4-47a8-8bbc-c253a1e8057e", BAD_REQUEST, RuleTaxYearNotSupportedError),
           ("AA123456A", "2019-21", "4557ecb5-fd32-48cc-81f5-e6acd1099f3c", BAD_REQUEST, RuleTaxYearRangeInvalidError)
@@ -117,34 +154,33 @@ class DeleteCustomEmploymentControllerIfsISpec extends EmploymentsIBaseSpec {
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DownstreamStub.onError(DownstreamStub.DELETE, downstreamUri, downstreamStatus, errorBody(downstreamCode))
+              DownstreamStub.onError(DownstreamStub.GET, downstreamUri, downstreamStatus, errorBody(downstreamCode))
             }
 
-            val response: WSResponse = await(request().delete())
+            val response: WSResponse = await(request.get())
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
+            response.header("Content-Type") shouldBe Some("application/json")
           }
         }
 
         def errorBody(code: String): String =
           s"""
-             |{
-             |   "code": "$code",
-             |   "reason": "downstream message"
-             |}
-            """.stripMargin
+             |[
+             |  {
+             |    "errorCode": "$code",
+             |    "errorDescription": "downstream message"
+             |  }
+             |]
+          """.stripMargin
 
         val input = Seq(
-          (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
-          (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
-          (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
-          (UNPROCESSABLE_ENTITY, "CANNOT_DELETE", BAD_REQUEST, RuleDeleteForbiddenError),
-          (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
-          (BAD_REQUEST, "INVALID_CORRELATIONID", INTERNAL_SERVER_ERROR, InternalError),
-          (NOT_FOUND, "NO_DATA_FOUND", NOT_FOUND, NotFoundError),
-          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, InternalError)
+          (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
+          (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
+          (BAD_REQUEST, "1217", BAD_REQUEST, EmploymentIdFormatError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
+
         input.foreach(serviceErrorTest.tupled)
       }
     }

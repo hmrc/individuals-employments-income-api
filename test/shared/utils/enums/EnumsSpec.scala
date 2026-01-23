@@ -22,7 +22,6 @@ import org.scalatest.Inspectors
 import play.api.libs.json.*
 import shared.utils.UnitSpec
 
-
 enum Enum {
   case `enum-one`
   case `enum-two`
@@ -38,7 +37,6 @@ case class Foo[A](someField: A)
 object Foo {
   given [A: Format]: OFormat[Foo[A]] = Json.format[Foo[A]]
 }
-
 
 class EnumsSpec extends UnitSpec with Inspectors {
 
@@ -85,17 +83,17 @@ class EnumsSpec extends UnitSpec with Inspectors {
     "allows alternative names (specified by method)" in {
 
       enum Enum2(val altName: String) {
-        case `enum-one` extends Enum2("one")
-        case `enum-two` extends Enum2("two")
+        case `enum-one`   extends Enum2("one")
+        case `enum-two`   extends Enum2("two")
         case `enum-three` extends Enum2("three")
       }
 
       object Enum2 {
-        given Show[Enum2] = Show.show[Enum2](_.altName)
+        given Show[Enum2]   = Show.show[Enum2](_.altName)
         given Format[Enum2] = Enums.format[Enum2](values)
 
       }
-      
+
       import Enum2.*
 
       val json = Json.parse("""

@@ -16,16 +16,11 @@
 
 package v2.models.request.addCustomEmployment
 
-import play.api.Configuration
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import shared.config.MockSharedAppConfig
 import shared.utils.UnitSpec
 
 class AddCustomEmploymentRequestBodySpec extends UnitSpec with MockSharedAppConfig {
-
-  private class Test(isHipEnabled: Boolean) {
-    MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1661.enabled" -> isHipEnabled))
-  }
 
   "AddCustomEmploymentRequestBody" when {
     def json(payrollId: String = "124214112412"): JsValue = Json.parse(
@@ -74,29 +69,15 @@ class AddCustomEmploymentRequestBodySpec extends UnitSpec with MockSharedAppConf
     }
 
     "written to JSON" when {
-      "the feature switch is disabled (IFS enabled)" should {
-        "produce the expected JsObject without truncating payrollId" in new Test(false) {
-          val updatedModel: AddCustomEmploymentRequestBody = model.copy(payrollId = Some("a" * 38))
-
-          Json.toJson(updatedModel) shouldBe json("a" * 38)
-        }
-
-        "produce the expected JsObject with # stripped from payrollId" in new Test(false) {
-          val updatedModel: AddCustomEmploymentRequestBody = model.copy(payrollId = Some("ABC#123456789"))
-
-          Json.toJson(updatedModel) shouldBe json("ABC123456789")
-        }
-      }
-
       "the feature switch is enabled (HIP enabled)" should {
         "produce the expected JsObject without truncating payrollId" when {
-          "it is within the 35 character limit" in new Test(true) {
+          "it is within the 35 character limit" in {
             Json.toJson(model) shouldBe json()
           }
         }
 
         "produce the expected JsObject with payrollId truncated to 35 characters" when {
-          "it exceeds the 35 character limit" in new Test(true) {
+          "it exceeds the 35 character limit" in {
             val updatedModel: AddCustomEmploymentRequestBody = model.copy(payrollId = Some("a" * 38))
 
             Json.toJson(updatedModel) shouldBe json("a" * 35)

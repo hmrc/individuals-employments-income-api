@@ -36,26 +36,12 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
     def taxYear: TaxYear
 
     protected val connector: OtherEmploymentIncomeConnector =
-      new OtherEmploymentIncomeConnector(
-        http = mockHttpClient,
-        appConfig = mockSharedAppConfig
-      )
+      new OtherEmploymentIncomeConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
 
   }
 
   "OtherEmploymentIncomeConnector" should {
     "return a 200 result on delete" when {
-      "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest with Test with ConnectorTest {
-        MockFeatureSwitches.isDesIf_MigrationEnabled.returns(false)
-        def taxYear: TaxYear                                  = TaxYear.fromMtd("2017-18")
-        val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
-        val outcome: Right[Nothing, ResponseWrapper[Unit]]    = Right(ResponseWrapper(correlationId, ()))
-
-        willDelete(url"$baseUrl/income-tax/income/other/employments/$nino/2017-18") returns Future.successful(outcome)
-
-        await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
-      }
-
       "the downstream call is successful and is tax year specific" in new IfsTest with Test with ConnectorTest {
         def taxYear: TaxYear                                  = TaxYear.fromMtd("2023-24")
         val deleteRequest: DeleteOtherEmploymentIncomeRequest = DeleteOtherEmploymentIncomeRequest(Nino(nino), taxYear)
@@ -66,8 +52,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
         await(connector.deleteOtherEmploymentIncome(deleteRequest)) shouldBe outcome
       }
 
-      "the downstream call is successful, not tax year specific and 'isDesIf_MigrationEnabled' is on" in new IfsTest with Test with ConnectorTest {
-        MockFeatureSwitches.isDesIf_MigrationEnabled.returns(true)
+      "the downstream call is successful, not tax year specific" in new IfsTest with Test with ConnectorTest {
 
         def taxYear: TaxYear = TaxYear.fromMtd("2017-18")
 
@@ -82,27 +67,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
     }
 
     "return a 200 result on retrieve" when {
-      "the downstream call is successful, is not tax year specific and 'isDesIf_MigrationEnabled' is off" in new DesTest
-        with Test
-        with ConnectorTest {
-        MockFeatureSwitches.isDesIf_MigrationEnabled.returns(false)
-        def taxYear: TaxYear = TaxYear.fromMtd("2021-22")
-
-        val retrieveRequest: RetrieveOtherEmploymentIncomeRequest = RetrieveOtherEmploymentIncomeRequest(
-          nino = Nino(nino),
-          taxYear = TaxYear.fromMtd("2021-22")
-        )
-
-        val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherEmploymentResponse]] =
-          Right(ResponseWrapper(correlationId, retrieveResponse))
-
-        willGet(url"$baseUrl/income-tax/income/other/employments/$nino/2021-22") returns Future.successful(outcome)
-
-        await(connector.retrieveOtherEmploymentIncome(retrieveRequest)) shouldBe outcome
-      }
-
-      "the downstream call is successful, is not tax year specific and 'isDesIf_MigrationEnabled' is on" in new IfsTest with Test with ConnectorTest {
-        MockFeatureSwitches.isDesIf_MigrationEnabled.returns(true)
+      "the downstream call is successful, is not tax year specific" in new IfsTest with Test with ConnectorTest {
         def taxYear: TaxYear = TaxYear.fromMtd("2021-22")
 
         val retrieveRequest: RetrieveOtherEmploymentIncomeRequest = RetrieveOtherEmploymentIncomeRequest(

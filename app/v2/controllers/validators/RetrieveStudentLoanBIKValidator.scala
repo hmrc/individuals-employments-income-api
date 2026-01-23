@@ -25,8 +25,8 @@ import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
 
-class RetrieveStudentLoanBIKValidator (nino: String, taxYear: String, employmentId: String)
-  extends Validator[RetrieveStudentLoanBIKRequest]
+class RetrieveStudentLoanBIKValidator(nino: String, taxYear: String, employmentId: String)
+    extends Validator[RetrieveStudentLoanBIKRequest]
     with ResolverSupport {
 
   private val resolveTaxYear: ResolveTaxYearMinimum = ResolveTaxYearMinimum(TaxYear.fromMtd("2025-26"))

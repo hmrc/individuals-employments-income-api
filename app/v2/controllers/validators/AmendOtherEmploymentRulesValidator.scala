@@ -21,7 +21,15 @@ import shared.controllers.validators.resolvers.*
 import shared.models.errors.*
 import cats.data.Validated
 import cats.implicits.*
-import common.errors.{ClassOfSharesAcquiredFormatError, ClassOfSharesAwardedFormatError, CustomerRefFormatError, EmployerNameFormatError, EmployerRefFormatError, RuleLumpSumsError, SchemePlanTypeFormatError}
+import common.errors.{
+  ClassOfSharesAcquiredFormatError,
+  ClassOfSharesAwardedFormatError,
+  CustomerRefFormatError,
+  EmployerNameFormatError,
+  EmployerRefFormatError,
+  RuleLumpSumsError,
+  SchemePlanTypeFormatError
+}
 import shared.controllers.validators.resolvers.ResolveIsoDate
 import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.EmploymentsIncomeValidators.*
@@ -70,7 +78,9 @@ object AmendOtherEmploymentRulesValidator extends RulesValidator[AmendOtherEmplo
     combine(
       validateOtherEmployerName(item.employerName, EmployerNameFormatError.withPath(s"/shareOption/$arrayIndex/employerName")),
       validateOptionalEmployerRef(item.employerRef, EmployerRefFormatError.withPath(s"/shareOption/$arrayIndex/employerRef")),
-      optionalValidateClassOfShares(item.classOfSharesAcquired, ClassOfSharesAcquiredFormatError.withPath(s"/shareOption/$arrayIndex/classOfSharesAcquired")),
+      optionalValidateClassOfShares(
+        item.classOfSharesAcquired,
+        ClassOfSharesAcquiredFormatError.withPath(s"/shareOption/$arrayIndex/classOfSharesAcquired")),
       validateSchemeType,
       validateDate(s"/shareOption/$arrayIndex/dateOfOptionGrant")(item.dateOfOptionGrant),
       validateDate(s"/shareOption/$arrayIndex/dateOfEvent")(item.dateOfEvent),

@@ -22,13 +22,11 @@ import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status.*
 import play.api.libs.json.{JsObject, JsValue, Json}
-import play.api.libs.ws.{WSRequest, WSResponse}
+import play.api.libs.ws.{WSRequest, WSResponse, readableAsJson, writeableOf_JsValue}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.domain.TaxYear
 import shared.models.errors.*
 import shared.services.*
-import play.api.libs.ws.writeableOf_JsValue
-import play.api.libs.ws.readableAsJson
 
 class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
 
@@ -85,9 +83,6 @@ class AddCustomEmploymentControllerHipISpec extends EmploymentsIBaseSpec {
     }
 
   }
-
-  override def servicesConfig: Map[String, Any] =
-    Map("feature-switch.ifs_hip_migration_1661.enabled" -> true) ++ super.servicesConfig
 
   "Calling the 'add custom employment' endpoint" should {
     "return a 200 status code" when {

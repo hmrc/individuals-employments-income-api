@@ -23,12 +23,10 @@ import shared.config.{SharedAppConfig, FeatureSwitches}
 
 import javax.inject.Inject
 
-case class EmploymentsFeatureSwitches (protected val featureSwitchConfig: Configuration) extends FeatureSwitches {
+case class EmploymentsFeatureSwitches(protected val featureSwitchConfig: Configuration) extends FeatureSwitches {
 
   @Inject
   def this(appConfig: SharedAppConfig) = this(appConfig.featureSwitchConfig)
-
-  def isDesIf_MigrationEnabled: Boolean = isEnabled("desIf_Migration")
 
   def isTemporalValidationEnabled(implicit request: Request[?]): Boolean = {
     if (isEnabled("allowTemporalValidationSuspension")) {

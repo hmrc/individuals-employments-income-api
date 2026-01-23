@@ -18,7 +18,6 @@ package v1.connectors
 
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
-import play.api.Configuration
 import shared.mocks.MockHttpClient
 import shared.models.domain.{Nino, TaxYear}
 import shared.models.outcomes.ResponseWrapper
@@ -30,7 +29,7 @@ import scala.concurrent.Future
 
 class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
-  val nino: String = "AA111111A"
+  val nino: String    = "AA111111A"
   val taxYear: String = "2021-22"
 
   val addCustomEmploymentRequestBody: AddCustomEmploymentRequestBody = AddCustomEmploymentRequestBody(
@@ -52,30 +51,13 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   trait Test extends MockHttpClient with MockEmploymentsAppConfig {
 
-    val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(
-      http = mockHttpClient,
-      appConfig = mockSharedAppConfig,
-      employmentsAppConfig = mockEmploymentsConfig
-    )
+    val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
 
   }
 
   "AddCustomEmploymentConnector" when {
     ".addEmployment" should {
-      "return a success upon HttpClient success with IFS" in new Test with Api1661Test {
-        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1661.enabled" -> false))
-        val outcome = Right(ResponseWrapper(correlationId, response))
-
-        willPost(
-          url = url"$baseUrl/income-tax/income/employments/$nino/$taxYear/custom",
-          body = addCustomEmploymentRequestBody
-        ).returns(Future.successful(outcome))
-
-        await(connector.addEmployment(request)) shouldBe outcome
-      }
-
       "return a success upon HttpClient success with HIP" in new Test with HipTest {
-        MockedSharedAppConfig.featureSwitchConfig.atLeastOnce().returns(Configuration("ifs_hip_migration_1661.enabled" -> true))
         val outcome = Right(ResponseWrapper(correlationId, response))
 
         willPost(

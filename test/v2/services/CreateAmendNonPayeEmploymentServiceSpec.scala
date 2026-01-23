@@ -83,9 +83,9 @@ class CreateAmendNonPayeEmploymentServiceSpec extends ServiceSpec {
       )
 
       val extraTysErrors = List(
-        "INVALID_CORRELATION_ID" -> InternalError,
+        "INVALID_CORRELATION_ID"   -> InternalError,
         "OUTSIDE_AMENDMENT_WINDOW" -> RuleOutsideAmendmentWindowError,
-        "TAX_YEAR_NOT_SUPPORTED" -> RuleTaxYearNotSupportedError
+        "TAX_YEAR_NOT_SUPPORTED"   -> RuleTaxYearNotSupportedError
       )
 
       (errors ++ extraTysErrors).foreach(serviceError.tupled)

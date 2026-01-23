@@ -27,7 +27,6 @@ import v1.services.RetrieveEmploymentService
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
-
 @Singleton
 class RetrieveEmploymentController @Inject() (val authService: EnrolmentsAuthService,
                                               val lookupService: MtdIdLookupService,

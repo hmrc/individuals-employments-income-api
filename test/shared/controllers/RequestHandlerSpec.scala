@@ -78,7 +78,7 @@ class RequestHandlerSpec
   }
 
   implicit val appConfig: SharedAppConfig = mockSharedAppConfig
-  private val mockService           = mock[DummyService]
+  private val mockService                 = mock[DummyService]
 
   private def service =
     (mockService.service(_: Input.type)(_: RequestContext, _: ExecutionContext)).expects(Input, *, *).anyNumberOfTimes()
