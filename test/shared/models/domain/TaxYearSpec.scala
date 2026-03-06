@@ -39,6 +39,26 @@ class TaxYearSpec extends UnitSpec {
       "return the tax year in the 'Tax Year Specific API' format" in {
         taxYear.asTysDownstream shouldBe "23-24"
       }
+
+      "return the expected string representation" in {
+        taxYear.toString shouldBe "TaxYear(2024)"
+      }
+    }
+
+    "constructed from a starting year" should {
+      "return the tax year that begins in that year and ends the following year" in {
+        val year: Int        = 2023
+        val taxYear: TaxYear = TaxYear.starting(year)
+        taxYear.asMtd shouldBe "2023-24"
+      }
+    }
+
+    "constructed from an ending year" should {
+      "return the tax year that ends in that year and started the previous year" in {
+        val year: Int        = 2024
+        val taxYear: TaxYear = TaxYear.ending(year)
+        taxYear.asMtd shouldBe "2023-24"
+      }
     }
 
     "constructed from a date" when {
@@ -83,12 +103,20 @@ class TaxYearSpec extends UnitSpec {
     }
 
     "constructed from a downstream tax year" should {
-      "return the downstream tax value" in {
+      "return the downstream tax value given a string tax year" in {
         TaxYear.fromDownstream("2019").asDownstream shouldBe "2019"
       }
 
-      "allow the MTD tax year to be extracted" in {
+      "return the downstream tax value given an integer tax year" in {
+        TaxYear.fromDownstreamInt(2019).asDownstream shouldBe "2019"
+      }
+
+      "allow the MTD tax year string to be extracted" in {
         TaxYear.fromDownstream("2019").asMtd shouldBe "2018-19"
+      }
+
+      "allow the MTD tax year integer to be extracted" in {
+        TaxYear.fromDownstreamInt(2019).asMtd shouldBe "2018-19"
       }
     }
 

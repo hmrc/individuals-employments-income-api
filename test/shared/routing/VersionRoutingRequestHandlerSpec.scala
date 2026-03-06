@@ -121,7 +121,7 @@ class VersionRoutingRequestHandlerSpec extends UnitSpec with Inside with MockSha
     "return 406" in new Test {
       val maybeAcceptHeader: Option[String] = None
 
-      private val request = buildRequest("/v1")
+      private val request = buildRequest("/v2")
 
       inside(requestHandler.routeRequest(request)) { case Some(action: EssentialAction) =>
         val result = action.apply(request)
@@ -137,7 +137,7 @@ class VersionRoutingRequestHandlerSpec extends UnitSpec with Inside with MockSha
     "return 404" in new Test {
       val maybeAcceptHeader: Option[String] = Some("application/vnd.hmrc.5.0+json")
 
-      private val request = buildRequest("/v1")
+      private val request = buildRequest("/v2")
 
       inside(requestHandler.routeRequest(request)) { case Some(action: EssentialAction) =>
         val result = action.apply(request)
