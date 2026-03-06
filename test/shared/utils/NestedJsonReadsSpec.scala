@@ -85,7 +85,7 @@ class NestedJsonReadsSpec extends UnitSpec {
 
   "An empty JsPath" should {
     "return a JsError with error.path.empty" in {
-      val empty = JsPath
+      val empty                            = JsPath
       val result: JsResult[Option[String]] = empty.readNestedNullable[String].reads(Json.obj("a" -> "b"))
       result shouldBe a[JsError]
       result.asInstanceOf[JsError].errors.head._2.exists(_.message == "error.path.empty") shouldBe true
