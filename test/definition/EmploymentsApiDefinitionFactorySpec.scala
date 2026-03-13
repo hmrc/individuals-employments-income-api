@@ -22,7 +22,7 @@ import shared.config.Deprecation.NotDeprecated
 import shared.config.{ConfidenceLevelConfig, MockSharedAppConfig}
 import shared.definition.APIStatus.BETA
 import shared.definition.{APIDefinition, APIVersion, Definition}
-import shared.routing.{Version1, Version2}
+import shared.routing.Version2
 import shared.utils.UnitSpec
 import uk.gov.hmrc.auth.core.ConfidenceLevel
 
@@ -34,7 +34,7 @@ class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsA
     "called" should {
       "return a valid Definition case class" in {
         MockedSharedAppConfig.apiGatewayContext returns "individuals/employments-income"
-        List(Version1, Version2).foreach { version =>
+        List(Version2).foreach { version =>
           MockedSharedAppConfig.apiStatus(version) returns "BETA"
           MockedSharedAppConfig.endpointsEnabled(version).returns(true).anyNumberOfTimes()
           MockedSharedAppConfig.deprecationFor(version).returns(NotDeprecated.valid).anyNumberOfTimes()
@@ -52,11 +52,6 @@ class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsA
               context = "individuals/employments-income",
               categories = Seq("INCOME_TAX_MTD"),
               versions = Seq(
-                APIVersion(
-                  version = Version1,
-                  status = BETA,
-                  endpointsEnabled = true
-                ),
                 APIVersion(
                   version = Version2,
                   status = BETA,

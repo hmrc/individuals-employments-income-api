@@ -17,6 +17,7 @@
 package shared.definition
 
 import cats.implicits.catsSyntaxValidatedId
+import play.api.libs.json.Json
 import shared.config.Deprecation.NotDeprecated
 import shared.config.{MockSharedAppConfig, SharedAppConfig}
 import shared.definition.APIStatus.{ALPHA, BETA}
@@ -69,6 +70,21 @@ class ApiDefinitionFactorySpec extends UnitSpec {
     }
   }
 
+  "APIVersion Json.format" should {
+
+    "round-trip successfully" in {
+      val model = APIVersion(
+        version = Version2,
+        status = APIStatus.BETA,
+        endpointsEnabled = true
+      )
+
+      val json = Json.toJson(model)
+
+      json.as[APIVersion] shouldBe model
+    }
+  }
+
   class Test extends MockHttpClient with MockSharedAppConfig with ApiDefinitionFactory {
     MockedSharedAppConfig.apiGatewayContext returns "individuals/self-assessment/adjustable-summary"
 
@@ -80,7 +96,7 @@ class ApiDefinitionFactorySpec extends UnitSpec {
         "description",
         "context",
         List("category"),
-        List(APIVersion(Version1, APIStatus.BETA, endpointsEnabled = true)),
+        List(APIVersion(Version2, APIStatus.BETA, endpointsEnabled = true)),
         None)
     )
 

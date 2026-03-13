@@ -34,11 +34,6 @@ class EmploymentsApiDefinitionFactory @Inject() (protected val appConfig: Shared
         categories = List("INCOME_TAX_MTD"),
         versions = List(
           APIVersion(
-            version = Version1,
-            status = buildAPIStatus(Version1),
-            endpointsEnabled = appConfig.endpointsEnabled(Version1)
-          ),
-          APIVersion(
             version = Version2,
             status = buildAPIStatus(Version2),
             endpointsEnabled = appConfig.endpointsEnabled(Version2)
