@@ -1,20 +1,17 @@
 get:
   $ref: "./student_loan_benefits_in_kind_retrieve.yaml"
-  summary: Retrieve Student Loan Benefits in Kind
   security:
     - User-Restricted:
         - read:self-assessment
 
 put:
   $ref: "./student_loan_benefits_in_kind_create_amend.yaml"
-  summary: Create or Amend Student Loan Benefits in Kind
   security:
     - User-Restricted:
         - write:self-assessment
 
 delete:
   $ref: "./student_loan_benefits_in_kind_delete.yaml"
-  summary: Delete Student Loan Benefits in Kind
   security:
     - User-Restricted:
         - write:self-assessment
