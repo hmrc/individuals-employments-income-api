@@ -477,4 +477,3 @@ class AmendCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
   }
 
 }
-

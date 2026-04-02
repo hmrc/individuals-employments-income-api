@@ -42,7 +42,6 @@ class DeleteCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
     def downstreamUri: String = s"/itsd/income/employments/$nino/custom/$employmentId"
 
-
     def setupStubs(): StubMapping
 
     def request(): WSRequest = {
@@ -141,7 +140,7 @@ class DeleteCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
           (BAD_REQUEST, "1217", BAD_REQUEST, EmploymentIdFormatError),
           (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError),
-          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError) ,
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
           (UNPROCESSABLE_ENTITY, "1222", BAD_REQUEST, RuleDeleteForbiddenError),
           (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),

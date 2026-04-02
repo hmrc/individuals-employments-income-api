@@ -82,7 +82,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
     def downstreamTaxYear: String = "23-24"
     def downstreamUri: String     = s"/itsa/income-tax/v1/$downstreamTaxYear/income/employments/$nino/$employmentId"
   }
-  
+
   "Calling retrieve employment and financial details endpoint" should {
     "return 200 status code" when {
       "a valid request with all parameters is made" in new HipTest {
