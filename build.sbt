@@ -9,13 +9,13 @@ ThisBuild / scalacOptions ++= Seq(
   "-Werror",
   "-Wconf:msg=Flag.*repeatedly:s"
 )
+ThisBuild / scalafmtOnCompile := true
 
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
-    scalafmtOnCompile := true,
     scalacOptions ++= List(
       "-feature",
       "-Wconf:src=routes/.*:s",
