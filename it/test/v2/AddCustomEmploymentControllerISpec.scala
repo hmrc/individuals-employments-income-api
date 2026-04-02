@@ -32,9 +32,9 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
 
-    val nino: String         = "AA123456A"
-    val taxYear: String      = "2019-20"
-    val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+    val nino: String                              = "AA123456A"
+    val taxYear: String                           = "2019-20"
+    val employmentId: String                      = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
     val downstreamQueryParam: Map[String, String] = Map("taxYear" -> "19-20")
 
     val requestBodyJson: JsValue = Json.parse(
@@ -82,7 +82,7 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
     }
 
   }
-  
+
   "Calling the 'add custom employment' endpoint" should {
     "return a 200 status code" when {
       "any valid request is made" in new Test {
@@ -329,7 +329,8 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
         def serviceErrorTest(hipStatus: Int, hipCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
           s"hip returns an $hipCode error and status $hipStatus" in new Test {
 
-            val errorBody: String = if(hipStatus == BAD_REQUEST || hipStatus == NOT_IMPLEMENTED) badRequestAndNotImplementedErrorBody(hipCode) else otherErrorBody(hipCode)
+            val errorBody: String =
+              if (hipStatus == BAD_REQUEST || hipStatus == NOT_IMPLEMENTED) badRequestAndNotImplementedErrorBody(hipCode) else otherErrorBody(hipCode)
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
@@ -375,7 +376,7 @@ class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
           (UNPROCESSABLE_ENTITY, "1116", BAD_REQUEST, RuleStartDateAfterTaxYearEndError),
           (UNPROCESSABLE_ENTITY, "1118", BAD_REQUEST, RuleCessationDateBeforeTaxYearStartError),
           (UNPROCESSABLE_ENTITY, "4200", BAD_REQUEST, RuleOutsideAmendmentWindowError),
-          (NOT_IMPLEMENTED,"5000", BAD_REQUEST, RuleTaxYearNotSupportedError)
+          (NOT_IMPLEMENTED, "5000", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
         input.foreach(serviceErrorTest.tupled)
       }

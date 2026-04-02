@@ -28,7 +28,7 @@ import shared.models.errors.*
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import play.api.libs.ws.DefaultBodyReadables.readableAsString
 
-class DeleteNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec  {
+class DeleteNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
   "Calling the 'delete non-PAYE employment income' endpoint" should {
     "return a 204 status code" when {

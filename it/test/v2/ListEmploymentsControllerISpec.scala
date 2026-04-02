@@ -27,7 +27,7 @@ import shared.services.*
 import shared.support.IntegrationBaseSpec
 import v2.fixtures.ListEmploymentsControllerFixture
 
-class ListEmploymentsControllerISpec extends IntegrationBaseSpec  {
+class ListEmploymentsControllerISpec extends IntegrationBaseSpec {
 
   private trait Test {
 
@@ -184,7 +184,7 @@ class ListEmploymentsControllerISpec extends IntegrationBaseSpec  {
           (BAD_REQUEST, "1215", BAD_REQUEST, NinoFormatError),
           (BAD_REQUEST, "1117", BAD_REQUEST, TaxYearFormatError),
           (BAD_REQUEST, "1217", INTERNAL_SERVER_ERROR, InternalError),
-          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError),
+          (NOT_FOUND, "5010", NOT_FOUND, NotFoundError)
         )
         input.foreach(serviceErrorTest.tupled)
       }

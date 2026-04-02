@@ -31,7 +31,7 @@ class EmploymentsIncomeAuthSupportingAgentsAllowedISpec extends AuthSupportingAg
 
   val taxYear: String = "2019-20"
 
-  private val employmentId    = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
+  private val employmentId = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
 
   val mtdUrl = s"/$nino/$taxYear/$employmentId"
 

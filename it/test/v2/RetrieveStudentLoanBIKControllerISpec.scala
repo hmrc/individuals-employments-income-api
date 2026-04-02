@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package v2
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{EmploymentIdFormatError}
+import common.errors.EmploymentIdFormatError
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status.*
@@ -37,7 +37,6 @@ import shared.models.errors.{
 import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import v2.fixtures.RetrieveStudentLoanBIKFixture
 
-
 class RetrieveStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {
 
   private trait Test {
@@ -50,11 +49,9 @@ class RetrieveStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {
     val downstreamResponse: JsValue = RetrieveStudentLoanBIKFixture.downstreamResponse
     val mtdResponse: JsValue        = RetrieveStudentLoanBIKFixture.mtdResponse
 
-
     def uri: String = s"/$nino/$taxYear/$employmentId/benefit-in-kind/student-loans"
 
     def downstreamUri: String = s"/itsa/income-tax/v1/$downstreamTaxYear/student-loan/payrolled-benefits/$nino/$employmentId"
-
 
     def setupStubs(): StubMapping
 
@@ -162,7 +159,7 @@ class RetrieveStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {
           (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
           (BAD_REQUEST, "INVALID_EMPLOYMENT_ID", BAD_REQUEST, EmploymentIdFormatError),
           (BAD_REQUEST, "INVALID_CORRELATION_ID", INTERNAL_SERVER_ERROR, InternalError),
-          (BAD_REQUEST, "UNMATCHED_STUB_ERROR", BAD_REQUEST, RuleIncorrectGovTestScenarioError) ,
+          (BAD_REQUEST, "UNMATCHED_STUB_ERROR", BAD_REQUEST, RuleIncorrectGovTestScenarioError),
           (NOT_FOUND, "NOT_FOUND", NOT_FOUND, NotFoundError),
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, InternalError),
