@@ -41,12 +41,12 @@
     "ignoreEmployment": {
       "type": "boolean",
       "description": "A boolean that will instruct HMRC not to consider an employment in the tax calculation, when set to true. The value must be true or false.",
-      "example": "true"
+      "example": true
     },
     "occupationalPension": {
       "type": "boolean",
       "description": "A boolean indicating whether this income is from an occupational pension. The value must be true or false.",
-      "example": "true"
+      "example": true
     }
   }
 }
