@@ -40,12 +40,12 @@
           "companyDirector": {
             "type": "boolean",
             "description": "Identifies the employee as a director when set to True. This field will not be applicable for tax years 2025-26 onwards.",
-            "example": "false"
+            "example": false
           },
           "closeCompany": {
             "type": "boolean",
             "description": "Identifies if the employer is a close company. This field will not be applicable for tax years 2025-26 onwards.",
-            "example": "false"
+            "example": false
           },
           "directorshipCeasedDate": {
             "type": "string",
@@ -65,12 +65,12 @@
           "occupationalPension": {
             "type": "boolean",
             "description": "Indicates that the employee pays into an occupational pension when set to True.",
-            "example": "false"
+            "example": false
           },
           "disguisedRemuneration": {
             "type": "boolean",
             "description": "Indicates that the employee is declaring disguised remuneration when set to True.",
-            "example": "false"
+            "example": false
           },
           "employer": {
             "type": "object",
@@ -111,17 +111,17 @@
                 "example": "2020-07-01"
               },
               "taxWeekNo": {
-                "type": "number",
+                "type": "integer",
                 "description": "The week count of the tax year. The value must be an integer between 1 and 56",
-                "example": "32",
+                "example": 32,
                 "minimum": 1,
                 "maximum": 56,
                 "multipleOf": 1
               },
               "taxMonthNo": {
-                "type": "number",
+                "type": "integer",
                 "description": "The month count of the tax year. The value must be an integer between 1 and 12",
-                "example": "7",
+                "example": 7,
                 "minimum": 1,
                 "maximum": 12,
                 "multipleOf": 1
@@ -135,7 +135,7 @@
               "amount": {
                 "type": "number",
                 "description": "The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-                "example": "1500.99",
+                "example": 1500.99,
                 "minimum": 0,
                 "maximum": 99999999999.99,
                 "multipleOf": 0.01
@@ -193,12 +193,12 @@
           "companyDirector": {
             "type": "boolean",
             "description": "Identifies the employee as a director when set to True. This field will not be applicable for tax years 2025-26 onwards.",
-            "example": "false"
+            "example": false
           },
           "closeCompany": {
             "type": "boolean",
             "description": "Identifies if the employer is a close company. This field will not be applicable for tax years 2025-26 onwards.",
-            "example": "false"
+            "example": false
           },
           "directorshipCeasedDate": {
             "type": "string",
@@ -218,17 +218,17 @@
           "occupationalPension": {
             "type": "boolean",
             "description": "Indicates that the employee pays into an occupational pension when set to True.",
-            "example": "false"
+            "example": false
           },
           "disguisedRemuneration": {
             "type": "boolean",
             "description": "Indicates that the employee is declaring disguised remuneration when set to True.",
-            "example": "false"
+            "example": false
           },
           "offPayrollWorker": {
             "type": "boolean",
             "description": "Indicates whether the employer (who is using or procuring the services of the contract worker) is deducting PAYE as they consider that the worker contract falls under Off-Payroll Working (OPW) rules. Required only for tax year 2023/24 or later. Not supported for earlier tax years.\nFor example: true\nWhen the flag is true, the worker is subject to OPW rules and the employer is deducting PAYE based on those rules.",
-            "example": "true"
+            "example": true
           },
           "employer": {
             "type": "object",
@@ -271,7 +271,7 @@
               "taxWeekNo": {
                 "type": "number",
                 "description": "The week count of the tax year. The value must be an integer between 1 and 56",
-                "example": "32",
+                "example": 32,
                 "minimum": 1,
                 "maximum": 56,
                 "multipleOf": 1
@@ -279,7 +279,7 @@
               "taxMonthNo": {
                 "type": "number",
                 "description": "The month count of the tax year. The value must be an integer between 1 and 12",
-                "example": "7",
+                "example": 7,
                 "minimum": 1,
                 "maximum": 12,
                 "multipleOf": 1
@@ -293,7 +293,7 @@
               "amount": {
                 "type": "number",
                 "description": "The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-                "example": "1500.99",
+                "example": 1500.99,
                 "minimum": 0,
                 "maximum": 99999999999.99,
                 "multipleOf": 0.01
@@ -354,12 +354,12 @@
           "companyDirector": {
             "type": "boolean",
             "description": "Identifies the employee as a director when set to True. This field will not be applicable for tax years 2025-26 onwards.",
-            "example": "false"
+            "example": false
           },
           "closeCompany": {
             "type": "boolean",
             "description": "Identifies if the employer is a close company. This field will not be applicable for tax years 2025-26 onwards.",
-            "example": "false"
+            "example": false
           },
           "directorshipCeasedDate": {
             "type": "string",
@@ -379,17 +379,17 @@
           "occupationalPension": {
             "type": "boolean",
             "description": "Indicates that the employee pays into an occupational pension when set to True.",
-            "example": "false"
+            "example": false
           },
           "disguisedRemuneration": {
             "type": "boolean",
             "description": "Indicates that the employee is declaring disguised remuneration when set to True.",
-            "example": "false"
+            "example": false
           },
           "offPayrollWorker": {
             "type": "boolean",
             "description": "Indicates whether the employer (who is using or procuring the services of the contract worker) is deducting PAYE as they consider that the worker contract falls under Off-Payroll Working (OPW) rules. Required only for tax year 2023/24 or later. Not supported for earlier tax years.\nFor example: true\nWhen the flag is true, the worker is subject to OPW rules and the employer is deducting PAYE based on those rules.",
-            "example": "true"
+            "example": true
           },
           "employer": {
             "type": "object",
@@ -430,17 +430,17 @@
                 "example": "2020-07-01"
               },
               "taxWeekNo": {
-                "type": "number",
+                "type": "integer",
                 "description": "The week count of the tax year. The value must be an integer between 1 and 56",
-                "example": "32",
+                "example": 32,
                 "minimum": 1,
                 "maximum": 56,
                 "multipleOf": 1
               },
               "taxMonthNo": {
-                "type": "number",
+                "type": "integer",
                 "description": "The month count of the tax year. The value must be an integer between 1 and 12",
-                "example": "7",
+                "example": 7,
                 "minimum": 1,
                 "maximum": 12,
                 "multipleOf": 1
@@ -454,7 +454,7 @@
               "amount": {
                 "type": "number",
                 "description": "The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-                "example": "1500.99",
+                "example": 1500.99,
                 "minimum": 0,
                 "maximum": 99999999999.99,
                 "multipleOf": 0.01
@@ -514,12 +514,12 @@
     "offPayrollWorker": {
       "type": "boolean",
       "description": "Indicates whether the employer (who is using or procuring the services of the contract worker) is deducting PAYE as they consider that the worker contract falls under Off-Payroll Working (OPW) rules. Required only for tax year 2023/24 or later. Not supported for earlier tax years.\nFor example: true\nWhen the flag is true, the worker is subject to OPW rules and the employer is deducting PAYE based on those rules.",
-      "example": "true"
+      "example": true
     },
     "taxablePayToDate": {
       "type": "number",
       "description": "The gross pay for this employment. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -527,7 +527,7 @@
     "totalTaxToDate": {
       "type": "number",
       "description": "The amount of tax deducted for this employment. The value must be between -99999999999.99 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": -99999999999.99,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -543,7 +543,7 @@
     "uglDeductionAmount": {
       "type": "number",
       "description": "The amount deducted for an undergraduate student loan. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -551,7 +551,7 @@
     "pglDeductionAmount": {
       "type": "number",
       "description": "The amount deducted for a postgraduate student loan. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -559,7 +559,7 @@
     "accommodation": {
       "type": "number",
       "description": "The value of accommodation costs provided by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -567,7 +567,7 @@
     "assets": {
       "type": "number",
       "description": "The value of any goods provided by the employer not exclusively used for work. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -575,7 +575,7 @@
     "assetTransfer": {
       "type": "number",
       "description": "The value of any company assets signed over by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -583,7 +583,7 @@
     "beneficialLoan": {
       "type": "number",
       "description": "The amount of interest free or low interest loans given by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -591,7 +591,7 @@
     "car": {
       "type": "number",
       "description": "The cash equivalent of any cars made available by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -599,7 +599,7 @@
     "carFuel": {
       "type": "number",
       "description": "The amount paid for fuel when using company cars. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -607,7 +607,7 @@
     "educationalServices": {
       "type": "number",
       "description": "Scholarships or school fees paid by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -615,7 +615,7 @@
     "entertaining": {
       "type": "number",
       "description": "Entertainment costs paid by the employer either directly or reimbursed to the employee. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -623,7 +623,7 @@
     "expenses": {
       "type": "number",
       "description": "Expenses reimbursed by the employer to the employee. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -631,7 +631,7 @@
     "medicalInsurance": {
       "type": "number",
       "description": "The sum of insurance premiums paid by the employer for medical or dental insurance. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -639,7 +639,7 @@
     "telephone": {
       "type": "number",
       "description": "Telephone costs paid by the employer that are not exempt. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -647,7 +647,7 @@
     "service": {
       "type": "number",
       "description": "Services used by an employee and paid for by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -655,7 +655,7 @@
     "taxableExpenses": {
       "type": "number",
       "description": "Taxable expenses reimbursed by the employer to the employee. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -663,7 +663,7 @@
     "van": {
       "type": "number",
       "description": "The cash equivalent of any vans made available by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -671,7 +671,7 @@
     "vanFuel": {
       "type": "number",
       "description": "The amount paid by the employer for fuel costs when using company vans. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -679,7 +679,7 @@
     "mileage": {
       "type": "number",
       "description": "The mileage amount paid over HMRC's approved rate by the employer for use of employee's own car for work. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -687,7 +687,7 @@
     "nonQualifyingRelocationExpenses": {
       "type": "number",
       "description": "Other costs involved in relocation paid for directly by the employer or reimbursed to the employee. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -695,7 +695,7 @@
     "nurseryPlaces": {
       "type": "number",
       "description": "Childcare costs paid by the employer or voucher or commercial childcare costs above the exempt limit. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -703,7 +703,7 @@
     "otherItems": {
       "type": "number",
       "description": "The value of any other benefits. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -711,7 +711,7 @@
     "paymentsOnEmployeesBehalf": {
       "type": "number",
       "description": "Other costs incurred by the employee paid for by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -719,7 +719,7 @@
     "personalIncidentalExpenses": {
       "type": "number",
       "description": "Incidental (non-business) expenses incurred by an employee while travelling on business. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -727,7 +727,7 @@
     "qualifyingRelocationExpenses": {
       "type": "number",
       "description": "Employer paid costs associated with employee relocation including bridging loans. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -735,7 +735,7 @@
     "employerProvidedProfessionalSubscriptions": {
       "type": "number",
       "description": "Professional fees and subscriptions paid for by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -743,7 +743,7 @@
     "employerProvidedServices": {
       "type": "number",
       "description": "The value of services provided by the employer. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -751,7 +751,7 @@
     "incomeTaxPaidByDirector": {
       "type": "number",
       "description": "Non PAYE Income Tax for directors deducted from the employer by HMRC. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -759,7 +759,7 @@
     "travelAndSubsistence": {
       "type": "number",
       "description": "The cost of any travel and subsistence (accommodation, meals and so on) paid for by the employer, that is not exempt. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -767,7 +767,7 @@
     "vouchersAndCreditCards": {
       "type": "number",
       "description": "The value of vouchers given by the employer and the expenditure of any employer provided credit cards. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01
@@ -775,7 +775,7 @@
     "nonCash": {
       "type": "number",
       "description": "The value of any other non-cash benefits paid to the employee. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
-      "example": "1024.99",
+      "example": 1024.99,
       "minimum": 0,
       "maximum:": 99999999999.99,
       "multipleOf": 0.01

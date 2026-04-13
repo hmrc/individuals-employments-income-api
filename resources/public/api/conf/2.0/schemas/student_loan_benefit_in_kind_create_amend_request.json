@@ -7,7 +7,7 @@
     "payrolledBenefits": {
       "type": "number",
       "description": "Payrolled benefits which affect student loan repayments.",
-      "example": "20000.01",
+      "example": 20000.01,
       "minimum": 0,
       "maximum": 99999999999.99,
       "multipleOf": 0.01
