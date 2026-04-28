@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package v2.models.request.amendOtherEmployment
 
-import play.api.libs.json.{JsError, JsObject, Json}
+import play.api.libs.json.{JsError, Json}
 import shared.utils.UnitSpec
 
 class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
@@ -196,26 +196,25 @@ class AmendOtherEmploymentRequestBodySpec extends UnitSpec {
       }
     }
 
-    "read from empty JSON" should {
-      "produce an empty AmendOtherEmploymentRequestBody object" in {
-        val emptyJson = JsObject.empty
-
-        emptyJson.as[AmendOtherEmploymentRequestBody] shouldBe AmendOtherEmploymentRequestBody.empty
-      }
-    }
-
-    "read from valid JSON with empty shareOption and sharesAwardedOrReceived arrays" should {
-      "produce an empty AmendOtherEmploymentRequestBody object" in {
+    "read from valid JSON with empty shareOption, sharesAwardedOrReceived and/or lumpSums arrays" should {
+      "produce an AmendOtherEmploymentRequestBody object with empty array fields" in {
         val json = Json.parse(
           """
           |{
           |   "shareOption": [ ],
-          |   "sharesAwardedOrReceived": [ ]
+          |   "sharesAwardedOrReceived": [ ],
+          |   "lumpSums": [ ]
           |}
         """.stripMargin
         )
 
-        json.as[AmendOtherEmploymentRequestBody] shouldBe AmendOtherEmploymentRequestBody.empty
+        json.as[AmendOtherEmploymentRequestBody] shouldBe AmendOtherEmploymentRequestBody(
+          shareOption = Some(Seq.empty),
+          sharesAwardedOrReceived = Some(Seq.empty),
+          disability = None,
+          foreignService = None,
+          lumpSums = Some(Seq.empty)
+        )
       }
     }
 
