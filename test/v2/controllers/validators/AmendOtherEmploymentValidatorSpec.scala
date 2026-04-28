@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -198,8 +198,13 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
         validate(body = Json.parse("""{"field": "value"}""")) shouldBe singleError(RuleIncorrectOrEmptyBodyError)
       }
 
+      "empty arrays are submitted" in new Test {
+        validate(body = Json.parse("""{"shareOption": [], "sharesAwardedOrReceived": [], "lumpSums": []}""")) shouldBe
+          singleError(RuleIncorrectOrEmptyBodyError.withPaths(List("/shareOption", "/sharesAwardedOrReceived", "/lumpSums")))
+      }
+
       "mandatory array fields are missing" in new Test {
-        val paths = List(
+        val paths: List[String] = List(
           "/shareOption/0/amountOfConsiderationReceived",
           "/shareOption/0/amountPaidForOption",
           "/shareOption/0/dateOfEvent",
@@ -452,7 +457,7 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
 
       "Return RuleLumpSumsError" when {
         "all lump sums sections are missing" in new Test {
-          val body = Json.parse(s"""
+          val body: JsValue = Json.parse(s"""
                         |{
                         |  "lumpSums": [
                         |    {
@@ -477,7 +482,7 @@ class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidator
 
         def noErrorWhenOnlyKeep(keptSection: String): Unit =
           s"only contain $keptSection" in new Test {
-            val lumpSumWithKeptSection = (sections - keptSection).foldLeft(itemJson)(_ `removeProperty` _)
+            val lumpSumWithKeptSection: JsValue = (sections - keptSection).foldLeft(itemJson)(_ `removeProperty` _)
 
             validate(body = body(lumpSumWithKeptSection)) shouldBe a[Right[?, ?]]
           }
