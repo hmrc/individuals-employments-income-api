@@ -24,15 +24,13 @@ class DownstreamSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 
   testRoundTrip[DownstreamSourceEnum](
     ("HMRC HELD", DownstreamSourceEnum.`HMRC HELD`),
-    ("CUSTOMER", DownstreamSourceEnum.CUSTOMER),
-    ("LATEST", DownstreamSourceEnum.LATEST)
+    ("CUSTOMER", DownstreamSourceEnum.CUSTOMER)
   )
 
   "toMtdEnum" must {
     "return the expected 'MtdSourceEnum' object" in {
       DownstreamSourceEnum.`HMRC HELD`.toMtdEnum shouldBe MtdSourceEnum.`hmrc-held`
       DownstreamSourceEnum.CUSTOMER.toMtdEnum shouldBe MtdSourceEnum.user
-      DownstreamSourceEnum.LATEST.toMtdEnum shouldBe MtdSourceEnum.latest
     }
   }
 

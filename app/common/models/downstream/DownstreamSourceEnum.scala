@@ -23,7 +23,6 @@ import shared.utils.enums.Enums
 enum DownstreamSourceEnum(val toMtdEnum: MtdSourceEnum) {
   case `HMRC HELD` extends DownstreamSourceEnum(MtdSourceEnum.`hmrc-held`)
   case CUSTOMER    extends DownstreamSourceEnum(MtdSourceEnum.user)
-  case LATEST      extends DownstreamSourceEnum(MtdSourceEnum.latest)
 }
 
 object DownstreamSourceEnum {

@@ -34,7 +34,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
 
     val nino: String           = "AA123456A"
     val employmentId: String   = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
-    val source: Option[String] = Some("hmrc-held")
+    val source: Option[String] = Some("user")
 
     def taxYear: String
 
@@ -91,7 +91,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, Map("view" -> "HMRC-HELD"), OK, downstreamJson)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, Map("view" -> "CUSTOMER"), OK, downstreamJson)
         }
 
         val response: WSResponse = await(request.get())
@@ -166,7 +166,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerISpec extends EmploymentsIB
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DownstreamStub.onError(DownstreamStub.GET, downstreamUri, Map("view" -> "HMRC-HELD"), downstreamStatus, errorBody(downstreamCode))
+              DownstreamStub.onError(DownstreamStub.GET, downstreamUri, Map("view" -> "CUSTOMER"), downstreamStatus, errorBody(downstreamCode))
             }
 
             val response: WSResponse = await(request.get())
