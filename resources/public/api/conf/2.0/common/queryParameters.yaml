@@ -4,12 +4,11 @@ components:
       in: query
       name: source
       description: |
-        Specifies the source of data to be returned. If source is not provided,
-        the latest submitted values will be returned.
+        Specifies the source of data to be returned.
       schema:
         type: string
-        enum: [ user, hmrc-held, latest ]
-        example: latest
+        enum: [ user, hmrc-held ]
+        example: hmrc-held
       required: false
     savingsAccountId:
       in: query

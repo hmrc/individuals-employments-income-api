@@ -14,8 +14,7 @@
       "description": "Specifies the source of data.",
       "enum": [
         "hmrc-held",
-        "user",
-        "latest"
+        "user"
       ]
     },
     "totalNonPayeIncome": {
