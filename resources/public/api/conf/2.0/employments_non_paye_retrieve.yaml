@@ -49,10 +49,6 @@ responses:
             description: HMRC held Response
             value:
               $ref: './examples/nonPayeEmployments/retrieve_hmrc_response.json'
-          latest-example:
-            description: Latest Response
-            value:
-              $ref: './examples/nonPayeEmployments/retrieve_latest_response.json'
 
   "400":
     description: Bad request
