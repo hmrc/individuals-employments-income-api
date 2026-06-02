@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ object RetrieveFinancialDetailsControllerFixture {
     """
       |{
       |  "submittedOn": "2020-01-04T05:01:01Z",
-      |  "source": "LATEST",
+      |  "source": "CUSTOMER",
       |  "customerAdded": "2020-04-04T01:01:01Z",
       |  "dateIgnored": "2020-03-05T05:01:01Z",
       |  "employment": {
@@ -101,7 +101,7 @@ object RetrieveFinancialDetailsControllerFixture {
     """
       |{
       |  "submittedOn": "2020-01-04T05:01:01.000Z",
-      |  "source": "latest",
+      |  "source": "user",
       |  "customerAdded": "2020-04-04T01:01:01.000Z",
       |  "dateIgnored": "2020-03-05T05:01:01.000Z",
       |  "employment": {
@@ -242,7 +242,7 @@ object RetrieveFinancialDetailsControllerFixture {
 
   val model: RetrieveEmploymentAndFinancialDetailsResponse = RetrieveEmploymentAndFinancialDetailsResponse(
     submittedOn = Timestamp("2020-01-04T05:01:01.000Z"),
-    source = Some(MtdSourceEnum.latest),
+    source = Some(MtdSourceEnum.user),
     customerAdded = Some(Timestamp("2020-04-04T01:01:01.000Z")),
     dateIgnored = Some(Timestamp("2020-03-05T05:01:01.000Z")),
     employment = employmentModel
