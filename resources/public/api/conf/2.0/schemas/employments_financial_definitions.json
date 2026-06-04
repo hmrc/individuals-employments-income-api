@@ -7,8 +7,8 @@
     },
     "source": {
       "type": "string",
-      "description": "Specifies the source of data to be returned.",
-      "enum": ["hmrc-held", "user"]
+      "description": "Specifies the source of data to be returned. `latest` will be removed in a future release.",
+      "enum": ["hmrc-held", "user", "latest"]
     },
     "customerAdded": {
       "type": "string",
