@@ -40,7 +40,7 @@ class ErrorHandlerSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "onClientError" should {
     "return 404 with error body" when {
-      s"URI not found" in new Test {
+      "URI not found" in new Test {
 
         val result: Future[Result] = handler.onClientError(requestHeader, Status.NOT_FOUND, "test")
         status(result) shouldBe Status.NOT_FOUND
@@ -116,7 +116,6 @@ class ErrorHandlerSpec extends UnitSpec with GuiceOneAppPerSuite {
     "return 401 with error body" when {
       "AuthorisationException thrown" in new Test {
         val result: Future[Result] = handler.onServerError(requestHeader, new InsufficientEnrolments("test") with NoStackTrace)
-        // TODO This really should be FORBIDDEN (403), but would need to be changed across all the APIs at once (if at all).
         status(result) shouldBe UNAUTHORIZED
 
         contentAsJson(result) shouldBe ClientOrAgentNotAuthorisedError.asJson
@@ -180,7 +179,7 @@ class ErrorHandlerSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   def anyVersionHeader: (String, String) = ACCEPT -> s"application/vnd.hmrc.1.0+json"
 
-  class Test {
+  private trait Test {
     val method = "some-method"
 
     val requestHeader: FakeRequest[AnyContent] = FakeRequest().withHeaders(anyVersionHeader)
