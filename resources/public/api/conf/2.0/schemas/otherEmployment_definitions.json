@@ -13,13 +13,13 @@
         "properties": {
           "employerName": {
             "type": "string",
-            "description": "The name of the employer.",
+            "description": "The name of the employer. Must not be empty or contain only whitespace.",
             "pattern": "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,105}$",
             "example": "BPDTS Ltd."
           },
           "employerRef": {
             "type": "string",
-            "description": "A reference number given to every business that registers with HMRC as an employer.",
+            "description": "A reference number given to every business that registers with HMRC as an employer. Must not be empty or contain only whitespace.",
             "example": "123/AB456",
             "pattern": "^[0-9]{3}\\/[^ ].{0,9}$"
           },
@@ -60,7 +60,7 @@
           },
           "classOfSharesAcquired": {
             "type": "string",
-            "description": "The class type of shares acquired.",
+            "description": "The class type of shares acquired. Must not be empty or contain only whitespace.",
             "example": "Ordinary shares",
             "pattern": "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,90}$"
           },
@@ -137,13 +137,13 @@
         "properties": {
           "employerName": {
             "type": "string",
-            "description": "The name of the employer.",
+            "description": "The name of the employer. Must not be empty or contain only whitespace.",
             "pattern": "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,105}$",
             "example": "BPDTS Ltd."
           },
           "employerRef": {
             "type": "string",
-            "description": "A reference number given to every business that registers with HMRC as an employer.",
+            "description": "A reference number given to every business that registers with HMRC as an employer. Must not be empty or contain only whitespace.",
             "example": "123/AB456",
             "pattern": "^[0-9]{3}\\/[^ ].{0,9}$"
           },
@@ -166,7 +166,7 @@
           },
           "classOfShareAwarded": {
             "type": "string",
-            "description": "The level of voting rights shareholders receive.",
+            "description": "The level of voting rights shareholders receive. Must not be empty or contain only whitespace.",
             "example": "FIRST",
             "pattern": "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,90}$"
           },
@@ -249,7 +249,7 @@
       "properties": {
         "customerReference": {
           "type": "string",
-          "description": "An optional user supplied reference.",
+          "description": "An optional user supplied reference. Must not be empty or contain only whitespace.",
           "example": "OTHEREmp123A",
           "pattern": "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,90}$"
         },
@@ -270,7 +270,7 @@
       "properties": {
         "customerReference": {
           "type": "string",
-          "description": "A reference the user supplies to identify the foreign income.",
+          "description": "A reference the user supplies to identify the foreign income. Must not be empty or contain only whitespace.",
           "example": "OTHEREmp123A",
           "pattern": "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,90}$"
         },
@@ -293,13 +293,13 @@
         "properties": {
           "employerName": {
             "type": "string",
-            "description": "The name of the employer.",
+            "description": "The name of the employer. Must not be empty or contain only whitespace.",
             "pattern": "^[0-9a-zA-Z{À-˿’}\\- _&`():.'^]{1,105}$",
             "example": "BPDTS Ltd."
           },
           "employerRef": {
             "type": "string",
-            "description": "A reference number given to every business that registers with HMRC as an employer.",
+            "description": "A reference number given to every business that registers with HMRC as an employer. Must not be empty or contain only whitespace.",
             "example": "123/AB456",
             "pattern": "^[0-9]{3}\\/[^ ].{0,9}$"
           },
