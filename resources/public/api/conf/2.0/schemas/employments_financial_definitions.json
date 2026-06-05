@@ -33,7 +33,7 @@
           },
           "payrollId": {
             "type": "string",
-            "description": "A unique identifier used by the employer to identify the employee.",
+            "description": "A unique identifier used by the employer to identify the employee. Must not be empty or contain only whitespace.",
             "example": "124214112412",
             "pattern": "^[A-Za-z0-9.,\\-()/=!\"%&*;<>'+:\\?]{0,38}$"
           },
@@ -186,7 +186,7 @@
           },
           "payrollId": {
             "type": "string",
-            "description": "The unique identifier used by the employer to identify the employee.",
+            "description": "The unique identifier used by the employer to identify the employee. Must not be empty or contain only whitespace.",
             "pattern": "^[A-Za-z0-9.,\\-()/=!\"%&*; <>'+:\\?]{0,38}$",
             "example": "YDIAHPcYFQbOXLCKQ"
           },
@@ -347,7 +347,7 @@
           },
           "payrollId": {
             "type": "string",
-            "description": "The unique identifier used by the employer to identify the employee.",
+            "description": "The unique identifier used by the employer to identify the employee. Must not be empty or contain only whitespace.",
             "pattern": "^[A-Za-z0-9 \\.,\\-\\(\\)/=!\\\"%&\\*;<>'\\+:\\?#]{0,35}$",
             "example": "YDIAHPcYFQbOXLCKQ"
           },
