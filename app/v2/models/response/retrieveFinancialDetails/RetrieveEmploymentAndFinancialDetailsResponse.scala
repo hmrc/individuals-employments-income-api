@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package v2.models.response.retrieveFinancialDetails
 
 import common.models.domain.MtdSourceEnum
-import common.models.downstream.DownstreamSourceEnum
 import shared.models.domain.Timestamp
 import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
