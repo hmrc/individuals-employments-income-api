@@ -16,9 +16,9 @@
 
 package v2.models.response.retrieveStudentLoanBIK
 
+import api.models.domain.Timestamp
 import play.api.libs.functional.syntax.toFunctionalBuilderOps
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
-import shared.models.domain.Timestamp
 
 case class RetrieveStudentLoanBIKResponse(submittedOn: Timestamp, payrolledBenefits: BigDecimal) {}
 

@@ -16,10 +16,10 @@
 
 package v2.models.response.retrieveOtherEmployment
 
+import api.models.domain.Timestamp
+import api.utils.UnitSpec
 import common.models.domain.{ShareOptionSchemeType, SharesAwardedOrReceivedSchemeType}
 import play.api.libs.json.{JsError, Json}
-import shared.models.domain.Timestamp
-import shared.utils.UnitSpec
 
 class RetrieveOtherEmploymentResponseSpec extends UnitSpec {
 

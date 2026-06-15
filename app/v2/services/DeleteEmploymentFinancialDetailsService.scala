@@ -16,11 +16,11 @@
 
 package v2.services
 
+import api.controllers.RequestContext
+import api.models.errors.{MtdError, *}
+import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.*
 import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
-import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, *}
-import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.DeleteEmploymentFinancialDetailsConnector
 import v2.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 

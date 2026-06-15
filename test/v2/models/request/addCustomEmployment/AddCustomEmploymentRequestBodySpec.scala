@@ -16,11 +16,11 @@
 
 package v2.models.request.addCustomEmployment
 
+import api.config.MockAppConfig
+import api.utils.UnitSpec
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
-import shared.config.MockSharedAppConfig
-import shared.utils.UnitSpec
 
-class AddCustomEmploymentRequestBodySpec extends UnitSpec with MockSharedAppConfig {
+class AddCustomEmploymentRequestBodySpec extends UnitSpec with MockAppConfig {
 
   "AddCustomEmploymentRequestBody" when {
     def json(payrollId: String = "124214112412"): JsValue = Json.parse(

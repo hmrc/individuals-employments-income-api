@@ -16,9 +16,9 @@
 
 package common.models.domain
 
+import api.utils.UnitSpec
+import api.utils.enums.EnumJsonSpecSupport
 import common.models.domain.ShareOptionSchemeType.*
-import shared.utils.UnitSpec
-import shared.utils.enums.EnumJsonSpecSupport
 
 class ShareOptionSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 

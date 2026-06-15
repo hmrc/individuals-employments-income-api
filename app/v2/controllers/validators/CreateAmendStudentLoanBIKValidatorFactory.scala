@@ -16,8 +16,8 @@
 
 package v2.controllers.validators
 
+import api.controllers.validators.Validator
 import play.api.libs.json.JsValue
-import shared.controllers.validators.Validator
 import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
 
 import javax.inject.{Inject, Singleton}

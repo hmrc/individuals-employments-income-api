@@ -16,7 +16,7 @@
 
 package v2.models.request.ignoreEmployment
 
+import api.models.domain.{Nino, TaxYear}
 import common.models.domain.EmploymentId
-import shared.models.domain.{Nino, TaxYear}
 
 case class IgnoreEmploymentRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId)

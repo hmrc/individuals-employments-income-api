@@ -16,7 +16,7 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.Validator
+import api.controllers.validators.Validator
 import config.EmploymentsAppConfig
 import play.api.libs.json.JsValue
 import v2.models.request.amendCustomEmployment.AmendCustomEmploymentRequest

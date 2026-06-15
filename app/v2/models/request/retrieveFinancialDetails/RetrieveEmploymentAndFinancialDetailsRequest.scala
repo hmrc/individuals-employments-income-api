@@ -16,7 +16,7 @@
 
 package v2.models.request.retrieveFinancialDetails
 
+import api.models.domain.{Nino, TaxYear}
 import common.models.domain.{EmploymentId, MtdSourceEnum}
-import shared.models.domain.{Nino, TaxYear}
 
 case class RetrieveEmploymentAndFinancialDetailsRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId, source: MtdSourceEnum)

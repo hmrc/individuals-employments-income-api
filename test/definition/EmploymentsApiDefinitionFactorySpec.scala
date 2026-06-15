@@ -16,34 +16,34 @@
 
 package definition
 
+import api.config.Deprecation.NotDeprecated
+import api.config.{ConfidenceLevelConfig, MockAppConfig}
+import api.definition.APIStatus.BETA
+import api.definition.{APIDefinition, APIVersion, Definition}
+import api.routing.Version2
+import api.utils.UnitSpec
 import cats.implicits.catsSyntaxValidatedId
 import config.MockEmploymentsAppConfig
-import shared.config.Deprecation.NotDeprecated
-import shared.config.{ConfidenceLevelConfig, MockSharedAppConfig}
-import shared.definition.APIStatus.BETA
-import shared.definition.{APIDefinition, APIVersion, Definition}
-import shared.routing.Version2
-import shared.utils.UnitSpec
 import uk.gov.hmrc.auth.core.ConfidenceLevel
 
-class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsAppConfig with MockSharedAppConfig {
+class EmploymentsApiDefinitionFactorySpec extends UnitSpec with MockEmploymentsAppConfig with MockAppConfig {
 
   private val confidenceLevel: ConfidenceLevel = ConfidenceLevel.L200
 
   "definition" when {
     "called" should {
       "return a valid Definition case class" in {
-        MockedSharedAppConfig.apiGatewayContext returns "individuals/employments-income"
+        MockedAppConfig.apiGatewayContext returns "individuals/employments-income"
         List(Version2).foreach { version =>
-          MockedSharedAppConfig.apiStatus(version) returns "BETA"
-          MockedSharedAppConfig.endpointsEnabled(version).returns(true).anyNumberOfTimes()
-          MockedSharedAppConfig.deprecationFor(version).returns(NotDeprecated.valid).anyNumberOfTimes()
+          MockedAppConfig.apiStatus(version) returns "BETA"
+          MockedAppConfig.endpointsEnabled(version).returns(true).anyNumberOfTimes()
+          MockedAppConfig.deprecationFor(version).returns(NotDeprecated.valid).anyNumberOfTimes()
         }
-        MockedSharedAppConfig.confidenceLevelConfig
+        MockedAppConfig.confidenceLevelConfig
           .returns(ConfidenceLevelConfig(confidenceLevel = confidenceLevel, definitionEnabled = true, authValidationEnabled = true))
           .anyNumberOfTimes()
 
-        val apiDefinitionFactory = new EmploymentsApiDefinitionFactory(mockSharedAppConfig)
+        val apiDefinitionFactory = new EmploymentsApiDefinitionFactory(mockAppConfig)
         apiDefinitionFactory.definition shouldBe
           Definition(
             api = APIDefinition(

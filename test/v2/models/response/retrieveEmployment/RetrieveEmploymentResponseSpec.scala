@@ -16,9 +16,9 @@
 
 package v2.models.response.retrieveEmployment
 
-import shared.models.domain.Timestamp
+import api.models.domain.Timestamp
+import api.utils.UnitSpec
 import play.api.libs.json.{JsError, Json}
-import shared.utils.UnitSpec
 
 class RetrieveEmploymentResponseSpec extends UnitSpec {
 

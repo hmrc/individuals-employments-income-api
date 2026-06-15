@@ -16,17 +16,17 @@
 
 package v2.controllers
 
+import api.config.MockAppConfig
+import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
 import common.models.domain.EmploymentId
 import play.api.Configuration
 import play.api.http.HeaderNames
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import shared.config.MockSharedAppConfig
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
 import v2.controllers.validators.MockUnignoreEmploymentValidatorFactory
 import v2.mocks.services.MockUnignoreEmploymentService
 import v2.models.request.unignoreEmployment.UnignoreEmploymentRequest
@@ -39,7 +39,7 @@ class UnignoreEmploymentControllerSpec
     with ControllerTestRunner
     with MockUnignoreEmploymentService
     with MockUnignoreEmploymentValidatorFactory
-    with MockSharedAppConfig {
+    with MockAppConfig {
 
   val taxYear: String      = "2019-20"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -56,11 +56,11 @@ class UnignoreEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.unignoreEmployment(validNino, taxYear, employmentId)(
       fakeRequest.withHeaders(

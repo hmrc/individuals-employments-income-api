@@ -16,9 +16,9 @@
 
 package v2.models.response.listEmployment
 
-import shared.models.domain.Timestamp
+import api.models.domain.Timestamp
+import api.utils.UnitSpec
 import play.api.libs.json.{JsError, JsObject, Json}
-import shared.utils.UnitSpec
 
 class EmploymentSpec extends UnitSpec {
 

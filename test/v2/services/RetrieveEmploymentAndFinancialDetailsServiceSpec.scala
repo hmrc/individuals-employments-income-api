@@ -16,13 +16,13 @@
 
 package v2.services
 
+import api.controllers.EndpointLogContext
+import api.models.domain.*
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
+import api.services.ServiceSpec
 import common.errors.{EmploymentIdFormatError, SourceFormatError}
 import common.models.domain.{EmploymentId, MtdSourceEnum}
-import shared.controllers.EndpointLogContext
-import shared.models.domain.*
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
-import shared.services.ServiceSpec
 import uk.gov.hmrc.http.HeaderCarrier
 import v2.mocks.connectors.MockRetrieveEmploymentAndFinancialDetailsConnector
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest

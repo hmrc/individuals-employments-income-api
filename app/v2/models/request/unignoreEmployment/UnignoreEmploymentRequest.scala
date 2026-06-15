@@ -16,7 +16,7 @@
 
 package v2.models.request.unignoreEmployment
 
+import api.models.domain.{Nino, TaxYear}
 import common.models.domain.EmploymentId
-import shared.models.domain.{Nino, TaxYear}
 
 case class UnignoreEmploymentRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId)

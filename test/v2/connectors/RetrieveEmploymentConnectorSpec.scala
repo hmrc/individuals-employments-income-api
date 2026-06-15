@@ -16,12 +16,12 @@
 
 package v2.connectors
 
+import api.mocks.MockHttpClient
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import shared.mocks.MockHttpClient
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.retrieveEmployment.RetrieveEmploymentRequest
 import v2.models.response.retrieveEmployment.RetrieveEmploymentResponse
@@ -47,7 +47,7 @@ class RetrieveEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   trait Test extends MockHttpClient with MockEmploymentsAppConfig {
 
-    val connector: RetrieveEmploymentConnector = new RetrieveEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
+    val connector: RetrieveEmploymentConnector = new RetrieveEmploymentConnector(http = mockHttpClient, appConfig = mockAppConfig)
 
     val request: RetrieveEmploymentRequest =
       RetrieveEmploymentRequest(Nino(nino), TaxYear.fromMtd(taxYear), EmploymentId(employmentId))

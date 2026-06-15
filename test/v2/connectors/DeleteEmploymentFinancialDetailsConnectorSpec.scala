@@ -16,11 +16,11 @@
 
 package v2.connectors
 
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
@@ -73,7 +73,7 @@ class DeleteEmploymentFinancialDetailsConnectorSpec extends EmploymentsConnector
 
     val connector: DeleteEmploymentFinancialDetailsConnector = new DeleteEmploymentFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockSharedAppConfig,
+      appConfig = mockAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 

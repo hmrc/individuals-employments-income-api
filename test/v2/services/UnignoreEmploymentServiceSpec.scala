@@ -16,13 +16,13 @@
 
 package v2.services
 
+import api.controllers.EndpointLogContext
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
+import api.services.ServiceSpec
 import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
 import common.models.domain.EmploymentId
-import shared.controllers.EndpointLogContext
-import shared.services.ServiceSpec
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.HeaderCarrier
 import v2.mocks.connectors.MockUnignoreEmploymentConnector
 import v2.models.request.unignoreEmployment.UnignoreEmploymentRequest

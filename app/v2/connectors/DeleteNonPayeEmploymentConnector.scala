@@ -16,11 +16,11 @@
 
 package v2.connectors
 
+import api.config.AppConfig
+import api.connectors.DownstreamUri.IfsUri
+import api.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
+import api.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import config.EmploymentsAppConfig
-import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.IfsUri
-import shared.connectors.httpparsers.StandardDownstreamHttpParser.readsEmpty
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
@@ -29,7 +29,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteNonPayeEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig, employmentsAppConfig: EmploymentsAppConfig)
+class DeleteNonPayeEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig)
     extends BaseDownstreamConnector {
 
   def deleteNonPayeEmployment(request: DeleteNonPayeEmploymentRequest)(implicit
@@ -37,7 +37,7 @@ class DeleteNonPayeEmploymentConnector @Inject() (val http: HttpClientV2, val ap
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
-    import request._
+    import request.*
 
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
       IfsUri[Unit](

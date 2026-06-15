@@ -16,9 +16,9 @@
 
 package v2.controllers.validators.resolvers
 
-import shared.controllers.validators.resolvers.ResolverSupport
+import api.controllers.validators.resolvers.ResolverSupport
+import api.models.errors.MtdError
 import common.models.domain.SharesAwardedOrReceivedSchemeType
-import shared.models.errors.MtdError
 
 object SharesAwardedOrReceivedSchemeTypeResolver extends ResolverSupport {
 

@@ -16,9 +16,9 @@
 
 package common.models.domain
 
+import api.utils.UnitSpec
+import api.utils.enums.EnumJsonSpecSupport
 import common.models.domain.PayFrequency.*
-import shared.utils.UnitSpec
-import shared.utils.enums.EnumJsonSpecSupport
 
 class PayFrequencySpec extends UnitSpec with EnumJsonSpecSupport {
 

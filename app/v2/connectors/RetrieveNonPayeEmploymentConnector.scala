@@ -16,11 +16,11 @@
 
 package v2.connectors
 
+import api.config.AppConfig
+import api.connectors.DownstreamUri.IfsUri
+import api.connectors.httpparsers.StandardDownstreamHttpParser.reads
+import api.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import config.EmploymentsAppConfig
-import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.IfsUri
-import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
@@ -30,9 +30,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClientV2,
-                                                    val appConfig: SharedAppConfig,
-                                                    employmentsAppConfig: EmploymentsAppConfig)
+class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClientV2, val appConfig: AppConfig, employmentsAppConfig: EmploymentsAppConfig)
     extends BaseDownstreamConnector {
 
   def retrieveNonPayeEmployment(request: RetrieveNonPayeEmploymentIncomeRequest)(implicit
@@ -40,7 +38,7 @@ class RetrieveNonPayeEmploymentConnector @Inject() (val http: HttpClientV2,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[RetrieveNonPayeEmploymentIncomeResponse]] = {
 
-    import request._
+    import request.*
 
     val downstreamUri = if (taxYear.useTaxYearSpecificApi) {
       IfsUri[RetrieveNonPayeEmploymentIncomeResponse](

@@ -16,10 +16,10 @@
 
 package v2.connectors
 
+import api.connectors.ConnectorSpec
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import config.MockFeatureSwitches
-import shared.connectors.ConnectorSpec
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.fixtures.OtherIncomeEmploymentFixture.retrieveResponse
 import v2.models.request.otherEmploymentIncome.{DeleteOtherEmploymentIncomeRequest, RetrieveOtherEmploymentIncomeRequest}
@@ -36,7 +36,7 @@ class OtherEmploymentIncomeConnectorSpec extends ConnectorSpec with MockFeatureS
     def taxYear: TaxYear
 
     protected val connector: OtherEmploymentIncomeConnector =
-      new OtherEmploymentIncomeConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
+      new OtherEmploymentIncomeConnector(http = mockHttpClient, appConfig = mockAppConfig)
 
   }
 

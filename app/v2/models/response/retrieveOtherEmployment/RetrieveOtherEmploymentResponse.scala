@@ -16,8 +16,8 @@
 
 package v2.models.response.retrieveOtherEmployment
 
+import api.models.domain.Timestamp
 import common.utils.JsonUtils
-import shared.models.domain.Timestamp
 import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 

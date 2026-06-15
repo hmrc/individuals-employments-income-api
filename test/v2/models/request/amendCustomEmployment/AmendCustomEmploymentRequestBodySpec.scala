@@ -16,11 +16,11 @@
 
 package v2.models.request.amendCustomEmployment
 
+import api.config.MockAppConfig
+import api.utils.UnitSpec
 import play.api.libs.json.{JsError, JsValue, Json}
-import shared.config.MockSharedAppConfig
-import shared.utils.UnitSpec
 
-class AmendCustomEmploymentRequestBodySpec extends UnitSpec with MockSharedAppConfig {
+class AmendCustomEmploymentRequestBodySpec extends UnitSpec with MockAppConfig {
 
   private val model: AmendCustomEmploymentRequestBody = AmendCustomEmploymentRequestBody(
     employerRef = Some("123/AZ12334"),

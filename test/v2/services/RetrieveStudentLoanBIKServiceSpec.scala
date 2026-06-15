@@ -16,11 +16,9 @@
 
 package v2.services
 
-import common.errors.{EmploymentIdFormatError}
-import common.models.domain.EmploymentId
-import shared.controllers.EndpointLogContext
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.{
+import api.controllers.EndpointLogContext
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.{
   DownstreamErrorCode,
   DownstreamErrors,
   ErrorWrapper,
@@ -32,8 +30,10 @@ import shared.models.errors.{
   RuleTaxYearNotSupportedError,
   TaxYearFormatError
 }
-import shared.models.outcomes.ResponseWrapper
-import shared.services.ServiceSpec
+import api.models.outcomes.ResponseWrapper
+import api.services.ServiceSpec
+import common.errors.EmploymentIdFormatError
+import common.models.domain.EmploymentId
 import v2.fixtures.RetrieveStudentLoanBIKFixture.responseModel
 import v2.mocks.connectors.MockRetrieveStudentLoanBIKConnector
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest

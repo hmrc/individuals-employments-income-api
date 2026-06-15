@@ -16,11 +16,11 @@
 
 package v2.controllers
 
+import api.config.AppConfig
+import api.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
+import api.services.{EnrolmentsAuthService, MtdIdLookupService}
+import api.utils.IdGenerator
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import shared.config.SharedAppConfig
-import shared.controllers.{AuthorisedController, EndpointLogContext, RequestContext, RequestHandler}
-import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
-import shared.utils.IdGenerator
 import v2.controllers.validators.RetrieveOtherEmploymentValidatorFactory
 import v2.services.RetrieveOtherEmploymentIncomeService
 
@@ -33,7 +33,7 @@ class RetrieveOtherEmploymentController @Inject() (val authService: EnrolmentsAu
                                                    validatorFactory: RetrieveOtherEmploymentValidatorFactory,
                                                    service: RetrieveOtherEmploymentIncomeService,
                                                    cc: ControllerComponents,
-                                                   val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
+                                                   val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "retrieve-other-employment"

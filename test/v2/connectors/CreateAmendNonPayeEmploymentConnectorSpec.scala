@@ -16,10 +16,10 @@
 
 package v2.connectors
 
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture.*
 import v2.models.request.createAmendNonPayeEmployment.*
@@ -42,7 +42,7 @@ class CreateAmendNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec
 
     val connector: CreateAmendNonPayeEmploymentConnector = new CreateAmendNonPayeEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockSharedAppConfig,
+      appConfig = mockAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 

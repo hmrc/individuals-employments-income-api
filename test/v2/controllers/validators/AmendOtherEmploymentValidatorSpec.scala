@@ -16,24 +16,13 @@
 
 package v2.controllers.validators
 
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.{DateFormatError, *}
+import api.models.utils.JsonErrorValidators
+import api.utils.UnitSpec
 import common.errors.*
 import config.MockEmploymentsAppConfig
 import play.api.libs.json.*
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.{
-  BadRequestError,
-  DateFormatError,
-  ErrorWrapper,
-  MtdError,
-  NinoFormatError,
-  RuleIncorrectOrEmptyBodyError,
-  RuleTaxYearNotSupportedError,
-  RuleTaxYearRangeInvalidError,
-  TaxYearFormatError,
-  ValueFormatError
-}
-import shared.models.utils.JsonErrorValidators
-import shared.utils.UnitSpec
 import v2.models.request.amendOtherEmployment.{AmendOtherEmploymentRequest, AmendOtherEmploymentRequestBody}
 
 class AmendOtherEmploymentValidatorSpec extends UnitSpec with JsonErrorValidators with MockEmploymentsAppConfig {

@@ -16,14 +16,14 @@
 
 package v2.controllers
 
+import api.config.MockAppConfig
+import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
 import common.models.domain.MtdSourceEnum
 import play.api.Configuration
 import play.api.mvc.Result
-import shared.config.MockSharedAppConfig
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
 import v2.controllers.validators.MockRetrieveNonPayeEmploymentIncomeValidatorFactory
 import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture.*
 import v2.mocks.services.MockRetrieveNonPayeEmploymentService
@@ -37,7 +37,7 @@ class RetrieveNonPayeEmploymentControllerSpec
     with ControllerTestRunner
     with MockRetrieveNonPayeEmploymentService
     with MockRetrieveNonPayeEmploymentIncomeValidatorFactory
-    with MockSharedAppConfig {
+    with MockAppConfig {
 
   val taxYear: String       = "2019-20"
   val source: MtdSourceEnum = MtdSourceEnum.`hmrc-held`
@@ -92,11 +92,11 @@ class RetrieveNonPayeEmploymentControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.retrieveNonPayeEmployment(validNino, taxYear, Some(source.toString))(fakeGetRequest)
   }

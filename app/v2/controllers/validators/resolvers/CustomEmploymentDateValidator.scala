@@ -16,9 +16,9 @@
 
 package v2.controllers.validators.resolvers
 
-import shared.controllers.validators.resolvers.ResolverSupport
-import shared.models.domain.TaxYear
-import shared.models.errors.*
+import api.controllers.validators.resolvers.{ResolveIsoDate, ResolverSupport}
+import api.models.domain.TaxYear
+import api.models.errors.*
 import cats.data.Validated.{Invalid, Valid}
 import common.errors.{
   CessationDateFormatError,
@@ -26,8 +26,6 @@ import common.errors.{
   RuleCessationDateBeforeTaxYearStartError,
   RuleStartDateAfterTaxYearEndError
 }
-import shared.controllers.validators.resolvers.ResolveIsoDate
-import shared.models.errors.MtdError
 
 import java.time.LocalDate
 import scala.math.Ordering.Implicits.infixOrderingOps

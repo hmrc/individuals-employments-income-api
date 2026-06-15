@@ -16,15 +16,7 @@
 
 package v2
 
-import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.EmploymentIdFormatError
-import common.support.EmploymentsIBaseSpec
-import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status.*
-import play.api.libs.json.{JsValue, Json}
-import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers.AUTHORIZATION
-import shared.models.errors.{
+import api.models.errors.{
   InternalError,
   MtdError,
   NinoFormatError,
@@ -34,7 +26,15 @@ import shared.models.errors.{
   RuleTaxYearRangeInvalidError,
   TaxYearFormatError
 }
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import com.github.tomakehurst.wiremock.stubbing.StubMapping
+import common.errors.EmploymentIdFormatError
+import common.support.EmploymentsIBaseSpec
+import play.api.http.HeaderNames.ACCEPT
+import play.api.http.Status.*
+import play.api.libs.json.{JsValue, Json}
+import play.api.libs.ws.{WSRequest, WSResponse}
+import play.api.test.Helpers.AUTHORIZATION
 import v2.fixtures.RetrieveStudentLoanBIKFixture
 
 class RetrieveStudentLoanBIKControllerISpec extends EmploymentsIBaseSpec {

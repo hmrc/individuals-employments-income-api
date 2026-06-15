@@ -16,16 +16,16 @@
 
 package v2.controllers.validators
 
+import api.config.MockAppConfig
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.utils.UnitSpec
 import common.errors.EmploymentIdFormatError
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import shared.config.MockSharedAppConfig
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.utils.UnitSpec
 import v2.models.request.retrieveEmployment.RetrieveEmploymentRequest
 
-class RetrieveEmploymentValidatorSpec extends UnitSpec with MockSharedAppConfig {
+class RetrieveEmploymentValidatorSpec extends UnitSpec with MockAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"

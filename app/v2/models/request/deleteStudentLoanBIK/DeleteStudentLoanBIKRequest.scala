@@ -16,7 +16,7 @@
 
 package v2.models.request.deleteStudentLoanBIK
 
+import api.models.domain.{Nino, TaxYear}
 import common.models.domain.EmploymentId
-import shared.models.domain.{Nino, TaxYear}
 
 case class DeleteStudentLoanBIKRequest(nino: Nino, taxYear: TaxYear, employmentId: EmploymentId)

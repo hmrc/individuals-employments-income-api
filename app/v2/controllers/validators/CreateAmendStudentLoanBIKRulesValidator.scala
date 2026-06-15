@@ -16,9 +16,9 @@
 
 package v2.controllers.validators
 
+import api.controllers.validators.RulesValidator
+import api.models.errors.MtdError
 import cats.data.Validated
-import shared.controllers.validators.RulesValidator
-import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.EmploymentsIncomeValidators.*
 import v2.models.request.createAmendStudentLoanBIK.{CreateAmendStudentLoanBIKRequest, CreateAmendStudentLoanBIKRequestBody}
 

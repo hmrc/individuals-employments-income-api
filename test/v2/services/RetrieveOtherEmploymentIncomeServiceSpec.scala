@@ -16,11 +16,11 @@
 
 package v2.services
 
-import shared.controllers.EndpointLogContext
-import shared.services.ServiceSpec
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
+import api.controllers.EndpointLogContext
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
+import api.services.ServiceSpec
 import v2.fixtures.OtherIncomeEmploymentFixture.retrieveOtherResponseModel
 import v2.mocks.connectors.MockOtherEmploymentIncomeConnector
 import v2.models.request.otherEmploymentIncome.RetrieveOtherEmploymentIncomeRequest

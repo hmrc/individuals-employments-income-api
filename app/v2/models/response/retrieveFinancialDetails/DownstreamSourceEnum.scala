@@ -16,9 +16,9 @@
 
 package v2.models.response.retrieveFinancialDetails
 
+import api.utils.enums.Enums
 import common.models.domain.MtdSourceEnum
 import play.api.libs.json.Reads
-import shared.utils.enums.Enums
 
 enum DownstreamSourceEnum(val toMtdEnum: MtdSourceEnum) {
   case `HMRC HELD` extends DownstreamSourceEnum(MtdSourceEnum.`hmrc-held`)

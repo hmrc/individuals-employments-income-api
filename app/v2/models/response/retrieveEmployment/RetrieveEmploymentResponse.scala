@@ -16,7 +16,7 @@
 
 package v2.models.response.retrieveEmployment
 
-import shared.models.domain.Timestamp
+import api.models.domain.Timestamp
 import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 

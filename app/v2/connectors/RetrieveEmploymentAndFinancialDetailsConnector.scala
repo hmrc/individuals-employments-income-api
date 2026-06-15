@@ -16,11 +16,11 @@
 
 package v2.connectors
 
+import api.config.AppConfig
+import api.connectors.DownstreamUri.HipUri
+import api.connectors.httpparsers.StandardDownstreamHttpParser.reads
+import api.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import config.EmploymentsAppConfig
-import shared.config.SharedAppConfig
-import shared.connectors.DownstreamUri.HipUri
-import shared.connectors.httpparsers.StandardDownstreamHttpParser.reads
-import shared.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamStrategy, DownstreamUri}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.client.HttpClientV2
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
@@ -31,7 +31,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class RetrieveEmploymentAndFinancialDetailsConnector @Inject() (val http: HttpClientV2,
-                                                                val appConfig: SharedAppConfig,
+                                                                val appConfig: AppConfig,
                                                                 employmentsAppConfig: EmploymentsAppConfig)
     extends BaseDownstreamConnector {
 

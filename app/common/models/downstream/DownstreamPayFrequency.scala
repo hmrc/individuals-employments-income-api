@@ -16,9 +16,9 @@
 
 package common.models.downstream
 
+import api.utils.enums.Enums
 import common.models.domain.PayFrequency
 import play.api.libs.json.Reads
-import shared.utils.enums.Enums
 
 enum DownstreamPayFrequency(val toMtd: PayFrequency) {
   case `WEEKLY`           extends DownstreamPayFrequency(PayFrequency.`weekly`)
