@@ -17,7 +17,7 @@
 package v2.controllers.validators
 
 import api.models.domain.{Nino, TaxYear}
-import api.models.errors.{DateFormatError, *}
+import api.models.errors.*
 import api.models.utils.JsonErrorValidators
 import api.utils.UnitSpec
 import common.errors.*

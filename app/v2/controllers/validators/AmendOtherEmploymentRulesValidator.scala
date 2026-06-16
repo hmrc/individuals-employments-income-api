@@ -21,7 +21,7 @@ import api.controllers.validators.resolvers.*
 import api.models.errors.*
 import cats.data.Validated
 import cats.implicits.*
-import common.errors.{DateFormatError, *}
+import common.errors.*
 import v2.controllers.validators.resolvers.EmploymentsIncomeValidators.*
 import v2.controllers.validators.resolvers.{ShareOptionSchemeTypeResolver, SharesAwardedOrReceivedSchemeTypeResolver}
 import v2.models.request.amendOtherEmployment.*
