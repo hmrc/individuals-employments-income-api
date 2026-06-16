@@ -49,7 +49,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "noOfSharesAcquired": {
             "type": "number",
@@ -70,7 +70,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "amountPaidForOption": {
             "type": "number",
@@ -78,7 +78,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "marketValueOfSharesOnExcise": {
             "type": "number",
@@ -86,7 +86,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "profitOnOptionExercised": {
             "type": "number",
@@ -94,7 +94,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "employersNicPaid": {
             "type": "number",
@@ -102,7 +102,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "taxableAmount": {
             "type": "number",
@@ -110,7 +110,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           }
         },
         "required": [
@@ -191,7 +191,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "unrestrictedMarketValueOfSharesOnAward": {
             "type": "number",
@@ -199,7 +199,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "amountPaidForSharesOnAward": {
             "type": "number",
@@ -207,7 +207,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "marketValueAfterRestrictionsLifted": {
             "type": "number",
@@ -215,7 +215,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           },
           "taxableAmount": {
             "type": "number",
@@ -223,7 +223,7 @@
             "example": 5000.99,
             "multipleOf": 0.01,
             "minimum": 0,
-            "maximum:": 99999999999.99
+            "maximum": 99999999999.99
           }
         },
         "required": [
@@ -259,7 +259,7 @@
           "example": 5000.99,
           "multipleOf": 0.01,
           "minimum": 0,
-          "maximum:": 99999999999.99
+          "maximum": 99999999999.99
         }
       },
       "required": ["amountDeducted"]
@@ -280,7 +280,7 @@
           "example": 5000.99,
           "multipleOf": 0.01,
           "minimum": 0,
-          "maximum:": 99999999999.99
+          "maximum": 99999999999.99
         }
       },
       "required": ["amountDeducted"]
@@ -313,7 +313,7 @@
                 "example": 5000.99,
                 "multipleOf": 0.01,
                 "minimum": 0,
-                "maximum:": 99999999999.99
+                "maximum": 99999999999.99
               },
               "taxPaid": {
                 "type": "number",
@@ -321,7 +321,7 @@
                 "example": 5000.99,
                 "multipleOf": 0.01,
                 "minimum": 0,
-                "maximum:": 99999999999.99
+                "maximum": 99999999999.99
               },
               "taxTakenOffInEmployment": {
                 "type": "boolean",
@@ -341,7 +341,7 @@
                 "example": 5000.99,
                 "multipleOf": 0.01,
                 "minimum": 0,
-                "maximum:": 99999999999.99
+                "maximum": 99999999999.99
               },
               "exemptAmount": {
                 "type": "number",
@@ -349,7 +349,7 @@
                 "example": 5000.99,
                 "multipleOf": 0.01,
                 "minimum": 0,
-                "maximum:": 99999999999.99
+                "maximum": 99999999999.99
               },
               "taxPaid": {
                 "type": "number",
@@ -357,7 +357,7 @@
                 "example": 5000.99,
                 "multipleOf": 0.01,
                 "minimum": 0,
-                "maximum:": 99999999999.99
+                "maximum": 99999999999.99
               },
               "taxTakenOffInEmployment": {
                 "type": "boolean",
@@ -377,7 +377,7 @@
                 "example": 5000.99,
                 "multipleOf": 0.01,
                 "minimum": 0,
-                "maximum:": 99999999999.99
+                "maximum": 99999999999.99
               },
               "taxPaid": {
                 "type": "number",
@@ -385,7 +385,7 @@
                 "example": 5000.99,
                 "multipleOf": 0.01,
                 "minimum": 0,
-                "maximum:": 99999999999.99
+                "maximum": 99999999999.99
               },
               "taxTakenOffInEmployment": {
                 "type": "boolean",
@@ -405,7 +405,7 @@
                 "example": 5000.99,
                 "multipleOf": 0.01,
                 "minimum": 0,
-                "maximum:": 99999999999.99
+                "maximum": 99999999999.99
               }
             },
             "required": ["amount"]
