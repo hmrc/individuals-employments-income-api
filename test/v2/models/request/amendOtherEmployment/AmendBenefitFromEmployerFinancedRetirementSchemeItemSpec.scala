@@ -16,8 +16,8 @@
 
 package v2.models.request.amendOtherEmployment
 
+import api.utils.UnitSpec
 import play.api.libs.json.{JsError, JsObject, Json}
-import shared.utils.UnitSpec
 
 class AmendBenefitFromEmployerFinancedRetirementSchemeItemSpec extends UnitSpec {
 

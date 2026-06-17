@@ -16,6 +16,6 @@
 
 package v2.models.request.listEmployments
 
-import shared.models.domain.{Nino, TaxYear}
+import api.models.domain.{Nino, TaxYear}
 
 case class ListEmploymentsRequest(nino: Nino, taxYear: TaxYear)

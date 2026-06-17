@@ -16,13 +16,13 @@
 
 package config
 
+import api.config.*
+import api.models.domain.TaxYear
 import org.scalamock.handlers.CallHandler0
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.TestSuite
-import shared.config.*
-import shared.models.domain.TaxYear
 
-trait MockEmploymentsAppConfig extends TestSuite with MockSharedAppConfig with MockFactory {
+trait MockEmploymentsAppConfig extends TestSuite with MockAppConfig with MockFactory {
   implicit val mockEmploymentsConfig: EmploymentsAppConfig = mock[EmploymentsAppConfig]
 
   object MockedEmploymentsAppConfig {

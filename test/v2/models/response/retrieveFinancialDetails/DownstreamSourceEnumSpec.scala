@@ -16,9 +16,9 @@
 
 package v2.models.response.retrieveFinancialDetails
 
+import api.utils.UnitSpec
+import api.utils.enums.EnumJsonSpecSupport
 import common.models.domain.MtdSourceEnum
-import shared.utils.UnitSpec
-import shared.utils.enums.EnumJsonSpecSupport
 
 class DownstreamSourceEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 

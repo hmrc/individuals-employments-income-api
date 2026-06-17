@@ -16,10 +16,10 @@
 
 package v2.services
 
+import api.controllers.RequestContext
+import api.models.errors.{MtdError, *}
+import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.*
-import shared.controllers.RequestContext
-import shared.models.errors.{MtdError, *}
-import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.RetrieveNonPayeEmploymentConnector
 import v2.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 import v2.models.response.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeResponse

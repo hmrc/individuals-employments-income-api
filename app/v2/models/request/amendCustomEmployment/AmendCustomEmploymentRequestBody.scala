@@ -16,8 +16,8 @@
 
 package v2.models.request.amendCustomEmployment
 
+import api.config.AppConfig
 import play.api.libs.json.{JsString, Json, OWrites, Reads}
-import shared.config.SharedAppConfig
 
 case class AmendCustomEmploymentRequestBody(employerRef: Option[String],
                                             employerName: String,
@@ -29,7 +29,7 @@ case class AmendCustomEmploymentRequestBody(employerRef: Option[String],
 object AmendCustomEmploymentRequestBody {
   implicit val reads: Reads[AmendCustomEmploymentRequestBody] = Json.reads[AmendCustomEmploymentRequestBody]
 
-  implicit def writes(implicit appConfig: SharedAppConfig): OWrites[AmendCustomEmploymentRequestBody] =
+  implicit def writes(implicit appConfig: AppConfig): OWrites[AmendCustomEmploymentRequestBody] =
     Json.writes[AmendCustomEmploymentRequestBody].transform { json =>
       (json \ "payrollId").asOpt[String].fold(json) { payrollId =>
         val finalPayrollId: String = payrollId.take(35)

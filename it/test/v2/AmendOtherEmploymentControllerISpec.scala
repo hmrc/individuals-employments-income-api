@@ -16,18 +16,17 @@
 
 package v2
 
+import api.models.errors.*
+import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{DateFormatError, *}
+import common.errors.*
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
-import play.api.libs.ws.{WSRequest, WSResponse}
+import play.api.libs.ws.{WSRequest, WSResponse, writeableOf_JsValue}
 import play.api.test.Helpers.AUTHORIZATION
-import shared.models.errors.*
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import v2.AmendOtherEmploymentControllerISpec.*
-import play.api.libs.ws.writeableOf_JsValue
 
 class AmendOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
@@ -554,7 +553,7 @@ object AmendOtherEmploymentControllerISpec {
         ))
     ),
     DateFormatError.copy(
-      message = "The supplied date format is not valid",
+      message = "The field should be in the format YYYY-MM-DD",
       paths = Some(
         List(
           "/shareOption/0/dateOfOptionGrant",
@@ -756,7 +755,7 @@ object AmendOtherEmploymentControllerISpec {
       |        },
       |        {
       |            "code":"FORMAT_DATE",
-      |            "message":"The supplied date format is not valid",
+      |            "message":"The field should be in the format YYYY-MM-DD",
       |            "paths":[
       |                "/shareOption/0/dateOfOptionGrant",
       |                "/shareOption/0/dateOfEvent",
@@ -1305,7 +1304,7 @@ object AmendOtherEmploymentControllerISpec {
   )
 
   val dateFormatError: MtdError = DateFormatError.copy(
-    message = "The supplied date format is not valid",
+    message = "The field should be in the format YYYY-MM-DD",
     paths = Some(
       Seq(
         "/shareOption/0/dateOfOptionGrant",

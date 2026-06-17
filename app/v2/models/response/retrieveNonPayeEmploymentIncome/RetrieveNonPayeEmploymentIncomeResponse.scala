@@ -16,7 +16,7 @@
 
 package v2.models.response.retrieveNonPayeEmploymentIncome
 
-import shared.models.domain.Timestamp
+import api.models.domain.Timestamp
 import common.models.domain.MtdSourceEnum
 import common.models.downstream.DownstreamSourceEnum
 import play.api.libs.functional.syntax.*

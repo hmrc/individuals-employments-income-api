@@ -16,10 +16,10 @@
 
 package v2.controllers.validators.resolvers
 
+import api.controllers.validators.resolvers.{ResolveParsedNumber, ResolveStringPattern, ResolverSupport}
+import api.models.errors.{MtdError, ValueFormatError}
 import cats.data.Validated
 import common.errors.{CustomerRefFormatError, EmployerNameFormatError, EmployerRefFormatError, PayrollIdFormatError}
-import shared.controllers.validators.resolvers.{ResolveParsedNumber, ResolveStringPattern, ResolverSupport}
-import shared.models.errors.{MtdError, ValueFormatError}
 
 object EmploymentsIncomeValidators extends ResolverSupport {
 

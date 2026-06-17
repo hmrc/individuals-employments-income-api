@@ -16,10 +16,10 @@
 
 package v2.connectors
 
+import api.connectors.ConnectorSpec
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.models.domain.EmploymentId
-import shared.connectors.ConnectorSpec
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
@@ -36,7 +36,7 @@ class IgnoreEmploymentConnectorSpec extends ConnectorSpec {
 
     val connector: IgnoreEmploymentConnector = new IgnoreEmploymentConnector(
       http = mockHttpClient,
-      appConfig = mockSharedAppConfig
+      appConfig = mockAppConfig
     )
 
     val request: IgnoreEmploymentRequest = IgnoreEmploymentRequest(

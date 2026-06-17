@@ -16,6 +16,6 @@
 
 package v2.models.request.amendOtherEmployment
 
-import shared.models.domain.{Nino, TaxYear}
+import api.models.domain.{Nino, TaxYear}
 
 case class AmendOtherEmploymentRequest(nino: Nino, taxYear: TaxYear, body: AmendOtherEmploymentRequestBody)

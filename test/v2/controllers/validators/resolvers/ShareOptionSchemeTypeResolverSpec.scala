@@ -16,10 +16,10 @@
 
 package v2.controllers.validators.resolvers
 
+import api.utils.UnitSpec
 import cats.data.Validated.{Invalid, Valid}
 import common.errors.SchemePlanTypeFormatError
 import common.models.domain.ShareOptionSchemeType
-import shared.utils.UnitSpec
 
 class ShareOptionSchemeTypeResolverSpec extends UnitSpec {
 

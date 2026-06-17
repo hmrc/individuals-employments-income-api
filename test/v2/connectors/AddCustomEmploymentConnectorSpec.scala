@@ -16,11 +16,11 @@
 
 package v2.connectors
 
+import api.mocks.MockHttpClient
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
-import shared.mocks.MockHttpClient
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v2.models.response.addCustomEmployment.AddCustomEmploymentResponse
@@ -51,7 +51,7 @@ class AddCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   trait Test extends MockHttpClient with MockEmploymentsAppConfig {
 
-    val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
+    val connector: AddCustomEmploymentConnector = new AddCustomEmploymentConnector(http = mockHttpClient, appConfig = mockAppConfig)
 
   }
 

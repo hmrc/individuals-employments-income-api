@@ -16,10 +16,10 @@
 
 package common.models.downstream
 
+import api.utils.UnitSpec
+import api.utils.enums.EnumJsonSpecSupport
 import common.models.domain.SharesAwardedOrReceivedSchemeType
 import common.models.downstream.DownstreamSharesAwardedOrReceivedSchemeType.*
-import shared.utils.UnitSpec
-import shared.utils.enums.EnumJsonSpecSupport
 
 class DownstreamSharesAwardedOrReceivedSchemeTypeSpec extends UnitSpec with EnumJsonSpecSupport {
 

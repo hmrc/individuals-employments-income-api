@@ -16,11 +16,11 @@
 
 package v2.services
 
+import api.controllers.RequestContext
+import api.models.errors.*
+import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.toBifunctorOps
 import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
-import shared.controllers.RequestContext
-import shared.models.errors.*
-import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.CreateAmendStudentLoanBIKConnector
 import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
 

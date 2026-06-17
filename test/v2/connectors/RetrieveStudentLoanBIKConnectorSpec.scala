@@ -16,12 +16,12 @@
 
 package v2.connectors
 
+import api.connectors.{ConnectorSpec, DownstreamOutcome}
+import api.mocks.MockHttpClient
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import shared.connectors.{ConnectorSpec, DownstreamOutcome}
-import shared.mocks.MockHttpClient
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.fixtures.RetrieveStudentLoanBIKFixture.responseModel
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
@@ -52,7 +52,7 @@ class RetrieveStudentLoanBIKConnectorSpec extends ConnectorSpec {
 
     val connector: RetrieveStudentLoanBIKConnector = new RetrieveStudentLoanBIKConnector(
       http = mockHttpClient,
-      appConfig = mockSharedAppConfig
+      appConfig = mockAppConfig
     )
 
     protected val request: RetrieveStudentLoanBIKRequest =

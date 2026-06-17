@@ -16,12 +16,11 @@
 
 package auth
 
+import api.auth.AuthSupportingAgentsAllowedISpec
+import api.services.DownstreamStub
 import play.api.http.Status.NO_CONTENT
 import play.api.libs.json.{JsValue, Json}
-import play.api.libs.ws.{WSRequest, WSResponse}
-import shared.auth.AuthSupportingAgentsAllowedISpec
-import shared.services.DownstreamStub
-import play.api.libs.ws.writeableOf_JsValue
+import play.api.libs.ws.{WSRequest, WSResponse, writeableOf_JsValue}
 
 class EmploymentsIncomeAuthSupportingAgentsAllowedISpec extends AuthSupportingAgentsAllowedISpec {
 

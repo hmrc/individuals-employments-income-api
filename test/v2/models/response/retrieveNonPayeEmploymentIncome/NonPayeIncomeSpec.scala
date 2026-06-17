@@ -16,8 +16,8 @@
 
 package v2.models.response.retrieveNonPayeEmploymentIncome
 
+import api.utils.UnitSpec
 import play.api.libs.json.{JsValue, Json}
-import shared.utils.UnitSpec
 
 class NonPayeIncomeSpec extends UnitSpec {
 

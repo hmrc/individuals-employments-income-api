@@ -115,8 +115,8 @@ object BenefitsInKind {
   private val formatPt2: OFormat[BenefitsInKindPart2] = Json.format[BenefitsInKindPart2]
 
   private def buildBenefitsObject(part1: BenefitsInKindPart1, part2: BenefitsInKindPart2): BenefitsInKind = {
-    import part1._
-    import part2._
+    import part1.*
+    import part2.*
 
     BenefitsInKind(
       accommodation = accommodation,
@@ -151,7 +151,7 @@ object BenefitsInKind {
   }
 
   private def splitBenefitsObject(o: BenefitsInKind): (BenefitsInKindPart1, BenefitsInKindPart2) = {
-    import o._
+    import o.*
 
     (
       BenefitsInKindPart1(

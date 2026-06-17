@@ -16,8 +16,8 @@
 
 package v2.models.request.createAmendNonPayeEmployment
 
+import api.utils.UnitSpec
 import play.api.libs.json.Json
-import shared.utils.UnitSpec
 
 class CreateAmendNonPayeEmploymentRequestBodySpec extends UnitSpec {
 

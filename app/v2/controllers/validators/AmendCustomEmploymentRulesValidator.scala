@@ -16,11 +16,11 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.RulesValidator
-import shared.controllers.validators.resolvers.*
+import api.controllers.validators.RulesValidator
+import api.controllers.validators.resolvers.*
+import api.models.domain.TaxYear
+import api.models.errors.MtdError
 import cats.data.Validated
-import shared.models.domain.TaxYear
-import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.CustomEmploymentDateValidator
 import v2.controllers.validators.resolvers.EmploymentsIncomeValidators.*
 import v2.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}

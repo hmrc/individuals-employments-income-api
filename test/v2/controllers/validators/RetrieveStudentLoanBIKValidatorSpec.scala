@@ -16,24 +16,16 @@
 
 package v2.controllers.validators
 
+import api.config.MockAppConfig
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.utils.UnitSpec
 import common.errors.EmploymentIdFormatError
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import shared.config.MockSharedAppConfig
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.{
-  BadRequestError,
-  ErrorWrapper,
-  MtdError,
-  NinoFormatError,
-  RuleTaxYearNotSupportedError,
-  RuleTaxYearRangeInvalidError,
-  TaxYearFormatError
-}
-import shared.utils.UnitSpec
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
 
-class RetrieveStudentLoanBIKValidatorSpec extends UnitSpec with MockSharedAppConfig {
+class RetrieveStudentLoanBIKValidatorSpec extends UnitSpec with MockAppConfig {
 
   private implicit val correlationId: String = "correlationId"
   private val validNino                      = "AA123456B"

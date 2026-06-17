@@ -16,9 +16,9 @@
 
 package config
 
+import api.config.{AppConfigBase, DownstreamConfig}
+import api.models.domain.TaxYear
 import play.api.Configuration
-import shared.config.{AppConfigBase, DownstreamConfig}
-import shared.models.domain.TaxYear
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}

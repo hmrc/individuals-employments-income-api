@@ -16,11 +16,11 @@
 
 package v2.mocks.services
 
+import api.controllers.RequestContext
+import api.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.TestSuite
-import shared.controllers.RequestContext
-import shared.services.ServiceOutcome
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
 import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse
 import v2.services.RetrieveStudentLoanBIKService

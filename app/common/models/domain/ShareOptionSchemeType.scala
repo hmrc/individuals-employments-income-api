@@ -16,8 +16,8 @@
 
 package common.models.domain
 
+import api.utils.enums.Enums
 import play.api.libs.json.Writes
-import shared.utils.enums.Enums
 
 enum ShareOptionSchemeType(val toDownstreamString: String) {
   case `emi`   extends ShareOptionSchemeType("EMI")

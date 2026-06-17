@@ -16,10 +16,10 @@
 
 package v2.connectors
 
+import api.connectors.{ConnectorSpec, DownstreamOutcome}
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.models.domain.EmploymentId
-import shared.connectors.{ConnectorSpec, DownstreamOutcome}
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.fixtures.studentLoanBIK.CreateAmendStudentLoanBIKConnectorFixture.requestBodyModel
 import v2.models.request.createAmendStudentLoanBIK.CreateAmendStudentLoanBIKRequest
@@ -52,7 +52,7 @@ class CreateAmendStudentLoanBIKConnectorSpec extends ConnectorSpec {
 
     val connector: CreateAmendStudentLoanBIKConnector = new CreateAmendStudentLoanBIKConnector(
       http = mockHttpClient,
-      appConfig = mockSharedAppConfig
+      appConfig = mockAppConfig
     )
 
     protected val request: CreateAmendStudentLoanBIKRequest =

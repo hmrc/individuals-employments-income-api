@@ -16,6 +16,6 @@
 
 package v2.models.request.addCustomEmployment
 
-import shared.models.domain.{Nino, TaxYear}
+import api.models.domain.{Nino, TaxYear}
 
 case class AddCustomEmploymentRequest(nino: Nino, taxYear: TaxYear, body: AddCustomEmploymentRequestBody)

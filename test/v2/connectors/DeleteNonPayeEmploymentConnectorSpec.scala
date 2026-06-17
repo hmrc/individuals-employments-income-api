@@ -16,10 +16,10 @@
 
 package v2.connectors
 
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 
@@ -63,7 +63,7 @@ class DeleteNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     def taxYear: TaxYear
 
     protected val connector: DeleteNonPayeEmploymentConnector =
-      new DeleteNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig, employmentsAppConfig = mockEmploymentsConfig)
+      new DeleteNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockAppConfig, employmentsAppConfig = mockEmploymentsConfig)
 
     protected val request: DeleteNonPayeEmploymentRequest =
       DeleteNonPayeEmploymentRequest(Nino("AA111111A"), taxYear = taxYear)

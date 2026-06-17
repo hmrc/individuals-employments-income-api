@@ -16,17 +16,17 @@
 
 package v2.controllers
 
+import api.config.MockAppConfig
+import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
+import api.services.MockAuditService
 import common.models.domain.EmploymentId
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import shared.config.MockSharedAppConfig
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
-import shared.services.MockAuditService
 import v2.controllers.validators.MockAmendFinancialDetailsValidatorFactory
 import v2.mocks.services.MockAmendFinancialDetailsService
 import v2.models.request.amendFinancialDetails.employment.studentLoans.AmendStudentLoans
@@ -39,7 +39,7 @@ import scala.concurrent.Future
 class AmendFinancialDetailsControllerSpec
     extends ControllerBaseSpec
     with ControllerTestRunner
-    with MockSharedAppConfig
+    with MockAppConfig
     with MockAmendFinancialDetailsValidatorFactory
     with MockAmendFinancialDetailsService
     with MockAuditService {
@@ -197,7 +197,7 @@ class AmendFinancialDetailsControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    MockedSharedAppConfig.featureSwitchConfig
+    MockedAppConfig.featureSwitchConfig
       .returns(Configuration("allowTemporalValidationSuspension.enabled" -> true))
       .anyNumberOfTimes()
 
@@ -226,7 +226,7 @@ class AmendFinancialDetailsControllerSpec
         )
       )
 
-    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] =
       controller.amendFinancialDetails(validNino, taxYear, employmentId)(fakeRequest.withBody(requestBodyJson))

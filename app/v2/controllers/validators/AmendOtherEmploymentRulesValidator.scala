@@ -16,22 +16,12 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.RulesValidator
-import shared.controllers.validators.resolvers.*
-import shared.models.errors.*
+import api.controllers.validators.RulesValidator
+import api.controllers.validators.resolvers.*
+import api.models.errors.*
 import cats.data.Validated
 import cats.implicits.*
-import common.errors.{
-  ClassOfSharesAcquiredFormatError,
-  ClassOfSharesAwardedFormatError,
-  CustomerRefFormatError,
-  EmployerNameFormatError,
-  EmployerRefFormatError,
-  RuleLumpSumsError,
-  SchemePlanTypeFormatError
-}
-import shared.controllers.validators.resolvers.ResolveIsoDate
-import shared.models.errors.MtdError
+import common.errors.*
 import v2.controllers.validators.resolvers.EmploymentsIncomeValidators.*
 import v2.controllers.validators.resolvers.{ShareOptionSchemeTypeResolver, SharesAwardedOrReceivedSchemeTypeResolver}
 import v2.models.request.amendOtherEmployment.*

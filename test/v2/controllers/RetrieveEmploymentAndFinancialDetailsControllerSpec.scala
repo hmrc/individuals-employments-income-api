@@ -16,14 +16,14 @@
 
 package v2.controllers
 
+import api.config.MockAppConfig
+import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
 import common.models.domain.{EmploymentId, MtdSourceEnum}
 import play.api.Configuration
 import play.api.mvc.Result
-import shared.config.MockSharedAppConfig
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
 import v2.controllers.validators.MockRetrieveFinancialDetailsValidatorFactory
 import v2.fixtures.RetrieveFinancialDetailsControllerFixture.*
 import v2.mocks.services.MockRetrieveEmploymentAndFinancialDetailsService
@@ -37,7 +37,7 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
     with ControllerTestRunner
     with MockRetrieveEmploymentAndFinancialDetailsService
     with MockRetrieveFinancialDetailsValidatorFactory
-    with MockSharedAppConfig {
+    with MockAppConfig {
 
   val taxYear: String      = "2017-18"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -96,11 +96,11 @@ class RetrieveEmploymentAndFinancialDetailsControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> true
     )
 
-    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.retrieve(validNino, taxYear, employmentId, Some(source))(fakeRequest)
   }

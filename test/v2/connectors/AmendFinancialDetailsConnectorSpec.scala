@@ -16,11 +16,11 @@
 
 package v2.connectors
 
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}
 import v2.models.request.amendFinancialDetails.{AmendFinancialDetailsRequest, AmendFinancialDetailsRequestBody}
@@ -71,7 +71,7 @@ class AmendFinancialDetailsConnectorSpec extends EmploymentsConnectorSpec {
 
     protected val connector: AmendFinancialDetailsConnector = new AmendFinancialDetailsConnector(
       http = mockHttpClient,
-      appConfig = mockSharedAppConfig,
+      appConfig = mockAppConfig,
       employmentsAppConfig = mockEmploymentsConfig
     )
 

@@ -16,11 +16,11 @@
 
 package v2.services
 
+import api.controllers.RequestContext
+import api.models.errors.*
+import api.services.{BaseService, ServiceOutcome}
 import cats.data.EitherT
 import common.errors.{EmploymentIdFormatError, SourceFormatError}
-import shared.controllers.RequestContext
-import shared.models.errors.*
-import shared.services.{BaseService, ServiceOutcome}
 import v2.connectors.RetrieveEmploymentAndFinancialDetailsConnector
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 import v2.models.response.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsResponse

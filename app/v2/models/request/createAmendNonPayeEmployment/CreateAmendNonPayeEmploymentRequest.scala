@@ -16,6 +16,6 @@
 
 package v2.models.request.createAmendNonPayeEmployment
 
-import shared.models.domain.{Nino, TaxYear}
+import api.models.domain.{Nino, TaxYear}
 
 case class CreateAmendNonPayeEmploymentRequest(nino: Nino, taxYear: TaxYear, body: CreateAmendNonPayeEmploymentRequestBody)

@@ -16,11 +16,11 @@
 
 package v2.controllers.validators
 
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.utils.UnitSpec
 import config.MockEmploymentsAppConfig
 import play.api.libs.json.{JsObject, JsValue, Json}
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.utils.UnitSpec
 import v2.models.request.createAmendNonPayeEmployment.{CreateAmendNonPayeEmploymentRequest, CreateAmendNonPayeEmploymentRequestBody}
 
 import java.time.{Clock, Instant, ZoneOffset}

@@ -16,11 +16,11 @@
 
 package v2.connectors
 
+import api.mocks.MockHttpClient
+import api.models.domain.{Nino, TaxYear, Timestamp}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import config.MockEmploymentsAppConfig
-import shared.mocks.MockHttpClient
-import shared.models.domain.{Nino, TaxYear, Timestamp}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.listEmployments.ListEmploymentsRequest
 import v2.models.response.listEmployment.{Employment, ListEmploymentResponse}
@@ -55,7 +55,7 @@ class ListEmploymentsConnectorSpec extends EmploymentsConnectorSpec {
 
   class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
-    val connector: ListEmploymentsConnector = new ListEmploymentsConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
+    val connector: ListEmploymentsConnector = new ListEmploymentsConnector(http = mockHttpClient, appConfig = mockAppConfig)
 
   }
 

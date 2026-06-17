@@ -16,11 +16,11 @@
 
 package v2.controllers
 
+import api.config.AppConfig
+import api.controllers.*
+import api.services.{EnrolmentsAuthService, MtdIdLookupService}
+import api.utils.IdGenerator
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import shared.config.SharedAppConfig
-import shared.controllers.*
-import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
-import shared.utils.IdGenerator
 import v2.controllers.validators.RetrieveStudentLoanBIKValidatorFactory
 import v2.services.RetrieveStudentLoanBIKService
 
@@ -33,7 +33,7 @@ class RetrieveStudentLoanBIKController @Inject() (val authService: EnrolmentsAut
                                                   validatorFactory: RetrieveStudentLoanBIKValidatorFactory,
                                                   service: RetrieveStudentLoanBIKService,
                                                   cc: ControllerComponents,
-                                                  val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
+                                                  val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "retrieve-student-loan-benefits-in-kind"

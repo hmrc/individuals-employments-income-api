@@ -16,6 +16,9 @@
 
 package v2
 
+import api.models.domain.TaxYear
+import api.models.errors.*
+import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.*
 import common.support.EmploymentsIBaseSpec
@@ -24,9 +27,6 @@ import play.api.http.Status.*
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse, readableAsJson, writeableOf_JsValue}
 import play.api.test.Helpers.AUTHORIZATION
-import shared.models.domain.TaxYear
-import shared.models.errors.*
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
 class AddCustomEmploymentControllerISpec extends EmploymentsIBaseSpec {
 

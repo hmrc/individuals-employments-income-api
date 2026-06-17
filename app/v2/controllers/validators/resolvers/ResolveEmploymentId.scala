@@ -16,11 +16,11 @@
 
 package v2.controllers.validators.resolvers
 
-import shared.controllers.validators.resolvers.{ResolveStringPattern, ResolverSupport}
+import api.controllers.validators.resolvers.{ResolveStringPattern, ResolverSupport}
+import api.models.errors.MtdError
 import cats.data.Validated
 import common.errors.EmploymentIdFormatError
 import common.models.domain.EmploymentId
-import shared.models.errors.MtdError
 
 object ResolveEmploymentId extends ResolverSupport {
 

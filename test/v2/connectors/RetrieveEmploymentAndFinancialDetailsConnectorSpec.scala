@@ -16,14 +16,14 @@
 
 package v2.connectors
 
+import api.connectors.DownstreamOutcome
+import api.models.domain.{Nino, TaxYear, Timestamp}
+import api.models.errors.{DownstreamErrorCode, DownstreamErrors}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.{EmploymentId, MtdSourceEnum}
 import config.MockEmploymentsAppConfig
 import org.scalamock.handlers.CallHandler
-import shared.connectors.DownstreamOutcome
-import shared.models.domain.{Nino, TaxYear, Timestamp}
-import shared.models.errors.{DownstreamErrorCode, DownstreamErrors}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 import v2.models.response.retrieveFinancialDetails.{Employer, Employment, RetrieveEmploymentAndFinancialDetailsResponse}
@@ -107,7 +107,7 @@ class RetrieveEmploymentAndFinancialDetailsConnectorSpec extends EmploymentsConn
     val connector: RetrieveEmploymentAndFinancialDetailsConnector =
       new RetrieveEmploymentAndFinancialDetailsConnector(
         http = mockHttpClient,
-        appConfig = mockSharedAppConfig,
+        appConfig = mockAppConfig,
         employmentsAppConfig = mockEmploymentsConfig)
 
     protected def stubHttpResponse(outcome: DownstreamOutcome[RetrieveEmploymentAndFinancialDetailsResponse])

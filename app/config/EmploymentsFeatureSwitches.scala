@@ -16,17 +16,17 @@
 
 package config
 
+import api.config.{FeatureSwitches, AppConfig}
 import org.apache.commons.lang3.BooleanUtils
 import play.api.Configuration
 import play.api.mvc.Request
-import shared.config.{SharedAppConfig, FeatureSwitches}
 
 import javax.inject.Inject
 
 case class EmploymentsFeatureSwitches(protected val featureSwitchConfig: Configuration) extends FeatureSwitches {
 
   @Inject
-  def this(appConfig: SharedAppConfig) = this(appConfig.featureSwitchConfig)
+  def this(appConfig: AppConfig) = this(appConfig.featureSwitchConfig)
 
   def isTemporalValidationEnabled(implicit request: Request[?]): Boolean = {
     if (isEnabled("allowTemporalValidationSuspension")) {
@@ -41,5 +41,5 @@ case class EmploymentsFeatureSwitches(protected val featureSwitchConfig: Configu
 object EmploymentsFeatureSwitches {
   def apply(configuration: Configuration): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(configuration)
 
-  def apply()(implicit appConfig: SharedAppConfig): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(appConfig)
+  def apply()(implicit appConfig: AppConfig): EmploymentsFeatureSwitches = new EmploymentsFeatureSwitches(appConfig)
 }

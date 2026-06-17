@@ -16,6 +16,9 @@
 
 package v2
 
+import api.models.errors.*
+import api.services.*
+import api.support.IntegrationBaseSpec
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.EmploymentIdFormatError
 import play.api.http.HeaderNames.ACCEPT
@@ -23,9 +26,6 @@ import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import shared.models.errors.*
-import shared.services.*
-import shared.support.IntegrationBaseSpec
 import v2.fixtures.RetrieveEmploymentControllerFixture.*
 
 class RetrieveEmploymentControllerISpec extends IntegrationBaseSpec {

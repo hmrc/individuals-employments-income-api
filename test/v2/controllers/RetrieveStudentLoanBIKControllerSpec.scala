@@ -16,15 +16,15 @@
 
 package v2.controllers
 
+import api.config.MockAppConfig
+import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.{ErrorWrapper, NinoFormatError, NotFoundError}
+import api.models.outcomes.ResponseWrapper
+import api.services.MockAuditService
 import common.models.domain.EmploymentId
 import play.api.Configuration
 import play.api.mvc.Result
-import shared.config.MockSharedAppConfig
-import shared.controllers.{ControllerBaseSpec, ControllerTestRunner}
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.{ErrorWrapper, NinoFormatError, NotFoundError}
-import shared.models.outcomes.ResponseWrapper
-import shared.services.MockAuditService
 import v2.controllers.validators.MockRetrieveStudentLoanBIKValidatorFactory
 import v2.fixtures.RetrieveStudentLoanBIKFixture.{mtdResponse, responseModel}
 import v2.mocks.services.MockRetrieveStudentLoanBIKService
@@ -39,7 +39,7 @@ class RetrieveStudentLoanBIKControllerSpec
     with MockRetrieveStudentLoanBIKService
     with MockAuditService
     with MockRetrieveStudentLoanBIKValidatorFactory
-    with MockSharedAppConfig {
+    with MockAppConfig {
 
   val taxYear: String      = "2025-26"
   val employmentId: String = "4557ecb5-fd32-48cc-81f5-e6acd1099f3c"
@@ -93,11 +93,11 @@ class RetrieveStudentLoanBIKControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    MockedSharedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration(
       "supporting-agents-access-control.enabled" -> false
     )
 
-    MockedSharedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
+    MockedAppConfig.endpointAllowsSupportingAgents(controller.endpointName).anyNumberOfTimes() returns false
 
     protected def callController(): Future[Result] = controller.retrieveStudentLoanBIK(validNino, taxYear, employmentId)(fakeRequest)
 

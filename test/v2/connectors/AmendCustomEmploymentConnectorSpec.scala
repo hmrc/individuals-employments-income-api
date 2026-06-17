@@ -16,12 +16,12 @@
 
 package v2.connectors
 
+import api.mocks.MockHttpClient
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import shared.mocks.MockHttpClient
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 
@@ -51,7 +51,7 @@ class AmendCustomEmploymentConnectorSpec extends EmploymentsConnectorSpec {
 
   class Test extends MockHttpClient with MockEmploymentsAppConfig {
 
-    val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig)
+    val connector: AmendCustomEmploymentConnector = new AmendCustomEmploymentConnector(http = mockHttpClient, appConfig = mockAppConfig)
 
   }
 

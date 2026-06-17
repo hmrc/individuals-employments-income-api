@@ -16,12 +16,12 @@
 
 package v2.controllers.validators
 
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.utils.UnitSpec
 import common.errors.*
 import common.models.domain.EmploymentId
 import config.MockEmploymentsAppConfig
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.utils.UnitSpec
 import v2.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 
 class DeleteFinancialDetailsValidatorSpec extends UnitSpec with MockEmploymentsAppConfig {

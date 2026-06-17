@@ -16,11 +16,11 @@
 
 package v2.connectors
 
+import api.models.domain.{Nino, TaxYear}
+import api.models.outcomes.ResponseWrapper
 import common.connectors.EmploymentsConnectorSpec
 import common.models.domain.MtdSourceEnum
 import config.MockEmploymentsAppConfig
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture.*
 import v2.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
@@ -65,7 +65,7 @@ class RetrieveNonPayeEmploymentConnectorSpec extends EmploymentsConnectorSpec {
     def taxYear: TaxYear
 
     protected val connector: RetrieveNonPayeEmploymentConnector =
-      new RetrieveNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockSharedAppConfig, employmentsAppConfig = mockEmploymentsConfig)
+      new RetrieveNonPayeEmploymentConnector(http = mockHttpClient, appConfig = mockAppConfig, employmentsAppConfig = mockEmploymentsConfig)
 
     protected val request: RetrieveNonPayeEmploymentIncomeRequest =
       RetrieveNonPayeEmploymentIncomeRequest(Nino("AA111111A"), taxYear = taxYear, MtdSourceEnum.latest)

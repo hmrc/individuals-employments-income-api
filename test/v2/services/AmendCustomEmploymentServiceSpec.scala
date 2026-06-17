@@ -16,19 +16,13 @@
 
 package v2.services
 
-import common.errors.{
-  EmploymentIdFormatError,
-  RuleCessationDateBeforeTaxYearStartError,
-  RuleOutsideAmendmentWindowError,
-  RuleStartDateAfterTaxYearEndError,
-  RuleUpdateForbiddenError
-}
+import api.controllers.EndpointLogContext
+import api.models.domain.{Nino, TaxYear}
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
+import api.services.ServiceSpec
+import common.errors.*
 import common.models.domain.EmploymentId
-import shared.controllers.EndpointLogContext
-import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
-import shared.services.ServiceSpec
 import v2.mocks.connectors.MockAmendCustomEmploymentConnector
 import v2.models.request.amendCustomEmployment.{AmendCustomEmploymentRequest, AmendCustomEmploymentRequestBody}
 

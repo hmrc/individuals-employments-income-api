@@ -16,12 +16,12 @@
 
 package v2.controllers
 
+import api.config.AppConfig
+import api.controllers.*
+import api.routing.Version
+import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
+import api.utils.IdGenerator
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import shared.config.SharedAppConfig
-import shared.controllers.*
-import shared.routing.Version
-import shared.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
-import shared.utils.IdGenerator
 import v2.controllers.validators.DeleteFinancialDetailsValidatorFactory
 import v2.services.DeleteEmploymentFinancialDetailsService
 
@@ -35,7 +35,7 @@ class DeleteEmploymentFinancialDetailsController @Inject() (val authService: Enr
                                                             service: DeleteEmploymentFinancialDetailsService,
                                                             auditService: AuditService,
                                                             cc: ControllerComponents,
-                                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
+                                                            val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "delete-employment-financial-details"

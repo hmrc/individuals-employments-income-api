@@ -16,7 +16,7 @@
 
 package common.support
 
-import shared.support.IntegrationBaseSpec
+import api.support.IntegrationBaseSpec
 
 trait EmploymentsIBaseSpec extends IntegrationBaseSpec {
 

@@ -16,16 +16,15 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.ResolverSupport.*
-import shared.controllers.validators.resolvers.{ResolveTaxYearMinimum, ResolverSupport}
+import api.controllers.validators.Validator
+import api.controllers.validators.resolvers.ResolverSupport.*
+import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
+import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.*
 import common.errors.SourceFormatError
 import common.models.domain.MtdSourceEnum
 import config.EmploymentsAppConfig
-import shared.controllers.validators.resolvers.ResolveNino
-import shared.models.errors.MtdError
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.retrieveFinancialDetails.RetrieveEmploymentAndFinancialDetailsRequest
 
@@ -43,7 +42,7 @@ class RetrieveFinancialDetailsValidator(nino: String,
                                         appConfig: EmploymentsAppConfig)
     extends Validator[RetrieveEmploymentAndFinancialDetailsRequest]
     with ResolverSupport {
-  import RetrieveFinancialDetailsValidator._
+  import RetrieveFinancialDetailsValidator.*
 
   private val resolveTaxYear =
     ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver

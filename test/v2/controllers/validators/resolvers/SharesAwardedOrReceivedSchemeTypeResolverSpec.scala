@@ -16,10 +16,10 @@
 
 package v2.controllers.validators.resolvers
 
+import api.utils.UnitSpec
 import cats.data.Validated.{Invalid, Valid}
 import common.errors.ClassOfSharesAwardedFormatError
 import common.models.domain.SharesAwardedOrReceivedSchemeType
-import shared.utils.UnitSpec
 
 class SharesAwardedOrReceivedSchemeTypeResolverSpec extends UnitSpec {
 

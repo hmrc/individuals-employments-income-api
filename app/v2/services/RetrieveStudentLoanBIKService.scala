@@ -16,11 +16,11 @@
 
 package v2.services
 
+import api.controllers.RequestContext
+import api.models.errors.*
+import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.*
-import common.errors.{EmploymentIdFormatError}
-import shared.controllers.RequestContext
-import shared.models.errors.*
-import shared.services.{BaseService, ServiceOutcome}
+import common.errors.EmploymentIdFormatError
 import v2.connectors.RetrieveStudentLoanBIKConnector
 import v2.models.request.retrieveStudentLoanBIK.RetrieveStudentLoanBIKRequest
 import v2.models.response.retrieveStudentLoanBIK.RetrieveStudentLoanBIKResponse

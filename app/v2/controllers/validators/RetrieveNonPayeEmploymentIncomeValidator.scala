@@ -16,16 +16,15 @@
 
 package v2.controllers.validators
 
-import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.ResolveTaxYearMinimum
-import shared.controllers.validators.resolvers.ResolverSupport.*
+import api.controllers.validators.Validator
+import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
+import api.controllers.validators.resolvers.ResolverSupport.*
+import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.catsSyntaxTuple3Semigroupal
 import common.errors.SourceFormatError
 import common.models.domain.MtdSourceEnum
 import config.EmploymentsAppConfig
-import shared.controllers.validators.resolvers.ResolveNino
-import shared.models.errors.MtdError
 import v2.models.request.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeRequest
 
 object RetrieveNonPayeEmploymentIncomeValidator {
@@ -37,7 +36,7 @@ object RetrieveNonPayeEmploymentIncomeValidator {
 
 class RetrieveNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, maybeSource: Option[String], appConfig: EmploymentsAppConfig)
     extends Validator[RetrieveNonPayeEmploymentIncomeRequest] {
-  import RetrieveNonPayeEmploymentIncomeValidator._
+  import RetrieveNonPayeEmploymentIncomeValidator.*
 
   private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
 

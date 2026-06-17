@@ -16,11 +16,11 @@
 
 package v2.services
 
-import shared.controllers.EndpointLogContext
-import shared.models.domain.{Nino, TaxYear, Timestamp}
-import shared.models.errors.*
-import shared.models.outcomes.ResponseWrapper
-import shared.services.ServiceSpec
+import api.controllers.EndpointLogContext
+import api.models.domain.{Nino, TaxYear, Timestamp}
+import api.models.errors.*
+import api.models.outcomes.ResponseWrapper
+import api.services.ServiceSpec
 import v2.mocks.connectors.MockListEmploymentsConnector
 import v2.models.request.listEmployments.ListEmploymentsRequest
 import v2.models.response.listEmployment.{Employment, ListEmploymentResponse}
