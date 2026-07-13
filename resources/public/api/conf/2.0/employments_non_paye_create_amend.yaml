@@ -2,7 +2,7 @@ summary: Create and Amend Non-PAYE Employment Income
 description: |
   This endpoint allows a developer to create and amend Non-PAYE employment income. 
   A National Insurance number and tax year must be provided.
-  This endpoint can only be used after the tax year has ended.
+  **This endpoint can only be used after the tax year has ended.**
   
   ### Test data
   Scenario simulation using Gov-Test-Scenario headers is only available in the sandbox environment.
