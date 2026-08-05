@@ -16,16 +16,13 @@
 
 package config
 
-import api.definition.ApiDefinitionFactory
 import api.routing.VersionRoutingMap
 import com.google.inject.AbstractModule
-import definition.EmploymentsApiDefinitionFactory
 import routing.EmploymentsVersionRoutingMap
 
 class EmploymentsIncomePlayModule extends AbstractModule {
 
   override def configure(): Unit = {
-    bind(classOf[ApiDefinitionFactory]).to(classOf[EmploymentsApiDefinitionFactory]).asEagerSingleton()
     bind(classOf[VersionRoutingMap]).to(classOf[EmploymentsVersionRoutingMap]).asEagerSingleton()
   }
 

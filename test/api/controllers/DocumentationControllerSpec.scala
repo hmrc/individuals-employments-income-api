@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package api.controllers
 
 import api.config.rewriters.*
 import api.config.rewriters.DocumentationRewriters.CheckAndRewrite
-import api.config.{AppConfig, MockAppConfig, RealAppConfig}
+import api.config.{MockAppConfig, RealAppConfig}
 import api.definition.*
 import api.routing.{Version, Versions}
 import com.typesafe.config.ConfigFactory
@@ -175,22 +175,9 @@ class DocumentationControllerSpec extends ControllerBaseSpec with MockAppConfig 
 
     protected def numberOfTestOnlyOccurrences(str: String): Int = "\\[test only]".r.findAllIn(str).size
 
-    MockedAppConfig.featureSwitchConfig returns Configuration("openApiFeatureTest.enabled" -> featureEnabled)
+    MockedAppConfig.featureSwitchConfig.anyNumberOfTimes() returns Configuration("openApiFeatureTest.enabled" -> featureEnabled)
 
-    private val apiFactory = new ApiDefinitionFactory {
-      protected val appConfig: AppConfig = mockAppConfig
-
-      val definition: Definition = Definition(
-        APIDefinition(
-          "test API definition",
-          "description",
-          "context",
-          List("category"),
-          List(APIVersion(apiVersion, APIStatus.BETA, endpointsEnabled = true)),
-          None)
-      )
-
-    }
+    private val apiFactory = new ApiDefinitionFactory(mockAppConfig)
 
     private val config    = new Configuration(ConfigFactory.load())
     private val mimeTypes = HttpConfiguration.parseFileMimeTypes(config) ++ Map("yaml" -> "text/yaml", "md" -> "text/markdown")
