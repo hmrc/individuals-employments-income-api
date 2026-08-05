@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,15 @@ object APIStatus {
   val parser: PartialFunction[String, APIStatus] = Enums.parser[APIStatus](values)
 }
 
-case class APIVersion(version: Version, status: APIStatus, endpointsEnabled: Boolean)
+enum APIAccessType {
+  case CONTROLLED, PUBLIC
+}
+
+object APIAccessType {
+  given Format[APIAccessType] = Enums.format(values)
+}
+
+case class APIVersion(version: Version, status: APIStatus, access: APIAccessType, endpointsEnabled: Boolean)
 
 object APIVersion {
   given OFormat[APIVersion] = Json.format[APIVersion]
@@ -61,4 +69,10 @@ case class APIDefinition(name: String,
 
 object APIDefinition {
   given OFormat[APIDefinition] = Json.format[APIDefinition]
+}
+
+case class Definition(api: APIDefinition)
+
+object Definition {
+  implicit val formatDefinition: OFormat[Definition] = Json.format[Definition]
 }

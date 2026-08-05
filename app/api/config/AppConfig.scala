@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,8 @@ class AppConfig @Inject() (val config: ServicesConfig, protected[config] val con
   // API Config
   def apiGatewayContext: String                    = config.getString("api.gateway.context")
   def confidenceLevelConfig: ConfidenceLevelConfig = configuration.get[ConfidenceLevelConfig](s"api.confidence-level-check")
+
+  def controlledAccessEnabled: Boolean = config.getBoolean("api.controlled-access.enabled")
 
   def apiStatus(version: Version): String = config.getString(s"api.$version.status")
 
