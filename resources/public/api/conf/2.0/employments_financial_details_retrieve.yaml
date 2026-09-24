@@ -41,7 +41,7 @@ responses:
     content:
       application/json:
         schema:
-          oneOf:
+          anyOf:
             - $ref: './schemas/employments_financial_retrieve_response/def1/employments_financial_retrieve_response.json'
             - $ref: './schemas/employments_financial_retrieve_response/def2/employments_financial_retrieve_response.json'
             - $ref: './schemas/employments_financial_retrieve_response/def3/employments_financial_retrieve_response.json'
