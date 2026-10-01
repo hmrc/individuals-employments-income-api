@@ -18,7 +18,7 @@ package v2.controllers.validators
 
 import api.controllers.validators.Validator
 import api.controllers.validators.resolvers.ResolverSupport.*
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
+import api.controllers.validators.resolvers.{ResolveDetailedTaxYear, ResolveNino, ResolverSupport}
 import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.*
@@ -44,8 +44,7 @@ class RetrieveFinancialDetailsValidator(nino: String,
     with ResolverSupport {
   import RetrieveFinancialDetailsValidator.*
 
-  private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+  private val resolveTaxYear = ResolveDetailedTaxYear(minimumTaxYear = appConfig.minimumPermittedTaxYear)
 
   override def validate: Validated[Seq[MtdError], RetrieveEmploymentAndFinancialDetailsRequest] =
     (

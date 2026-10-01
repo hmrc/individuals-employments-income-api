@@ -17,7 +17,7 @@
 package v2.controllers.validators
 
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
+import api.controllers.validators.resolvers.{ResolveDetailedTaxYear, ResolveNino, ResolverSupport}
 import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.*
@@ -29,8 +29,7 @@ class DeleteFinancialDetailsValidator(nino: String, taxYear: String, employmentI
     extends Validator[DeleteEmploymentFinancialDetailsRequest]
     with ResolverSupport {
 
-  private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+  private val resolveTaxYear = ResolveDetailedTaxYear(minimumTaxYear = appConfig.minimumPermittedTaxYear)
 
   override def validate: Validated[Seq[MtdError], DeleteEmploymentFinancialDetailsRequest] =
     (

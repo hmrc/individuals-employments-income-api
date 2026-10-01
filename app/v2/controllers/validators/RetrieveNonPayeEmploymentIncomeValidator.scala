@@ -18,7 +18,7 @@ package v2.controllers.validators
 
 import api.controllers.validators.Validator
 import api.controllers.validators.resolvers.ResolverSupport.*
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
+import api.controllers.validators.resolvers.{ResolveDetailedTaxYear, ResolveNino}
 import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.catsSyntaxTuple3Semigroupal
@@ -38,7 +38,7 @@ class RetrieveNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, ma
     extends Validator[RetrieveNonPayeEmploymentIncomeRequest] {
   import RetrieveNonPayeEmploymentIncomeValidator.*
 
-  private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+  private val resolveTaxYear = ResolveDetailedTaxYear(minimumTaxYear = appConfig.minimumPermittedTaxYear)
 
   override def validate: Validated[Seq[MtdError], RetrieveNonPayeEmploymentIncomeRequest] =
     (

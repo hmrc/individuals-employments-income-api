@@ -17,7 +17,7 @@
 package v2.controllers.validators
 
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
+import api.controllers.validators.resolvers.{ResolveDetailedTaxYear, ResolveNino, ResolveNonEmptyJsonObject, ResolverSupport}
 import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.*
@@ -34,8 +34,7 @@ class AmendOtherEmploymentValidator(nino: String, taxYear: String, body: JsValue
     with ResolverSupport {
   import AmendOtherEmploymentValidator.*
 
-  private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+  private val resolveTaxYear = ResolveDetailedTaxYear(minimumTaxYear = appConfig.minimumPermittedTaxYear)
 
   override def validate: Validated[Seq[MtdError], AmendOtherEmploymentRequest] =
     (
