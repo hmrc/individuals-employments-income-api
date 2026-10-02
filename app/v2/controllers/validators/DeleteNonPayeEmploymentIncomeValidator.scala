@@ -17,7 +17,7 @@
 package v2.controllers.validators
 
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
+import api.controllers.validators.resolvers.{ResolveDetailedTaxYear, ResolveNino}
 import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.*
@@ -27,7 +27,7 @@ import v2.models.request.deleteNonPayeEmployment.DeleteNonPayeEmploymentRequest
 class DeleteNonPayeEmploymentIncomeValidator(nino: String, taxYear: String, appConfig: EmploymentsAppConfig)
     extends Validator[DeleteNonPayeEmploymentRequest] {
 
-  private val resolveTaxYear = ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
+  private val resolveTaxYear = ResolveDetailedTaxYear(minimumTaxYear = appConfig.minimumPermittedTaxYear)
 
   override def validate: Validated[Seq[MtdError], DeleteNonPayeEmploymentRequest] =
     (

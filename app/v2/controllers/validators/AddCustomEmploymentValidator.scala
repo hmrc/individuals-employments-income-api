@@ -17,9 +17,9 @@
 package v2.controllers.validators
 
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum, ResolverSupport}
+import api.controllers.validators.resolvers.{ResolveDetailedTaxYear, ResolveNino, ResolveNonEmptyJsonObject, ResolverSupport}
 import api.models.domain.TaxYear
-import api.models.errors.{MtdError, RuleTaxYearNotEndedError}
+import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits.*
 import config.EmploymentsAppConfig
@@ -27,7 +27,6 @@ import play.api.libs.json.JsValue
 import v2.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 
 import java.time.Clock
-import scala.math.Ordered.orderingToOrdered
 
 object AddCustomEmploymentValidator {
   private val resolveJson = ResolveNonEmptyJsonObject.resolver[AddCustomEmploymentRequestBody]
@@ -39,9 +38,10 @@ class AddCustomEmploymentValidator(nino: String, taxYear: String, body: JsValue,
     with ResolverSupport {
   import AddCustomEmploymentValidator.*
 
-  private val resolveTaxYear =
-    ResolveTaxYearMinimum(appConfig.minimumPermittedTaxYear).resolver
-      .thenValidate(satisfies(RuleTaxYearNotEndedError)(ty => !temporalValidationEnabled || ty < TaxYear.currentTaxYear))
+  private val resolveTaxYear = ResolveDetailedTaxYear(
+    minimumTaxYear = appConfig.minimumPermittedTaxYear,
+    allowIncompleteTaxYear = !temporalValidationEnabled
+  )
 
   override def validate: Validated[Seq[MtdError], AddCustomEmploymentRequest] =
     (

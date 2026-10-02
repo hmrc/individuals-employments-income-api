@@ -17,7 +17,7 @@
 package v2.controllers.validators
 
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum, ResolverSupport}
+import api.controllers.validators.resolvers.{ResolveDetailedTaxYear, ResolveNino, ResolverSupport}
 import api.models.domain.TaxYear
 import api.models.errors.MtdError
 import cats.data.Validated
@@ -29,7 +29,7 @@ class RetrieveStudentLoanBIKValidator(nino: String, taxYear: String, employmentI
     extends Validator[RetrieveStudentLoanBIKRequest]
     with ResolverSupport {
 
-  private val resolveTaxYear: ResolveTaxYearMinimum = ResolveTaxYearMinimum(TaxYear.fromMtd("2025-26"))
+  private val resolveTaxYear = ResolveDetailedTaxYear(minimumTaxYear = TaxYear.fromMtd("2025-26"))
 
   override def validate: Validated[Seq[MtdError], RetrieveStudentLoanBIKRequest] =
     (
