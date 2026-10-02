@@ -45,7 +45,7 @@
     },
     "occupationalPension": {
       "type": "boolean",
-      "description": "A boolean indicating whether this income is from an occupational pension. The value must be true or false.",
+      "description": "A boolean indicating whether this income is from an occupational pension or a UK personal pension. The value must be true or false, true indicates that it is from an occupational pension.",
       "example": true
     },
     "payrollId": {
