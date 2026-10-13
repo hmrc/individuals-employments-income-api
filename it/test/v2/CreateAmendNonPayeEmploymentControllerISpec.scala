@@ -18,7 +18,6 @@ package v2
 
 import api.models.errors.*
 import api.services.{AuthStub, DownstreamStub, MtdIdLookupStub}
-import common.errors.RuleOutsideAmendmentWindowError
 import common.support.EmploymentsIBaseSpec
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status.*
