@@ -21,7 +21,6 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.RuleOutsideAmendmentWindowError
 import v2.fixtures.nonPayeEmployment.CreateAmendNonPayeEmploymentServiceConnectorFixture.requestBodyModel
 import v2.mocks.connectors.MockCreateAmendNonPayeEmploymentConnector
 import v2.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest

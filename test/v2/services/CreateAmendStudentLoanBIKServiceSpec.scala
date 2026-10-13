@@ -21,7 +21,7 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
+import common.errors.EmploymentIdFormatError
 import common.models.domain.EmploymentId
 import v2.fixtures.studentLoanBIK.CreateAmendStudentLoanBIKConnectorFixture.requestBodyModel
 import v2.mocks.connectors.MockCreateAmendStudentLoanBIKConnector

@@ -39,6 +39,8 @@ object ValueFormatError extends MtdError("FORMAT_VALUE", "The value must be betw
 
 }
 
+object CessationDateFormatError extends MtdError("FORMAT_CESSATION_DATE", "The provided cessation date is invalid", BAD_REQUEST)
+
 //Standard Errors
 object NotFoundError extends MtdError("MATCHING_RESOURCE_NOT_FOUND", "Matching resource not found", NOT_FOUND)
 
@@ -56,6 +58,17 @@ object InvalidBodyTypeError extends MtdError("INVALID_BODY_TYPE", "Expecting tex
 
 object InvalidTaxYearParameterError
     extends MtdError(code = "INVALID_TAX_YEAR_PARAMETER", message = "A tax year before 2023-24 was supplied", BAD_REQUEST)
+
+object RuleCessationDateBeforeStartDateError
+    extends MtdError("RULE_CESSATION_DATE_BEFORE_START_DATE", "The cessation date cannot be earlier than the start date", BAD_REQUEST)
+
+object RuleCessationDateBeforeTaxYearStartError
+    extends MtdError("RULE_CESSATION_DATE_BEFORE_TAX_YEAR_START", "The cessation date cannot be before the tax year starts", BAD_REQUEST)
+
+object RuleStartDateAfterTaxYearEndError
+    extends MtdError("RULE_START_DATE_AFTER_TAX_YEAR_END", "The start date cannot be later than the tax year end", BAD_REQUEST)
+
+object RuleOutsideAmendmentWindowError extends MtdError("RULE_OUTSIDE_AMENDMENT_WINDOW", "You are outside the amendment window", BAD_REQUEST)
 
 //Authentication/Authorisation errors
 

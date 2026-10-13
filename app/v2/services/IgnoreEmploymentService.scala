@@ -21,7 +21,7 @@ import api.models.errors.{MtdError, *}
 import api.services.{BaseService, ServiceOutcome}
 import api.utils.Logging
 import cats.implicits.*
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import v2.connectors.IgnoreEmploymentConnector
 import v2.models.request.ignoreEmployment.IgnoreEmploymentRequest
 

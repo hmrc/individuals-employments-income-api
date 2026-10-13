@@ -21,7 +21,6 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.{RuleCessationDateBeforeTaxYearStartError, RuleOutsideAmendmentWindowError, RuleStartDateAfterTaxYearEndError}
 import v2.mocks.connectors.MockAddCustomEmploymentConnector
 import v2.models.request.addCustomEmployment.{AddCustomEmploymentRequest, AddCustomEmploymentRequestBody}
 import v2.models.response.addCustomEmployment.AddCustomEmploymentResponse

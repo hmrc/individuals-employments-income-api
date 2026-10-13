@@ -19,12 +19,6 @@ package v2.controllers.validators.resolvers
 import api.models.domain.TaxYear
 import api.models.errors.*
 import api.utils.UnitSpec
-import common.errors.{
-  CessationDateFormatError,
-  RuleCessationDateBeforeStartDateError,
-  RuleCessationDateBeforeTaxYearStartError,
-  RuleStartDateAfterTaxYearEndError
-}
 import v2.controllers.validators.resolvers.CustomEmploymentDateValidator.validator
 
 class CustomEmploymentDateValidatorSpec extends UnitSpec {

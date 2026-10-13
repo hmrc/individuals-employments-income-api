@@ -20,7 +20,6 @@ import api.controllers.RequestContext
 import api.models.errors.{MtdError, *}
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.*
-import common.errors.{RuleCessationDateBeforeTaxYearStartError, RuleOutsideAmendmentWindowError, RuleStartDateAfterTaxYearEndError}
 import v2.connectors.AddCustomEmploymentConnector
 import v2.models.request.addCustomEmployment.AddCustomEmploymentRequest
 import v2.models.response.addCustomEmployment.AddCustomEmploymentResponse

@@ -32,7 +32,6 @@ object ClassOfSharesAcquiredFormatError
 
 object SchemePlanTypeFormatError extends MtdError("FORMAT_SCHEME_PLAN_TYPE", "The provided scheme plan type is invalid", BAD_REQUEST)
 object PayrollIdFormatError      extends MtdError("FORMAT_PAYROLL_ID", "The provided payroll ID is invalid", BAD_REQUEST)
-object CessationDateFormatError  extends MtdError("FORMAT_CESSATION_DATE", "The provided cessation date is invalid", BAD_REQUEST)
 object SourceFormatError         extends MtdError("FORMAT_SOURCE", "The provided source is invalid", BAD_REQUEST)
 
 // Rule Errors
@@ -42,15 +41,6 @@ object RuleInvalidSubmissionPensionSchemeError
       "RULE_INVALID_SUBMISSION_PENSION_SCHEME",
       "Data item submitted is invalid for a customer with an occupational pension and no other employment source - for example, employment expenses or benefit in kind (apart from medical insurance) are not valid.",
       BAD_REQUEST)
-
-object RuleCessationDateBeforeStartDateError
-    extends MtdError("RULE_CESSATION_DATE_BEFORE_START_DATE", "The cessation date cannot be earlier than the start date", BAD_REQUEST)
-
-object RuleStartDateAfterTaxYearEndError
-    extends MtdError("RULE_START_DATE_AFTER_TAX_YEAR_END", "The start date cannot be later than the tax year end", BAD_REQUEST)
-
-object RuleCessationDateBeforeTaxYearStartError
-    extends MtdError("RULE_CESSATION_DATE_BEFORE_TAX_YEAR_START", "The cessation date cannot be before the tax year starts", BAD_REQUEST)
 
 object RuleUpdateForbiddenError extends MtdError("RULE_UPDATE_FORBIDDEN", "The update for an HMRC held employment is not permitted", BAD_REQUEST)
 
@@ -66,5 +56,3 @@ object RuleNotAllowedOffPayrollWorker
     extends MtdError("NOT_ALLOWED_OFF_PAYROLL_WORKER", "offPayrollWorker field is not allowed for tax years prior to 2023-24", BAD_REQUEST)
 
 object RuleMissingOffPayrollWorker extends MtdError("MISSING_OFF_PAYROLL_WORKER", "The offPayrollWorker field was not provided", BAD_REQUEST)
-
-object RuleOutsideAmendmentWindowError extends MtdError("RULE_OUTSIDE_AMENDMENT_WINDOW", "You are outside the amendment window", BAD_REQUEST)

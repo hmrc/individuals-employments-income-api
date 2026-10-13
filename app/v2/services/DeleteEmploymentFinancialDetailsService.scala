@@ -20,7 +20,7 @@ import api.controllers.RequestContext
 import api.models.errors.{MtdError, *}
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.*
-import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
+import common.errors.EmploymentIdFormatError
 import v2.connectors.DeleteEmploymentFinancialDetailsConnector
 import v2.models.request.deleteEmploymentFinancialDetails.DeleteEmploymentFinancialDetailsRequest
 

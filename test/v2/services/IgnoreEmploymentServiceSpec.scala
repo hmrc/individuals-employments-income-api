@@ -21,7 +21,7 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentError}
 import common.models.domain.EmploymentId
 import v2.mocks.connectors.MockIgnoreEmploymentConnector
 import v2.models.request.ignoreEmployment.IgnoreEmploymentRequest
