@@ -20,7 +20,6 @@ import api.controllers.RequestContext
 import api.models.errors.{MtdError, *}
 import api.services.{BaseService, ServiceOutcome}
 import cats.syntax.either.*
-import common.errors.RuleOutsideAmendmentWindowError
 import v2.connectors.CreateAmendNonPayeEmploymentConnector
 import v2.models.request.createAmendNonPayeEmployment.CreateAmendNonPayeEmploymentRequest
 

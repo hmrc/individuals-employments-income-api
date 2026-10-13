@@ -19,7 +19,7 @@ package v2
 import api.models.errors.*
 import api.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError, RuleOutsideAmendmentWindowError}
+import common.errors.{EmploymentIdFormatError, RuleCustomEmploymentUnignoreError}
 import common.support.EmploymentsIBaseSpec
 import play.api.libs.json.{JsObject, Json}
 import play.api.libs.ws.{WSRequest, WSResponse, writeableOf_JsValue}

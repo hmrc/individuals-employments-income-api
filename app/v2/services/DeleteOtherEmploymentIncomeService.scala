@@ -20,7 +20,6 @@ import api.controllers.RequestContext
 import api.models.errors.{MtdError, *}
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.*
-import common.errors.RuleOutsideAmendmentWindowError
 import v2.connectors.OtherEmploymentIncomeConnector
 import v2.models.request.otherEmploymentIncome.DeleteOtherEmploymentIncomeRequest
 

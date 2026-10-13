@@ -21,7 +21,7 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.{RuleInvalidSubmissionPensionSchemeError, RuleOutsideAmendmentWindowError}
+import common.errors.RuleInvalidSubmissionPensionSchemeError
 import common.models.domain.EmploymentId
 import v2.mocks.connectors.MockAmendFinancialDetailsConnector
 import v2.models.request.amendFinancialDetails.employment.{AmendEmployment, AmendPay}

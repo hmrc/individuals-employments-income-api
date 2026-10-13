@@ -20,7 +20,7 @@ import api.controllers.RequestContext
 import api.models.errors.*
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.*
-import common.errors.{EmploymentIdFormatError, RuleOutsideAmendmentWindowError}
+import common.errors.EmploymentIdFormatError
 import v2.connectors.DeleteStudentLoanBIKConnector
 import v2.models.request.deleteStudentLoanBIK.DeleteStudentLoanBIKRequest
 
