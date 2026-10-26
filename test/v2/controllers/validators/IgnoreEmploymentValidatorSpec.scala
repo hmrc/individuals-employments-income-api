@@ -35,7 +35,7 @@ class IgnoreEmploymentValidatorSpec extends UnitSpec with MockEmploymentsAppConf
   private val parsedTaxYear      = TaxYear.fromMtd(validTaxYear)
   private val parsedEmploymentId = EmploymentId(validEmploymentId)
 
-  private val notEndedTaxYear = "2026-27"
+  private val notEndedTaxYear = TaxYear.currentTaxYear.asMtd
 
   trait Test {
 
