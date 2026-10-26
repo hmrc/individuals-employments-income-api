@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import api.controllers.*
 import api.routing.Version
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService}
 import api.utils.{IdGenerator, Logging}
+import config.EmploymentsFeatureSwitches
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import v2.controllers.validators.UnignoreEmploymentValidatorFactory
 import v2.services.UnignoreEmploymentService
@@ -54,7 +55,8 @@ class UnignoreEmploymentController @Inject() (val authService: EnrolmentsAuthSer
       val validator = validatorFactory.validator(
         nino = nino,
         taxYear = taxYear,
-        employmentId = employmentId
+        employmentId = employmentId,
+        temporalValidationEnabled = EmploymentsFeatureSwitches().isTemporalValidationEnabled
       )
 
       val requestHandler = RequestHandler

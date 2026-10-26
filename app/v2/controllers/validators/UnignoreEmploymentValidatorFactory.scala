@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class UnignoreEmploymentValidatorFactory @Inject() (appConfig: EmploymentsAppConfig) {
 
-  def validator(nino: String, taxYear: String, employmentId: String): Validator[UnignoreEmploymentRequest] =
-    new UnignoreEmploymentValidator(nino, taxYear, employmentId, appConfig)
+  def validator(nino: String, taxYear: String, employmentId: String, temporalValidationEnabled: Boolean): Validator[UnignoreEmploymentRequest] =
+    new UnignoreEmploymentValidator(nino, taxYear, employmentId, appConfig, temporalValidationEnabled)
 
 }
