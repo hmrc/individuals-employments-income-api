@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,12 +35,14 @@ class UnignoreEmploymentValidatorSpec extends UnitSpec with MockEmploymentsAppCo
   private val parsedTaxYear      = TaxYear.fromMtd(validTaxYear)
   private val parsedEmploymentId = EmploymentId(validEmploymentId)
 
+  private val notEndedTaxYear = TaxYear.currentTaxYear.asMtd
+
   trait Test {
 
     def validate(nino: String = validNino,
                  taxYear: String = validTaxYear,
                  employmentId: String = validEmploymentId): Either[ErrorWrapper, UnignoreEmploymentRequest] =
-      new UnignoreEmploymentValidator(nino, taxYear, employmentId, mockEmploymentsConfig).validateAndWrapResult()
+      new UnignoreEmploymentValidator(nino, taxYear, employmentId, mockEmploymentsConfig, true).validateAndWrapResult()
 
     def singleError(error: MtdError): Left[ErrorWrapper, Nothing] = Left(ErrorWrapper(correlationId, error))
 
@@ -51,6 +53,11 @@ class UnignoreEmploymentValidatorSpec extends UnitSpec with MockEmploymentsAppCo
     "return a request object" when {
       "valid" in new Test {
         validate() shouldBe Right(UnignoreEmploymentRequest(parsedNino, parsedTaxYear, parsedEmploymentId))
+      }
+
+      "a supplied date range is for a tax year that has not ended and temporal validation is disabled" in new Test {
+        new UnignoreEmploymentValidator(validNino, notEndedTaxYear, validEmploymentId, mockEmploymentsConfig, false)
+          .validateAndWrapResult() shouldBe Right(UnignoreEmploymentRequest(parsedNino, TaxYear.fromMtd(notEndedTaxYear), parsedEmploymentId))
       }
     }
 
@@ -81,6 +88,12 @@ class UnignoreEmploymentValidatorSpec extends UnitSpec with MockEmploymentsAppCo
     "return EmploymentIdFormatError error" when {
       "an unsupported tax year is supplied" in new Test {
         validate(employmentId = "BAD_EMP_ID") shouldBe singleError(EmploymentIdFormatError)
+      }
+    }
+
+    "return RuleTaxYearNotEndedError error" when {
+      "a supplied date range is for a tax year that has not ended and temporal validation is enabled" in new Test {
+        validate(taxYear = notEndedTaxYear) shouldBe singleError(RuleTaxYearNotEndedError)
       }
     }
 

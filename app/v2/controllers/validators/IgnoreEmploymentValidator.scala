@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,16 @@ import config.EmploymentsAppConfig
 import v2.controllers.validators.resolvers.ResolveEmploymentId
 import v2.models.request.ignoreEmployment.IgnoreEmploymentRequest
 
-class IgnoreEmploymentValidator(nino: String, taxYear: String, employmentId: String, appConfig: EmploymentsAppConfig)
+class IgnoreEmploymentValidator(nino: String,
+                                taxYear: String,
+                                employmentId: String,
+                                appConfig: EmploymentsAppConfig,
+                                temporalValidationEnabled: Boolean)
     extends Validator[IgnoreEmploymentRequest]
     with ResolverSupport {
 
-  private val resolveTaxYear = ResolveDetailedTaxYear(minimumTaxYear = appConfig.minimumPermittedTaxYear)
+  private val resolveTaxYear =
+    ResolveDetailedTaxYear(minimumTaxYear = appConfig.minimumPermittedTaxYear, allowIncompleteTaxYear = !temporalValidationEnabled)
 
   override def validate: Validated[Seq[MtdError], IgnoreEmploymentRequest] =
     (
