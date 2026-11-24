@@ -26,7 +26,7 @@ import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import v2.fixtures.RetrieveEmploymentControllerFixture.*
+import v2.retrieveEmployment.RetrieveEmploymentFixtures.*
 
 class RetrieveEmploymentControllerISpec extends IntegrationBaseSpec {
 
