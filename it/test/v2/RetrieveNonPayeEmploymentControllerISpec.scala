@@ -26,7 +26,7 @@ import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import v2.fixtures.RetrieveNonPayeEmploymentControllerFixture
+import v2.retrieveNonPayeEmploymentIncome.RetrieveNonPayeEmploymentIncomeFixtures
 
 class RetrieveNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
@@ -151,8 +151,8 @@ class RetrieveNonPayeEmploymentControllerISpec extends EmploymentsIBaseSpec {
     def downstreamUri: String
 
     def uri: String                 = s"/non-paye/$nino/$taxYear"
-    val downstreamResponse: JsValue = RetrieveNonPayeEmploymentControllerFixture.downstreamResponse
-    val mtdResponse: JsValue        = RetrieveNonPayeEmploymentControllerFixture.mtdResponse
+    val downstreamResponse: JsValue = RetrieveNonPayeEmploymentIncomeFixtures.downstreamResponse
+    val mtdResponse: JsValue        = RetrieveNonPayeEmploymentIncomeFixtures.mtdResponse
 
     def queryParams: Seq[(String, String)] =
       Seq("source" -> source)

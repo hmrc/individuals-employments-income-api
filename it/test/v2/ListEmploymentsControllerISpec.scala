@@ -25,7 +25,7 @@ import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import v2.fixtures.ListEmploymentsControllerFixture
+import v2.listEmployments.ListEmploymentsFixtures
 
 class ListEmploymentsControllerISpec extends IntegrationBaseSpec {
 
@@ -84,7 +84,7 @@ class ListEmploymentsControllerISpec extends IntegrationBaseSpec {
     """.stripMargin
     )
 
-    val mtdResponse: JsValue = ListEmploymentsControllerFixture.mtdResponse(employmentId)
+    val mtdResponse: JsValue = ListEmploymentsFixtures.mtdResponse(employmentId)
 
     def uri: String = s"/$nino/$taxYear"
 

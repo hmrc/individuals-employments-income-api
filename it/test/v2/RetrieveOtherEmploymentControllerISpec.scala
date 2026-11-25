@@ -25,7 +25,7 @@ import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import v2.fixtures.RetrieveOtherEmploymentControllerFixture
+import v2.retrieveOtherEmploymentIncome.RetrieveOtherEmploymentIncomeFixtures
 
 class RetrieveOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
 
@@ -34,8 +34,8 @@ class RetrieveOtherEmploymentControllerISpec extends EmploymentsIBaseSpec {
     val nino: String = "AA123456A"
     def taxYear: String
 
-    val downstreamResponse: JsValue = RetrieveOtherEmploymentControllerFixture.downstreamResponse
-    val mtdResponse: JsValue        = RetrieveOtherEmploymentControllerFixture.mtdResponse
+    val downstreamResponse: JsValue = RetrieveOtherEmploymentIncomeFixtures.downstreamResponse
+    val mtdResponse: JsValue        = RetrieveOtherEmploymentIncomeFixtures.mtdResponse
 
     def setupStubs(): StubMapping
 
